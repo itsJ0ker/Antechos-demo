@@ -85,6 +85,7 @@ const AppContent = () => {
           <Route path="/course/:id" element={<CourseDetailWrapper />} />
           
           {/* Admin routes */}
+          <Route path="/admin" element={<AdminLogin />} />
           <Route path="/admin/login" element={<AdminLogin />} />
           <Route path="/admin/dashboard" element={<AdminDashboard />} />
           
