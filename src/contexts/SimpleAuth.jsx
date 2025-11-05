@@ -19,6 +19,13 @@ export const AuthProvider = ({ children }) => {
   useEffect(() => {
     const getSession = async () => {
       try {
+        // Check if supabase is available
+        if (!supabase) {
+          console.log('Supabase not configured - auth disabled');
+          setLoading(false);
+          return;
+        }
+
         const { data: { session } } = await supabase.auth.getSession();
         if (session?.user) {
           setUser(session.user);
@@ -32,24 +39,31 @@ export const AuthProvider = ({ children }) => {
 
     getSession();
 
-    // Listen for auth changes
-    const { data: { subscription } } = supabase.auth.onAuthStateChange(
-      (event, session) => {
-        if (session?.user) {
-          setUser(session.user);
-        } else {
-          setUser(null);
+    // Listen for auth changes only if supabase is available
+    if (supabase) {
+      const { data: { subscription } } = supabase.auth.onAuthStateChange(
+        (event, session) => {
+          if (session?.user) {
+            setUser(session.user);
+          } else {
+            setUser(null);
+          }
+          setLoading(false);
         }
-        setLoading(false);
-      }
-    );
+      );
 
-    return () => subscription.unsubscribe();
+      return () => subscription.unsubscribe();
+    }
   }, []);
 
   const login = async (email, password) => {
     setLoading(true);
     try {
+      // Check if supabase is available
+      if (!supabase) {
+        return { success: false, error: 'Authentication not configured' };
+      }
+
       const { data, error } = await supabase.auth.signInWithPassword({
         email,
         password
@@ -69,6 +83,12 @@ export const AuthProvider = ({ children }) => {
 
   const logout = async () => {
     try {
+      // Check if supabase is available
+      if (!supabase) {
+        setUser(null);
+        return;
+      }
+
       await supabase.auth.signOut();
       setUser(null);
     } catch (error) {

@@ -36,6 +36,13 @@ const SimpleAdminDashboard = () => {
 
   const checkAuthAndLoadData = async () => {
     try {
+      // Check if supabase is available
+      if (!supabase) {
+        console.log('Supabase not configured - admin features disabled');
+        setLoading(false);
+        return;
+      }
+
       // Check if user is logged in
       const { data: { user: currentUser } } = await supabase.auth.getUser();
       
@@ -100,7 +107,9 @@ const SimpleAdminDashboard = () => {
 
   const handleLogout = async () => {
     try {
-      await supabase.auth.signOut();
+      if (supabase) {
+        await supabase.auth.signOut();
+      }
       navigate('/admin/login');
     } catch (error) {
       console.error('Logout error:', error);
