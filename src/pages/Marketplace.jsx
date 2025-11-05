@@ -10,10 +10,10 @@ import DevelopmentTeamsCarousel from "../components/Cards/DevelopmentTeamsCarous
 import { getTrainers } from "../data/dataservice";
 import { Link } from "react-router-dom";
 
-// ✅ All lowercase filenames (recommended for Linux servers)
-import G1 from "../assets/usp/portfolio.png";
-import G2 from "../assets/usp/skills.png";
-import G3 from "../assets/usp/automation.png";
+// ✅ Fixed case-sensitive imports for USP directory
+import G1 from "../assets/USP/portfolio.png";
+import G2 from "../assets/USP/skills.png";
+import G3 from "../assets/USP/automation.png";
 
 const stats = [
   { value: "95%", title: "Client Satisfaction", delay: 0.1 },

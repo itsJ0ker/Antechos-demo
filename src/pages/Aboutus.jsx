@@ -10,22 +10,22 @@ import { Link } from "react-router-dom";
 
 
 // Import images for stats
-import ExpertsImg from "../assets/usp/experts.png";
-import SuccessImg from "../assets/usp/success.png";
-import CourseImg from "../assets/usp/course.png";
-import StudentsImg from "../assets/usp/students.png";
+import ExpertsImg from "../assets/USP/experts.png";
+import SuccessImg from "../assets/USP/success.png";
+import CourseImg from "../assets/USP/course.png";
+import StudentsImg from "../assets/USP/students.png";
 
 // Import images for team members
 import VishwajeetImg from "../assets/Leaders/vishwajeet.jpg";
 import AmalImg from "../assets/Leaders/amal.png";
 
 // Import images for features
-import FeatureA1 from "../assets/usp/a1.png";
-import FeatureA2 from "../assets/usp/a2.png";
-import FeatureA3 from "../assets/usp/a3.png";
-import FeatureA4 from "../assets/usp/a4.png";
-import FeatureA5 from "../assets/usp/a5.png";
-import FeatureA6 from "../assets/usp/a6.png";
+import FeatureA1 from "../assets/USP/a1.png";
+import FeatureA2 from "../assets/USP/a2.png";
+import FeatureA3 from "../assets/USP/a3.png";
+import FeatureA4 from "../assets/USP/a4.png";
+import FeatureA5 from "../assets/USP/a5.png";
+import FeatureA6 from "../assets/USP/a6.png";
 
 
 const About = () => {

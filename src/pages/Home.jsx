@@ -20,12 +20,12 @@ import CourseCard from "../components/Cards/CourseCard"; // adjust the path if n
 import EnquiryPopup from "../components/sections/PopupForm";
 import allCourses from "../data/allCourses";
 import { getTrainers } from "../data/dataservice";
-import usp1 from "../assets/usp/usp1.png";
-import usp2 from "../assets/usp/usp2.png";
-import usp3 from "../assets/usp/usp3.png";
-import usp4 from "../assets/usp/usp4.png";
-import usp5 from "../assets/usp/usp5.png";
-import usp6 from "../assets/usp/usp6.png";
+import usp1 from "../assets/USP/usp1.png";
+import usp2 from "../assets/USP/usp2.png";
+import usp3 from "../assets/USP/usp3.png";
+import usp4 from "../assets/USP/usp4.png";
+import usp5 from "../assets/USP/usp5.png";
+import usp6 from "../assets/USP/usp6.png";
 import instructor from "../assets/instructor.png";
 import student from "../assets/student.png";
 import banner from "../assets/herobg/absolute.png"
