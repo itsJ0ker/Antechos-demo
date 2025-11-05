@@ -7,24 +7,31 @@ const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY
 console.log('🔧 Supabase Config:', {
   url: supabaseUrl ? 'Set' : 'Missing',
   key: supabaseAnonKey ? 'Set (hidden)' : 'Missing',
-  urlValue: supabaseUrl // Show actual URL for debugging
 });
 
-if (!supabaseUrl || !supabaseAnonKey) {
-  console.error('❌ Missing Supabase environment variables!');
-  console.error('Make sure you have VITE_SUPABASE_URL and VITE_SUPABASE_ANON_KEY in your .env file');
+// Create Supabase client only if environment variables are available
+let supabase = null;
+
+if (supabaseUrl && supabaseAnonKey) {
+  supabase = createClient(supabaseUrl, supabaseAnonKey, {
+    auth: {
+      autoRefreshToken: true,
+      persistSession: true,
+      detectSessionInUrl: true
+    }
+  });
+  console.log('✅ Supabase client initialized successfully');
+} else {
+  console.warn('⚠️ Supabase environment variables missing. Running in offline mode with static data.');
 }
 
-export const supabase = createClient(supabaseUrl, supabaseAnonKey, {
-  auth: {
-    autoRefreshToken: true,
-    persistSession: true,
-    detectSessionInUrl: true
-  }
-})
+export { supabase }
 
 // Auth helpers
 export const signIn = async (email, password) => {
+  if (!supabase) {
+    return { data: null, error: { message: 'Supabase not configured' } };
+  }
   const { data, error } = await supabase.auth.signInWithPassword({
     email,
     password,
@@ -33,6 +40,9 @@ export const signIn = async (email, password) => {
 }
 
 export const signUp = async (email, password, userData = {}) => {
+  if (!supabase) {
+    return { data: null, error: { message: 'Supabase not configured' } };
+  }
   const { data, error } = await supabase.auth.signUp({
     email,
     password,
@@ -44,17 +54,27 @@ export const signUp = async (email, password, userData = {}) => {
 }
 
 export const signOut = async () => {
+  if (!supabase) {
+    return { error: { message: 'Supabase not configured' } };
+  }
   const { error } = await supabase.auth.signOut()
   return { error }
 }
 
 export const getCurrentUser = async () => {
+  if (!supabase) {
+    return null;
+  }
   const { data: { user } } = await supabase.auth.getUser()
   return user
 }
 
 // Database helpers
 export const getCourses = async (filters = {}) => {
+  if (!supabase) {
+    return { data: [], error: { message: 'Supabase not configured' } };
+  }
+  
   let query = supabase
     .from('courses')
     .select(`
@@ -84,7 +104,18 @@ export const getCourses = async (filters = {}) => {
   return { data, error }
 }
 
+// Helper function to check if Supabase is available
+const checkSupabase = () => {
+  if (!supabase) {
+    return { data: null, error: { message: 'Supabase not configured - using static data fallback' } };
+  }
+  return null;
+};
+
 export const getCourseById = async (id) => {
+  const check = checkSupabase();
+  if (check) return check;
+  
   const { data, error } = await supabase
     .from('courses')
     .select(`
@@ -107,6 +138,9 @@ export const getCourseById = async (id) => {
 }
 
 export const getUniversities = async () => {
+  const check = checkSupabase();
+  if (check) return check;
+  
   const { data, error } = await supabase
     .from('universities')
     .select(`
@@ -130,6 +164,9 @@ export const getUniversities = async () => {
 }
 
 export const getUniversityById = async (id) => {
+  const check = checkSupabase();
+  if (check) return check;
+  
   const { data, error } = await supabase
     .from('universities')
     .select(`
@@ -154,6 +191,9 @@ export const getUniversityById = async (id) => {
 }
 
 export const getTrainers = async () => {
+  const check = checkSupabase();
+  if (check) return check;
+  
   const { data, error } = await supabase
     .from('trainers')
     .select(`
@@ -173,6 +213,9 @@ export const getTrainers = async () => {
 }
 
 export const getTrainerById = async (id) => {
+  const check = checkSupabase();
+  if (check) return check;
+  
   const { data, error } = await supabase
     .from('trainers')
     .select(`
@@ -193,6 +236,9 @@ export const getTrainerById = async (id) => {
 }
 
 export const getWorkforce = async () => {
+  const check = checkSupabase();
+  if (check) return check;
+  
   const { data, error } = await supabase
     .from('workforce')
     .select(`
@@ -211,6 +257,9 @@ export const getWorkforce = async () => {
 }
 
 export const getWorkforceById = async (id) => {
+  const check = checkSupabase();
+  if (check) return check;
+  
   const { data, error } = await supabase
     .from('workforce')
     .select(`
@@ -230,6 +279,9 @@ export const getWorkforceById = async (id) => {
 }
 
 export const getTestimonials = async (featured = false) => {
+  const check = checkSupabase();
+  if (check) return check;
+  
   let query = supabase
     .from('testimonials')
     .select('*')
@@ -245,6 +297,9 @@ export const getTestimonials = async (featured = false) => {
 }
 
 export const getBlogPosts = async () => {
+  const check = checkSupabase();
+  if (check) return check;
+  
   const { data, error } = await supabase
     .from('blog_posts')
     .select('*')
@@ -266,6 +321,9 @@ export const getBlogPostBySlug = async (slug) => {
 }
 
 export const getStatistics = async () => {
+  const check = checkSupabase();
+  if (check) return check;
+  
   const { data, error } = await supabase
     .from('statistics')
     .select('*')
@@ -276,6 +334,9 @@ export const getStatistics = async () => {
 }
 
 export const submitEnquiry = async (enquiryData) => {
+  const check = checkSupabase();
+  if (check) return check;
+  
   const { data, error } = await supabase
     .from('enquiries')
     .insert([enquiryData])
