@@ -27,6 +27,22 @@ const EnhancedUniversityManager = () => {
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
 
+  // Add University Modal
+  const [showAddModal, setShowAddModal] = useState(false);
+  const [newUniversity, setNewUniversity] = useState({
+    name: '',
+    code: '',
+    location: '',
+    description: '',
+    about: '',
+    image_url: '',
+    established: '',
+    campus_size: '',
+    ranking: '',
+    fees: '',
+    is_active: true
+  });
+
   // Form states for different sections
   const [basicInfo, setBasicInfo] = useState({});
   const [campusImages, setCampusImages] = useState([]);
@@ -334,6 +350,48 @@ const EnhancedUniversityManager = () => {
     { id: 'faqs', label: 'FAQs', icon: HelpCircle },
   ];
 
+  const handleAddUniversity = async () => {
+    if (!newUniversity.name || !newUniversity.location) {
+      alert('Name and location are required');
+      return;
+    }
+
+    setSaving(true);
+    try {
+      const { data, error } = await supabase
+        .from('universities')
+        .insert([newUniversity])
+        .select()
+        .single();
+
+      if (error) throw error;
+
+      alert('University added successfully!');
+      setShowAddModal(false);
+      setNewUniversity({
+        name: '',
+        code: '',
+        location: '',
+        description: '',
+        about: '',
+        image_url: '',
+        established: '',
+        campus_size: '',
+        ranking: '',
+        fees: '',
+        is_active: true
+      });
+      fetchUniversities();
+      setSelectedUniversity(data);
+      fetchUniversityDetails(data.id);
+    } catch (error) {
+      console.error('Error adding university:', error);
+      alert('Error adding university: ' + error.message);
+    } finally {
+      setSaving(false);
+    }
+  };
+
   if (loading) {
     return (
       <div className="flex items-center justify-center h-64">
@@ -346,13 +404,202 @@ const EnhancedUniversityManager = () => {
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <h2 className="text-2xl font-bold text-gray-900">Enhanced University Manager</h2>
+        <button
+          onClick={() => setShowAddModal(true)}
+          className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-green-600 to-blue-600 text-white rounded-lg hover:from-green-700 hover:to-blue-700 transition-all shadow-lg hover:shadow-xl"
+        >
+          <Plus className="w-5 h-5" />
+          Add University
+        </button>
       </div>
+
+      {/* Add University Modal */}
+      {showAddModal && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+          <div className="bg-white rounded-xl shadow-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
+            <div className="sticky top-0 bg-gradient-to-r from-green-600 to-blue-600 text-white px-6 py-4 flex items-center justify-between">
+              <h3 className="text-xl font-bold">Add New University</h3>
+              <button
+                onClick={() => setShowAddModal(false)}
+                className="p-1 hover:bg-white/20 rounded-lg transition-colors"
+              >
+                <X className="w-6 h-6" />
+              </button>
+            </div>
+
+            <div className="p-6 space-y-4">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    University Name *
+                  </label>
+                  <input
+                    type="text"
+                    value={newUniversity.name}
+                    onChange={(e) => setNewUniversity({ ...newUniversity, name: e.target.value })}
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                    placeholder="e.g., Harvard University"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    University Code
+                  </label>
+                  <input
+                    type="text"
+                    value={newUniversity.code}
+                    onChange={(e) => setNewUniversity({ ...newUniversity, code: e.target.value })}
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                    placeholder="e.g., HARV"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    Location *
+                  </label>
+                  <input
+                    type="text"
+                    value={newUniversity.location}
+                    onChange={(e) => setNewUniversity({ ...newUniversity, location: e.target.value })}
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                    placeholder="e.g., Cambridge, MA"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    Established Year
+                  </label>
+                  <input
+                    type="text"
+                    value={newUniversity.established}
+                    onChange={(e) => setNewUniversity({ ...newUniversity, established: e.target.value })}
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                    placeholder="e.g., 1636"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    Campus Size
+                  </label>
+                  <input
+                    type="text"
+                    value={newUniversity.campus_size}
+                    onChange={(e) => setNewUniversity({ ...newUniversity, campus_size: e.target.value })}
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                    placeholder="e.g., 200 acres"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    Ranking
+                  </label>
+                  <input
+                    type="text"
+                    value={newUniversity.ranking}
+                    onChange={(e) => setNewUniversity({ ...newUniversity, ranking: e.target.value })}
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                    placeholder="e.g., #1 in USA"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    Fees
+                  </label>
+                  <input
+                    type="text"
+                    value={newUniversity.fees}
+                    onChange={(e) => setNewUniversity({ ...newUniversity, fees: e.target.value })}
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                    placeholder="e.g., ₹2,50,000/year"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    Image URL
+                  </label>
+                  <input
+                    type="url"
+                    value={newUniversity.image_url}
+                    onChange={(e) => setNewUniversity({ ...newUniversity, image_url: e.target.value })}
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                    placeholder="https://example.com/image.jpg"
+                  />
+                </div>
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  Short Description
+                </label>
+                <textarea
+                  value={newUniversity.description}
+                  onChange={(e) => setNewUniversity({ ...newUniversity, description: e.target.value })}
+                  rows={2}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                  placeholder="Brief description..."
+                />
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  About University
+                </label>
+                <textarea
+                  value={newUniversity.about}
+                  onChange={(e) => setNewUniversity({ ...newUniversity, about: e.target.value })}
+                  rows={4}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                  placeholder="Detailed information about the university..."
+                />
+              </div>
+
+              <div className="flex items-center gap-2">
+                <input
+                  type="checkbox"
+                  id="is_active"
+                  checked={newUniversity.is_active}
+                  onChange={(e) => setNewUniversity({ ...newUniversity, is_active: e.target.checked })}
+                  className="w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
+                />
+                <label htmlFor="is_active" className="text-sm font-medium text-gray-700">
+                  Active (visible on website)
+                </label>
+              </div>
+
+              <div className="flex gap-3 pt-4">
+                <button
+                  onClick={handleAddUniversity}
+                  disabled={saving}
+                  className="flex-1 flex items-center justify-center gap-2 px-6 py-3 bg-gradient-to-r from-green-600 to-blue-600 text-white rounded-lg hover:from-green-700 hover:to-blue-700 transition-all disabled:opacity-50 font-medium shadow-lg"
+                >
+                  <Save className="w-5 h-5" />
+                  {saving ? 'Adding...' : 'Add University'}
+                </button>
+                <button
+                  onClick={() => setShowAddModal(false)}
+                  className="px-6 py-3 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 transition-colors font-medium"
+                >
+                  Cancel
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
 
       <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
         <div className="lg:col-span-1">
           <div className="bg-white rounded-lg shadow border border-gray-200">
-            <div className="p-4 border-b border-gray-200">
+            <div className="p-4 border-b border-gray-200 flex items-center justify-between">
               <h3 className="font-semibold text-gray-900">Universities</h3>
+              <span className="text-xs text-gray-500">{universities.length} total</span>
             </div>
             <div className="max-h-96 overflow-y-auto">
               {universities.map((university) => (
