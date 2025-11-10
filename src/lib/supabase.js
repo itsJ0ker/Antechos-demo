@@ -173,15 +173,33 @@ export const getUniversityById = async (id) => {
       *,
       university_programs(program_name),
       university_collaborations(collaboration_name),
-      university_approvals(approval_name, logo_url),
+      university_approvals(approval_name, logo_url, display_order),
+      university_accreditations(
+        id,
+        display_order,
+        accreditation:accreditations(
+          id,
+          name,
+          full_name,
+          logo_url,
+          description
+        )
+      ),
       university_courses(
+        id,
         course_name,
         description,
         specializations,
         fees,
-        duration
+        duration,
+        image_url
       ),
-      university_faqs(question, answer, order_index)
+      university_faqs(question, answer, order_index),
+      university_campus_images(image_url, caption, display_order),
+      university_benefits(benefit_number, title, description, icon, display_order),
+      university_admission_steps(step_number, title, subtitle, description, display_order),
+      university_career_stats(stat_label, stat_value, icon, display_order),
+      university_hiring_partners(partner_name, logo_url, website_url, display_order)
     `)
     .eq('id', id)
     .eq('is_active', true)

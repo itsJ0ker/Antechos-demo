@@ -1,5 +1,4 @@
 import { useState, useEffect } from 'react';
-import { motion } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
 import { 
   Users, 
@@ -7,13 +6,15 @@ import {
   GraduationCap, 
   MessageSquare, 
   LogOut,
-  Settings,
   Eye,
   Edit,
   Trash2,
-  Plus
+  Plus,
+  Building
 } from 'lucide-react';
 import { supabase } from '../../lib/supabase';
+import EnhancedUniversityManager from '../../components/admin/EnhancedUniversityManager';
+import AccreditationManager from '../../components/admin/AccreditationManager';
 
 const SimpleAdminDashboard = () => {
   const [user, setUser] = useState(null);
@@ -253,6 +254,8 @@ const SimpleAdminDashboard = () => {
             { id: 'overview', label: 'Overview' },
             { id: 'courses', label: 'Courses' },
             { id: 'universities', label: 'Universities' },
+            { id: 'enhanced-universities', label: 'Enhanced Universities' },
+            { id: 'accreditations', label: 'Accreditations' },
             { id: 'trainers', label: 'Trainers' },
             { id: 'workforce', label: 'Workforce' },
             { id: 'testimonials', label: 'Testimonials' },
@@ -261,7 +264,7 @@ const SimpleAdminDashboard = () => {
             <button
               key={tab.id}
               onClick={() => setActiveTab(tab.id)}
-              className={`px-6 py-3 rounded-lg font-medium transition-all ${
+              className={`px-6 py-3 rounded-lg font-medium transition-all whitespace-nowrap ${
                 activeTab === tab.id
                   ? 'bg-blue-600 text-white shadow-lg'
                   : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
@@ -361,6 +364,14 @@ const SimpleAdminDashboard = () => {
               )}
             ]}
           />
+        )}
+
+        {activeTab === 'enhanced-universities' && (
+          <EnhancedUniversityManager />
+        )}
+
+        {activeTab === 'accreditations' && (
+          <AccreditationManager />
         )}
 
         {activeTab === 'trainers' && (

@@ -131,6 +131,7 @@ CREATE TABLE public.university_courses (
     specializations TEXT[], -- Array of specializations
     fees TEXT,
     duration TEXT,
+    image_url TEXT, -- Course image/thumbnail URL
     created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
 );
 

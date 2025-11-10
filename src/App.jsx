@@ -26,21 +26,41 @@ import CourseDetailPage from "./components/sections/coursedetails";
 // Admin components
 import AdminLogin from "./pages/admin/AdminLogin";
 import AdminDashboard from "./pages/admin/AdminDashboard";
+import SimpleAdminDashboard from "./pages/admin/SimpleAdminDashboard";
+import EnhancedAdminDashboard from "./pages/admin/EnhancedAdminDashboard";
 
 // Simple Auth components
 import SimpleLogin from "./pages/SimpleLogin";
 import SimpleDashboard from "./pages/SimpleDashboard";
 import { AuthProvider } from "./contexts/SimpleAuth";
 
+// Analytics tracking
+import { trackPageVisit, updateSessionDuration } from "./utils/analytics";
+
 const AppContent = () => {
   const [showPopup, setShowPopup] = useState(false);
   const location = useLocation();
 
-  const hideLayout = ["/AuthPage", "/admin/login", "/admin/dashboard", "/simple-login", "/simple-dashboard"].includes(location.pathname);
+  const hideLayout = ["/AuthPage", "/admin/login", "/admin/dashboard", "/admin/old-dashboard", "/simple-login", "/simple-dashboard"].includes(location.pathname);
 
   // check login & form submission
   const isLoggedIn = localStorage.getItem("isLoggedIn") === "true";
   const formSubmitted = localStorage.getItem("enquiryFormSubmitted") === "true";
+
+  // Track page visits with analytics
+  useEffect(() => {
+    // Don't track admin pages
+    if (!location.pathname.startsWith('/admin') && !location.pathname.startsWith('/simple-')) {
+      trackPageVisit(location.pathname);
+    }
+
+    // Cleanup on unmount
+    return () => {
+      if (!location.pathname.startsWith('/admin') && !location.pathname.startsWith('/simple-')) {
+        updateSessionDuration();
+      }
+    };
+  }, [location.pathname]);
 
   useEffect(() => {
     const shouldShow =
@@ -87,7 +107,9 @@ const AppContent = () => {
           {/* Admin routes */}
           <Route path="/admin" element={<AdminLogin />} />
           <Route path="/admin/login" element={<AdminLogin />} />
-          <Route path="/admin/dashboard" element={<AdminDashboard />} />
+          <Route path="/admin/dashboard" element={<EnhancedAdminDashboard />} />
+          <Route path="/admin/simple-dashboard" element={<SimpleAdminDashboard />} />
+          <Route path="/admin/old-dashboard" element={<AdminDashboard />} />
           
           {/* Simple Auth routes */}
           <Route path="/simple-login" element={<SimpleLogin />} />
