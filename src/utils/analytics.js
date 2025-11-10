@@ -58,6 +58,27 @@ export const updateSessionDuration = async () => {
 const getVisitorInfo = async (pagePath) => {
   const userAgent = navigator.userAgent;
   
+  // Get IP and location data (with error handling)
+  let ipAddress = null;
+  let country = null;
+  let city = null;
+  
+  try {
+    // Try to get IP address
+    const ipResponse = await fetch('https://api.ipify.org?format=json', { 
+      signal: AbortSignal.timeout(3000) // 3 second timeout
+    });
+    if (ipResponse.ok) {
+      const ipData = await ipResponse.json();
+      ipAddress = ipData.ip;
+    }
+  } catch (error) {
+    console.log('IP detection skipped:', error.message);
+  }
+  
+  // Skip geolocation to avoid CORS and rate limit issues
+  // These can be added server-side if needed
+  
   return {
     page_path: pagePath,
     page_url: window.location.href,
@@ -70,9 +91,9 @@ const getVisitorInfo = async (pagePath) => {
     viewport_size: `${window.innerWidth}x${window.innerHeight}`,
     language: navigator.language || navigator.userLanguage,
     timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
-    ip_address: await getIPAddress(),
-    country: await getCountry(),
-    city: await getCity(),
+    ip_address: ipAddress,
+    country: country,
+    city: city,
     visited_at: new Date().toISOString(),
   };
 };
@@ -104,41 +125,8 @@ const getOperatingSystem = (userAgent) => {
   return 'Unknown';
 };
 
-// Get IP address using external API
-const getIPAddress = async () => {
-  try {
-    const response = await fetch('https://api.ipify.org?format=json');
-    const data = await response.json();
-    return data.ip;
-  } catch (error) {
-    console.error('Error fetching IP:', error);
-    return null;
-  }
-};
-
-// Get country from IP
-const getCountry = async () => {
-  try {
-    const response = await fetch('https://ipapi.co/json/');
-    const data = await response.json();
-    return data.country_name || null;
-  } catch (error) {
-    console.error('Error fetching country:', error);
-    return null;
-  }
-};
-
-// Get city from IP
-const getCity = async () => {
-  try {
-    const response = await fetch('https://ipapi.co/json/');
-    const data = await response.json();
-    return data.city || null;
-  } catch (error) {
-    console.error('Error fetching city:', error);
-    return null;
-  }
-};
+// Note: IP geolocation (country/city) removed to avoid CORS and rate limit issues
+// These can be added server-side using Supabase Edge Functions if needed
 
 // Track custom events
 export const trackEvent = async (eventName, eventData = {}) => {
