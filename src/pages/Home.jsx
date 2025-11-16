@@ -19,6 +19,7 @@ import TrainerCard from "../components/Cards/TrainerCard";
 import CourseCard from "../components/Cards/CourseCard";
 import EnquiryPopup from "../components/sections/PopupForm";
 import BannerCarousel from "../components/sections/BannerCarousel";
+import DynamicHomeSection from "../components/sections/DynamicHomeSection";
 import allCourses from "../data/allCourses";
 import { getTrainers } from "../data/dataservice";
 import usp1 from "../assets/USP/usp1.png";
