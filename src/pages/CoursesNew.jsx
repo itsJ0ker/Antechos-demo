@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
-import { Star, Clock } from 'lucide-react';
+import { Star, Clock, Check, Users, Award, BookOpen, Shield } from 'lucide-react';
+import { motion } from 'framer-motion';
 import allCourses from '../data/allCourses';
 
 const CoursesNew = () => {
@@ -29,141 +30,281 @@ const CoursesNew = () => {
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="animate-spin rounded-full h-16 w-16 border-b-2 border-blue-600"></div>
+      <div className="min-h-screen flex items-center justify-center bg-gray-50">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto"></div>
+          <p className="mt-4 text-gray-600">Loading courses...</p>
+        </div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-blue-50">
-      {/* Hero */}
-      <section className="bg-gradient-to-r from-blue-600 to-purple-600 text-white py-20">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h1 className="text-5xl md:text-6xl font-bold mb-6">
-            Choose Your Learning Path
-          </h1>
-          <p className="text-xl md:text-2xl text-blue-100 max-w-3xl mx-auto">
-            Flexible pricing plans designed for learners at every stage
-          </p>
+    <div className="min-h-screen bg-gray-50">
+      {/* Hero Section */}
+      <section className="relative bg-gradient-to-r from-blue-600 to-indigo-700 text-white overflow-hidden">
+        {/* Background Decoration */}
+        <div className="absolute inset-0 opacity-10">
+          <div className="absolute top-0 left-0 w-96 h-96 bg-white rounded-full filter blur-3xl"></div>
+          <div className="absolute bottom-0 right-0 w-96 h-96 bg-white rounded-full filter blur-3xl"></div>
+        </div>
+
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 md:py-24">
+          <div className="text-center max-w-4xl mx-auto">
+            {/* Badge */}
+            <div className="inline-flex items-center gap-2 bg-white/20 backdrop-blur-sm rounded-full px-4 py-2 mb-6">
+              <span className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></span>
+              <span className="text-sm font-medium">15,000+ Students Enrolled</span>
+            </div>
+
+            {/* Main Heading */}
+            <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold mb-6 leading-tight">
+              Explore Our Professional Courses
+            </h1>
+            
+            <p className="text-lg md:text-xl text-blue-100 mb-8 max-w-2xl mx-auto">
+              Industry-recognized certifications designed to accelerate your career growth
+            </p>
+
+            {/* Stats */}
+            <div className="flex flex-wrap items-center justify-center gap-6 md:gap-8 text-sm">
+              <div className="flex items-center gap-2">
+                <Shield className="w-5 h-5 text-green-300" />
+                <span>30-Day Guarantee</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <Award className="w-5 h-5 text-yellow-300" />
+                <span>Certified Courses</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <Users className="w-5 h-5 text-blue-300" />
+                <span>Expert Instructors</span>
+              </div>
+            </div>
+          </div>
         </div>
       </section>
 
       {/* Category Filter */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        <div className="flex flex-wrap gap-3 justify-center">
-          {categories.map((cat) => (
-            <button
-              key={cat}
-              onClick={() => setSelectedCategory(cat)}
-              className={`px-6 py-3 rounded-full font-semibold transition-all ${
-                selectedCategory === cat
-                  ? 'bg-blue-600 text-white shadow-lg'
-                  : 'bg-white text-gray-700 hover:bg-gray-100'
-              }`}
-            >
-              {cat === 'all' ? 'All Courses' : cat}
-            </button>
-          ))}
+      <section className="bg-white border-b">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+          <div className="flex flex-wrap gap-2 justify-center">
+            {categories.map((cat) => (
+              <button
+                key={cat}
+                onClick={() => setSelectedCategory(cat)}
+                className={`px-4 py-2 rounded-lg font-medium transition-all ${
+                  selectedCategory === cat
+                    ? 'bg-blue-600 text-white'
+                    : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                }`}
+              >
+                {cat === 'all' ? 'All Courses' : cat}
+              </button>
+            ))}
+          </div>
         </div>
       </section>
 
-      {/* Courses Grid */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-20">
+      {/* Pricing Cards */}
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {filteredCourses.map((course) => (
-            <div
-              key={course.id}
-              className="bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all transform hover:-translate-y-2"
-            >
-              {/* Course Image */}
-              <div className="h-48 bg-gradient-to-br from-blue-500 to-purple-600 relative overflow-hidden">
-                {course.image_url ? (
-                  <img
-                    src={course.image_url}
-                    alt={course.title}
-                    className="w-full h-full object-cover"
-                  />
-                ) : (
-                  <div className="w-full h-full flex items-center justify-center text-white text-6xl">
-                    📚
+          {filteredCourses.map((course, index) => {
+            const isPopular = index === 1 || index === 4; // Highlight specific courses
+            
+            return (
+              <motion.div
+                key={course.id}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: index * 0.05 }}
+                className={`bg-white rounded-xl overflow-hidden transition-all hover:-translate-y-1 ${
+                  isPopular 
+                    ? 'ring-2 ring-blue-600 shadow-xl' 
+                    : 'border border-gray-200 shadow-md hover:shadow-xl'
+                }`}
+              >
+                {/* Popular Badge */}
+                {isPopular && (
+                  <div className="bg-gradient-to-r from-blue-600 to-indigo-600 text-white text-center py-2 text-sm font-semibold">
+                    ⭐ Most Popular
                   </div>
                 )}
-                {course.skill_level && (
-                  <span className="absolute top-4 right-4 px-3 py-1 bg-white/90 backdrop-blur-sm rounded-full text-sm font-semibold text-gray-900">
-                    {course.skill_level}
-                  </span>
-                )}
-              </div>
 
-              {/* Course Content */}
-              <div className="p-6">
-                <div className="flex items-center gap-2 mb-3">
-                  {course.category && (
-                    <span className="px-3 py-1 bg-blue-100 text-blue-700 rounded-full text-xs font-semibold">
-                      {course.category}
-                    </span>
+                {/* Course Image */}
+                <div className="relative h-48 overflow-hidden bg-gradient-to-br from-blue-500 to-indigo-600">
+                  {course.image_url ? (
+                    <img
+                      src={course.image_url}
+                      alt={course.title}
+                      className="w-full h-full object-cover"
+                    />
+                  ) : (
+                    <div className="w-full h-full flex items-center justify-center">
+                      <BookOpen className="w-20 h-20 text-white opacity-50" />
+                    </div>
                   )}
-                  {course.rating && (
-                    <div className="flex items-center gap-1 text-yellow-500">
-                      <Star className="w-4 h-4 fill-current" />
-                      <span className="text-sm font-semibold text-gray-700">
-                        {course.rating}
+                  
+                  {/* Overlay Badges */}
+                  <div className="absolute top-4 left-4 right-4 flex items-start justify-between">
+                    {course.category && (
+                      <span className="px-3 py-1 bg-white/95 backdrop-blur-sm text-blue-600 rounded-full text-xs font-bold shadow-lg">
+                        {course.category}
+                      </span>
+                    )}
+                    {course.rating && (
+                      <div className="flex items-center gap-1 px-3 py-1 bg-white/95 backdrop-blur-sm rounded-full shadow-lg">
+                        <Star className="w-4 h-4 text-yellow-400 fill-current" />
+                        <span className="text-sm font-bold text-gray-900">{course.rating}</span>
+                      </div>
+                    )}
+                  </div>
+
+                  {/* Skill Level Badge */}
+                  {course.skill_level && (
+                    <div className="absolute bottom-4 left-4">
+                      <span className="px-3 py-1 bg-indigo-600/90 backdrop-blur-sm text-white rounded-full text-xs font-semibold">
+                        {course.skill_level}
                       </span>
                     </div>
                   )}
                 </div>
 
-                <h3 className="text-2xl font-bold text-gray-900 mb-3">
-                  {course.title}
-                </h3>
+                {/* Course Header */}
+                <div className="p-6 border-b border-gray-100">
+                  <h3 className="text-xl font-bold text-gray-900 mb-2 line-clamp-2">
+                    {course.title}
+                  </h3>
 
-                <p className="text-gray-600 mb-4 line-clamp-2">
-                  {course.description}
-                </p>
+                  <p className="text-gray-600 text-sm line-clamp-2">
+                    {course.description}
+                  </p>
+                </div>
 
-                {/* Course Meta */}
-                <div className="flex items-center gap-4 mb-4 text-sm text-gray-600">
+                {/* Features */}
+                <div className="p-6 space-y-3">
+                  <div className="flex items-start gap-2 text-sm text-gray-700">
+                    <Check className="w-5 h-5 text-green-500 flex-shrink-0 mt-0.5" />
+                    <span>Lifetime access to all course materials</span>
+                  </div>
+                  <div className="flex items-start gap-2 text-sm text-gray-700">
+                    <Check className="w-5 h-5 text-green-500 flex-shrink-0 mt-0.5" />
+                    <span>Industry-recognized certificate</span>
+                  </div>
+                  <div className="flex items-start gap-2 text-sm text-gray-700">
+                    <Check className="w-5 h-5 text-green-500 flex-shrink-0 mt-0.5" />
+                    <span>Expert instructor support</span>
+                  </div>
                   {course.duration && (
-                    <div className="flex items-center gap-1">
-                      <Clock className="w-4 h-4" />
-                      <span>{course.duration}</span>
+                    <div className="flex items-start gap-2 text-sm text-gray-700">
+                      <Clock className="w-5 h-5 text-blue-500 flex-shrink-0 mt-0.5" />
+                      <span>{course.duration} of content</span>
                     </div>
                   )}
                 </div>
 
                 {/* Pricing */}
-                <div className="border-t pt-4 mb-4">
-                  <div className="flex items-baseline gap-2">
+                <div className="p-6 bg-gray-50 border-t border-gray-100">
+                  <div className="mb-4">
                     {course.original_price && course.original_price > course.price && (
-                      <span className="text-lg text-gray-400 line-through">
-                        ₹{course.original_price.toLocaleString()}
-                      </span>
+                      <div className="flex items-center gap-2 mb-2">
+                        <span className="text-lg text-gray-400 line-through">
+                          ₹{course.original_price.toLocaleString()}
+                        </span>
+                        <span className="px-2 py-1 bg-green-100 text-green-700 text-xs font-bold rounded">
+                          Save {Math.round(((course.original_price - course.price) / course.original_price) * 100)}%
+                        </span>
+                      </div>
                     )}
-                    <span className="text-3xl font-bold text-green-600">
-                      ₹{course.price?.toLocaleString() || 'Free'}
-                    </span>
+                    <div className="flex items-baseline gap-2">
+                      <span className="text-4xl font-bold text-gray-900">
+                        ₹{course.price?.toLocaleString() || 'Free'}
+                      </span>
+                      {course.price > 0 && (
+                        <span className="text-gray-600 text-sm">one-time payment</span>
+                      )}
+                    </div>
                   </div>
-                </div>
 
-                {/* CTA Button */}
-                <button className="w-full bg-gradient-to-r from-blue-600 to-purple-600 text-white py-3 rounded-lg font-semibold hover:from-blue-700 hover:to-purple-700 transition-all shadow-lg">
-                  Enroll Now
-                </button>
+                  <button className={`w-full py-3 rounded-lg font-semibold transition-all ${
+                    isPopular
+                      ? 'bg-blue-600 text-white hover:bg-blue-700'
+                      : 'bg-gray-900 text-white hover:bg-gray-800'
+                  }`}>
+                    Enroll Now
+                  </button>
+
+                  <p className="text-center text-xs text-gray-500 mt-3">
+                    30-day money-back guarantee
+                  </p>
+                </div>
+              </motion.div>
+            );
+          })}
+        </div>
+      </section>
+
+      {/* Features Section */}
+      <section className="bg-white border-t border-gray-200 py-16">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl font-bold text-gray-900 mb-3">
+              Why Choose Our Courses?
+            </h2>
+            <p className="text-gray-600">
+              Everything you need to succeed in your learning journey
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+            {[
+              {
+                icon: <Award className="w-8 h-8 text-blue-600" />,
+                title: 'Industry Certified',
+                description: 'Recognized certificates valued by employers'
+              },
+              {
+                icon: <Users className="w-8 h-8 text-blue-600" />,
+                title: 'Expert Instructors',
+                description: 'Learn from industry professionals'
+              },
+              {
+                icon: <BookOpen className="w-8 h-8 text-blue-600" />,
+                title: 'Lifetime Access',
+                description: 'Access materials anytime, anywhere'
+              },
+              {
+                icon: <Shield className="w-8 h-8 text-blue-600" />,
+                title: 'Money-back Guarantee',
+                description: '30-day full refund policy'
+              }
+            ].map((feature, index) => (
+              <div key={index} className="text-center">
+                <div className="inline-flex items-center justify-center w-16 h-16 bg-blue-50 rounded-lg mb-4">
+                  {feature.icon}
+                </div>
+                <h3 className="text-lg font-semibold text-gray-900 mb-2">
+                  {feature.title}
+                </h3>
+                <p className="text-gray-600 text-sm">
+                  {feature.description}
+                </p>
               </div>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
       </section>
 
       {/* CTA Section */}
-      <section className="bg-gradient-to-r from-blue-600 to-purple-600 text-white py-20">
+      <section className="bg-blue-600 py-16">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h2 className="text-4xl font-bold mb-6">Not Sure Which Course to Choose?</h2>
-          <p className="text-xl mb-8 text-blue-100">
-            Talk to our counselors and find the perfect course for your career goals
+          <h2 className="text-3xl font-bold text-white mb-4">
+            Need Help Choosing?
+          </h2>
+          <p className="text-xl text-blue-100 mb-8">
+            Talk to our counselors and find the perfect course for you
           </p>
-          <button className="bg-white text-blue-600 px-8 py-4 rounded-full font-bold text-lg hover:bg-blue-50 transition-all shadow-xl">
+          <button className="bg-white text-blue-600 px-8 py-3 rounded-lg font-semibold hover:bg-blue-50 transition-all">
             Get Free Counseling
           </button>
         </div>
