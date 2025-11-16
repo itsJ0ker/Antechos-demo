@@ -29,6 +29,10 @@ import WorkforceManager from '../../components/admin/WorkforceManager';
 import TestimonialManager from '../../components/admin/TestimonialManager';
 import EnquiryManager from '../../components/admin/EnquiryManager';
 import AnalyticsDashboard from '../../components/admin/AnalyticsDashboard';
+import BannerManager from '../../components/admin/BannerManager';
+import MarketplaceManager from '../../components/admin/MarketplaceManager';
+import HomePageManager from '../../components/admin/HomePageManager';
+import AboutUsManager from '../../components/admin/AboutUsManager';
 
 const EnhancedAdminDashboard = () => {
   const [user, setUser] = useState(null);
@@ -109,6 +113,10 @@ const EnhancedAdminDashboard = () => {
   const menuItems = [
     { id: 'overview', label: 'Dashboard', icon: Home, color: 'blue' },
     { id: 'analytics', label: 'Analytics', icon: TrendingUp, color: 'cyan' },
+    { id: 'banners', label: 'Banners', icon: ImageIcon, color: 'orange' },
+    { id: 'homepage', label: 'Home Page', icon: Home, color: 'purple' },
+    { id: 'aboutus', label: 'About Us', icon: Users, color: 'green' },
+    { id: 'marketplace', label: 'Marketplace', icon: DollarSign, color: 'blue' },
     { id: 'universities', label: 'Universities', icon: Building, color: 'purple' },
     { id: 'courses', label: 'Courses & Fees', icon: BookOpen, color: 'green' },
     { id: 'accreditations', label: 'Accreditations', icon: Award, color: 'yellow' },
@@ -318,6 +326,10 @@ const EnhancedAdminDashboard = () => {
           )}
 
           {activeTab === 'analytics' && <AnalyticsDashboard />}
+          {activeTab === 'banners' && <BannerManager />}
+          {activeTab === 'homepage' && <HomePageManager />}
+          {activeTab === 'aboutus' && <AboutUsManager />}
+          {activeTab === 'marketplace' && <MarketplaceManager />}
           {activeTab === 'universities' && <EnhancedUniversityManager />}
           {activeTab === 'courses' && <CourseManager />}
           {activeTab === 'accreditations' && <AccreditationManager />}

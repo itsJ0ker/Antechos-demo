@@ -7,7 +7,7 @@ import Footer from "./components/Layout/Footer";
 import AuthPage from "./pages/AuthPage";
 import Home from "./pages/Home";
 import About from "./pages/Aboutus";
-import Courses from "./pages/Courses";
+import Courses from "./pages/CoursesNew";
 import Universities from "./pages/Universities";
 import Marketplace from "./pages/Marketplace";
 import TrainerProfile from "./components/sections/Trainerprofile";

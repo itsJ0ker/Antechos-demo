@@ -15,9 +15,10 @@ import Blog from "../components/sections/blog";
 import Contact from "../components/sections/contact";
 import Platform from "../components/sections/platform";
 import RotatingText from "../components/UI/RotatingText";
-import TrainerCard from "../components/Cards/TrainerCard"; // Adjust path as needed
-import CourseCard from "../components/Cards/CourseCard"; // adjust the path if needed
+import TrainerCard from "../components/Cards/TrainerCard";
+import CourseCard from "../components/Cards/CourseCard";
 import EnquiryPopup from "../components/sections/PopupForm";
+import BannerCarousel from "../components/sections/BannerCarousel";
 import allCourses from "../data/allCourses";
 import { getTrainers } from "../data/dataservice";
 import usp1 from "../assets/USP/usp1.png";
@@ -244,6 +245,9 @@ const Home = () => {
 
   return (
     <div className="relative overflow-x-hidden">
+      {/* Banner Carousel */}
+      <BannerCarousel />
+      
       {/* Hero Section */}
       <div className="relative w-full h-screen overflow-hidden">
         {/* Background Image with Parallax Effect */}
@@ -884,6 +888,9 @@ const Home = () => {
         </h2>
         <DeckTestimonials />
       </div>
+
+      {/* Dynamic Home Sections */}
+      <DynamicHomeSection />
 
       {/* Blog Section */}
       <div className="max-w-full overflow-hidden">
