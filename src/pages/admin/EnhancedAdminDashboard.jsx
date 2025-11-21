@@ -33,6 +33,8 @@ import BannerManager from '../../components/admin/BannerManager';
 import MarketplaceManager from '../../components/admin/MarketplaceManager';
 import HomePageManager from '../../components/admin/HomePageManager';
 import AboutUsManager from '../../components/admin/AboutUsManager';
+import CoursesHeroManager from '../../components/admin/CoursesHeroManager';
+import MarketplaceImarticusManager from '../../components/admin/MarketplaceImarticusManager';
 
 const EnhancedAdminDashboard = () => {
   const [user, setUser] = useState(null);
@@ -117,6 +119,8 @@ const EnhancedAdminDashboard = () => {
     { id: 'homepage', label: 'Home Page', icon: Home, color: 'purple' },
     { id: 'aboutus', label: 'About Us', icon: Users, color: 'green' },
     { id: 'marketplace', label: 'Marketplace', icon: DollarSign, color: 'blue' },
+    { id: 'marketplacenew', label: 'Marketplace (New)', icon: DollarSign, color: 'purple' },
+    { id: 'courseshero', label: 'Courses Hero', icon: FileText, color: 'cyan' },
     { id: 'universities', label: 'Universities', icon: Building, color: 'purple' },
     { id: 'courses', label: 'Courses & Fees', icon: BookOpen, color: 'green' },
     { id: 'accreditations', label: 'Accreditations', icon: Award, color: 'yellow' },
@@ -330,6 +334,8 @@ const EnhancedAdminDashboard = () => {
           {activeTab === 'homepage' && <HomePageManager />}
           {activeTab === 'aboutus' && <AboutUsManager />}
           {activeTab === 'marketplace' && <MarketplaceManager />}
+          {activeTab === 'marketplacenew' && <MarketplaceImarticusManager />}
+          {activeTab === 'courseshero' && <CoursesHeroManager />}
           {activeTab === 'universities' && <EnhancedUniversityManager />}
           {activeTab === 'courses' && <CourseManager />}
           {activeTab === 'accreditations' && <AccreditationManager />}

@@ -10,6 +10,7 @@ import About from "./pages/Aboutus";
 import Courses from "./pages/CoursesNew";
 import Universities from "./pages/Universities";
 import Marketplace from "./pages/Marketplace";
+import MarketplaceImarticus from "./pages/MarketplaceImarticus";
 import TrainerProfile from "./components/sections/Trainerprofile";
 import UniversityDetail from "./components/sections/UniversityDetails";
 import IndustryTrainer from "./components/sections/Industrytrainer";
@@ -92,6 +93,7 @@ const AppContent = () => {
           <Route path="/AuthPage" element={<AuthPage />} />
           <Route path="/About" element={<About />} />
           <Route path="/Marketplace" element={<Marketplace />} />
+          <Route path="/marketplace-new" element={<MarketplaceImarticus />} />
           <Route path="/Courses" element={<Courses />} />
           <Route path="/Universities" element={<Universities />} />
           <Route path="/trainer/:id" element={<TrainerProfile />} />
