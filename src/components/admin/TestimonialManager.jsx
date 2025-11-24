@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Plus, Edit, Trash2, Save, X, Star } from 'lucide-react';
 import { supabase } from '../../lib/supabase';
+import { getTestimonialPlaceholder } from '../../utils/imageFallback';
 
 const TestimonialManager = () => {
   const [testimonials, setTestimonials] = useState([]);
@@ -334,10 +335,10 @@ const TestimonialManager = () => {
                       <div className="flex-shrink-0 h-10 w-10">
                         <img
                           className="h-10 w-10 rounded-full object-cover"
-                          src={testimonial.image_url || 'https://via.placeholder.com/40x40?text=T'}
+                          src={testimonial.image_url || getTestimonialPlaceholder()}
                           alt={testimonial.name}
                           onError={(e) => {
-                            e.target.src = 'https://via.placeholder.com/40x40?text=T';
+                            e.target.src = getTestimonialPlaceholder();
                           }}
                         />
                       </div>

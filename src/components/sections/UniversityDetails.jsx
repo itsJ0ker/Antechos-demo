@@ -286,7 +286,7 @@ const UniversityDetails = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-gray-50 overflow-x-hidden">
       {/* Hero Section with Background */}
       <div 
         className="relative min-h-[70vh] bg-gradient-to-br from-blue-900 via-blue-800 to-purple-900 overflow-hidden"
@@ -359,18 +359,18 @@ const UniversityDetails = () => {
               </div>
 
               {/* Quick Stats */}
-              <div className="grid grid-cols-3 gap-6 pt-8">
+              <div className="grid grid-cols-3 gap-3 sm:gap-6 pt-8">
                 <div className="text-center">
-                  <div className="text-3xl font-bold text-white">{university.placement_rate || 90}%</div>
-                  <div className="text-blue-200 text-sm">Placement Rate</div>
+                  <div className="text-2xl sm:text-3xl font-bold text-white">{university.placement_rate || 90}%</div>
+                  <div className="text-blue-200 text-xs sm:text-sm">Placement Rate</div>
                 </div>
                 <div className="text-center">
-                  <div className="text-3xl font-bold text-white">500+</div>
-                  <div className="text-blue-200 text-sm">Companies</div>
+                  <div className="text-2xl sm:text-3xl font-bold text-white">500+</div>
+                  <div className="text-blue-200 text-xs sm:text-sm">Companies</div>
                 </div>
                 <div className="text-center">
-                  <div className="text-3xl font-bold text-white">₹8L+</div>
-                  <div className="text-blue-200 text-sm">Avg Package</div>
+                  <div className="text-2xl sm:text-3xl font-bold text-white">₹8L+</div>
+                  <div className="text-blue-200 text-xs sm:text-sm">Avg Package</div>
                 </div>
               </div>
             </div>
@@ -421,8 +421,8 @@ const UniversityDetails = () => {
       </div>
 
       {/* Main Content with Sidebar */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <div className="flex flex-col lg:flex-row gap-8">
+      <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div className="flex flex-col lg:flex-row gap-8 w-full">
           {/* Sidebar Navigation */}
           <aside className="lg:w-64 flex-shrink-0">
             <div className="lg:sticky lg:top-24 bg-white border border-gray-200 rounded-lg p-4">
@@ -446,10 +446,10 @@ const UniversityDetails = () => {
           </aside>
 
           {/* Main Content */}
-          <main className="flex-1 space-y-12">
+          <main className="flex-1 space-y-12 min-w-0">
             {/* Accreditation Section */}
             <section id="accreditation" className="scroll-mt-24">
-              <div className="bg-gradient-to-br from-white to-blue-50 border border-blue-100 rounded-2xl p-8 shadow-lg hover:shadow-xl transition-shadow duration-300">
+              <div className="bg-gradient-to-br from-white to-blue-50 border border-blue-100 rounded-2xl p-4 sm:p-6 md:p-8 shadow-lg hover:shadow-xl transition-shadow duration-300">
                 <div className="text-center mb-8">
                   <div className="inline-flex items-center gap-3 bg-blue-600 text-white px-6 py-3 rounded-full mb-4">
                     <Award className="w-6 h-6" />
@@ -460,9 +460,7 @@ const UniversityDetails = () => {
                   </p>
                 </div>
                 
-                <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-6">
-                  {/* Debug info */}
-                  {console.log('Rendering accreditations:', university.university_accreditations)}
+                <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-4 md:gap-6">
                   {university.university_accreditations && university.university_accreditations.length > 0 ? (
                     university.university_accreditations
                       .sort((a, b) => a.display_order - b.display_order)
@@ -534,7 +532,7 @@ const UniversityDetails = () => {
 
             {/* About University Section */}
             <section id="about" className="scroll-mt-24">
-              <div className="bg-white border border-gray-200 rounded-lg p-6">
+              <div className="bg-white border border-gray-200 rounded-lg p-4 sm:p-6">
                 <h2 className="text-2xl font-bold text-gray-900 mb-6">About University</h2>
                 <p className="text-gray-700 leading-relaxed mb-6">
                   {university.about || university.description}
@@ -578,15 +576,15 @@ const UniversityDetails = () => {
 
             {/* Courses Section */}
             <section id="courses" className="scroll-mt-24">
-              <div className="bg-white border border-gray-200 rounded-lg p-6">
+              <div className="bg-white border border-gray-200 rounded-lg p-4 sm:p-6 overflow-hidden">
                 <h2 className="text-2xl font-bold text-gray-900 mb-6">Courses</h2>
-                <div className="relative">
+                <div className="relative -mx-6 px-6">
                   {university.courses && university.courses.length > 0 ? (
-                    <div className="flex overflow-x-auto gap-6 pb-4 scrollbar-hide">
+                    <div className="flex overflow-x-auto gap-6 pb-4 snap-x snap-mandatory" style={{scrollbarWidth: 'thin'}}>
                       {university.courses.map((course, i) => (
                         <div
                           key={i}
-                          className="flex-shrink-0 w-72 border-2 border-gray-300 rounded-lg p-6 hover:border-blue-500 hover:shadow-lg transition-all duration-300"
+                          className="flex-shrink-0 w-72 border-2 border-gray-300 rounded-lg p-6 hover:border-blue-500 hover:shadow-lg transition-all duration-300 snap-start"
                         >
                           <div className="mb-4">
                             <div className="h-40 bg-gray-100 rounded-lg border border-gray-300 flex items-center justify-center overflow-hidden">
@@ -646,10 +644,10 @@ const UniversityDetails = () => {
 
             {/* Fee Structure Section */}
             <section id="fees" className="scroll-mt-24">
-              <div className="bg-white border border-gray-200 rounded-lg p-6">
+              <div className="bg-white border border-gray-200 rounded-lg p-4 sm:p-6 overflow-hidden">
                 <h2 className="text-2xl font-bold text-gray-900 mb-6">Fee Structure</h2>
-                <div className="overflow-x-auto">
-                  <table className="min-w-full border-collapse">
+                <div className="overflow-x-auto -mx-6 px-6">
+                  <table className="min-w-full border-collapse w-full">
                     <thead>
                       <tr className="border-b-2 border-gray-300">
                         <th className="text-left py-3 px-4 font-bold text-gray-900">Course</th>
@@ -697,7 +695,7 @@ const UniversityDetails = () => {
 
             {/* Benefits Section */}
             <section id="benefits" className="scroll-mt-24">
-              <div className="bg-gradient-to-br from-green-50 to-blue-50 border border-green-100 rounded-2xl p-8 shadow-lg hover:shadow-xl transition-shadow duration-300">
+              <div className="bg-gradient-to-br from-green-50 to-blue-50 border border-green-100 rounded-2xl p-4 sm:p-6 md:p-8 shadow-lg hover:shadow-xl transition-shadow duration-300">
                 <div className="text-center mb-8">
                   <div className="inline-flex items-center gap-3 bg-gradient-to-r from-green-600 to-blue-600 text-white px-6 py-3 rounded-full mb-4">
                     <CheckCircle className="w-6 h-6" />
@@ -708,7 +706,7 @@ const UniversityDetails = () => {
                   </p>
                 </div>
                 
-                <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+                <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4 md:gap-6">
                   {university.university_benefits && university.university_benefits.length > 0 ? (
                     university.university_benefits
                       .sort((a, b) => a.display_order - b.display_order)
@@ -764,7 +762,7 @@ const UniversityDetails = () => {
 
             {/* Program Overview Section */}
             <section id="degree" className="scroll-mt-24">
-              <div className="bg-gradient-to-br from-purple-50 to-pink-50 border border-purple-100 rounded-2xl p-8 shadow-lg hover:shadow-xl transition-shadow duration-300">
+              <div className="bg-gradient-to-br from-purple-50 to-pink-50 border border-purple-100 rounded-2xl p-4 sm:p-6 md:p-8 shadow-lg hover:shadow-xl transition-shadow duration-300">
                 <div className="text-center mb-8">
                   <div className="inline-flex items-center gap-3 bg-gradient-to-r from-purple-600 to-pink-600 text-white px-6 py-3 rounded-full mb-4">
                     <GraduationCap className="w-6 h-6" />
@@ -823,40 +821,46 @@ const UniversityDetails = () => {
                 </div>
                 
                 {/* Video Section */}
-                <div className="bg-white rounded-2xl p-6 shadow-md border border-gray-100">
-                  <div className="flex items-center gap-3 mb-6">
-                    <div className="w-12 h-12 bg-gradient-to-br from-red-500 to-pink-600 rounded-xl flex items-center justify-center">
-                      <Play className="w-6 h-6 text-white" />
+                <div className="bg-white rounded-2xl p-4 sm:p-6 shadow-md border border-gray-100">
+                  <div className="flex items-center gap-3 mb-4 sm:mb-6">
+                    <div className="w-10 h-10 sm:w-12 sm:h-12 bg-gradient-to-br from-red-500 to-pink-600 rounded-xl flex items-center justify-center flex-shrink-0">
+                      <Play className="w-5 h-5 sm:w-6 sm:h-6 text-white" />
                     </div>
-                    <div>
-                      <h3 className="font-bold text-gray-900 text-xl">University Overview Video</h3>
-                      <p className="text-gray-600">Get an inside look at our campus and programs</p>
+                    <div className="min-w-0">
+                      <h3 className="font-bold text-gray-900 text-lg sm:text-xl truncate">University Overview Video</h3>
+                      <p className="text-gray-600 text-sm sm:text-base">Get an inside look at our campus and programs</p>
                     </div>
                   </div>
                   
                   {university.video_url ? (
-                    <div className="aspect-video bg-gray-900 rounded-xl overflow-hidden shadow-lg">
-                      <iframe
-                        src={university.video_url}
-                        title="University Overview Video"
-                        className="w-full h-full"
-                        allowFullScreen
-                      />
+                    <div className="w-full max-w-full">
+                      <div className="relative w-full" style={{paddingBottom: '56.25%'}}>
+                        <iframe
+                          src={university.video_url}
+                          title="University Overview Video"
+                          className="absolute top-0 left-0 w-full h-full rounded-xl shadow-lg"
+                          allowFullScreen
+                        />
+                      </div>
                     </div>
                   ) : (
-                    <div className="aspect-video bg-gradient-to-br from-gray-800 to-gray-900 rounded-xl flex items-center justify-center shadow-lg">
-                      <div className="text-center text-white">
-                        <div className="w-20 h-20 bg-white/20 rounded-full flex items-center justify-center mx-auto mb-4 hover:bg-white/30 transition-colors cursor-pointer">
-                          <Play className="w-10 h-10 ml-1" />
+                    <div className="w-full max-w-full">
+                      <div className="relative w-full bg-gradient-to-br from-gray-800 to-gray-900 rounded-xl flex items-center justify-center shadow-lg" style={{paddingBottom: '56.25%'}}>
+                        <div className="absolute inset-0 flex items-center justify-center text-center text-white p-4">
+                          <div>
+                            <div className="w-16 h-16 sm:w-20 sm:h-20 bg-white/20 rounded-full flex items-center justify-center mx-auto mb-4 hover:bg-white/30 transition-colors cursor-pointer">
+                              <Play className="w-8 h-8 sm:w-10 sm:h-10 ml-1" />
+                            </div>
+                            <h4 className="text-lg sm:text-xl font-bold mb-2">University Overview</h4>
+                            <p className="text-gray-300 text-sm sm:text-base">Video coming soon</p>
+                          </div>
                         </div>
-                        <h4 className="text-xl font-bold mb-2">University Overview</h4>
-                        <p className="text-gray-300">Video coming soon</p>
                       </div>
                     </div>
                   )}
                   
                   {university.video_description && (
-                    <p className="text-gray-600 mt-4 leading-relaxed">
+                    <p className="text-gray-600 mt-4 leading-relaxed text-sm sm:text-base">
                       {university.video_description}
                     </p>
                   )}
@@ -866,7 +870,7 @@ const UniversityDetails = () => {
 
             {/* Admission Process Section */}
             <section id="admission" className="scroll-mt-24">
-              <div className="bg-gradient-to-br from-orange-50 to-red-50 border border-orange-100 rounded-2xl p-8 shadow-lg hover:shadow-xl transition-shadow duration-300">
+              <div className="bg-gradient-to-br from-orange-50 to-red-50 border border-orange-100 rounded-2xl p-4 sm:p-6 md:p-8 shadow-lg hover:shadow-xl transition-shadow duration-300">
                 <div className="text-center mb-8">
                   <div className="inline-flex items-center gap-3 bg-gradient-to-r from-orange-600 to-red-600 text-white px-6 py-3 rounded-full mb-4">
                     <Users className="w-6 h-6" />
@@ -878,7 +882,7 @@ const UniversityDetails = () => {
                 </div>
                 
                 <div className="relative">
-                  <div className="flex flex-col md:flex-row items-center justify-between gap-8">
+                  <div className="flex flex-col md:flex-row md:flex-wrap items-center justify-center gap-6 md:gap-8">
                     {university.university_admission_steps && university.university_admission_steps.length > 0 ? (
                       university.university_admission_steps
                         .sort((a, b) => a.display_order - b.display_order)
@@ -959,7 +963,7 @@ const UniversityDetails = () => {
 
             {/* Career & Placement Section */}
             <section id="career" className="scroll-mt-24">
-              <div className="bg-white border border-gray-200 rounded-lg p-6">
+              <div className="bg-white border border-gray-200 rounded-lg p-4 sm:p-6">
                 <h2 className="text-2xl font-bold text-gray-900 mb-6">CAREER & Placement</h2>
                 <div className="space-y-4 mb-6">
                   {university.university_career_stats && university.university_career_stats.length > 0 ? (
@@ -989,9 +993,9 @@ const UniversityDetails = () => {
 
             {/* Hiring Partners Section */}
             <section id="partners" className="scroll-mt-24">
-              <div className="bg-white border border-gray-200 rounded-lg p-6">
+              <div className="bg-white border border-gray-200 rounded-lg p-4 sm:p-6">
                 <h2 className="text-2xl font-bold text-gray-900 mb-6">Hiring Partners</h2>
-                <div className="grid grid-cols-3 md:grid-cols-6 gap-4">
+                <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 gap-3 md:gap-4">
                   {university.university_hiring_partners && university.university_hiring_partners.length > 0 ? (
                     university.university_hiring_partners
                       .sort((a, b) => a.display_order - b.display_order)
@@ -1024,7 +1028,7 @@ const UniversityDetails = () => {
 
             {/* FAQ Section */}
             <section id="faq" className="scroll-mt-24">
-              <div className="bg-white border border-gray-200 rounded-lg p-6">
+              <div className="bg-white border border-gray-200 rounded-lg p-4 sm:p-6">
                 <h2 className="text-2xl font-bold text-gray-900 mb-6">Frequently Asked Questions</h2>
                 {university.faq && university.faq.length > 0 ? (
                   <div className="space-y-3">

@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Supabase Connection Test</title>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .test-box {
+            background: white;
+            padding: 20px;
+            margin: 10px 0;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .success { color: #22c55e; font-weight: bold; }
+        .error { color: #ef4444; font-weight: bold; }
+        .warning { color: #f59e0b; font-weight: bold; }
+        button {
+            background: #3b82f6;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 6px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        button:hover { background: #2563eb; }
+        pre {
+            background: #1f2937;
+            color: #f3f4f6;
+            padding: 15px;
+            border-radius: 6px;
+            overflow-x: auto;
+        }
+        input {
+            width: 100%;
+            padding: 8px;
+            margin: 5px 0;
+            border: 1px solid #d1d5db;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+    <h1>🔧 Supabase Connection Diagnostic Tool</h1>
+    
+    <div class="test-box">
+        <h2>Configuration</h2>
+        <p><strong>Supabase URL:</strong> <span id="supabase-url">Loading...</span></p>
+        <p><strong>API Key:</strong> <span id="api-key-status">Loading...</span></p>
+        <p><strong>Current Origin:</strong> <span id="current-origin">Loading...</span></p>
+    </div>
+
+    <div class="test-box">
+        <h2>Test 1: REST API Connection</h2>
+        <button onclick="testRestAPI()">Test REST API</button>
+        <div id="rest-result"></div>
+    </div>
+
+    <div class="test-box">
+        <h2>Test 2: Auth Endpoint (CORS Test)</h2>
+        <button onclick="testAuthEndpoint()">Test Auth CORS</button>
+        <div id="auth-cors-result"></div>
+    </div>
+
+    <div class="test-box">
+        <h2>Test 3: Login with Credentials</h2>
+        <input type="email" id="test-email" placeholder="Email (e.g., admin@antechos.com)" value="admin@antechos.com">
+        <input type="password" id="test-password" placeholder="Password" value="Admin@123456">
+        <button onclick="testLogin()">Test Login</button>
+        <div id="login-result"></div>
+    </div>
+
+    <div class="test-box">
+        <h2>Test 4: Create Test User</h2>
+        <p class="warning">⚠️ This will try to create a user. Only use if you have admin access.</p>
+        <input type="email" id="new-email" placeholder="New user email" value="test@antechos.com">
+        <input type="password" id="new-password" placeholder="New user password" value="Test@123456">
+        <button onclick="testSignup()">Create User</button>
+        <div id="signup-result"></div>
+    </div>
+
+    <div class="test-box">
+        <h2>Recommendations</h2>
+        <div id="recommendations"></div>
+    </div>
+
+    <script>
+        const SUPABASE_URL = 'https://nvmtymwbtjupqlptrslu.supabase.co';
+        const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im52bXR5bXdidGp1cHFscHRyc2x1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjIwODUzMjUsImV4cCI6MjA3NzY2MTMyNX0.B3bVeBjtNN_yQrYwDmm8VA1Fw-UFuMbuI3d7tNyWYjY';
+
+        // Initialize Supabase client
+        const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+        // Display config
+        document.getElementById('supabase-url').textContent = SUPABASE_URL;
+        document.getElementById('api-key-status').innerHTML = '<span class="success">✓ Present</span>';
+        document.getElementById('current-origin').textContent = window.location.origin;
+
+        async function testRestAPI() {
+            const result = document.getElementById('rest-result');
+            result.innerHTML = '<p>Testing...</p>';
+            
+            try {
+                const response = await fetch(`${SUPABASE_URL}/rest/v1/`, {
+                    headers: {
+                        'apikey': SUPABASE_KEY,
+                        'Authorization': `Bearer ${SUPABASE_KEY}`
+                    }
+                });
+                
+                if (response.ok) {
+                    result.innerHTML = '<p class="success">✓ REST API is reachable!</p>';
+                    updateRecommendations('rest', true);
+                } else {
+                    result.innerHTML = `<p class="error">✗ REST API returned: ${response.status}</p>`;
+                    updateRecommendations('rest', false);
+                }
+            } catch (error) {
+                result.innerHTML = `<p class="error">✗ REST API Error: ${error.message}</p>`;
+                updateRecommendations('rest', false);
+            }
+        }
+
+        async function testAuthEndpoint() {
+            const result = document.getElementById('auth-cors-result');
+            result.innerHTML = '<p>Testing CORS on auth endpoint...</p>';
+            
+            try {
+                const response = await fetch(`${SUPABASE_URL}/auth/v1/health`, {
+                    headers: {
+                        'apikey': SUPABASE_KEY
+                    }
+                });
+                
+                const data = await response.json();
+                result.innerHTML = `<p class="success">✓ Auth endpoint is accessible!</p><pre>${JSON.stringify(data, null, 2)}</pre>`;
+                updateRecommendations('auth-cors', true);
+            } catch (error) {
+                result.innerHTML = `<p class="error">✗ Auth CORS Error: ${error.message}</p>
+                    <p class="warning">This is the CORS issue! Auth endpoint is blocked.</p>`;
+                updateRecommendations('auth-cors', false);
+            }
+        }
+
+        async function testLogin() {
+            const result = document.getElementById('login-result');
+            const email = document.getElementById('test-email').value;
+            const password = document.getElementById('test-password').value;
+            
+            result.innerHTML = '<p>Attempting login...</p>';
+            
+            try {
+                const { data, error } = await supabase.auth.signInWithPassword({
+                    email: email,
+                    password: password
+                });
+                
+                if (error) {
+                    result.innerHTML = `<p class="error">✗ Login failed: ${error.message}</p>
+                        <pre>${JSON.stringify(error, null, 2)}</pre>`;
+                    updateRecommendations('login', false, error.message);
+                } else {
+                    result.innerHTML = `<p class="success">✓ Login successful!</p>
+                        <p>User: ${data.user.email}</p>
+                        <pre>${JSON.stringify(data.user, null, 2)}</pre>`;
+                    updateRecommendations('login', true);
+                }
+            } catch (error) {
+                result.innerHTML = `<p class="error">✗ Login error: ${error.message}</p>`;
+                updateRecommendations('login', false, error.message);
+            }
+        }
+
+        async function testSignup() {
+            const result = document.getElementById('signup-result');
+            const email = document.getElementById('new-email').value;
+            const password = document.getElementById('new-password').value;
+            
+            result.innerHTML = '<p>Creating user...</p>';
+            
+            try {
+                const { data, error } = await supabase.auth.signUp({
+                    email: email,
+                    password: password
+                });
+                
+                if (error) {
+                    result.innerHTML = `<p class="error">✗ Signup failed: ${error.message}</p>`;
+                } else {
+                    result.innerHTML = `<p class="success">✓ User created!</p>
+                        <p>Check your email for confirmation link.</p>
+                        <pre>${JSON.stringify(data, null, 2)}</pre>`;
+                }
+            } catch (error) {
+                result.innerHTML = `<p class="error">✗ Signup error: ${error.message}</p>`;
+            }
+        }
+
+        const recommendations = {
+            rest: null,
+            'auth-cors': null,
+            login: null
+        };
+
+        function updateRecommendations(test, success, message = '') {
+            recommendations[test] = { success, message };
+            
+            const recDiv = document.getElementById('recommendations');
+            let html = '<h3>Diagnostic Results:</h3><ul>';
+            
+            if (recommendations.rest === false) {
+                html += '<li class="error">❌ REST API is not reachable. Check if Supabase project is active.</li>';
+            } else if (recommendations.rest === true) {
+                html += '<li class="success">✅ REST API works fine.</li>';
+            }
+            
+            if (recommendations['auth-cors'] === false) {
+                html += '<li class="error">❌ Auth endpoint has CORS issues. This is your main problem!</li>';
+                html += '<li class="warning">📋 Solution: Go to Supabase Dashboard → Authentication → URL Configuration</li>';
+                html += '<li class="warning">📋 Set Site URL to: <code>' + window.location.origin + '</code></li>';
+                html += '<li class="warning">📋 Add Redirect URL: <code>' + window.location.origin + '/**</code></li>';
+                html += '<li class="warning">⏰ Wait 5-10 minutes after saving, then refresh this page.</li>';
+            } else if (recommendations['auth-cors'] === true) {
+                html += '<li class="success">✅ Auth endpoint is accessible (CORS is configured correctly).</li>';
+            }
+            
+            if (recommendations.login === false) {
+                if (message.includes('Invalid login credentials')) {
+                    html += '<li class="warning">⚠️ Login failed: Invalid credentials. User might not exist.</li>';
+                    html += '<li class="warning">📋 Create a user in Supabase Dashboard → Authentication → Users</li>';
+                } else if (message.includes('Email not confirmed')) {
+                    html += '<li class="warning">⚠️ Email not confirmed. Disable email confirmation in Supabase.</li>';
+                } else {
+                    html += '<li class="error">❌ Login failed: ' + message + '</li>';
+                }
+            } else if (recommendations.login === true) {
+                html += '<li class="success">✅ Login works! Your Supabase auth is properly configured.</li>';
+            }
+            
+            html += '</ul>';
+            recDiv.innerHTML = html;
+        }
+
+        // Auto-run tests on load
+        window.onload = () => {
+            setTimeout(() => {
+                testRestAPI();
+                setTimeout(() => testAuthEndpoint(), 1000);
+            }, 500);
+        };
+    </script>
+</body>
+</html>

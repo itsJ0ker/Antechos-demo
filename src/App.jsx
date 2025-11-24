@@ -9,7 +9,6 @@ import Home from "./pages/Home";
 import About from "./pages/Aboutus";
 import Courses from "./pages/CoursesNew";
 import Universities from "./pages/Universities";
-import Marketplace from "./pages/Marketplace";
 import MarketplaceImarticus from "./pages/MarketplaceImarticus";
 import TrainerProfile from "./components/sections/Trainerprofile";
 import UniversityDetail from "./components/sections/UniversityDetails";
@@ -34,6 +33,10 @@ import EnhancedAdminDashboard from "./pages/admin/EnhancedAdminDashboard";
 import SimpleLogin from "./pages/SimpleLogin";
 import SimpleDashboard from "./pages/SimpleDashboard";
 import { AuthProvider } from "./contexts/SimpleAuth";
+
+// Mock Auth components (CORS workaround)
+import MockAdminLogin from "./pages/admin/MockAdminLogin";
+import { MockAuthProvider } from "./contexts/MockAuth";
 
 // Analytics tracking
 import { trackPageVisit, updateSessionDuration } from "./utils/analytics";
@@ -92,7 +95,7 @@ const AppContent = () => {
           <Route path="/" element={<Home />} />
           <Route path="/AuthPage" element={<AuthPage />} />
           <Route path="/About" element={<About />} />
-          <Route path="/Marketplace" element={<Marketplace />} />
+          <Route path="/Marketplace" element={<MarketplaceImarticus />} />
           <Route path="/marketplace-new" element={<MarketplaceImarticus />} />
           <Route path="/Courses" element={<Courses />} />
           <Route path="/Universities" element={<Universities />} />
@@ -109,6 +112,7 @@ const AppContent = () => {
           {/* Admin routes */}
           <Route path="/admin" element={<AdminLogin />} />
           <Route path="/admin/login" element={<AdminLogin />} />
+          <Route path="/admin/mock-login" element={<MockAdminLogin />} />
           <Route path="/admin/dashboard" element={<EnhancedAdminDashboard />} />
           <Route path="/admin/simple-dashboard" element={<SimpleAdminDashboard />} />
           <Route path="/admin/old-dashboard" element={<AdminDashboard />} />
@@ -164,7 +168,9 @@ const CourseDetailWrapper = () => {
 const App = () => (
   <HashRouter>
     <AuthProvider>
-      <AppContent />
+      <MockAuthProvider>
+        <AppContent />
+      </MockAuthProvider>
     </AuthProvider>
   </HashRouter>
 );

@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { ChevronDown, ChevronUp, Star, MapPin } from "lucide-react";
 import { getUniversities } from "../../lib/supabase";
 import { motion } from "framer-motion";
+import { generatePlaceholder } from "../../utils/imageFallback";
 
 const UniversityCards = () => {
   const navigate = useNavigate();
@@ -94,10 +95,13 @@ const UniversityCards = () => {
               {/* University Image */}
               <div className="aspect-w-16 aspect-h-9 h-64 w-full">
                 <img
-                  src={university.image}
+                  src={university.image_url || university.image || generatePlaceholder('🎓', 400, 300)}
                   alt={`${university.name} Campus`}
                   className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                   loading="lazy"
+                  onError={(e) => {
+                    e.target.src = generatePlaceholder('🎓', 400, 300);
+                  }}
                 />
               </div>
 

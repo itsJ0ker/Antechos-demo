@@ -40,6 +40,7 @@ const EnhancedUniversityManager = () => {
     campus_size: '',
     ranking: '',
     fees: '',
+    rating: 0,
     is_active: true
   });
 
@@ -379,6 +380,7 @@ const EnhancedUniversityManager = () => {
         campus_size: '',
         ranking: '',
         fees: '',
+        rating: 0,
         is_active: true
       });
       fetchUniversities();
@@ -518,6 +520,46 @@ const EnhancedUniversityManager = () => {
                     className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                     placeholder="e.g., ₹2,50,000/year"
                   />
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    Rating (out of 5)
+                  </label>
+                  <div className="flex items-center gap-4">
+                    <input
+                      type="number"
+                      min="0"
+                      max="5"
+                      step="0.1"
+                      value={newUniversity.rating}
+                      onChange={(e) => setNewUniversity({ ...newUniversity, rating: parseFloat(e.target.value) || 0 })}
+                      className="w-24 px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                    />
+                    <div className="flex items-center gap-1">
+                      {[1, 2, 3, 4, 5].map((star) => (
+                        <button
+                          key={star}
+                          type="button"
+                          onClick={() => setNewUniversity({ ...newUniversity, rating: star })}
+                          className="focus:outline-none"
+                        >
+                          <svg
+                            className={`w-5 h-5 ${
+                              star <= (newUniversity.rating || 0)
+                                ? 'text-yellow-400 fill-current'
+                                : 'text-gray-300'
+                            }`}
+                            xmlns="http://www.w3.org/2000/svg"
+                            viewBox="0 0 20 20"
+                            fill="currentColor"
+                          >
+                            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                          </svg>
+                        </button>
+                      ))}
+                    </div>
+                  </div>
                 </div>
 
                 <div>
@@ -680,12 +722,24 @@ const EnhancedUniversityManager = () => {
                       </div>
 
                       <div>
+                        <label className="block text-sm font-medium text-gray-700 mb-2">University Image URL</label>
+                        <input
+                          type="url"
+                          value={basicInfo.image_url || ''}
+                          onChange={(e) => setBasicInfo({...basicInfo, image_url: e.target.value})}
+                          className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                          placeholder="Main university image/logo"
+                        />
+                      </div>
+
+                      <div>
                         <label className="block text-sm font-medium text-gray-700 mb-2">Hero Image URL</label>
                         <input
                           type="url"
                           value={basicInfo.hero_image || ''}
                           onChange={(e) => setBasicInfo({...basicInfo, hero_image: e.target.value})}
                           className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                          placeholder="Large banner image for detail page"
                         />
                       </div>
                       
@@ -697,6 +751,47 @@ const EnhancedUniversityManager = () => {
                           onChange={(e) => setBasicInfo({...basicInfo, nirf_rank: parseInt(e.target.value)})}
                           className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                         />
+                      </div>
+                      
+                      <div>
+                        <label className="block text-sm font-medium text-gray-700 mb-2">Rating (out of 5)</label>
+                        <div className="flex items-center gap-4">
+                          <input
+                            type="number"
+                            min="0"
+                            max="5"
+                            step="0.1"
+                            value={basicInfo.rating || 0}
+                            onChange={(e) => setBasicInfo({...basicInfo, rating: parseFloat(e.target.value)})}
+                            className="w-24 px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                          />
+                          <div className="flex items-center gap-1">
+                            {[1, 2, 3, 4, 5].map((star) => (
+                              <button
+                                key={star}
+                                type="button"
+                                onClick={() => setBasicInfo({...basicInfo, rating: star})}
+                                className="focus:outline-none"
+                              >
+                                <svg
+                                  className={`w-6 h-6 ${
+                                    star <= (basicInfo.rating || 0)
+                                      ? 'text-yellow-400 fill-current'
+                                      : 'text-gray-300'
+                                  }`}
+                                  xmlns="http://www.w3.org/2000/svg"
+                                  viewBox="0 0 20 20"
+                                  fill="currentColor"
+                                >
+                                  <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                                </svg>
+                              </button>
+                            ))}
+                            <span className="ml-2 text-sm text-gray-600">
+                              {(basicInfo.rating || 0).toFixed(1)} / 5.0
+                            </span>
+                          </div>
+                        </div>
                       </div>
                       
                       <div>

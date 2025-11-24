@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Plus, Edit, Trash2, Save, X, Eye } from 'lucide-react';
 import { supabase } from '../../lib/supabase';
+import { getTrainerPlaceholder } from '../../utils/imageFallback';
 
 const TrainerManager = () => {
   const [trainers, setTrainers] = useState([]);
@@ -415,10 +416,10 @@ const TrainerManager = () => {
                       <div className="flex-shrink-0 h-10 w-10">
                         <img
                           className="h-10 w-10 rounded-full object-cover"
-                          src={trainer.photo_url || 'https://via.placeholder.com/40x40?text=T'}
+                          src={trainer.photo_url || getTrainerPlaceholder()}
                           alt={trainer.name}
                           onError={(e) => {
-                            e.target.src = 'https://via.placeholder.com/40x40?text=T';
+                            e.target.src = getTrainerPlaceholder();
                           }}
                         />
                       </div>

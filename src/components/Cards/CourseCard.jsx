@@ -2,6 +2,7 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import { FaStar, FaStarHalfAlt, FaRegStar } from "react-icons/fa";
 import { PiUsersThreeDuotone, PiClockDuotone } from "react-icons/pi";
+import { getCoursePlaceholder } from "../../utils/imageFallback";
 
 const CourseCard = ({ course }) => {
   const navigate = useNavigate();
@@ -34,11 +35,11 @@ const CourseCard = ({ course }) => {
     <div className="bg-white rounded-2xl shadow-md hover:shadow-2xl hover:-translate-y-2 transition-all duration-300 ease-in-out border border-gray-200 w-full max-w-xs md:max-w-sm lg:max-w-sm xl:max-w-sm mx-auto">
       {/* Image */}
       <img
-        src={course.image_url || course.image || 'https://via.placeholder.com/400x300?text=Course+Image'}
+        src={course.image_url || course.image || getCoursePlaceholder()}
         alt={course.title}
         className="w-full h-44 md:h-48 object-cover rounded-t-2xl"
         onError={(e) => {
-          e.target.src = 'https://via.placeholder.com/400x300?text=Course+Image';
+          e.target.src = getCoursePlaceholder();
         }}
       />
 

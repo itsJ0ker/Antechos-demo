@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Plus, Edit, Trash2, Save, X } from 'lucide-react';
 import { supabase } from '../../lib/supabase';
+import { getWorkforcePlaceholder } from '../../utils/imageFallback';
 
 const WorkforceManager = () => {
   const [workforce, setWorkforce] = useState([]);
@@ -432,10 +433,10 @@ const WorkforceManager = () => {
                       <div className="flex-shrink-0 h-10 w-10">
                         <img
                           className="h-10 w-10 rounded-full object-cover"
-                          src={worker.photo_url || 'https://via.placeholder.com/40x40?text=W'}
+                          src={worker.photo_url || getWorkforcePlaceholder()}
                           alt={worker.name}
                           onError={(e) => {
-                            e.target.src = 'https://via.placeholder.com/40x40?text=W';
+                            e.target.src = getWorkforcePlaceholder();
                           }}
                         />
                       </div>
