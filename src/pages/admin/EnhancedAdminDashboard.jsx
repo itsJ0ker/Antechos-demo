@@ -35,6 +35,7 @@ import HomePageManager from '../../components/admin/HomePageManager';
 import AboutUsManager from '../../components/admin/AboutUsManager';
 import CoursesHeroManager from '../../components/admin/CoursesHeroManager';
 import MarketplaceImarticusManager from '../../components/admin/MarketplaceImarticusManager';
+import CourseSpecializationsManager from '../../components/admin/CourseSpecializationsManager';
 
 const EnhancedAdminDashboard = () => {
   const [user, setUser] = useState(null);
@@ -123,6 +124,7 @@ const EnhancedAdminDashboard = () => {
     { id: 'courseshero', label: 'Courses Hero', icon: FileText, color: 'cyan' },
     { id: 'universities', label: 'Universities', icon: Building, color: 'purple' },
     { id: 'courses', label: 'Courses & Fees', icon: BookOpen, color: 'green' },
+    { id: 'specializations', label: 'Course Specializations', icon: GraduationCap, color: 'teal' },
     { id: 'accreditations', label: 'Accreditations', icon: Award, color: 'yellow' },
     { id: 'trainers', label: 'Trainers', icon: Users, color: 'pink' },
     { id: 'workforce', label: 'Workforce', icon: Briefcase, color: 'indigo' },
@@ -338,6 +340,7 @@ const EnhancedAdminDashboard = () => {
           {activeTab === 'courseshero' && <CoursesHeroManager />}
           {activeTab === 'universities' && <EnhancedUniversityManager />}
           {activeTab === 'courses' && <CourseManager />}
+          {activeTab === 'specializations' && <CourseSpecializationsManager />}
           {activeTab === 'accreditations' && <AccreditationManager />}
           {activeTab === 'trainers' && <TrainerManager />}
           {activeTab === 'workforce' && <WorkforceManager />}

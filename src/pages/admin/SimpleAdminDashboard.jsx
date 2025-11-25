@@ -15,6 +15,7 @@ import {
 import { supabase } from '../../lib/supabase';
 import EnhancedUniversityManager from '../../components/admin/EnhancedUniversityManager';
 import AccreditationManager from '../../components/admin/AccreditationManager';
+import CourseSpecializationsManager from '../../components/admin/CourseSpecializationsManager';
 
 const SimpleAdminDashboard = () => {
   const [user, setUser] = useState(null);
@@ -253,6 +254,7 @@ const SimpleAdminDashboard = () => {
           {[
             { id: 'overview', label: 'Overview' },
             { id: 'courses', label: 'Courses' },
+            { id: 'course-specializations', label: 'Course Specializations' },
             { id: 'universities', label: 'Universities' },
             { id: 'enhanced-universities', label: 'Enhanced Universities' },
             { id: 'accreditations', label: 'Accreditations' },
@@ -343,6 +345,10 @@ const SimpleAdminDashboard = () => {
               )}
             ]}
           />
+        )}
+
+        {activeTab === 'course-specializations' && (
+          <CourseSpecializationsManager />
         )}
 
         {activeTab === 'universities' && (

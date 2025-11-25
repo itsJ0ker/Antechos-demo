@@ -574,20 +574,66 @@ const UniversityDetails = () => {
               </div>
             </section>
 
-            {/* Courses Section */}
+            {/* Courses Section - Formal Academic Design */}
             <section id="courses" className="scroll-mt-24">
-              <div className="bg-white border border-gray-200 rounded-lg p-4 sm:p-6 overflow-hidden">
-                <h2 className="text-2xl font-bold text-gray-900 mb-6">Courses</h2>
-                <div className="relative -mx-6 px-6">
+              <div className="bg-white border border-gray-300 rounded-lg p-8 shadow-sm">
+                {/* Header */}
+                <div className="mb-8 pb-6 border-b-2 border-gray-200">
+                  <div className="flex items-center justify-between flex-wrap gap-4">
+                    <div className="flex-1">
+                      <h2 className="text-3xl font-bold text-gray-900 mb-2">
+                        Academic Programs
+                      </h2>
+                      <p className="text-gray-600">
+                        Comprehensive courses designed to meet industry standards
+                      </p>
+                    </div>
+                    
+                    {/* Navigation Controls */}
+                    <div className="flex items-center gap-2">
+                      <button
+                        onClick={() => {
+                          const container = document.getElementById('courses-carousel');
+                          container.scrollBy({ left: -380, behavior: 'smooth' });
+                        }}
+                        className="p-2 bg-gray-100 hover:bg-gray-200 border border-gray-300 rounded transition-colors"
+                        aria-label="Previous"
+                      >
+                        <ChevronDown className="w-5 h-5 text-gray-700 transform rotate-90" />
+                      </button>
+                      <button
+                        onClick={() => {
+                          const container = document.getElementById('courses-carousel');
+                          container.scrollBy({ left: 380, behavior: 'smooth' });
+                        }}
+                        className="p-2 bg-gray-100 hover:bg-gray-200 border border-gray-300 rounded transition-colors"
+                        aria-label="Next"
+                      >
+                        <ChevronDown className="w-5 h-5 text-gray-700 transform -rotate-90" />
+                      </button>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Carousel Container */}
+                <div className="relative">
                   {university.courses && university.courses.length > 0 ? (
-                    <div className="flex overflow-x-auto gap-6 pb-4 snap-x snap-mandatory" style={{scrollbarWidth: 'thin'}}>
-                      {university.courses.map((course, i) => (
-                        <div
-                          key={i}
-                          className="flex-shrink-0 w-72 border-2 border-gray-300 rounded-lg p-6 hover:border-blue-500 hover:shadow-lg transition-all duration-300 snap-start"
-                        >
-                          <div className="mb-4">
-                            <div className="h-40 bg-gray-100 rounded-lg border border-gray-300 flex items-center justify-center overflow-hidden">
+                    <>
+                      <div 
+                        id="courses-carousel"
+                        className="flex overflow-x-auto gap-5 pb-4 snap-x snap-mandatory scrollbar-hide scroll-smooth"
+                        style={{
+                          scrollbarWidth: 'thin',
+                          scrollbarColor: '#cbd5e1 #f1f5f9'
+                        }}
+                      >
+                        {university.courses.map((course, i) => (
+                          <div
+                            key={i}
+                            className="flex-shrink-0 w-[360px] bg-white border border-gray-300 rounded-lg overflow-hidden hover:shadow-lg transition-shadow duration-300 snap-start"
+                          >
+                            {/* Course Image */}
+                            <div className="relative h-48 bg-gray-100 border-b border-gray-300">
                               {course.image_url ? (
                                 <img
                                   src={course.image_url}
@@ -595,47 +641,75 @@ const UniversityDetails = () => {
                                   className="w-full h-full object-cover"
                                 />
                               ) : (
-                                <GraduationCap className="w-12 h-12 text-gray-400" />
+                                <div className="w-full h-full flex items-center justify-center bg-gray-200">
+                                  <GraduationCap className="w-16 h-16 text-gray-400" />
+                                </div>
                               )}
                             </div>
+
+                            {/* Course Content */}
+                            <div className="p-6">
+                              {/* Course Title */}
+                              <h3 className="text-xl font-bold text-gray-900 mb-3">
+                                {course.name || course.course_name}
+                              </h3>
+                              
+                              {/* Description */}
+                              {course.description && (
+                                <p className="text-sm text-gray-600 mb-4 line-clamp-2">
+                                  {course.description}
+                                </p>
+                              )}
+
+                              {/* Course Details */}
+                              <div className="space-y-3 mb-4 pb-4 border-b border-gray-200">
+                                {course.duration && (
+                                  <div className="flex items-center justify-between text-sm">
+                                    <span className="text-gray-600 flex items-center gap-2">
+                                      <Calendar className="w-4 h-4" />
+                                      Duration
+                                    </span>
+                                    <span className="font-semibold text-gray-900">{course.duration}</span>
+                                  </div>
+                                )}
+                                {course.fees && (
+                                  <div className="flex items-center justify-between text-sm">
+                                    <span className="text-gray-600 flex items-center gap-2">
+                                      <DollarSign className="w-4 h-4" />
+                                      Program Fee
+                                    </span>
+                                    <span className="font-bold text-blue-600">{course.fees}</span>
+                                  </div>
+                                )}
+                              </div>
+
+                              {/* Specializations Info */}
+                              <div className="mb-4 pb-3 border-b border-gray-200">
+                                <p className="text-xs font-semibold text-gray-700 mb-1 uppercase">Available Specializations</p>
+                                <p className="text-sm text-blue-600 font-semibold">
+                                  Click "View Program Details" to see all specializations
+                                </p>
+                              </div>
+
+                              {/* CTA Button */}
+                              <Link
+                                to={`/university/${id}/course/${course.id}`}
+                                className="w-full bg-blue-600 hover:bg-blue-700 text-white py-2.5 px-4 rounded font-semibold transition-colors flex items-center justify-center gap-2"
+                              >
+                                <span>View Program Details</span>
+                                <ArrowRight className="w-4 h-4" />
+                              </Link>
+                            </div>
                           </div>
-                          <h3 className="text-xl font-bold text-gray-900 mb-2">
-                            {course.name || course.course_name}
-                          </h3>
-                          {course.description && (
-                            <p className="text-sm text-gray-600 mb-3 line-clamp-2">
-                              {course.description}
-                            </p>
-                          )}
-                          {course.duration && (
-                            <div className="flex items-center gap-2 text-sm text-gray-600 mb-2">
-                              <Calendar className="w-4 h-4" />
-                              <span>{course.duration}</span>
-                            </div>
-                          )}
-                          {course.fees && (
-                            <div className="flex items-center gap-2 text-sm font-semibold text-green-600 mb-3">
-                              <DollarSign className="w-4 h-4" />
-                              <span>{course.fees}</span>
-                            </div>
-                          )}
-                          {course.specializations && course.specializations.length > 0 && (
-                            <div className="flex flex-wrap gap-1 mb-3">
-                              {course.specializations.slice(0, 3).map((spec, idx) => (
-                                <span key={idx} className="text-xs bg-blue-100 text-blue-700 px-2 py-1 rounded">
-                                  {spec}
-                                </span>
-                              ))}
-                            </div>
-                          )}
-                        </div>
-                      ))}
-                    </div>
+                        ))}
+                      </div>
+
+                    </>
                   ) : (
-                    <div className="text-center py-12">
-                      <GraduationCap className="w-16 h-16 text-gray-300 mx-auto mb-4" />
-                      <p className="text-gray-500 text-lg">No courses available yet</p>
-                      <p className="text-gray-400 text-sm mt-2">Courses will appear here once added from the admin panel</p>
+                    <div className="text-center py-16 border-2 border-dashed border-gray-300 rounded-lg bg-gray-50">
+                      <GraduationCap className="w-16 h-16 text-gray-400 mx-auto mb-4" />
+                      <h3 className="text-lg font-semibold text-gray-900 mb-2">No Courses Available</h3>
+                      <p className="text-gray-600 text-sm">Course information will be displayed here once added</p>
                     </div>
                   )}
                 </div>

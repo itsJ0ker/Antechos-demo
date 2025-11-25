@@ -12,6 +12,8 @@ import Universities from "./pages/Universities";
 import MarketplaceImarticus from "./pages/MarketplaceImarticus";
 import TrainerProfile from "./components/sections/Trainerprofile";
 import UniversityDetail from "./components/sections/UniversityDetails";
+import CourseDetail from "./pages/CourseDetail";
+import TestSpecializations from "./pages/TestSpecializations";
 import IndustryTrainer from "./components/sections/Industrytrainer";
 import SkilledWorkforce from "./components/sections/SkilledWorkforce";
 import FullStackTeams from "./components/sections/FullStackTeams";
@@ -28,6 +30,7 @@ import AdminLogin from "./pages/admin/AdminLogin";
 import AdminDashboard from "./pages/admin/AdminDashboard";
 import SimpleAdminDashboard from "./pages/admin/SimpleAdminDashboard";
 import EnhancedAdminDashboard from "./pages/admin/EnhancedAdminDashboard";
+import CourseSpecializationsPage from "./pages/admin/CourseSpecializationsPage";
 
 // Simple Auth components
 import SimpleLogin from "./pages/SimpleLogin";
@@ -101,6 +104,8 @@ const AppContent = () => {
           <Route path="/Universities" element={<Universities />} />
           <Route path="/trainer/:id" element={<TrainerProfile />} />
           <Route path="/university/:id" element={<UniversityDetail />} />
+          <Route path="/university/:universityId/course/:courseId" element={<CourseDetail />} />
+          <Route path="/test-specializations" element={<TestSpecializations />} />
           <Route path="/IndustryTrainer" element={<IndustryTrainer />} />
           <Route path="/SkilledWorkforce" element={<SkilledWorkforce />} />
           <Route path="/FullStackTeams" element={<FullStackTeams />} />
@@ -116,6 +121,7 @@ const AppContent = () => {
           <Route path="/admin/dashboard" element={<EnhancedAdminDashboard />} />
           <Route path="/admin/simple-dashboard" element={<SimpleAdminDashboard />} />
           <Route path="/admin/old-dashboard" element={<AdminDashboard />} />
+          <Route path="/admin/course-specializations" element={<CourseSpecializationsPage />} />
           
           {/* Simple Auth routes */}
           <Route path="/simple-login" element={<SimpleLogin />} />
