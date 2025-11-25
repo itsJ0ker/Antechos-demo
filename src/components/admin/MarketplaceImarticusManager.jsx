@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { supabase } from '../../lib/supabase';
-import { Save, Plus, Trash2, Edit2, Eye, EyeOff } from 'lucide-react';
+import { Plus, Trash2, Edit2, Eye, EyeOff } from 'lucide-react';
 
 const MarketplaceImarticusManager = () => {
   const [activeTab, setActiveTab] = useState('hero');
@@ -11,15 +11,19 @@ const MarketplaceImarticusManager = () => {
   const [hero, setHero] = useState(null);
   const [heroStats, setHeroStats] = useState([]);
 
-  // Programs State
-  const [programs, setPrograms] = useState([]);
-  const [editingProgram, setEditingProgram] = useState(null);
+  // Services State
+  const [services, setServices] = useState([]);
+  const [editingService, setEditingService] = useState(null);
 
   // Stats State
   const [stats, setStats] = useState([]);
 
   // Features State
   const [features, setFeatures] = useState([]);
+
+  // Professionals State
+  const [professionals, setProfessionals] = useState([]);
+  const [editingProfessional, setEditingProfessional] = useState(null);
 
   // Testimonials State
   const [testimonials, setTestimonials] = useState([]);
@@ -36,12 +40,14 @@ const MarketplaceImarticusManager = () => {
     try {
       if (activeTab === 'hero') {
         await fetchHero();
-      } else if (activeTab === 'programs') {
-        await fetchPrograms();
+      } else if (activeTab === 'services') {
+        await fetchServices();
       } else if (activeTab === 'stats') {
         await fetchStats();
       } else if (activeTab === 'features') {
         await fetchFeatures();
+      } else if (activeTab === 'professionals') {
+        await fetchProfessionals();
       } else if (activeTab === 'testimonials') {
         await fetchTestimonials();
       } else if (activeTab === 'partners') {
@@ -75,21 +81,21 @@ const MarketplaceImarticusManager = () => {
         title: '',
         subtitle: '',
         description: '',
-        cta_primary_text: 'Explore Programs',
+        cta_primary_text: 'Explore Services',
         cta_secondary_text: 'Talk to Counselor',
-        cta_primary_link: '#programs',
+        cta_primary_link: '#services',
         cta_secondary_link: '#contact'
       });
       setHeroStats([]);
     }
   };
 
-  const fetchPrograms = async () => {
+  const fetchServices = async () => {
     const { data } = await supabase
       .from('marketplace_programs')
       .select('*')
       .order('display_order');
-    setPrograms(data || []);
+    setServices(data || []);
   };
 
   const fetchStats = async () => {
@@ -106,6 +112,14 @@ const MarketplaceImarticusManager = () => {
       .select('*')
       .order('display_order');
     setFeatures(data || []);
+  };
+
+  const fetchProfessionals = async () => {
+    const { data } = await supabase
+      .from('marketplace_professionals')
+      .select('*')
+      .order('display_order');
+    setProfessionals(data || []);
   };
 
   const fetchTestimonials = async () => {
@@ -172,55 +186,56 @@ const MarketplaceImarticusManager = () => {
     }
   };
 
-  const saveProgram = async (program) => {
+  const saveService = async (service) => {
     try {
-      if (program.id) {
+      if (service.id) {
         await supabase
           .from('marketplace_programs')
-          .update(program)
-          .eq('id', program.id);
+          .update(service)
+          .eq('id', service.id);
       } else {
         await supabase
           .from('marketplace_programs')
-          .insert([program]);
+          .insert([service]);
       }
-      await fetchPrograms();
-      setEditingProgram(null);
-      showMessage('Program saved successfully!');
+      await fetchServices();
+      setEditingService(null);
+      showMessage('Service saved successfully!');
     } catch (error) {
       console.error('Error:', error);
-      showMessage('Error saving program', 'error');
+      showMessage('Error saving service', 'error');
     }
   };
 
-  const deleteProgram = async (id) => {
+  const deleteService = async (id) => {
     if (!confirm('Are you sure?')) return;
     try {
       await supabase.from('marketplace_programs').delete().eq('id', id);
-      await fetchPrograms();
-      showMessage('Program deleted successfully!');
+      await fetchServices();
+      showMessage('Service deleted successfully!');
     } catch (error) {
-      showMessage('Error deleting program', 'error');
+      showMessage('Error deleting service', 'error');
     }
   };
 
-  const toggleProgramActive = async (id, isActive) => {
+  const toggleServiceActive = async (id, isActive) => {
     try {
       await supabase
         .from('marketplace_programs')
         .update({ is_active: !isActive })
         .eq('id', id);
-      await fetchPrograms();
+      await fetchServices();
     } catch (error) {
-      showMessage('Error updating program', 'error');
+      showMessage('Error updating service', 'error');
     }
   };
 
   const tabs = [
     { id: 'hero', label: 'Hero Section' },
-    { id: 'programs', label: 'Programs' },
+    { id: 'services', label: 'Services' },
     { id: 'stats', label: 'Stats' },
     { id: 'features', label: 'Features' },
+    { id: 'professionals', label: 'Professionals' },
     { id: 'testimonials', label: 'Testimonials' },
     { id: 'partners', label: 'Partners' }
   ];
@@ -396,32 +411,30 @@ const MarketplaceImarticusManager = () => {
               </div>
             )}
 
-            {/* Programs Tab */}
-            {activeTab === 'programs' && (
+            {/* Services Tab */}
+            {activeTab === 'services' && (
               <div className="space-y-4">
                 <div className="flex justify-between items-center mb-4">
-                  <h3 className="text-lg font-semibold">Programs ({programs.length})</h3>
+                  <h3 className="text-lg font-semibold">Services ({services.length})</h3>
                   <button
-                    onClick={() => setEditingProgram({
+                    onClick={() => setEditingService({
                       title: '',
                       short_description: '',
                       category: '',
-                      duration: '',
-                      level: 'Beginner',
                       price: 0,
                       is_active: true
                     })}
                     className="flex items-center gap-2 bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700"
                   >
                     <Plus className="w-4 h-4" />
-                    Add Program
+                    Add Service
                   </button>
                 </div>
 
-                {editingProgram ? (
+                {editingService ? (
                   <div className="border border-gray-300 rounded-lg p-6 space-y-4">
                     <h4 className="font-semibold text-lg">
-                      {editingProgram.id ? 'Edit Program' : 'New Program'}
+                      {editingService.id ? 'Edit Service' : 'New Service'}
                     </h4>
                     
                     <div className="grid grid-cols-2 gap-4">
@@ -429,8 +442,8 @@ const MarketplaceImarticusManager = () => {
                         <label className="block text-sm font-medium mb-2">Title</label>
                         <input
                           type="text"
-                          value={editingProgram.title}
-                          onChange={(e) => setEditingProgram({ ...editingProgram, title: e.target.value })}
+                          value={editingService.title}
+                          onChange={(e) => setEditingService({ ...editingService, title: e.target.value })}
                           className="w-full px-4 py-2 border rounded-lg"
                         />
                       </div>
@@ -438,64 +451,79 @@ const MarketplaceImarticusManager = () => {
                       <div className="col-span-2">
                         <label className="block text-sm font-medium mb-2">Short Description</label>
                         <textarea
-                          value={editingProgram.short_description}
-                          onChange={(e) => setEditingProgram({ ...editingProgram, short_description: e.target.value })}
+                          value={editingService.short_description}
+                          onChange={(e) => setEditingService({ ...editingService, short_description: e.target.value })}
                           rows={2}
                           className="w-full px-4 py-2 border rounded-lg"
                         />
                       </div>
 
-                      <div>
+                      <div className="col-span-2">
                         <label className="block text-sm font-medium mb-2">Category</label>
                         <input
                           type="text"
-                          value={editingProgram.category}
-                          onChange={(e) => setEditingProgram({ ...editingProgram, category: e.target.value })}
+                          value={editingService.category}
+                          onChange={(e) => setEditingService({ ...editingService, category: e.target.value })}
                           className="w-full px-4 py-2 border rounded-lg"
+                          placeholder="e.g., Consulting, Training, Development"
                         />
                       </div>
 
                       <div>
-                        <label className="block text-sm font-medium mb-2">Duration</label>
+                        <label className="block text-sm font-medium mb-2">Price (Starting From)</label>
+                        <input
+                          type="number"
+                          value={editingService.price}
+                          onChange={(e) => setEditingService({ ...editingService, price: parseFloat(e.target.value) })}
+                          className="w-full px-4 py-2 border rounded-lg"
+                          placeholder="Base price"
+                        />
+                      </div>
+
+                      <div>
+                        <label className="block text-sm font-medium mb-2">Original Price (Optional)</label>
+                        <input
+                          type="number"
+                          value={editingService.original_price || ''}
+                          onChange={(e) => setEditingService({ ...editingService, original_price: parseFloat(e.target.value) })}
+                          className="w-full px-4 py-2 border rounded-lg"
+                          placeholder="For discount display"
+                        />
+                      </div>
+
+                      <div className="col-span-2">
+                        <label className="block text-sm font-medium mb-2">Image URL (Optional)</label>
                         <input
                           type="text"
-                          value={editingProgram.duration}
-                          onChange={(e) => setEditingProgram({ ...editingProgram, duration: e.target.value })}
+                          value={editingService.image_url || ''}
+                          onChange={(e) => setEditingService({ ...editingService, image_url: e.target.value })}
                           className="w-full px-4 py-2 border rounded-lg"
-                          placeholder="6 Months"
+                          placeholder="https://..."
                         />
                       </div>
 
-                      <div>
-                        <label className="block text-sm font-medium mb-2">Price</label>
-                        <input
-                          type="number"
-                          value={editingProgram.price}
-                          onChange={(e) => setEditingProgram({ ...editingProgram, price: parseFloat(e.target.value) })}
-                          className="w-full px-4 py-2 border rounded-lg"
-                        />
-                      </div>
-
-                      <div>
-                        <label className="block text-sm font-medium mb-2">Original Price</label>
-                        <input
-                          type="number"
-                          value={editingProgram.original_price || ''}
-                          onChange={(e) => setEditingProgram({ ...editingProgram, original_price: parseFloat(e.target.value) })}
-                          className="w-full px-4 py-2 border rounded-lg"
-                        />
+                      <div className="col-span-2">
+                        <label className="flex items-center gap-2">
+                          <input
+                            type="checkbox"
+                            checked={editingService.is_featured || false}
+                            onChange={(e) => setEditingService({ ...editingService, is_featured: e.target.checked })}
+                            className="w-4 h-4"
+                          />
+                          <span className="text-sm font-medium">Mark as Featured (Most Popular)</span>
+                        </label>
                       </div>
                     </div>
 
                     <div className="flex gap-3">
                       <button
-                        onClick={() => saveProgram(editingProgram)}
+                        onClick={() => saveService(editingService)}
                         className="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700"
                       >
-                        Save
+                        Save Service
                       </button>
                       <button
-                        onClick={() => setEditingProgram(null)}
+                        onClick={() => setEditingService(null)}
                         className="bg-gray-200 text-gray-700 px-6 py-2 rounded-lg hover:bg-gray-300"
                       >
                         Cancel
@@ -504,28 +532,38 @@ const MarketplaceImarticusManager = () => {
                   </div>
                 ) : (
                   <div className="space-y-3">
-                    {programs.map((program) => (
-                      <div key={program.id} className="flex items-center justify-between p-4 border rounded-lg hover:bg-gray-50">
+                    {services.map((service) => (
+                      <div key={service.id} className="flex items-center justify-between p-4 border rounded-lg hover:bg-gray-50">
                         <div className="flex-1">
-                          <h4 className="font-semibold">{program.title}</h4>
-                          <p className="text-sm text-gray-600">{program.category} • {program.duration}</p>
-                          <p className="text-sm font-bold text-green-600">₹{program.price?.toLocaleString()}</p>
+                          <div className="flex items-center gap-2">
+                            <h4 className="font-semibold">{service.title}</h4>
+                            {service.is_featured && (
+                              <span className="px-2 py-0.5 bg-amber-100 text-amber-700 text-xs font-bold rounded">
+                                ⭐ Featured
+                              </span>
+                            )}
+                          </div>
+                          <p className="text-sm text-gray-600">{service.category}</p>
+                          <p className="text-sm font-bold text-green-600">
+                            Price starting from ₹{service.price?.toLocaleString()}
+                          </p>
                         </div>
                         <div className="flex items-center gap-2">
                           <button
-                            onClick={() => toggleProgramActive(program.id, program.is_active)}
+                            onClick={() => toggleServiceActive(service.id, service.is_active)}
                             className="p-2 hover:bg-gray-200 rounded"
+                            title={service.is_active ? 'Active' : 'Inactive'}
                           >
-                            {program.is_active ? <Eye className="w-4 h-4" /> : <EyeOff className="w-4 h-4" />}
+                            {service.is_active ? <Eye className="w-4 h-4" /> : <EyeOff className="w-4 h-4" />}
                           </button>
                           <button
-                            onClick={() => setEditingProgram(program)}
+                            onClick={() => setEditingService(service)}
                             className="p-2 hover:bg-gray-200 rounded"
                           >
                             <Edit2 className="w-4 h-4" />
                           </button>
                           <button
-                            onClick={() => deleteProgram(program.id)}
+                            onClick={() => deleteService(service.id)}
                             className="p-2 hover:bg-red-100 text-red-600 rounded"
                           >
                             <Trash2 className="w-4 h-4" />
@@ -697,6 +735,218 @@ const MarketplaceImarticusManager = () => {
                     </div>
                   ))}
                 </div>
+              </div>
+            )}
+
+            {/* Professionals Tab */}
+            {activeTab === 'professionals' && (
+              <div className="space-y-4">
+                <div className="flex justify-between items-center mb-4">
+                  <h3 className="text-lg font-semibold">Industry Professionals ({professionals.length})</h3>
+                  <button
+                    onClick={() => setEditingProfessional({
+                      name: '',
+                      title: '',
+                      company: '',
+                      bio: '',
+                      image_url: '',
+                      linkedin_url: '',
+                      website_url: '',
+                      expertise: [],
+                      years_experience: 10,
+                      is_active: true
+                    })}
+                    className="flex items-center gap-2 bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700"
+                  >
+                    <Plus className="w-4 h-4" />
+                    Add Professional
+                  </button>
+                </div>
+
+                {editingProfessional ? (
+                  <div className="border border-gray-300 rounded-lg p-6 space-y-4 bg-blue-50">
+                    <h4 className="font-semibold text-lg">
+                      {editingProfessional.id ? 'Edit Professional' : 'New Professional'}
+                    </h4>
+                    
+                    <div className="grid grid-cols-2 gap-4">
+                      <div>
+                        <label className="block text-sm font-medium mb-2">Name *</label>
+                        <input
+                          type="text"
+                          value={editingProfessional.name}
+                          onChange={(e) => setEditingProfessional({ ...editingProfessional, name: e.target.value })}
+                          className="w-full px-4 py-2 border rounded-lg"
+                          placeholder="Dr. John Doe"
+                        />
+                      </div>
+
+                      <div>
+                        <label className="block text-sm font-medium mb-2">Job Title *</label>
+                        <input
+                          type="text"
+                          value={editingProfessional.title}
+                          onChange={(e) => setEditingProfessional({ ...editingProfessional, title: e.target.value })}
+                          className="w-full px-4 py-2 border rounded-lg"
+                          placeholder="Chief Data Scientist"
+                        />
+                      </div>
+
+                      <div>
+                        <label className="block text-sm font-medium mb-2">Company</label>
+                        <input
+                          type="text"
+                          value={editingProfessional.company || ''}
+                          onChange={(e) => setEditingProfessional({ ...editingProfessional, company: e.target.value })}
+                          className="w-full px-4 py-2 border rounded-lg"
+                          placeholder="Tech Innovations Ltd"
+                        />
+                      </div>
+
+                      <div>
+                        <label className="block text-sm font-medium mb-2">Years of Experience</label>
+                        <input
+                          type="number"
+                          value={editingProfessional.years_experience || ''}
+                          onChange={(e) => setEditingProfessional({ ...editingProfessional, years_experience: parseInt(e.target.value) })}
+                          className="w-full px-4 py-2 border rounded-lg"
+                          placeholder="15"
+                        />
+                      </div>
+
+                      <div className="col-span-2">
+                        <label className="block text-sm font-medium mb-2">Bio</label>
+                        <textarea
+                          value={editingProfessional.bio || ''}
+                          onChange={(e) => setEditingProfessional({ ...editingProfessional, bio: e.target.value })}
+                          rows={3}
+                          className="w-full px-4 py-2 border rounded-lg"
+                          placeholder="Brief professional bio..."
+                        />
+                      </div>
+
+                      <div className="col-span-2">
+                        <label className="block text-sm font-medium mb-2">Expertise (comma-separated)</label>
+                        <input
+                          type="text"
+                          value={Array.isArray(editingProfessional.expertise) ? editingProfessional.expertise.join(', ') : ''}
+                          onChange={(e) => {
+                            const expertiseArray = e.target.value.split(',').map(s => s.trim()).filter(s => s);
+                            setEditingProfessional({ ...editingProfessional, expertise: expertiseArray });
+                          }}
+                          className="w-full px-4 py-2 border rounded-lg"
+                          placeholder="AI, Machine Learning, Data Science"
+                        />
+                      </div>
+
+                      <div>
+                        <label className="block text-sm font-medium mb-2">Image URL</label>
+                        <input
+                          type="text"
+                          value={editingProfessional.image_url || ''}
+                          onChange={(e) => setEditingProfessional({ ...editingProfessional, image_url: e.target.value })}
+                          className="w-full px-4 py-2 border rounded-lg"
+                          placeholder="https://..."
+                        />
+                      </div>
+
+                      <div>
+                        <label className="block text-sm font-medium mb-2">LinkedIn URL</label>
+                        <input
+                          type="text"
+                          value={editingProfessional.linkedin_url || ''}
+                          onChange={(e) => setEditingProfessional({ ...editingProfessional, linkedin_url: e.target.value })}
+                          className="w-full px-4 py-2 border rounded-lg"
+                          placeholder="https://linkedin.com/in/..."
+                        />
+                      </div>
+
+                      <div className="col-span-2">
+                        <label className="block text-sm font-medium mb-2">Website URL</label>
+                        <input
+                          type="text"
+                          value={editingProfessional.website_url || ''}
+                          onChange={(e) => setEditingProfessional({ ...editingProfessional, website_url: e.target.value })}
+                          className="w-full px-4 py-2 border rounded-lg"
+                          placeholder="https://example.com"
+                        />
+                      </div>
+                    </div>
+
+                    <div className="flex gap-3">
+                      <button
+                        onClick={async () => {
+                          try {
+                            if (editingProfessional.id) {
+                              await supabase
+                                .from('marketplace_professionals')
+                                .update(editingProfessional)
+                                .eq('id', editingProfessional.id);
+                            } else {
+                              await supabase
+                                .from('marketplace_professionals')
+                                .insert([editingProfessional]);
+                            }
+                            await fetchProfessionals();
+                            setEditingProfessional(null);
+                            showMessage('Professional saved successfully!');
+                          } catch (error) {
+                            showMessage('Error saving professional', 'error');
+                          }
+                        }}
+                        className="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700"
+                      >
+                        Save Professional
+                      </button>
+                      <button
+                        onClick={() => setEditingProfessional(null)}
+                        className="bg-gray-200 text-gray-700 px-6 py-2 rounded-lg hover:bg-gray-300"
+                      >
+                        Cancel
+                      </button>
+                    </div>
+                  </div>
+                ) : (
+                  <div className="space-y-3">
+                    {professionals.map((professional) => (
+                      <div key={professional.id} className="flex items-center justify-between p-4 border rounded-lg hover:bg-gray-50">
+                        <div className="flex-1">
+                          <div className="flex items-center gap-2">
+                            <h4 className="font-semibold">{professional.name}</h4>
+                            <span className="text-sm text-gray-500">•</span>
+                            <span className="text-sm text-blue-600">{professional.title}</span>
+                          </div>
+                          <p className="text-sm text-gray-600">{professional.company}</p>
+                          {professional.expertise && professional.expertise.length > 0 && (
+                            <p className="text-xs text-gray-500 mt-1">
+                              {professional.expertise.slice(0, 3).join(', ')}
+                            </p>
+                          )}
+                        </div>
+                        <div className="flex items-center gap-2">
+                          <button
+                            onClick={() => setEditingProfessional(professional)}
+                            className="p-2 hover:bg-gray-200 rounded"
+                          >
+                            <Edit2 className="w-4 h-4" />
+                          </button>
+                          <button
+                            onClick={async () => {
+                              if (confirm('Delete this professional?')) {
+                                await supabase.from('marketplace_professionals').delete().eq('id', professional.id);
+                                fetchProfessionals();
+                                showMessage('Professional deleted');
+                              }
+                            }}
+                            className="p-2 hover:bg-red-100 text-red-600 rounded"
+                          >
+                            <Trash2 className="w-4 h-4" />
+                          </button>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                )}
               </div>
             )}
 

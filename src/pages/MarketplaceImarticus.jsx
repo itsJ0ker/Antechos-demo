@@ -1,23 +1,22 @@
 import { useState, useEffect } from 'react';
 import { supabase } from '../lib/supabase';
 import { 
-  ArrowRight, Check, Star, Play, Award, Users, 
-  TrendingUp, BookOpen, Clock, Shield, ChevronRight,
-  Quote, Building2, GraduationCap, Briefcase
+  ArrowRight, Check, Star, Play, ChevronRight,
+  Quote, Building2, Linkedin, Award
 } from 'lucide-react';
 import { motion } from 'framer-motion';
 import ScrollProgress from '../components/common/ScrollProgress';
 import BackToTop from '../components/common/BackToTop';
 import Newsletter from '../components/common/Newsletter';
 import FAQSection from '../components/common/FAQSection';
-import LiveChatWidget from '../components/common/LiveChatWidget';
 
 const MarketplaceImarticus = () => {
   const [hero, setHero] = useState(null);
   const [heroStats, setHeroStats] = useState([]);
-  const [programs, setPrograms] = useState([]);
+  const [services, setServices] = useState([]);
   const [stats, setStats] = useState([]);
   const [features, setFeatures] = useState([]);
+  const [professionals, setProfessionals] = useState([]);
   const [testimonials, setTestimonials] = useState([]);
   const [partners, setPartners] = useState([]);
   const [faqs, setFaqs] = useState([]);
@@ -48,13 +47,13 @@ const MarketplaceImarticus = () => {
         setHeroStats(statsData || []);
       }
 
-      // Fetch programs
-      const { data: programsData } = await supabase
+      // Fetch services
+      const { data: servicesData } = await supabase
         .from('marketplace_programs')
         .select('*')
         .eq('is_active', true)
         .order('display_order');
-      setPrograms(programsData || []);
+      setServices(servicesData || []);
 
       // Fetch stats
       const { data: statsData } = await supabase
@@ -71,6 +70,14 @@ const MarketplaceImarticus = () => {
         .eq('is_active', true)
         .order('display_order');
       setFeatures(featuresData || []);
+
+      // Fetch professionals
+      const { data: professionalsData } = await supabase
+        .from('marketplace_professionals')
+        .select('*')
+        .eq('is_active', true)
+        .order('display_order');
+      setProfessionals(professionalsData || []);
 
       // Fetch testimonials
       const { data: testimonialsData } = await supabase
@@ -117,7 +124,6 @@ const MarketplaceImarticus = () => {
   return (
     <div className="min-h-screen bg-white">
       <ScrollProgress />
-      <LiveChatWidget />
       {/* Hero Section - Imarticus Style */}
       <section className="relative bg-gradient-to-br from-blue-900 via-indigo-900 to-purple-900 text-white overflow-hidden">
         <div className="absolute inset-0 bg-black/20"></div>
@@ -132,10 +138,10 @@ const MarketplaceImarticus = () => {
               transition={{ duration: 0.6 }}
             >
               <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 leading-tight">
-                {hero?.title || 'Transform Your Career with Industry-Leading Programs'}
+                {hero?.title || 'Transform Your Career with Industry-Leading Services'}
               </h1>
               <p className="text-xl text-blue-100 mb-4">
-                {hero?.subtitle || 'Learn from Experts, Get Certified, Land Your Dream Job'}
+                {hero?.subtitle || 'Expert Services, Professional Certification, Career Growth'}
               </p>
               <p className="text-lg text-blue-200 mb-8">
                 {hero?.description || 'Join thousands of professionals who have upskilled'}
@@ -143,10 +149,10 @@ const MarketplaceImarticus = () => {
 
               <div className="flex flex-col sm:flex-row gap-4 mb-12">
                 <a
-                  href={hero?.cta_primary_link || '#programs'}
+                  href={hero?.cta_primary_link || '#services'}
                   className="inline-flex items-center justify-center bg-white text-blue-900 px-8 py-4 rounded-lg font-bold text-lg hover:bg-blue-50 transition-all shadow-xl hover:shadow-2xl"
                 >
-                  {hero?.cta_primary_text || 'Explore Programs'}
+                  {hero?.cta_primary_text || 'Explore Services'}
                   <ArrowRight className="w-5 h-5 ml-2" />
                 </a>
                 <a
@@ -219,94 +225,80 @@ const MarketplaceImarticus = () => {
         </section>
       )}
 
-      {/* Programs Section */}
-      {programs.length > 0 && (
-        <section id="programs" className="py-20 bg-white">
+      {/* Services Section */}
+      {services.length > 0 && (
+        <section id="services" className="py-20 bg-white">
           <div className="max-w-7xl mx-auto px-6">
             <div className="text-center mb-16">
               <h2 className="text-4xl font-bold text-gray-900 mb-4">
-                Our <span className="text-blue-600">Programs</span>
+                Our <span className="text-blue-600">Services</span>
               </h2>
               <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-                Industry-recognized certification programs designed to accelerate your career
+                Professional services designed to accelerate your career growth
               </p>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {programs.map((program, index) => (
+              {services.map((service, index) => (
                 <motion.div
-                  key={program.id}
+                  key={service.id}
                   initial={{ opacity: 0, y: 30 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   transition={{ delay: index * 0.1 }}
                   className="bg-white border-2 border-gray-200 rounded-2xl overflow-hidden hover:border-blue-500 hover:shadow-2xl transition-all duration-300 group"
                 >
-                  {program.is_featured && (
+                  {service.is_featured && (
                     <div className="bg-gradient-to-r from-amber-500 to-orange-500 text-white text-center py-2 text-sm font-bold">
                       ⭐ Most Popular
                     </div>
                   )}
 
-                  {program.image_url && (
+                  {service.image_url && (
                     <img
-                      src={program.image_url}
-                      alt={program.title}
+                      src={service.image_url}
+                      alt={service.title}
                       className="w-full h-48 object-cover"
                     />
                   )}
 
                   <div className="p-6">
                     <div className="flex items-center gap-2 mb-3">
-                      {program.category && (
+                      {service.category && (
                         <span className="px-3 py-1 bg-blue-100 text-blue-700 rounded-full text-xs font-bold">
-                          {program.category}
+                          {service.category}
                         </span>
                       )}
-                      {program.rating && (
+                      {service.rating && (
                         <div className="flex items-center gap-1">
                           <Star className="w-4 h-4 text-yellow-400 fill-current" />
-                          <span className="text-sm font-bold">{program.rating}</span>
+                          <span className="text-sm font-bold">{service.rating}</span>
                         </div>
                       )}
                     </div>
 
                     <h3 className="text-2xl font-bold text-gray-900 mb-3 group-hover:text-blue-600 transition-colors">
-                      {program.title}
+                      {service.title}
                     </h3>
 
-                    <p className="text-gray-600 mb-4 line-clamp-2">
-                      {program.short_description}
+                    <p className="text-gray-600 mb-6 line-clamp-2">
+                      {service.short_description}
                     </p>
 
-                    <div className="flex items-center gap-4 mb-4 text-sm text-gray-600">
-                      {program.duration && (
-                        <div className="flex items-center gap-1">
-                          <Clock className="w-4 h-4" />
-                          {program.duration}
-                        </div>
-                      )}
-                      {program.level && (
-                        <div className="flex items-center gap-1">
-                          <TrendingUp className="w-4 h-4" />
-                          {program.level}
-                        </div>
-                      )}
-                    </div>
-
-                    {program.price > 0 && (
+                    {service.price > 0 && (
                       <div className="mb-4 pb-4 border-b border-gray-200">
-                        {program.original_price && program.original_price > program.price && (
+                        <div className="text-sm text-gray-500 mb-1">Price starting from</div>
+                        {service.original_price && service.original_price > service.price && (
                           <div className="flex items-center gap-2 mb-1">
                             <span className="text-gray-400 line-through text-sm">
-                              ₹{program.original_price.toLocaleString()}
+                              ₹{service.original_price.toLocaleString()}
                             </span>
                             <span className="px-2 py-0.5 bg-green-100 text-green-700 text-xs font-bold rounded">
-                              {Math.round(((program.original_price - program.price) / program.original_price) * 100)}% OFF
+                              {Math.round(((service.original_price - service.price) / service.original_price) * 100)}% OFF
                             </span>
                           </div>
                         )}
                         <div className="text-3xl font-bold text-gray-900">
-                          ₹{program.price.toLocaleString()}
+                          ₹{service.price.toLocaleString()}
                         </div>
                       </div>
                     )}
@@ -315,6 +307,119 @@ const MarketplaceImarticus = () => {
                       View Details
                       <ChevronRight className="w-5 h-5" />
                     </button>
+                  </div>
+                </motion.div>
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
+
+      {/* Industry Professionals Section */}
+      {professionals.length > 0 && (
+        <section className="py-20 bg-white">
+          <div className="max-w-7xl mx-auto px-6">
+            <div className="text-center mb-16">
+              <h2 className="text-4xl font-bold text-gray-900 mb-4">
+                Meet Our <span className="text-blue-600">Industry Professionals</span>
+              </h2>
+              <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+                Learn from experienced professionals who are leaders in their fields
+              </p>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+              {professionals.map((professional, index) => (
+                <motion.div
+                  key={professional.id}
+                  initial={{ opacity: 0, y: 30 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  transition={{ delay: index * 0.1 }}
+                  className="bg-white border-2 border-gray-200 rounded-2xl overflow-hidden hover:border-blue-500 hover:shadow-2xl transition-all duration-300 group"
+                >
+                  {/* Professional Image */}
+                  <div className="relative h-64 bg-gradient-to-br from-blue-100 to-indigo-100 overflow-hidden">
+                    {professional.image_url ? (
+                      <img
+                        src={professional.image_url}
+                        alt={professional.name}
+                        className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
+                      />
+                    ) : (
+                      <div className="w-full h-full flex items-center justify-center">
+                        <div className="w-32 h-32 rounded-full bg-blue-600 flex items-center justify-center text-white text-4xl font-bold">
+                          {professional.name.charAt(0)}
+                        </div>
+                      </div>
+                    )}
+                    {professional.years_experience && (
+                      <div className="absolute top-4 right-4 bg-blue-600 text-white px-3 py-1 rounded-full text-sm font-bold flex items-center gap-1">
+                        <Award className="w-4 h-4" />
+                        {professional.years_experience}+ Years
+                      </div>
+                    )}
+                  </div>
+
+                  {/* Professional Info */}
+                  <div className="p-6">
+                    <h3 className="text-xl font-bold text-gray-900 mb-1 group-hover:text-blue-600 transition-colors">
+                      {professional.name}
+                    </h3>
+                    <p className="text-sm font-semibold text-blue-600 mb-1">
+                      {professional.title}
+                    </p>
+                    {professional.company && (
+                      <p className="text-sm text-gray-600 mb-3 flex items-center gap-1">
+                        <Building2 className="w-4 h-4" />
+                        {professional.company}
+                      </p>
+                    )}
+
+                    {professional.bio && (
+                      <p className="text-sm text-gray-600 mb-4 line-clamp-3">
+                        {professional.bio}
+                      </p>
+                    )}
+
+                    {/* Expertise Tags */}
+                    {professional.expertise && professional.expertise.length > 0 && (
+                      <div className="flex flex-wrap gap-2 mb-4">
+                        {professional.expertise.slice(0, 3).map((skill, idx) => (
+                          <span
+                            key={idx}
+                            className="px-2 py-1 bg-blue-50 text-blue-700 text-xs font-semibold rounded"
+                          >
+                            {skill}
+                          </span>
+                        ))}
+                      </div>
+                    )}
+
+                    {/* Action Links */}
+                    <div className="flex flex-col gap-2">
+                      {professional.linkedin_url && (
+                        <a
+                          href={professional.linkedin_url}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="inline-flex items-center gap-2 text-blue-600 hover:text-blue-700 font-semibold text-sm"
+                        >
+                          <Linkedin className="w-4 h-4" />
+                          Connect on LinkedIn
+                        </a>
+                      )}
+                      {professional.website_url && (
+                        <a
+                          href={professional.website_url}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="inline-flex items-center justify-center bg-blue-600 text-white px-4 py-2 rounded-lg font-semibold text-sm hover:bg-blue-700 transition-all"
+                        >
+                          Visit Website
+                          <ChevronRight className="w-4 h-4 ml-1" />
+                        </a>
+                      )}
+                    </div>
                   </div>
                 </motion.div>
               ))}

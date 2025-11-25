@@ -16,8 +16,8 @@ import IndustryTrainer from "./components/sections/Industrytrainer";
 import SkilledWorkforce from "./components/sections/SkilledWorkforce";
 import FullStackTeams from "./components/sections/FullStackTeams";
 import ScrollToTop from "./components/Layout/ScrollToTop";
-import FloatingButtons from "./components/sections/FloatingButtons";
 import EnquiryPopup from "./components/sections/PopupForm";
+import LiveChatWidget from "./components/common/LiveChatWidget";
 import Portfolio from "./components/port/Portfolio";
 import allCourses from "./data/allCourses"; // ✅ your dataset
 import CourseDetailPage from "./components/sections/coursedetails";
@@ -130,7 +130,7 @@ const AppContent = () => {
         />
       )}
 
-      {!hideLayout && <FloatingButtons />}
+      {!hideLayout && <LiveChatWidget />}
       {!hideLayout && <Footer />}
     </div>
   );
