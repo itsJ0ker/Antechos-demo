@@ -37,6 +37,7 @@ import AboutUsManager from '../../components/admin/AboutUsManager';
 import CoursesHeroManager from '../../components/admin/CoursesHeroManager';
 import MarketplaceImarticusManager from '../../components/admin/MarketplaceImarticusManager';
 import CourseSpecializationsManager from '../../components/admin/CourseSpecializationsManager';
+import MarketplaceRedesignManager from '../../components/admin/MarketplaceRedesignManager';
 
 const EnhancedAdminDashboard = () => {
   const [user, setUser] = useState(null);
@@ -122,6 +123,7 @@ const EnhancedAdminDashboard = () => {
     { id: 'aboutus', label: 'About Us', icon: Users, color: 'green' },
     { id: 'marketplace', label: 'Marketplace', icon: DollarSign, color: 'blue' },
     { id: 'marketplacenew', label: 'Marketplace (New)', icon: DollarSign, color: 'purple' },
+    { id: 'marketplaceredesign', label: 'Marketplace Redesign', icon: DollarSign, color: 'rose' },
     { id: 'courseshero', label: 'Courses Hero', icon: FileText, color: 'cyan' },
     { id: 'universities', label: 'Universities', icon: Building, color: 'purple' },
     { id: 'courses', label: 'Courses & Fees', icon: BookOpen, color: 'green' },
@@ -339,6 +341,7 @@ const EnhancedAdminDashboard = () => {
           {activeTab === 'aboutus' && <AboutUsManager />}
           {activeTab === 'marketplace' && <MarketplaceManager />}
           {activeTab === 'marketplacenew' && <MarketplaceImarticusManager />}
+          {activeTab === 'marketplaceredesign' && <MarketplaceRedesignManager />}
           {activeTab === 'courseshero' && <CoursesHeroManager />}
           {activeTab === 'universities' && <EnhancedUniversityManager />}
           {activeTab === 'courses' && <CourseManager />}

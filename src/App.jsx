@@ -10,6 +10,7 @@ import About from "./pages/Aboutus";
 import Courses from "./pages/CoursesNew";
 import Universities from "./pages/Universities";
 import MarketplaceImarticus from "./pages/MarketplaceImarticus";
+import MarketplaceRedesign from "./pages/MarketplaceRedesign";
 import TrainerProfile from "./components/sections/Trainerprofile";
 import UniversityDetail from "./components/sections/UniversityDetails";
 import CourseDetail from "./pages/CourseDetail";
@@ -100,6 +101,7 @@ const AppContent = () => {
           <Route path="/About" element={<About />} />
           <Route path="/Marketplace" element={<MarketplaceImarticus />} />
           <Route path="/marketplace-new" element={<MarketplaceImarticus />} />
+          <Route path="/marketplace-redesign" element={<MarketplaceRedesign />} />
           <Route path="/Courses" element={<Courses />} />
           <Route path="/Universities" element={<Universities />} />
           <Route path="/trainer/:id" element={<TrainerProfile />} />
