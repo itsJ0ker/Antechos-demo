@@ -120,6 +120,26 @@ const UniversityDetails = () => {
             
             if (partners) data.university_hiring_partners = partners;
 
+            // Fetch new hiring partners system
+            const { data: newPartners } = await supabase
+              .from('university_hiring_partners_new')
+              .select(`
+                id,
+                display_order,
+                hiring_partner:hiring_partners(
+                  id,
+                  name,
+                  logo_url,
+                  website_url,
+                  industry,
+                  description
+                )
+              `)
+              .eq('university_id', id)
+              .order('display_order');
+            
+            if (newPartners) data.university_hiring_partners_new = newPartners;
+
             const { data: images } = await supabase
               .from('university_campus_images')
               .select('*')
@@ -460,67 +480,120 @@ const UniversityDetails = () => {
                   </p>
                 </div>
                 
-                <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-4 md:gap-6">
+                {/* Auto-scrolling Carousel */}
+                <div className="relative overflow-hidden">
                   {university.university_accreditations && university.university_accreditations.length > 0 ? (
-                    university.university_accreditations
-                      .sort((a, b) => a.display_order - b.display_order)
-                      .map((item, i) => (
-                        <div
-                          key={i}
-                          className="flex flex-col items-center group cursor-pointer transform hover:scale-105 transition-all duration-300"
-                          title={item.accreditation?.full_name || item.accreditation?.name}
-                        >
-                          <div className="w-24 h-24 rounded-2xl border-2 border-blue-200 flex items-center justify-center p-4 bg-white group-hover:border-blue-500 group-hover:shadow-lg transition-all duration-300">
-                            {item.accreditation?.logo_url ? (
-                              <img
-                                src={item.accreditation.logo_url}
-                                alt={item.accreditation.name}
-                                className="max-w-full max-h-full object-contain filter group-hover:brightness-110 transition-all duration-300"
-                                onError={(e) => {
-                                  e.target.style.display = 'none';
-                                  e.target.parentElement.innerHTML = `<span class="text-sm text-blue-600 font-bold">${item.accreditation.name}</span>`;
-                                }}
-                              />
-                            ) : (
-                              <span className="text-sm text-blue-600 text-center font-bold">
-                                {item.accreditation?.name}
-                              </span>
-                            )}
-                          </div>
-                          <p className="text-sm font-semibold text-gray-800 text-center mt-3 group-hover:text-blue-600 transition-colors">
-                            {item.accreditation?.name}
-                          </p>
-                          {item.accreditation?.full_name && (
-                            <p className="text-xs text-gray-500 text-center mt-1 opacity-0 group-hover:opacity-100 transition-opacity">
-                              {item.accreditation.full_name}
+                    <div className="flex animate-marquee hover:pause-marquee">
+                      {/* First set of logos */}
+                      {university.university_accreditations
+                        .sort((a, b) => a.display_order - b.display_order)
+                        .map((item, i) => (
+                          <div
+                            key={`first-${i}`}
+                            className="flex-shrink-0 mx-6 flex flex-col items-center group cursor-pointer"
+                            title={item.accreditation?.full_name || item.accreditation?.name}
+                          >
+                            <div className="w-32 h-32 rounded-2xl border-2 border-blue-200 flex items-center justify-center p-4 bg-white group-hover:border-blue-500 group-hover:shadow-lg transition-all duration-300">
+                              {item.accreditation?.logo_url ? (
+                                <img
+                                  src={item.accreditation.logo_url}
+                                  alt={item.accreditation.name}
+                                  className="max-w-full max-h-full object-contain filter group-hover:brightness-110 transition-all duration-300"
+                                  onError={(e) => {
+                                    e.target.style.display = 'none';
+                                    e.target.parentElement.innerHTML = `<span class="text-sm text-blue-600 font-bold text-center">${item.accreditation.name}</span>`;
+                                  }}
+                                />
+                              ) : (
+                                <span className="text-sm text-blue-600 text-center font-bold">
+                                  {item.accreditation?.name}
+                                </span>
+                              )}
+                            </div>
+                            <p className="text-sm font-semibold text-gray-800 text-center mt-3 group-hover:text-blue-600 transition-colors max-w-[140px]">
+                              {item.accreditation?.name}
                             </p>
-                          )}
-                        </div>
-                      ))
+                          </div>
+                        ))}
+                      {/* Duplicate set for seamless loop */}
+                      {university.university_accreditations
+                        .sort((a, b) => a.display_order - b.display_order)
+                        .map((item, i) => (
+                          <div
+                            key={`second-${i}`}
+                            className="flex-shrink-0 mx-6 flex flex-col items-center group cursor-pointer"
+                            title={item.accreditation?.full_name || item.accreditation?.name}
+                          >
+                            <div className="w-32 h-32 rounded-2xl border-2 border-blue-200 flex items-center justify-center p-4 bg-white group-hover:border-blue-500 group-hover:shadow-lg transition-all duration-300">
+                              {item.accreditation?.logo_url ? (
+                                <img
+                                  src={item.accreditation.logo_url}
+                                  alt={item.accreditation.name}
+                                  className="max-w-full max-h-full object-contain filter group-hover:brightness-110 transition-all duration-300"
+                                  onError={(e) => {
+                                    e.target.style.display = 'none';
+                                    e.target.parentElement.innerHTML = `<span class="text-sm text-blue-600 font-bold text-center">${item.accreditation.name}</span>`;
+                                  }}
+                                />
+                              ) : (
+                                <span className="text-sm text-blue-600 text-center font-bold">
+                                  {item.accreditation?.name}
+                                </span>
+                              )}
+                            </div>
+                            <p className="text-sm font-semibold text-gray-800 text-center mt-3 group-hover:text-blue-600 transition-colors max-w-[140px]">
+                              {item.accreditation?.name}
+                            </p>
+                          </div>
+                        ))}
+                    </div>
                   ) : university.approvals && university.approvals.length > 0 ? (
-                    // Fallback to old approvals structure
-                    university.approvals.map((approval, i) => (
-                      <div
-                        key={i}
-                        className="flex flex-col items-center group cursor-pointer transform hover:scale-105 transition-all duration-300"
-                      >
-                        <div className="w-24 h-24 rounded-2xl border-2 border-blue-200 flex items-center justify-center p-4 bg-white group-hover:border-blue-500 group-hover:shadow-lg transition-all duration-300">
-                          <img
-                            src={approval.logo}
-                            alt={approval.name}
-                            className="max-w-full max-h-full object-contain filter group-hover:brightness-110 transition-all duration-300"
-                            onError={(e) => {
-                              e.target.style.display = 'none';
-                            }}
-                          />
+                    <div className="flex animate-marquee hover:pause-marquee">
+                      {/* First set of logos */}
+                      {university.approvals.map((approval, i) => (
+                        <div
+                          key={`first-${i}`}
+                          className="flex-shrink-0 mx-6 flex flex-col items-center group cursor-pointer"
+                        >
+                          <div className="w-32 h-32 rounded-2xl border-2 border-blue-200 flex items-center justify-center p-4 bg-white group-hover:border-blue-500 group-hover:shadow-lg transition-all duration-300">
+                            <img
+                              src={approval.logo}
+                              alt={approval.name}
+                              className="max-w-full max-h-full object-contain filter group-hover:brightness-110 transition-all duration-300"
+                              onError={(e) => {
+                                e.target.style.display = 'none';
+                              }}
+                            />
+                          </div>
+                          <p className="text-sm font-semibold text-gray-800 text-center mt-3 group-hover:text-blue-600 transition-colors max-w-[140px]">
+                            {approval.name}
+                          </p>
                         </div>
-                        <p className="text-sm font-semibold text-gray-800 text-center mt-3 group-hover:text-blue-600 transition-colors">
-                          {approval.name}
-                        </p>
-                      </div>
-                    ))
+                      ))}
+                      {/* Duplicate set for seamless loop */}
+                      {university.approvals.map((approval, i) => (
+                        <div
+                          key={`second-${i}`}
+                          className="flex-shrink-0 mx-6 flex flex-col items-center group cursor-pointer"
+                        >
+                          <div className="w-32 h-32 rounded-2xl border-2 border-blue-200 flex items-center justify-center p-4 bg-white group-hover:border-blue-500 group-hover:shadow-lg transition-all duration-300">
+                            <img
+                              src={approval.logo}
+                              alt={approval.name}
+                              className="max-w-full max-h-full object-contain filter group-hover:brightness-110 transition-all duration-300"
+                              onError={(e) => {
+                                e.target.style.display = 'none';
+                              }}
+                            />
+                          </div>
+                          <p className="text-sm font-semibold text-gray-800 text-center mt-3 group-hover:text-blue-600 transition-colors max-w-[140px]">
+                            {approval.name}
+                          </p>
+                        </div>
+                      ))}
+                    </div>
                   ) : (
-                    <div className="col-span-full text-center py-12">
+                    <div className="text-center py-12">
                       <Award className="w-16 h-16 text-gray-300 mx-auto mb-4" />
                       <p className="text-gray-500 text-lg">No accreditations available</p>
                       <p className="text-gray-400 text-sm mt-2">Accreditation information will be updated soon</p>
@@ -1018,7 +1091,7 @@ const UniversityDetails = () => {
                 </div>
 
                 {/* Call to Action */}
-                <div className="mt-12 text-center">
+                {/*<div className="mt-12 text-center">
                   <div className="bg-white rounded-2xl p-6 shadow-md border border-gray-100">
                     <h3 className="text-xl font-bold text-gray-900 mb-4">Ready to Start Your Journey?</h3>
                     <p className="text-gray-600 mb-6">Join thousands of students who have transformed their careers with us.</p>
@@ -1031,7 +1104,7 @@ const UniversityDetails = () => {
                       </button>
                     </div>
                   </div>
-                </div>
+                </div>*/}
               </div>
             </section>
 
@@ -1067,33 +1140,196 @@ const UniversityDetails = () => {
 
             {/* Hiring Partners Section */}
             <section id="partners" className="scroll-mt-24">
-              <div className="bg-white border border-gray-200 rounded-lg p-4 sm:p-6">
-                <h2 className="text-2xl font-bold text-gray-900 mb-6">Hiring Partners</h2>
-                <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 gap-3 md:gap-4">
-                  {university.university_hiring_partners && university.university_hiring_partners.length > 0 ? (
-                    university.university_hiring_partners
-                      .sort((a, b) => a.display_order - b.display_order)
-                      .map((partner, i) => (
-                        <div
-                          key={i}
-                          className="aspect-square border-2 border-gray-300 rounded-lg flex items-center justify-center p-2 overflow-hidden group cursor-pointer"
-                          title={partner.partner_name}
-                          onClick={() => partner.website_url && window.open(partner.website_url, '_blank')}
-                        >
-                          {partner.logo_url ? (
-                            <img
-                              src={partner.logo_url}
-                              alt={partner.partner_name}
-                              className="max-w-full max-h-full object-contain group-hover:scale-105 transition-transform"
-                            />
-                          ) : (
-                            <span className="text-gray-400 text-xs text-center font-medium">{partner.partner_name}</span>
-                          )}
+              <div className="bg-gradient-to-br from-white to-purple-50 border border-purple-100 rounded-2xl p-4 sm:p-6 md:p-8 shadow-lg hover:shadow-xl transition-shadow duration-300">
+                <div className="text-center mb-8">
+                  <div className="inline-flex items-center gap-3 bg-purple-600 text-white px-6 py-3 rounded-full mb-4">
+                    <Briefcase className="w-6 h-6" />
+                    <span className="font-bold text-lg">Our Hiring Partners</span>
+                  </div>
+                  <p className="text-gray-600 max-w-2xl mx-auto">
+                    Our graduates are recruited by leading companies across various industries, ensuring excellent career opportunities.
+                  </p>
+                </div>
+                
+                {/* Dual-line Auto-scrolling Carousel */}
+                <div className="space-y-6">
+                  {university.university_hiring_partners_new && university.university_hiring_partners_new.length > 0 ? (
+                    <>
+                      {/* First Row - Scrolling Left */}
+                      <div className="relative overflow-hidden">
+                        <div className="flex animate-marquee hover:pause-marquee">
+                          {/* First set of logos */}
+                          {university.university_hiring_partners_new
+                            .sort((a, b) => a.display_order - b.display_order)
+                            .slice(0, Math.ceil(university.university_hiring_partners_new.length / 2))
+                            .map((item, i) => (
+                              <div
+                                key={`first-row-1-${i}`}
+                                className="flex-shrink-0 mx-4 flex flex-col items-center group cursor-pointer"
+                                title={item.hiring_partner?.name}
+                                onClick={() => item.hiring_partner?.website_url && window.open(item.hiring_partner.website_url, '_blank')}
+                              >
+                                <div className="w-32 h-32 rounded-xl border-2 border-purple-200 flex items-center justify-center p-4 bg-white group-hover:border-purple-500 group-hover:shadow-lg transition-all duration-300">
+                                  {item.hiring_partner?.logo_url ? (
+                                    <img
+                                      src={item.hiring_partner.logo_url}
+                                      alt={item.hiring_partner.name}
+                                      className="max-w-full max-h-full object-contain filter group-hover:brightness-110 transition-all duration-300"
+                                      onError={(e) => {
+                                        e.target.style.display = 'none';
+                                        e.target.parentElement.innerHTML = `<span class="text-sm text-purple-600 font-bold text-center">${item.hiring_partner.name}</span>`;
+                                      }}
+                                    />
+                                  ) : (
+                                    <span className="text-sm text-purple-600 text-center font-bold">
+                                      {item.hiring_partner?.name}
+                                    </span>
+                                  )}
+                                </div>
+                                <p className="text-sm font-semibold text-gray-800 text-center mt-3 group-hover:text-purple-600 transition-colors max-w-[140px]">
+                                  {item.hiring_partner?.name}
+                                </p>
+                              </div>
+                            ))}
+                          {/* Duplicate set for seamless loop */}
+                          {university.university_hiring_partners_new
+                            .sort((a, b) => a.display_order - b.display_order)
+                            .slice(0, Math.ceil(university.university_hiring_partners_new.length / 2))
+                            .map((item, i) => (
+                              <div
+                                key={`first-row-2-${i}`}
+                                className="flex-shrink-0 mx-4 flex flex-col items-center group cursor-pointer"
+                                title={item.hiring_partner?.name}
+                                onClick={() => item.hiring_partner?.website_url && window.open(item.hiring_partner.website_url, '_blank')}
+                              >
+                                <div className="w-32 h-32 rounded-xl border-2 border-purple-200 flex items-center justify-center p-4 bg-white group-hover:border-purple-500 group-hover:shadow-lg transition-all duration-300">
+                                  {item.hiring_partner?.logo_url ? (
+                                    <img
+                                      src={item.hiring_partner.logo_url}
+                                      alt={item.hiring_partner.name}
+                                      className="max-w-full max-h-full object-contain filter group-hover:brightness-110 transition-all duration-300"
+                                      onError={(e) => {
+                                        e.target.style.display = 'none';
+                                        e.target.parentElement.innerHTML = `<span class="text-sm text-purple-600 font-bold text-center">${item.hiring_partner.name}</span>`;
+                                      }}
+                                    />
+                                  ) : (
+                                    <span className="text-sm text-purple-600 text-center font-bold">
+                                      {item.hiring_partner?.name}
+                                    </span>
+                                  )}
+                                </div>
+                                <p className="text-sm font-semibold text-gray-800 text-center mt-3 group-hover:text-purple-600 transition-colors max-w-[140px]">
+                                  {item.hiring_partner?.name}
+                                </p>
+                              </div>
+                            ))}
                         </div>
-                      ))
+                      </div>
+
+                      {/* Second Row - Scrolling Right */}
+                      {university.university_hiring_partners_new.length > 1 && (
+                        <div className="relative overflow-hidden">
+                          <div className="flex animate-marquee-reverse hover:pause-marquee">
+                            {/* First set of logos */}
+                            {university.university_hiring_partners_new
+                              .sort((a, b) => a.display_order - b.display_order)
+                              .slice(Math.ceil(university.university_hiring_partners_new.length / 2))
+                              .map((item, i) => (
+                                <div
+                                  key={`second-row-1-${i}`}
+                                  className="flex-shrink-0 mx-4 flex flex-col items-center group cursor-pointer"
+                                  title={item.hiring_partner?.name}
+                                  onClick={() => item.hiring_partner?.website_url && window.open(item.hiring_partner.website_url, '_blank')}
+                                >
+                                  <div className="w-32 h-32 rounded-xl border-2 border-purple-200 flex items-center justify-center p-4 bg-white group-hover:border-purple-500 group-hover:shadow-lg transition-all duration-300">
+                                    {item.hiring_partner?.logo_url ? (
+                                      <img
+                                        src={item.hiring_partner.logo_url}
+                                        alt={item.hiring_partner.name}
+                                        className="max-w-full max-h-full object-contain filter group-hover:brightness-110 transition-all duration-300"
+                                        onError={(e) => {
+                                          e.target.style.display = 'none';
+                                          e.target.parentElement.innerHTML = `<span class="text-sm text-purple-600 font-bold text-center">${item.hiring_partner.name}</span>`;
+                                        }}
+                                      />
+                                    ) : (
+                                      <span className="text-sm text-purple-600 text-center font-bold">
+                                        {item.hiring_partner?.name}
+                                      </span>
+                                    )}
+                                  </div>
+                                  <p className="text-sm font-semibold text-gray-800 text-center mt-3 group-hover:text-purple-600 transition-colors max-w-[140px]">
+                                    {item.hiring_partner?.name}
+                                  </p>
+                                </div>
+                              ))}
+                            {/* Duplicate set for seamless loop */}
+                            {university.university_hiring_partners_new
+                              .sort((a, b) => a.display_order - b.display_order)
+                              .slice(Math.ceil(university.university_hiring_partners_new.length / 2))
+                              .map((item, i) => (
+                                <div
+                                  key={`second-row-2-${i}`}
+                                  className="flex-shrink-0 mx-4 flex flex-col items-center group cursor-pointer"
+                                  title={item.hiring_partner?.name}
+                                  onClick={() => item.hiring_partner?.website_url && window.open(item.hiring_partner.website_url, '_blank')}
+                                >
+                                  <div className="w-32 h-32 rounded-xl border-2 border-purple-200 flex items-center justify-center p-4 bg-white group-hover:border-purple-500 group-hover:shadow-lg transition-all duration-300">
+                                    {item.hiring_partner?.logo_url ? (
+                                      <img
+                                        src={item.hiring_partner.logo_url}
+                                        alt={item.hiring_partner.name}
+                                        className="max-w-full max-h-full object-contain filter group-hover:brightness-110 transition-all duration-300"
+                                        onError={(e) => {
+                                          e.target.style.display = 'none';
+                                          e.target.parentElement.innerHTML = `<span class="text-sm text-purple-600 font-bold text-center">${item.hiring_partner.name}</span>`;
+                                        }}
+                                      />
+                                    ) : (
+                                      <span className="text-sm text-purple-600 text-center font-bold">
+                                        {item.hiring_partner?.name}
+                                      </span>
+                                    )}
+                                  </div>
+                                  <p className="text-sm font-semibold text-gray-800 text-center mt-3 group-hover:text-purple-600 transition-colors max-w-[140px]">
+                                    {item.hiring_partner?.name}
+                                  </p>
+                                </div>
+                              ))}
+                          </div>
+                        </div>
+                      )}
+                    </>
+                  ) : university.university_hiring_partners && university.university_hiring_partners.length > 0 ? (
+                    // Fallback to old system
+                    <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 gap-3 md:gap-4">
+                      {university.university_hiring_partners
+                        .sort((a, b) => a.display_order - b.display_order)
+                        .map((partner, i) => (
+                          <div
+                            key={i}
+                            className="aspect-square border-2 border-gray-300 rounded-lg flex items-center justify-center p-2 overflow-hidden group cursor-pointer"
+                            title={partner.partner_name}
+                            onClick={() => partner.website_url && window.open(partner.website_url, '_blank')}
+                          >
+                            {partner.logo_url ? (
+                              <img
+                                src={partner.logo_url}
+                                alt={partner.partner_name}
+                                className="max-w-full max-h-full object-contain group-hover:scale-105 transition-transform"
+                              />
+                            ) : (
+                              <span className="text-gray-400 text-xs text-center font-medium">{partner.partner_name}</span>
+                            )}
+                          </div>
+                        ))}
+                    </div>
                   ) : (
-                    <div className="col-span-full text-center py-8">
-                      <p className="text-gray-500">No hiring partners information available</p>
+                    <div className="text-center py-12">
+                      <Briefcase className="w-16 h-16 text-gray-300 mx-auto mb-4" />
+                      <p className="text-gray-500 text-lg">No hiring partners available</p>
+                      <p className="text-gray-400 text-sm mt-2">Hiring partner information will be updated soon</p>
                     </div>
                   )}
                 </div>

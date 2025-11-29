@@ -23,6 +23,7 @@ import {
 import { supabase } from '../../lib/supabase';
 import EnhancedUniversityManager from '../../components/admin/EnhancedUniversityManager';
 import AccreditationManager from '../../components/admin/AccreditationManager';
+import HiringPartnersManager from '../../components/admin/HiringPartnersManager';
 import CourseManager from '../../components/admin/CourseManager';
 import TrainerManager from '../../components/admin/TrainerManager';
 import WorkforceManager from '../../components/admin/WorkforceManager';
@@ -126,6 +127,7 @@ const EnhancedAdminDashboard = () => {
     { id: 'courses', label: 'Courses & Fees', icon: BookOpen, color: 'green' },
     { id: 'specializations', label: 'Course Specializations', icon: GraduationCap, color: 'teal' },
     { id: 'accreditations', label: 'Accreditations', icon: Award, color: 'yellow' },
+    { id: 'hiring-partners', label: 'Hiring Partners', icon: Briefcase, color: 'emerald' },
     { id: 'trainers', label: 'Trainers', icon: Users, color: 'pink' },
     { id: 'workforce', label: 'Workforce', icon: Briefcase, color: 'indigo' },
     { id: 'testimonials', label: 'Testimonials', icon: Star, color: 'orange' },
@@ -342,6 +344,7 @@ const EnhancedAdminDashboard = () => {
           {activeTab === 'courses' && <CourseManager />}
           {activeTab === 'specializations' && <CourseSpecializationsManager />}
           {activeTab === 'accreditations' && <AccreditationManager />}
+          {activeTab === 'hiring-partners' && <HiringPartnersManager />}
           {activeTab === 'trainers' && <TrainerManager />}
           {activeTab === 'workforce' && <WorkforceManager />}
           {activeTab === 'testimonials' && <TestimonialManager />}

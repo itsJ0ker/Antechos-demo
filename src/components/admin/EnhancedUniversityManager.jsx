@@ -53,10 +53,13 @@ const EnhancedUniversityManager = () => {
   const [hiringPartners, setHiringPartners] = useState([]);
   const [selectedAccreditations, setSelectedAccreditations] = useState([]);
   const [allAccreditations, setAllAccreditations] = useState([]);
+  const [selectedHiringPartners, setSelectedHiringPartners] = useState([]);
+  const [allHiringPartners, setAllHiringPartners] = useState([]);
 
   useEffect(() => {
     fetchUniversities();
     fetchAllAccreditations();
+    fetchAllHiringPartners();
   }, []);
 
   const fetchAllAccreditations = async () => {
@@ -70,6 +73,20 @@ const EnhancedUniversityManager = () => {
       if (!error) setAllAccreditations(data || []);
     } catch (error) {
       console.error('Error fetching accreditations:', error);
+    }
+  };
+
+  const fetchAllHiringPartners = async () => {
+    try {
+      const { data, error } = await supabase
+        .from('hiring_partners')
+        .select('*')
+        .eq('is_active', true)
+        .order('name');
+      
+      if (!error) setAllHiringPartners(data || []);
+    } catch (error) {
+      console.error('Error fetching hiring partners:', error);
     }
   };
 
@@ -153,6 +170,26 @@ const EnhancedUniversityManager = () => {
         .eq('university_id', universityId)
         .order('display_order');
       setSelectedAccreditations(accreditationsData || []);
+
+      // Fetch university hiring partners (new system)
+      const { data: hiringPartnersData } = await supabase
+        .from('university_hiring_partners_new')
+        .select(`
+          id,
+          hiring_partner_id,
+          display_order,
+          hiring_partner:hiring_partners(
+            id,
+            name,
+            logo_url,
+            website_url,
+            industry,
+            description
+          )
+        `)
+        .eq('university_id', universityId)
+        .order('display_order');
+      setSelectedHiringPartners(hiringPartnersData || []);
 
     } catch (error) {
       console.error('Error fetching university details:', error);
@@ -301,6 +338,29 @@ const EnhancedUniversityManager = () => {
     }
   };
 
+  const saveSelectedHiringPartners = async () => {
+    if (!selectedUniversity) return;
+    setSaving(true);
+    try {
+      await supabase.from('university_hiring_partners_new').delete().eq('university_id', selectedUniversity.id);
+      if (selectedHiringPartners.length > 0) {
+        const { error } = await supabase.from('university_hiring_partners_new')
+          .insert(selectedHiringPartners.map((item, index) => ({
+            university_id: selectedUniversity.id,
+            hiring_partner_id: item.hiring_partner_id || item.hiring_partner?.id,
+            display_order: index + 1
+          })));
+        if (error) throw error;
+      }
+      alert('Hiring partners updated successfully!');
+    } catch (error) {
+      console.error('Error updating hiring partners:', error);
+      alert('Error updating hiring partners');
+    } finally {
+      setSaving(false);
+    }
+  };
+
   const addCampusImage = () => {
     setCampusImages([...campusImages, { image_url: '', caption: '', display_order: campusImages.length + 1 }]);
   };
@@ -339,15 +399,34 @@ const EnhancedUniversityManager = () => {
     }
   };
 
+  const toggleHiringPartner = (partner) => {
+    const isSelected = selectedHiringPartners.some(item => 
+      (item.hiring_partner_id || item.hiring_partner?.id) === partner.id
+    );
+    
+    if (isSelected) {
+      setSelectedHiringPartners(selectedHiringPartners.filter(item => 
+        (item.hiring_partner_id || item.hiring_partner?.id) !== partner.id
+      ));
+    } else {
+      setSelectedHiringPartners([...selectedHiringPartners, {
+        hiring_partner_id: partner.id,
+        hiring_partner: partner,
+        display_order: selectedHiringPartners.length + 1
+      }]);
+    }
+  };
+
   const tabs = [
     { id: 'basic', label: 'Basic Info', icon: Building },
     { id: 'accreditations', label: 'Accreditations', icon: Award },
+    { id: 'hiring-partners', label: 'Hiring Partners', icon: Building },
     { id: 'courses', label: 'Courses & Fees', icon: BookOpen },
     { id: 'images', label: 'Campus Images', icon: ImageIcon },
     { id: 'benefits', label: 'Benefits', icon: Award },
     { id: 'admission', label: 'Admission', icon: Users },
     { id: 'career', label: 'Career Stats', icon: Briefcase },
-    { id: 'partners', label: 'Partners', icon: Building },
+    { id: 'partners', label: 'Old Partners', icon: Building },
     { id: 'faqs', label: 'FAQs', icon: HelpCircle },
   ];
 
@@ -915,6 +994,107 @@ const EnhancedUniversityManager = () => {
                                 </div>
                                 <button
                                   onClick={() => toggleAccreditation(accreditation)}
+                                  className="text-red-600 hover:text-red-800 p-1"
+                                >
+                                  <X className="w-4 h-4" />
+                                </button>
+                              </div>
+                            );
+                          })}
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                )}
+
+                {activeTab === 'hiring-partners' && (
+                  <div className="space-y-6">
+                    <div className="flex items-center justify-between">
+                      <h3 className="text-lg font-semibold text-gray-900">Hiring Partners</h3>
+                      <button
+                        onClick={saveSelectedHiringPartners}
+                        disabled={saving}
+                        className="flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:opacity-50"
+                      >
+                        <Save className="w-4 h-4" />
+                        {saving ? 'Saving...' : 'Save'}
+                      </button>
+                    </div>
+                    
+                    <div className="bg-gray-50 p-4 rounded-lg">
+                      <h4 className="font-medium text-gray-900 mb-3">Available Hiring Partners</h4>
+                      <p className="text-sm text-gray-600 mb-4">Select the companies that hire from this university:</p>
+                      
+                      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
+                        {allHiringPartners.map((partner) => {
+                          const isSelected = selectedHiringPartners.some(item => 
+                            (item.hiring_partner_id || item.hiring_partner?.id) === partner.id
+                          );
+                          
+                          return (
+                            <div
+                              key={partner.id}
+                              onClick={() => toggleHiringPartner(partner)}
+                              className={`p-3 border-2 rounded-lg cursor-pointer transition-all ${
+                                isSelected 
+                                  ? 'border-blue-500 bg-blue-50' 
+                                  : 'border-gray-200 hover:border-gray-300'
+                              }`}
+                            >
+                              <div className="flex items-center space-x-3">
+                                <div className={`w-5 h-5 rounded border-2 flex items-center justify-center ${
+                                  isSelected ? 'border-blue-500 bg-blue-500' : 'border-gray-300'
+                                }`}>
+                                  {isSelected && (
+                                    <svg className="w-3 h-3 text-white" fill="currentColor" viewBox="0 0 20 20">
+                                      <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                                    </svg>
+                                  )}
+                                </div>
+                                <div className="flex-1">
+                                  <p className="font-medium text-gray-900 text-sm">{partner.name}</p>
+                                  {partner.industry && (
+                                    <p className="text-xs text-gray-600">{partner.industry}</p>
+                                  )}
+                                </div>
+                              </div>
+                            </div>
+                          );
+                        })}
+                      </div>
+                    </div>
+                    
+                    {selectedHiringPartners.length > 0 && (
+                      <div className="bg-white border border-gray-200 rounded-lg p-4">
+                        <h4 className="font-medium text-gray-900 mb-3">Selected Hiring Partners ({selectedHiringPartners.length})</h4>
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                          {selectedHiringPartners.map((item, index) => {
+                            const partner = item.hiring_partner || allHiringPartners.find(p => p.id === item.hiring_partner_id);
+                            return (
+                              <div key={index} className="flex items-center justify-between p-3 bg-blue-50 border border-blue-200 rounded-lg">
+                                <div className="flex items-center space-x-3">
+                                  <div className="w-8 h-8 bg-white rounded border flex items-center justify-center">
+                                    {partner?.logo_url ? (
+                                      <img 
+                                        src={partner.logo_url} 
+                                        alt={partner.name}
+                                        className="w-6 h-6 object-contain"
+                                      />
+                                    ) : (
+                                      <span className="text-xs font-bold text-gray-600">
+                                        {partner?.name?.charAt(0)}
+                                      </span>
+                                    )}
+                                  </div>
+                                  <div>
+                                    <p className="font-medium text-gray-900 text-sm">{partner?.name}</p>
+                                    {partner?.industry && (
+                                      <p className="text-xs text-gray-600">{partner.industry}</p>
+                                    )}
+                                  </div>
+                                </div>
+                                <button
+                                  onClick={() => toggleHiringPartner(partner)}
                                   className="text-red-600 hover:text-red-800 p-1"
                                 >
                                   <X className="w-4 h-4" />
