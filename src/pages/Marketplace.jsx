@@ -30,53 +30,53 @@ const Marketplace = () => {
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="animate-spin rounded-full h-16 w-16 border-b-2 border-blue-600"></div>
+      <div className="min-h-screen bg-gray-950 flex items-center justify-center">
+        <div className="animate-spin rounded-full h-16 w-16 border-b-2 border-blue-500"></div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white">
+    <div className="min-h-screen bg-gradient-to-b from-gray-950 via-gray-900 to-gray-950">
       {/* Modern Hero Section */}
       <section className="relative overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-br from-blue-600 via-indigo-600 to-purple-700 opacity-10"></div>
+        <div className="absolute inset-0 bg-gradient-to-br from-blue-600 via-indigo-600 to-purple-700 opacity-20"></div>
         
         <div className="relative max-w-7xl mx-auto px-6 py-16">
-          <div className="bg-gradient-to-br from-blue-50 via-white to-indigo-50 rounded-3xl shadow-2xl border border-blue-100 overflow-hidden">
+          <div className="bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 rounded-3xl shadow-2xl border border-gray-700 overflow-hidden">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-0">
               {/* Left Content */}
               <div className="p-12 lg:p-16 flex flex-col justify-center">
-                <div className="inline-flex items-center gap-2 bg-gradient-to-r from-blue-100 to-indigo-100 text-blue-700 px-4 py-2 rounded-full text-sm font-bold mb-6 w-fit">
+                <div className="inline-flex items-center gap-2 bg-gradient-to-r from-blue-500/20 to-indigo-500/20 text-blue-400 px-4 py-2 rounded-full text-sm font-bold mb-6 w-fit border border-blue-500/30">
                   <Sparkles className="w-4 h-4" />
                   Premium Services
                 </div>
 
                 <h1 className="text-5xl lg:text-6xl font-bold mb-6 leading-tight">
-                  <span className="bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">
+                  <span className="bg-gradient-to-r from-blue-400 to-indigo-400 bg-clip-text text-transparent">
                     Transform
                   </span>
                   <br />
-                  <span className="text-gray-900">Your Business</span>
+                  <span className="text-white">Your Business</span>
                 </h1>
                 
-                <p className="text-gray-600 text-lg mb-8 leading-relaxed">
+                <p className="text-gray-400 text-lg mb-8 leading-relaxed">
                   From web development to AI automation, we provide comprehensive solutions for your digital transformation journey
                 </p>
 
                 <div className="flex flex-col sm:flex-row gap-4">
-                  <button className="inline-flex items-center justify-center bg-gradient-to-r from-blue-600 to-indigo-600 text-white px-8 py-4 rounded-xl font-bold hover:shadow-lg hover:scale-105 transition-all duration-200">
+                  <button className="inline-flex items-center justify-center bg-gradient-to-r from-blue-600 to-indigo-600 text-white px-8 py-4 rounded-xl font-bold hover:shadow-lg hover:shadow-blue-500/50 hover:scale-105 transition-all duration-200">
                     Get Started Today
                     <ArrowRight className="w-5 h-5 ml-2" />
                   </button>
-                  <button className="inline-flex items-center justify-center bg-white border-2 border-gray-200 text-gray-700 px-8 py-4 rounded-xl font-bold hover:border-blue-400 hover:shadow-md transition-all duration-200">
+                  <button className="inline-flex items-center justify-center bg-gray-800 border-2 border-gray-700 text-gray-300 px-8 py-4 rounded-xl font-bold hover:border-blue-500 hover:shadow-md transition-all duration-200">
                     View Portfolio
                   </button>
                 </div>
               </div>
 
               {/* Right Stats */}
-              <div className="relative bg-gradient-to-br from-blue-500 to-indigo-600 p-12 lg:p-16 flex items-center justify-center">
+              <div className="relative bg-gradient-to-br from-blue-600 to-indigo-700 p-12 lg:p-16 flex items-center justify-center">
                 <div className="grid grid-cols-2 gap-6 w-full max-w-sm">
                   {[
                     { value: '500+', label: 'Projects Completed' },
@@ -84,7 +84,7 @@ const Marketplace = () => {
                     { value: '24/7', label: 'Support Available' },
                     { value: '50+', label: 'Expert Team' }
                   ].map((stat, i) => (
-                    <div key={i} className="bg-white/10 backdrop-blur-md rounded-2xl p-6 text-center">
+                    <div key={i} className="bg-white/10 backdrop-blur-md rounded-2xl p-6 text-center border border-white/20">
                       <div className="text-3xl font-bold text-white mb-1">{stat.value}</div>
                       <div className="text-sm text-blue-100">{stat.label}</div>
                     </div>
@@ -103,14 +103,14 @@ const Marketplace = () => {
       {/* Modern Services Grid */}
       <section className="max-w-7xl mx-auto px-6 py-16">
         <div className="text-center mb-12">
-          <div className="inline-flex items-center gap-2 bg-blue-100 text-blue-700 px-4 py-2 rounded-full text-sm font-bold mb-4">
+          <div className="inline-flex items-center gap-2 bg-blue-500/20 text-blue-400 px-4 py-2 rounded-full text-sm font-bold mb-4 border border-blue-500/30">
             <Star className="w-4 h-4" />
             Our Services
           </div>
-          <h2 className="text-4xl font-bold text-gray-900 mb-4">
-            Comprehensive <span className="bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">Solutions</span>
+          <h2 className="text-4xl font-bold text-white mb-4">
+            Comprehensive <span className="bg-gradient-to-r from-blue-400 to-indigo-400 bg-clip-text text-transparent">Solutions</span>
           </h2>
-          <p className="text-xl text-gray-600 max-w-2xl mx-auto">
+          <p className="text-xl text-gray-400 max-w-2xl mx-auto">
             Tailored services designed to accelerate your business growth
           </p>
         </div>
@@ -122,26 +122,26 @@ const Marketplace = () => {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: index * 0.1 }}
-              className="group bg-white rounded-2xl p-8 shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 border border-gray-200 hover:border-blue-400"
+              className="group bg-gray-800 rounded-2xl p-8 shadow-lg hover:shadow-2xl hover:shadow-blue-500/20 transition-all duration-300 transform hover:-translate-y-2 border border-gray-700 hover:border-blue-500"
             >
               <div className="w-16 h-16 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-2xl flex items-center justify-center text-3xl mb-6 group-hover:scale-110 transition-transform shadow-lg">
                 {service.icon}
               </div>
-              <h3 className="text-xl font-bold text-gray-900 mb-3 group-hover:text-blue-600 transition-colors">
+              <h3 className="text-xl font-bold text-white mb-3 group-hover:text-blue-400 transition-colors">
                 {service.name}
               </h3>
-              <p className="text-gray-600 text-sm mb-6 line-clamp-3 leading-relaxed">
+              <p className="text-gray-400 text-sm mb-6 line-clamp-3 leading-relaxed">
                 {service.short_description}
               </p>
               {service.price_starting > 0 && (
-                <div className="mb-6 pb-6 border-b border-gray-100">
+                <div className="mb-6 pb-6 border-b border-gray-700">
                   <span className="text-xs text-gray-500 uppercase tracking-wide">Starting at</span>
-                  <p className="text-3xl font-bold bg-gradient-to-r from-green-600 to-emerald-600 bg-clip-text text-transparent">
+                  <p className="text-3xl font-bold bg-gradient-to-r from-green-400 to-emerald-400 bg-clip-text text-transparent">
                     ₹{service.price_starting.toLocaleString()}
                   </p>
                 </div>
               )}
-              <button className="w-full flex items-center justify-center gap-2 bg-gradient-to-r from-blue-600 to-indigo-600 text-white py-3 rounded-xl font-bold hover:shadow-lg hover:scale-105 transition-all">
+              <button className="w-full flex items-center justify-center gap-2 bg-gradient-to-r from-blue-600 to-indigo-600 text-white py-3 rounded-xl font-bold hover:shadow-lg hover:shadow-blue-500/50 hover:scale-105 transition-all">
                 Learn More
                 <ArrowRight className="w-4 h-4" />
               </button>
