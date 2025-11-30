@@ -160,19 +160,21 @@ const MarketplaceRedesign = () => {
 
       {/* Partners Section */}
       {data.partners.length > 0 && (
-        <section className="py-12 bg-gray-800">
+        <section className="py-12 bg-gray-800 overflow-hidden">
           <div className="max-w-7xl mx-auto px-6">
             <h2 className="text-2xl font-bold text-center mb-8 text-white">
               Benefit of Network of {data.partners.length}+ Partners
             </h2>
-            <div className="overflow-x-auto">
-              <div className="flex gap-8 justify-center items-center min-w-max px-4">
-                {data.partners.map((partner) => (
-                  <div key={partner.id} className="flex-shrink-0">
-                    <img src={partner.logo_url} alt={partner.name} className="h-16 object-contain brightness-0 invert opacity-70 hover:opacity-100 transition-all" />
-                  </div>
-                ))}
-              </div>
+            <div className="flex gap-12 justify-center items-center flex-wrap px-4">
+              {data.partners.map((partner) => (
+                <div key={partner.id} className="flex-shrink-0">
+                  <img 
+                    src={partner.logo_url} 
+                    alt={partner.name} 
+                    className="h-16 w-auto object-contain max-w-[150px] opacity-70 hover:opacity-100 hover:scale-110 transition-all duration-300 cursor-pointer" 
+                  />
+                </div>
+              ))}
             </div>
           </div>
         </section>

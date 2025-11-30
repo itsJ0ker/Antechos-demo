@@ -14,6 +14,7 @@ import MarketplaceRedesign from "./pages/MarketplaceRedesign";
 import TrainerProfile from "./components/sections/Trainerprofile";
 import UniversityDetail from "./components/sections/UniversityDetails";
 import CourseDetail from "./pages/CourseDetail";
+import EnhancedCourseDetail from "./pages/EnhancedCourseDetail";
 import TestSpecializations from "./pages/TestSpecializations";
 import IndustryTrainer from "./components/sections/Industrytrainer";
 import SkilledWorkforce from "./components/sections/SkilledWorkforce";
@@ -107,6 +108,7 @@ const AppContent = () => {
           <Route path="/trainer/:id" element={<TrainerProfile />} />
           <Route path="/university/:id" element={<UniversityDetail />} />
           <Route path="/university/:universityId/course/:courseId" element={<CourseDetail />} />
+          <Route path="/university/:universityId/course/:courseId/enhanced" element={<EnhancedCourseDetail />} />
           <Route path="/test-specializations" element={<TestSpecializations />} />
           <Route path="/IndustryTrainer" element={<IndustryTrainer />} />
           <Route path="/SkilledWorkforce" element={<SkilledWorkforce />} />

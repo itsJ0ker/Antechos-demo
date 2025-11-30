@@ -19,6 +19,7 @@ const CourseDetail = () => {
   const navigate = useNavigate();
   const [course, setCourse] = useState(null);
   const [specializations, setSpecializations] = useState([]);
+  const [selectedSpec, setSelectedSpec] = useState(null);
   const [university, setUniversity] = useState(null);
   const [loading, setLoading] = useState(true);
 
@@ -48,7 +49,7 @@ const CourseDetail = () => {
       
       setUniversity(uniData);
 
-      // Fetch specializations
+      // Fetch specializations with all enhanced fields
       const { data: specsData, error: specsError } = await supabase
         .from('course_specializations')
         .select('*')
@@ -56,8 +57,25 @@ const CourseDetail = () => {
         .eq('is_active', true)
         .order('display_order');
 
-      if (!specsError) {
-        setSpecializations(specsData || []);
+      console.log('Frontend - Fetched specs:', specsData);
+      console.log('Frontend - Fetch error:', specsError);
+
+      if (!specsError && specsData) {
+        // Parse JSON strings to objects
+        const parsedSpecs = specsData.map(spec => ({
+          ...spec,
+          curriculum: typeof spec.curriculum === 'string' ? JSON.parse(spec.curriculum) : spec.curriculum,
+          program_highlights: typeof spec.program_highlights === 'string' ? JSON.parse(spec.program_highlights) : spec.program_highlights,
+          career_paths: typeof spec.career_paths === 'string' ? JSON.parse(spec.career_paths) : spec.career_paths,
+          industry_insight_stats: typeof spec.industry_insight_stats === 'string' ? JSON.parse(spec.industry_insight_stats) : spec.industry_insight_stats
+        }));
+        
+        setSpecializations(parsedSpecs);
+        // Auto-select first specialization if available
+        if (parsedSpecs.length > 0) {
+          console.log('Frontend - Parsed curriculum:', parsedSpecs[0].curriculum);
+          setSelectedSpec(parsedSpecs[0]);
+        }
       }
     } catch (error) {
       console.error('Error fetching course details:', error);
@@ -170,6 +188,59 @@ const CourseDetail = () => {
           </div>
         </div>
 
+        {/* Program Overview */}
+        {selectedSpec?.program_overview && (
+          <div className="bg-white border border-gray-300 rounded-lg p-6">
+            <h2 className="text-2xl font-bold text-gray-900 mb-4">Program Overview</h2>
+            <p className="text-gray-700 leading-relaxed whitespace-pre-line break-words">
+              {selectedSpec.program_overview}
+            </p>
+          </div>
+        )}
+
+        {/* Industry Insight */}
+        {selectedSpec?.industry_insight_content && (
+          <div className="bg-white border border-gray-300 rounded-lg p-6">
+            <h2 className="text-2xl font-bold text-gray-900 mb-4">
+              {selectedSpec.industry_insight_title || 'Industry Insight'}
+            </h2>
+            <p className="text-gray-700 leading-relaxed mb-6 whitespace-pre-line break-words">
+              {selectedSpec.industry_insight_content}
+            </p>
+            
+            {selectedSpec.industry_insight_stats && Array.isArray(selectedSpec.industry_insight_stats) && selectedSpec.industry_insight_stats.length > 0 && (
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                {selectedSpec.industry_insight_stats.map((stat, idx) => (
+                  <div key={idx} className="bg-blue-50 p-4 rounded-lg text-center">
+                    <div className="text-2xl font-bold text-blue-600">{stat.value}</div>
+                    <div className="text-sm text-gray-600 mt-1">{stat.label}</div>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
+
+        {/* Program Highlights */}
+        {selectedSpec?.program_highlights && Array.isArray(selectedSpec.program_highlights) && selectedSpec.program_highlights.length > 0 && (
+          <div className="bg-white border border-gray-300 rounded-lg p-6">
+            <h2 className="text-2xl font-bold text-gray-900 mb-6">Program Highlights</h2>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              {selectedSpec.program_highlights.map((highlight, idx) => (
+                <div key={idx} className="flex gap-4">
+                  <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center flex-shrink-0">
+                    <CheckCircle className="w-6 h-6 text-blue-600" />
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <h3 className="font-semibold text-gray-900 mb-1 break-words">{highlight.title}</h3>
+                    <p className="text-sm text-gray-600 break-words">{highlight.description}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
         {/* Specializations */}
         <div className="bg-white border border-gray-300 rounded-lg p-6">
           <div className="mb-6">
@@ -186,7 +257,12 @@ const CourseDetail = () => {
               {specializations.map((spec) => (
                 <div
                   key={spec.id}
-                  className="border border-gray-300 rounded-lg p-6 hover:shadow-lg transition-shadow"
+                  onClick={() => setSelectedSpec(spec)}
+                  className={`border-2 rounded-lg p-6 cursor-pointer transition-all ${
+                    selectedSpec?.id === spec.id
+                      ? 'border-blue-600 bg-blue-50'
+                      : 'border-gray-300 hover:border-blue-400 hover:shadow-lg'
+                  }`}
                 >
                   {/* Specialization Image */}
                   {spec.image_url && (
@@ -241,10 +317,11 @@ const CourseDetail = () => {
                     </div>
                   )}
 
-                  {/* CTA Button */}
-                  <button className="w-full bg-blue-600 hover:bg-blue-700 text-white py-2.5 px-4 rounded font-semibold transition-colors">
-                    Apply Now
-                  </button>
+                  {selectedSpec?.id === spec.id && (
+                    <div className="mt-4 pt-4 border-t border-blue-200">
+                      <p className="text-sm font-semibold text-blue-600">✓ Selected - Scroll down for details</p>
+                    </div>
+                  )}
                 </div>
               ))}
             </div>
@@ -255,6 +332,139 @@ const CourseDetail = () => {
             </div>
           )}
         </div>
+
+        {/* Course Curriculum */}
+        {selectedSpec?.curriculum && Array.isArray(selectedSpec.curriculum) && selectedSpec.curriculum.length > 0 && (
+          <div className="bg-white border border-gray-300 rounded-lg p-6">
+            <h2 className="text-2xl font-bold text-gray-900 mb-6">Course Curriculum</h2>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              {selectedSpec.curriculum.map((sem, idx) => (
+                <div key={idx} className="border border-gray-300 rounded-lg p-4 break-words">
+                  <h3 className="font-bold text-lg text-gray-900 mb-3 break-words">{sem.semester}</h3>
+                  {sem.description && (
+                    <p className="text-sm text-gray-600 mb-3 break-words">{sem.description}</p>
+                  )}
+                  {sem.subjects && Array.isArray(sem.subjects) && sem.subjects.length > 0 && (
+                    <ul className="space-y-2">
+                      {sem.subjects.map((subject, subIdx) => (
+                        <li key={subIdx} className="flex items-start gap-2 text-sm text-gray-700">
+                          <CheckCircle className="w-4 h-4 text-green-600 mt-0.5 flex-shrink-0" />
+                          <span className="break-words">{subject}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  )}
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {/* Career Paths */}
+        {selectedSpec?.career_paths && Array.isArray(selectedSpec.career_paths) && selectedSpec.career_paths.length > 0 && (
+          <div className="bg-white border border-gray-300 rounded-lg p-6">
+            <h2 className="text-2xl font-bold text-gray-900 mb-6">Career Paths</h2>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              {selectedSpec.career_paths.map((career, idx) => (
+                <div key={idx} className="border border-gray-300 rounded-lg p-4">
+                  <div className="flex items-start gap-3">
+                    <div className="w-10 h-10 bg-green-100 rounded-lg flex items-center justify-center flex-shrink-0">
+                      <Users className="w-5 h-5 text-green-600" />
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <h3 className="font-semibold text-gray-900 mb-2 break-words">{career.title}</h3>
+                      <p className="text-sm text-gray-600 mb-2 break-words">{career.description}</p>
+                      {career.salary_range && (
+                        <p className="text-sm font-semibold text-green-600 break-words">
+                          {career.salary_range}
+                        </p>
+                      )}
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {/* Support & Alumni */}
+        {(selectedSpec?.career_support || selectedSpec?.alumni_network) && (
+          <div className="bg-white border border-gray-300 rounded-lg p-6">
+            <h2 className="text-2xl font-bold text-gray-900 mb-6">Support & Alumni</h2>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              {selectedSpec.career_support && (
+                <div className="min-w-0">
+                  <h3 className="font-semibold text-gray-900 mb-3 flex items-center gap-2">
+                    <Users className="w-5 h-5 text-blue-600 flex-shrink-0" />
+                    Career Support
+                  </h3>
+                  <p className="text-gray-700 leading-relaxed whitespace-pre-line break-words">
+                    {selectedSpec.career_support}
+                  </p>
+                </div>
+              )}
+              {selectedSpec.alumni_network && (
+                <div className="min-w-0">
+                  <h3 className="font-semibold text-gray-900 mb-3 flex items-center gap-2">
+                    <Users className="w-5 h-5 text-blue-600 flex-shrink-0" />
+                    Alumni Network
+                  </h3>
+                  <p className="text-gray-700 leading-relaxed whitespace-pre-line break-words">
+                    {selectedSpec.alumni_network}
+                  </p>
+                </div>
+              )}
+            </div>
+          </div>
+        )}
+
+        {/* Career Levels */}
+        {(selectedSpec?.entry_level_info || selectedSpec?.mid_level_info || selectedSpec?.senior_level_info) && (
+          <div className="bg-white border border-gray-300 rounded-lg p-6">
+            <h2 className="text-2xl font-bold text-gray-900 mb-6">Career Progression</h2>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              {selectedSpec.entry_level_info && (
+                <div className="border border-gray-300 rounded-lg p-4 min-w-0">
+                  <h3 className="font-semibold text-gray-900 mb-3">Entry Level</h3>
+                  <p className="text-sm text-gray-700 leading-relaxed whitespace-pre-line break-words">
+                    {selectedSpec.entry_level_info}
+                  </p>
+                </div>
+              )}
+              {selectedSpec.mid_level_info && (
+                <div className="border border-gray-300 rounded-lg p-4 min-w-0">
+                  <h3 className="font-semibold text-gray-900 mb-3">Mid Level</h3>
+                  <p className="text-sm text-gray-700 leading-relaxed whitespace-pre-line break-words">
+                    {selectedSpec.mid_level_info}
+                  </p>
+                </div>
+              )}
+              {selectedSpec.senior_level_info && (
+                <div className="border border-gray-300 rounded-lg p-4 min-w-0">
+                  <h3 className="font-semibold text-gray-900 mb-3">Senior Level</h3>
+                  <p className="text-sm text-gray-700 leading-relaxed whitespace-pre-line break-words">
+                    {selectedSpec.senior_level_info}
+                  </p>
+                </div>
+              )}
+            </div>
+          </div>
+        )}
+
+        {/* Book Your Seat */}
+        {selectedSpec?.booking_enabled && (
+          <div className="bg-gradient-to-r from-blue-600 to-blue-700 rounded-lg p-8 text-center text-white">
+            <h2 className="text-3xl font-bold mb-4">
+              {selectedSpec.booking_cta_text || 'Book Your Seat Today'}
+            </h2>
+            <p className="text-blue-100 mb-6">
+              Start your journey towards a successful career in {selectedSpec.name}
+            </p>
+            <button className="bg-white text-blue-600 px-8 py-3 rounded-lg font-semibold hover:bg-blue-50 transition-colors">
+              Apply Now
+            </button>
+          </div>
+        )}
       </div>
     </div>
   );
