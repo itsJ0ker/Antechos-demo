@@ -107,8 +107,8 @@ const AppContent = () => {
           <Route path="/Universities" element={<Universities />} />
           <Route path="/trainer/:id" element={<TrainerProfile />} />
           <Route path="/university/:id" element={<UniversityDetail />} />
-          <Route path="/university/:universityId/course/:courseId" element={<CourseDetail />} />
-          <Route path="/university/:universityId/course/:courseId/enhanced" element={<EnhancedCourseDetail />} />
+          <Route path="/university/:universityId/course/:courseId" element={<EnhancedCourseDetail />} />
+          <Route path="/university/:universityId/course/:courseId/old" element={<CourseDetail />} />
           <Route path="/test-specializations" element={<TestSpecializations />} />
           <Route path="/IndustryTrainer" element={<IndustryTrainer />} />
           <Route path="/SkilledWorkforce" element={<SkilledWorkforce />} />

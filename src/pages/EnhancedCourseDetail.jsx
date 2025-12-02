@@ -58,8 +58,30 @@ const EnhancedCourseDetail = () => {
         .eq('is_active', true)
         .order('display_order');
 
-      if (!specsError) {
-        setSpecializations(specsData || []);
+      if (!specsError && specsData) {
+        // Parse JSON fields if they're stored as strings
+        const parsedSpecs = specsData.map(spec => {
+          const parseField = (field) => {
+            if (typeof field === 'string') {
+              try {
+                return JSON.parse(field);
+              } catch (e) {
+                console.error('Error parsing field:', e);
+                return [];
+              }
+            }
+            return field || [];
+          };
+
+          return {
+            ...spec,
+            curriculum: parseField(spec.curriculum),
+            program_highlights: parseField(spec.program_highlights),
+            industry_insight_stats: parseField(spec.industry_insight_stats),
+            career_paths: parseField(spec.career_paths)
+          };
+        });
+        setSpecializations(parsedSpecs);
       }
     } catch (error) {
       console.error('Error fetching course details:', error);
@@ -133,93 +155,53 @@ const EnhancedCourseDetail = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
         
         {/* Program Overview */}
-        {selectedSpec?.program_overview && (
-          <div className="bg-white border border-gray-300 rounded-lg p-6">
+        {course.description && (
+          <div className="bg-white border border-gray-300 rounded-lg p-6 overflow-hidden">
             <h2 className="text-2xl font-bold text-gray-900 mb-4">Program Overview</h2>
-            <p className="text-gray-700 leading-relaxed whitespace-pre-line">
-              {selectedSpec.program_overview}
+            <p className="text-gray-700 leading-relaxed whitespace-pre-wrap break-words">
+              {course.description}
             </p>
           </div>
         )}
 
-        {/* Industry Insight */}
-        {selectedSpec?.industry_insight_content && (
-          <div className="bg-white border border-gray-300 rounded-lg p-6">
-            <h2 className="text-2xl font-bold text-gray-900 mb-4">
-              {selectedSpec.industry_insight_title || 'Industry Insight'}
-            </h2>
-            <p className="text-gray-700 leading-relaxed mb-6 whitespace-pre-line">
-              {selectedSpec.industry_insight_content}
-            </p>
-            
-            {selectedSpec.industry_insight_stats && selectedSpec.industry_insight_stats.length > 0 && (
-              <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                {selectedSpec.industry_insight_stats.map((stat, idx) => (
-                  <div key={idx} className="bg-blue-50 p-4 rounded-lg text-center">
-                    <div className="text-2xl font-bold text-blue-600">{stat.value}</div>
-                    <div className="text-sm text-gray-600 mt-1">{stat.label}</div>
+        {/* Course Curriculum - Semester 1 & 2 (Common for all specializations) */}
+        {specializations.length > 0 && specializations[0]?.curriculum && Array.isArray(specializations[0].curriculum) && specializations[0].curriculum.length > 0 && (
+          <div className="bg-white border border-gray-300 rounded-lg p-6 overflow-hidden">
+            <h2 className="text-2xl font-bold text-gray-900 mb-4">Course Curriculum</h2>
+            <p className="text-gray-600 mb-6">Foundation semesters common to all specializations</p>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              {specializations[0].curriculum
+                .filter((sem, idx) => idx < 2) // Only Semester 1 & 2
+                .map((sem, idx) => (
+                  <div key={idx} className="border border-gray-300 rounded-lg p-4 overflow-hidden">
+                    <h3 className="font-bold text-lg text-gray-900 mb-3 break-words">{sem.semester}</h3>
+                    {sem.description && (
+                      <p className="text-sm text-gray-600 mb-3 break-words">{sem.description}</p>
+                    )}
+                    {sem.subjects && Array.isArray(sem.subjects) && sem.subjects.length > 0 && (
+                      <ul className="space-y-2">
+                        {sem.subjects.map((subject, subIdx) => (
+                          <li key={subIdx} className="flex items-start gap-2 text-sm text-gray-700">
+                            <CheckCircle className="w-4 h-4 text-green-600 mt-0.5 flex-shrink-0" />
+                            <span className="break-words">{subject}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    )}
                   </div>
                 ))}
-              </div>
-            )}
-          </div>
-        )}
-
-        {/* Program Highlights */}
-        {selectedSpec?.program_highlights && selectedSpec.program_highlights.length > 0 && (
-          <div className="bg-white border border-gray-300 rounded-lg p-6">
-            <h2 className="text-2xl font-bold text-gray-900 mb-6">Program Highlights</h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              {selectedSpec.program_highlights.map((highlight, idx) => (
-                <div key={idx} className="flex gap-4">
-                  <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center flex-shrink-0">
-                    <CheckCircle className="w-6 h-6 text-blue-600" />
-                  </div>
-                  <div>
-                    <h3 className="font-semibold text-gray-900 mb-1">{highlight.title}</h3>
-                    <p className="text-sm text-gray-600">{highlight.description}</p>
-                  </div>
-                </div>
-              ))}
             </div>
           </div>
         )}
 
-        {/* Course Curriculum */}
-        {selectedSpec?.curriculum && selectedSpec.curriculum.length > 0 && (
-          <div className="bg-white border border-gray-300 rounded-lg p-6">
-            <h2 className="text-2xl font-bold text-gray-900 mb-6">Course Curriculum</h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              {selectedSpec.curriculum.map((sem, idx) => (
-                <div key={idx} className="border border-gray-300 rounded-lg p-4">
-                  <h3 className="font-bold text-lg text-gray-900 mb-3">{sem.semester}</h3>
-                  {sem.description && (
-                    <p className="text-sm text-gray-600 mb-3">{sem.description}</p>
-                  )}
-                  {sem.subjects && sem.subjects.length > 0 && (
-                    <ul className="space-y-2">
-                      {sem.subjects.map((subject, subIdx) => (
-                        <li key={subIdx} className="flex items-start gap-2 text-sm text-gray-700">
-                          <CheckCircle className="w-4 h-4 text-green-600 mt-0.5 flex-shrink-0" />
-                          <span>{subject}</span>
-                        </li>
-                      ))}
-                    </ul>
-                  )}
-                </div>
-              ))}
-            </div>
-          </div>
-        )}
-
-        {/* Specializations Section */}
-        <div className="bg-white border border-gray-300 rounded-lg p-6">
+        {/* Available Specializations Section */}
+        <div className="bg-white border border-gray-300 rounded-lg p-6 overflow-hidden">
           <div className="mb-6">
             <h2 className="text-2xl font-bold text-gray-900 mb-2">
-              Specializations
+              Available Specializations
             </h2>
             <p className="text-gray-600">
-              Choose from our range of specialized programs
+              Choose from our range of specialized programs to customize your learning path
             </p>
           </div>
 
@@ -245,12 +227,12 @@ const EnhancedCourseDetail = () => {
                     </div>
                   )}
 
-                  <h3 className="text-lg font-bold text-gray-900 mb-3">
+                  <h3 className="text-lg font-bold text-gray-900 mb-3 break-words">
                     {spec.name}
                   </h3>
 
                   {spec.description && (
-                    <p className="text-sm text-gray-600 mb-4 line-clamp-3">
+                    <p className="text-sm text-gray-600 mb-4 line-clamp-3 break-words">
                       {spec.description}
                     </p>
                   )}
@@ -302,22 +284,120 @@ const EnhancedCourseDetail = () => {
         {/* Specialization Details (when selected) */}
         {selectedSpec && (
           <>
+            {/* About Specialization */}
+            <div className="bg-white border border-gray-300 rounded-lg p-6 overflow-hidden">
+              <h2 className="text-2xl font-bold text-gray-900 mb-4 break-words">
+                About {selectedSpec.name}
+              </h2>
+              {selectedSpec.program_overview && (
+                <div className="mb-6">
+                  <p className="text-gray-700 leading-relaxed whitespace-pre-wrap break-words">
+                    {selectedSpec.program_overview}
+                  </p>
+                </div>
+              )}
+              {selectedSpec.description && (
+                <p className="text-gray-700 leading-relaxed whitespace-pre-wrap break-words">
+                  {selectedSpec.description}
+                </p>
+              )}
+            </div>
+
+            {/* Industry Insight */}
+            {selectedSpec.industry_insight_content && (
+              <div className="bg-white border border-gray-300 rounded-lg p-6 overflow-hidden">
+                <h2 className="text-2xl font-bold text-gray-900 mb-4 break-words">
+                  {selectedSpec.industry_insight_title || 'Industry Insight'}
+                </h2>
+                <p className="text-gray-700 leading-relaxed mb-6 whitespace-pre-wrap break-words">
+                  {selectedSpec.industry_insight_content}
+                </p>
+                
+                {selectedSpec.industry_insight_stats && selectedSpec.industry_insight_stats.length > 0 && (
+                  <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                    {selectedSpec.industry_insight_stats.map((stat, idx) => (
+                      <div key={idx} className="bg-blue-50 p-4 rounded-lg text-center">
+                        <div className="text-2xl font-bold text-blue-600">{stat.value}</div>
+                        <div className="text-sm text-gray-600 mt-1">{stat.label}</div>
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
+            )}
+
+            {/* Core of Specialization - Program Highlights */}
+            {selectedSpec.program_highlights && selectedSpec.program_highlights.length > 0 && (
+              <div className="bg-white border border-gray-300 rounded-lg p-6 overflow-hidden">
+                <h2 className="text-2xl font-bold text-gray-900 mb-6 break-words">
+                  Core of {selectedSpec.name}
+                </h2>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  {selectedSpec.program_highlights.map((highlight, idx) => (
+                    <div key={idx} className="flex gap-4">
+                      <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center flex-shrink-0">
+                        <CheckCircle className="w-6 h-6 text-blue-600" />
+                      </div>
+                      <div className="flex-1 min-w-0">
+                        <h3 className="font-semibold text-gray-900 mb-1 break-words">{highlight.title}</h3>
+                        <p className="text-sm text-gray-600 break-words">{highlight.description}</p>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {/* Specialization Curriculum - Semester 3 & 4 (Specific to selected specialization) */}
+            {selectedSpec.curriculum && Array.isArray(selectedSpec.curriculum) && selectedSpec.curriculum.length > 2 && (
+              <div className="bg-white border border-gray-300 rounded-lg p-6 overflow-hidden">
+                <h2 className="text-2xl font-bold text-gray-900 mb-4 break-words">
+                  Advanced Curriculum - {selectedSpec.name}
+                </h2>
+                <p className="text-gray-600 mb-6">
+                  Specialized courses for Semester 3 & 4
+                </p>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  {selectedSpec.curriculum
+                    .filter((sem, idx) => idx >= 2) // Only Semester 3 & 4+
+                    .map((sem, idx) => (
+                      <div key={idx} className="border border-blue-300 rounded-lg p-4 bg-blue-50 overflow-hidden">
+                        <h3 className="font-bold text-lg text-gray-900 mb-3 break-words">{sem.semester}</h3>
+                        {sem.description && (
+                          <p className="text-sm text-gray-600 mb-3 break-words">{sem.description}</p>
+                        )}
+                        {sem.subjects && Array.isArray(sem.subjects) && sem.subjects.length > 0 && (
+                          <ul className="space-y-2">
+                            {sem.subjects.map((subject, subIdx) => (
+                              <li key={subIdx} className="flex items-start gap-2 text-sm text-gray-700">
+                                <CheckCircle className="w-4 h-4 text-blue-600 mt-0.5 flex-shrink-0" />
+                                <span className="break-words">{subject}</span>
+                              </li>
+                            ))}
+                          </ul>
+                        )}
+                      </div>
+                    ))}
+                </div>
+              </div>
+            )}
+
             {/* Career Paths */}
             {selectedSpec.career_paths && selectedSpec.career_paths.length > 0 && (
-              <div className="bg-white border border-gray-300 rounded-lg p-6">
+              <div className="bg-white border border-gray-300 rounded-lg p-6 overflow-hidden">
                 <h2 className="text-2xl font-bold text-gray-900 mb-6">Career Paths</h2>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   {selectedSpec.career_paths.map((career, idx) => (
-                    <div key={idx} className="border border-gray-300 rounded-lg p-4">
+                    <div key={idx} className="border border-gray-300 rounded-lg p-4 overflow-hidden">
                       <div className="flex items-start gap-3">
                         <div className="w-10 h-10 bg-green-100 rounded-lg flex items-center justify-center flex-shrink-0">
                           <Briefcase className="w-5 h-5 text-green-600" />
                         </div>
-                        <div className="flex-1">
-                          <h3 className="font-semibold text-gray-900 mb-2">{career.title}</h3>
-                          <p className="text-sm text-gray-600 mb-2">{career.description}</p>
+                        <div className="flex-1 min-w-0">
+                          <h3 className="font-semibold text-gray-900 mb-2 break-words">{career.title}</h3>
+                          <p className="text-sm text-gray-600 mb-2 break-words">{career.description}</p>
                           {career.salary_range && (
-                            <p className="text-sm font-semibold text-green-600">
+                            <p className="text-sm font-semibold text-green-600 break-words">
                               {career.salary_range}
                             </p>
                           )}
@@ -331,27 +411,27 @@ const EnhancedCourseDetail = () => {
 
             {/* Support & Alumni */}
             {(selectedSpec.career_support || selectedSpec.alumni_network) && (
-              <div className="bg-white border border-gray-300 rounded-lg p-6">
+              <div className="bg-white border border-gray-300 rounded-lg p-6 overflow-hidden">
                 <h2 className="text-2xl font-bold text-gray-900 mb-6">Support & Alumni</h2>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   {selectedSpec.career_support && (
-                    <div>
+                    <div className="min-w-0">
                       <h3 className="font-semibold text-gray-900 mb-3 flex items-center gap-2">
-                        <Briefcase className="w-5 h-5 text-blue-600" />
-                        Career Support
+                        <Briefcase className="w-5 h-5 text-blue-600 flex-shrink-0" />
+                        <span className="break-words">Career Support</span>
                       </h3>
-                      <p className="text-gray-700 leading-relaxed whitespace-pre-line">
+                      <p className="text-gray-700 leading-relaxed whitespace-pre-wrap break-words">
                         {selectedSpec.career_support}
                       </p>
                     </div>
                   )}
                   {selectedSpec.alumni_network && (
-                    <div>
+                    <div className="min-w-0">
                       <h3 className="font-semibold text-gray-900 mb-3 flex items-center gap-2">
-                        <Users className="w-5 h-5 text-blue-600" />
-                        Alumni Network
+                        <Users className="w-5 h-5 text-blue-600 flex-shrink-0" />
+                        <span className="break-words">Alumni Network</span>
                       </h3>
-                      <p className="text-gray-700 leading-relaxed whitespace-pre-line">
+                      <p className="text-gray-700 leading-relaxed whitespace-pre-wrap break-words">
                         {selectedSpec.alumni_network}
                       </p>
                     </div>
@@ -362,29 +442,29 @@ const EnhancedCourseDetail = () => {
 
             {/* Career Levels */}
             {(selectedSpec.entry_level_info || selectedSpec.mid_level_info || selectedSpec.senior_level_info) && (
-              <div className="bg-white border border-gray-300 rounded-lg p-6">
+              <div className="bg-white border border-gray-300 rounded-lg p-6 overflow-hidden">
                 <h2 className="text-2xl font-bold text-gray-900 mb-6">Career Progression</h2>
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                   {selectedSpec.entry_level_info && (
-                    <div className="border border-gray-300 rounded-lg p-4">
+                    <div className="border border-gray-300 rounded-lg p-4 overflow-hidden">
                       <h3 className="font-semibold text-gray-900 mb-3">Entry Level</h3>
-                      <p className="text-sm text-gray-700 leading-relaxed whitespace-pre-line">
+                      <p className="text-sm text-gray-700 leading-relaxed whitespace-pre-wrap break-words">
                         {selectedSpec.entry_level_info}
                       </p>
                     </div>
                   )}
                   {selectedSpec.mid_level_info && (
-                    <div className="border border-gray-300 rounded-lg p-4">
+                    <div className="border border-gray-300 rounded-lg p-4 overflow-hidden">
                       <h3 className="font-semibold text-gray-900 mb-3">Mid Level</h3>
-                      <p className="text-sm text-gray-700 leading-relaxed whitespace-pre-line">
+                      <p className="text-sm text-gray-700 leading-relaxed whitespace-pre-wrap break-words">
                         {selectedSpec.mid_level_info}
                       </p>
                     </div>
                   )}
                   {selectedSpec.senior_level_info && (
-                    <div className="border border-gray-300 rounded-lg p-4">
+                    <div className="border border-gray-300 rounded-lg p-4 overflow-hidden">
                       <h3 className="font-semibold text-gray-900 mb-3">Senior Level</h3>
-                      <p className="text-sm text-gray-700 leading-relaxed whitespace-pre-line">
+                      <p className="text-sm text-gray-700 leading-relaxed whitespace-pre-wrap break-words">
                         {selectedSpec.senior_level_info}
                       </p>
                     </div>

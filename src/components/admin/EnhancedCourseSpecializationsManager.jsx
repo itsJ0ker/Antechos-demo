@@ -591,9 +591,15 @@ const EnhancedCourseSpecializationsManager = () => {
             {expandedSections.curriculum && (
               <div className="bg-white p-4 rounded-lg space-y-4">
                 <div className="bg-blue-50 border border-blue-200 rounded p-3 mb-4">
-                  <p className="text-sm text-blue-800">
-                    💡 Click "+ Add Semester" to add each semester, then click "+ Add Subject" to add subjects for that semester.
+                  <p className="text-sm text-blue-800 font-semibold mb-2">
+                    📚 Curriculum Structure:
                   </p>
+                  <ul className="text-sm text-blue-800 space-y-1 ml-4 list-disc">
+                    <li><strong>Semester 1 & 2:</strong> Common foundation courses (same for all specializations)</li>
+                    <li><strong>Semester 3 & 4+:</strong> Specialization-specific advanced courses</li>
+                    <li>Add Semester 1 & 2 to ALL specializations with the SAME subjects</li>
+                    <li>Add Semester 3 & 4+ with subjects specific to THIS specialization</li>
+                  </ul>
                 </div>
                 <div className="flex items-center justify-between mb-2">
                   <label className="block text-sm font-medium text-gray-700">Semesters</label>
