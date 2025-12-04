@@ -13,6 +13,7 @@ const EnhancedCourseSpecializationsManager = () => {
     basic: true,
     overview: true,
     industry: true,
+    programHighlights: true,
     highlights: true,
     curriculum: true,
     career: true,
@@ -117,6 +118,7 @@ const EnhancedCourseSpecializationsManager = () => {
         industry_insight_title: editingSpec.industry_insight_title || 'Industry Insight',
         industry_insight_content: editingSpec.industry_insight_content || null,
         industry_insight_stats: editingSpec.industry_insight_stats || null,
+        specialization_program_highlights: editingSpec.specialization_program_highlights || null,
         program_highlights: editingSpec.program_highlights || null,
         curriculum: cleanedCurriculum,
         specialization_details: editingSpec.specialization_details || null,
@@ -296,6 +298,7 @@ const EnhancedCourseSpecializationsManager = () => {
             industry_insight_title: 'Industry Insight',
             industry_insight_content: '',
             industry_insight_stats: [],
+            specialization_program_highlights: [],
             program_highlights: [],
             curriculum: [],
             specialization_details: '',
@@ -530,25 +533,96 @@ const EnhancedCourseSpecializationsManager = () => {
             )}
           </div>
 
-          {/* Program Highlights */}
+          {/* Program Highlights with Images */}
           <div className="space-y-4">
-            <SectionHeader title="Program Highlights" section="highlights" />
-            {expandedSections.highlights && (
+            <SectionHeader title="Program Highlights (With Images)" section="programHighlights" />
+            {expandedSections.programHighlights && (
               <div className="bg-white p-4 rounded-lg space-y-4">
+                <div className="bg-blue-50 border border-blue-200 rounded p-3 mb-4">
+                  <p className="text-sm text-blue-800">
+                    💡 Add specialization-specific highlights with images (certifications, tools, partnerships, etc.)
+                  </p>
+                </div>
                 <div className="flex items-center justify-between mb-2">
-                  <label className="block text-sm font-medium text-gray-700">Highlights</label>
+                  <label className="block text-sm font-medium text-gray-700">Highlights with Images</label>
                   <button
                     type="button"
-                    onClick={() => addArrayItem('program_highlights', { title: '', description: '' })}
+                    onClick={() => addArrayItem('specialization_program_highlights', { title: '', description: '', image_url: '' })}
                     className="text-sm text-blue-600 hover:text-blue-700"
                   >
                     + Add Highlight
                   </button>
                 </div>
-                {(Array.isArray(editingSpec.program_highlights) ? editingSpec.program_highlights : []).map((highlight, idx) => (
+                {(Array.isArray(editingSpec.specialization_program_highlights) ? editingSpec.specialization_program_highlights : []).map((highlight, idx) => (
                   <div key={idx} className="border border-gray-200 rounded-lg p-3 space-y-2">
                     <div className="flex items-center justify-between">
                       <span className="text-sm font-medium text-gray-700">Highlight {idx + 1}</span>
+                      <button
+                        type="button"
+                        onClick={() => removeArrayItem('specialization_program_highlights', idx)}
+                        className="text-red-600 hover:bg-red-50 rounded p-1"
+                      >
+                        <Trash2 className="w-4 h-4" />
+                      </button>
+                    </div>
+                    <input
+                      type="text"
+                      value={highlight.title || ''}
+                      onChange={(e) => {
+                        const highlights = [...(editingSpec.specialization_program_highlights || [])];
+                        highlights[idx] = { ...highlights[idx], title: e.target.value };
+                        setEditingSpec({ ...editingSpec, specialization_program_highlights: highlights });
+                      }}
+                      className="w-full px-3 py-2 border border-gray-300 rounded"
+                      placeholder="Title (e.g., CFA Level 1 Prep)"
+                    />
+                    <textarea
+                      value={highlight.description || ''}
+                      onChange={(e) => {
+                        const highlights = [...(editingSpec.specialization_program_highlights || [])];
+                        highlights[idx] = { ...highlights[idx], description: e.target.value };
+                        setEditingSpec({ ...editingSpec, specialization_program_highlights: highlights });
+                      }}
+                      rows={2}
+                      className="w-full px-3 py-2 border border-gray-300 rounded"
+                      placeholder="Description"
+                    />
+                    <input
+                      type="url"
+                      value={highlight.image_url || ''}
+                      onChange={(e) => {
+                        const highlights = [...(editingSpec.specialization_program_highlights || [])];
+                        highlights[idx] = { ...highlights[idx], image_url: e.target.value };
+                        setEditingSpec({ ...editingSpec, specialization_program_highlights: highlights });
+                      }}
+                      className="w-full px-3 py-2 border border-gray-300 rounded"
+                      placeholder="Image URL (logo/badge)"
+                    />
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+
+          {/* Core of Specialization */}
+          <div className="space-y-4">
+            <SectionHeader title="Core of Specialization" section="highlights" />
+            {expandedSections.highlights && (
+              <div className="bg-white p-4 rounded-lg space-y-4">
+                <div className="flex items-center justify-between mb-2">
+                  <label className="block text-sm font-medium text-gray-700">Core Features</label>
+                  <button
+                    type="button"
+                    onClick={() => addArrayItem('program_highlights', { title: '', description: '' })}
+                    className="text-sm text-blue-600 hover:text-blue-700"
+                  >
+                    + Add Core Feature
+                  </button>
+                </div>
+                {(Array.isArray(editingSpec.program_highlights) ? editingSpec.program_highlights : []).map((highlight, idx) => (
+                  <div key={idx} className="border border-gray-200 rounded-lg p-3 space-y-2">
+                    <div className="flex items-center justify-between">
+                      <span className="text-sm font-medium text-gray-700">Core Feature {idx + 1}</span>
                       <button
                         type="button"
                         onClick={() => removeArrayItem('program_highlights', idx)}
@@ -566,7 +640,7 @@ const EnhancedCourseSpecializationsManager = () => {
                         setEditingSpec({ ...editingSpec, program_highlights: highlights });
                       }}
                       className="w-full px-3 py-2 border border-gray-300 rounded"
-                      placeholder="Title (e.g., Industry-Relevant Curriculum)"
+                      placeholder="Title (e.g., Advanced Financial Modeling)"
                     />
                     <textarea
                       value={highlight.description || ''}
@@ -916,6 +990,7 @@ const EnhancedCourseSpecializationsManager = () => {
                         const normalizedSpec = {
                           ...spec,
                           industry_insight_stats: Array.isArray(parseField(spec.industry_insight_stats)) ? parseField(spec.industry_insight_stats) : [],
+                          specialization_program_highlights: Array.isArray(parseField(spec.specialization_program_highlights)) ? parseField(spec.specialization_program_highlights) : [],
                           program_highlights: Array.isArray(parseField(spec.program_highlights)) ? parseField(spec.program_highlights) : [],
                           curriculum: Array.isArray(parseCurriculum(spec.curriculum)) 
                             ? parseCurriculum(spec.curriculum).map(sem => ({

@@ -12,7 +12,8 @@ import {
   TrendingUp,
   Users,
   Briefcase,
-  BookOpen
+  BookOpen,
+  X
 } from 'lucide-react';
 
 const EnhancedCourseDetail = () => {
@@ -23,6 +24,7 @@ const EnhancedCourseDetail = () => {
   const [selectedSpec, setSelectedSpec] = useState(null);
   const [university, setUniversity] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [zoomedImage, setZoomedImage] = useState(null);
 
   useEffect(() => {
     fetchCourseDetails();
@@ -76,6 +78,7 @@ const EnhancedCourseDetail = () => {
           return {
             ...spec,
             curriculum: parseField(spec.curriculum),
+            specialization_program_highlights: parseField(spec.specialization_program_highlights),
             program_highlights: parseField(spec.program_highlights),
             industry_insight_stats: parseField(spec.industry_insight_stats),
             career_paths: parseField(spec.career_paths)
@@ -161,6 +164,37 @@ const EnhancedCourseDetail = () => {
             <p className="text-gray-700 leading-relaxed whitespace-pre-wrap break-words">
               {course.description}
             </p>
+          </div>
+        )}
+
+        {/* Program Highlights - Course Level */}
+        {course.program_highlights && Array.isArray(course.program_highlights) && course.program_highlights.length > 0 && (
+          <div className="bg-white border border-gray-300 rounded-lg p-6 overflow-hidden">
+            <h2 className="text-2xl font-bold text-gray-900 mb-6">Program Highlights</h2>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {course.program_highlights.map((highlight, idx) => (
+                <div key={idx} className="border border-gray-200 rounded-lg p-4 hover:shadow-lg transition-shadow overflow-hidden">
+                  {highlight.image_url && (
+                    <div className="mb-4 flex justify-center">
+                      <img
+                        src={highlight.image_url}
+                        alt={highlight.title}
+                        className="h-16 w-auto object-contain cursor-pointer hover:scale-105 transition-transform"
+                        onClick={() => setZoomedImage({ url: highlight.image_url, title: highlight.title })}
+                      />
+                    </div>
+                  )}
+                  <h3 className="font-semibold text-gray-900 mb-2 text-center break-words">
+                    {highlight.title}
+                  </h3>
+                  {highlight.description && (
+                    <p className="text-sm text-gray-600 text-center break-words">
+                      {highlight.description}
+                    </p>
+                  )}
+                </div>
+              ))}
+            </div>
           </div>
         )}
 
@@ -302,6 +336,37 @@ const EnhancedCourseDetail = () => {
                 </p>
               )}
             </div>
+
+            {/* Specialization Program Highlights with Images */}
+            {selectedSpec.specialization_program_highlights && Array.isArray(selectedSpec.specialization_program_highlights) && selectedSpec.specialization_program_highlights.length > 0 && (
+              <div className="bg-white border border-gray-300 rounded-lg p-6 overflow-hidden">
+                <h2 className="text-2xl font-bold text-gray-900 mb-6">Program Highlights</h2>
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                  {selectedSpec.specialization_program_highlights.map((highlight, idx) => (
+                    <div key={idx} className="border border-gray-200 rounded-lg p-4 hover:shadow-lg transition-shadow overflow-hidden">
+                      {highlight.image_url && (
+                        <div className="mb-4 flex justify-center">
+                          <img
+                            src={highlight.image_url}
+                            alt={highlight.title}
+                            className="h-16 w-auto object-contain cursor-pointer hover:scale-105 transition-transform"
+                            onClick={() => setZoomedImage({ url: highlight.image_url, title: highlight.title })}
+                          />
+                        </div>
+                      )}
+                      <h3 className="font-semibold text-gray-900 mb-2 text-center break-words">
+                        {highlight.title}
+                      </h3>
+                      {highlight.description && (
+                        <p className="text-sm text-gray-600 text-center break-words">
+                          {highlight.description}
+                        </p>
+                      )}
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
 
             {/* Industry Insight */}
             {selectedSpec.industry_insight_content && (
@@ -490,6 +555,37 @@ const EnhancedCourseDetail = () => {
           </>
         )}
       </div>
+
+      {/* Image Zoom Modal */}
+      {zoomedImage && (
+        <div 
+          className="fixed inset-0 bg-black bg-opacity-75 z-50 flex items-center justify-center p-4"
+          onClick={() => setZoomedImage(null)}
+        >
+          <div className="relative max-w-4xl max-h-[90vh] bg-white rounded-lg p-4">
+            <button
+              onClick={() => setZoomedImage(null)}
+              className="absolute top-2 right-2 bg-white rounded-full p-2 shadow-lg hover:bg-gray-100 transition-colors z-10"
+              aria-label="Close"
+            >
+              <X className="w-6 h-6 text-gray-700" />
+            </button>
+            <div className="flex flex-col items-center">
+              <img
+                src={zoomedImage.url}
+                alt={zoomedImage.title}
+                className="max-w-full max-h-[80vh] object-contain"
+                onClick={(e) => e.stopPropagation()}
+              />
+              {zoomedImage.title && (
+                <p className="mt-4 text-lg font-semibold text-gray-900 text-center">
+                  {zoomedImage.title}
+                </p>
+              )}
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

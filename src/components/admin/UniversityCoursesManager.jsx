@@ -57,6 +57,7 @@ const UniversityCoursesManager = ({ universityId }) => {
       fees: '',
       specializations: [],
       image_url: '',
+      program_highlights: [],
     });
     setEditingId(null);
   };
@@ -69,6 +70,7 @@ const UniversityCoursesManager = ({ universityId }) => {
       fees: course.fees || '',
       specializations: course.specializations || [],
       image_url: course.image_url || '',
+      program_highlights: course.program_highlights || [],
     });
     setEditingId(course.id);
   };
@@ -94,6 +96,7 @@ const UniversityCoursesManager = ({ universityId }) => {
         fees: formData.fees || null,
         specializations: formData.specializations || [],
         image_url: formData.image_url || null,
+        program_highlights: formData.program_highlights || [],
       };
 
       console.log('Saving course data:', courseData);
@@ -194,12 +197,12 @@ const UniversityCoursesManager = ({ universityId }) => {
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* Form */}
         <div className="lg:col-span-1">
-          <div className="bg-white rounded-lg shadow border border-gray-200 p-6">
-            <h4 className="text-md font-semibold text-gray-900 mb-4">
+          <div className="bg-white rounded-lg shadow border border-gray-200 p-6 max-h-[calc(100vh-200px)] overflow-y-auto">
+            <h4 className="text-md font-semibold text-gray-900 mb-4 sticky top-0 bg-white pb-2 border-b border-gray-200">
               {editingId ? 'Edit Course' : 'Add New Course'}
             </h4>
             
-            <div className="space-y-4">
+            <div className="space-y-4 mt-4">
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">
                   Course Name *
@@ -290,6 +293,80 @@ const UniversityCoursesManager = ({ universityId }) => {
                   placeholder="https://example.com/image.jpg"
                   className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                 />
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  Program Highlights (Degree Images, Certifications)
+                </label>
+                <button
+                  type="button"
+                  onClick={() => {
+                    setFormData({
+                      ...formData,
+                      program_highlights: [...(formData.program_highlights || []), { title: '', description: '', image_url: '' }]
+                    });
+                  }}
+                  className="w-full px-3 py-2 border-2 border-dashed border-gray-300 rounded-lg hover:border-blue-500 text-gray-600 hover:text-blue-600 transition-colors text-sm"
+                >
+                  + Add Highlight
+                </button>
+                {formData.program_highlights && formData.program_highlights.length > 0 && (
+                  <div className="mt-2 space-y-3">
+                    {formData.program_highlights.map((highlight, index) => (
+                      <div key={index} className="bg-gray-50 p-3 rounded border border-gray-200">
+                        <div className="flex items-center justify-between mb-2">
+                          <span className="text-xs font-semibold text-gray-700">Highlight {index + 1}</span>
+                          <button
+                            type="button"
+                            onClick={() => {
+                              setFormData({
+                                ...formData,
+                                program_highlights: formData.program_highlights.filter((_, i) => i !== index)
+                              });
+                            }}
+                            className="text-red-600 hover:text-red-800"
+                          >
+                            <Trash2 className="w-3 h-3" />
+                          </button>
+                        </div>
+                        <input
+                          type="text"
+                          value={highlight.title || ''}
+                          onChange={(e) => {
+                            const newHighlights = [...formData.program_highlights];
+                            newHighlights[index] = { ...newHighlights[index], title: e.target.value };
+                            setFormData({ ...formData, program_highlights: newHighlights });
+                          }}
+                          placeholder="Title (e.g., UGC Approved)"
+                          className="w-full px-2 py-1 text-sm border border-gray-300 rounded mb-2"
+                        />
+                        <input
+                          type="text"
+                          value={highlight.description || ''}
+                          onChange={(e) => {
+                            const newHighlights = [...formData.program_highlights];
+                            newHighlights[index] = { ...newHighlights[index], description: e.target.value };
+                            setFormData({ ...formData, program_highlights: newHighlights });
+                          }}
+                          placeholder="Description"
+                          className="w-full px-2 py-1 text-sm border border-gray-300 rounded mb-2"
+                        />
+                        <input
+                          type="url"
+                          value={highlight.image_url || ''}
+                          onChange={(e) => {
+                            const newHighlights = [...formData.program_highlights];
+                            newHighlights[index] = { ...newHighlights[index], image_url: e.target.value };
+                            setFormData({ ...formData, program_highlights: newHighlights });
+                          }}
+                          placeholder="Image URL (logo/badge)"
+                          className="w-full px-2 py-1 text-sm border border-gray-300 rounded"
+                        />
+                      </div>
+                    ))}
+                  </div>
+                )}
               </div>
 
               <div className="flex gap-2">
