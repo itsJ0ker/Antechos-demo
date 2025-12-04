@@ -22,6 +22,7 @@ import {
 } from 'lucide-react';
 import { supabase } from '../../lib/supabase';
 import EnhancedUniversityManager from '../../components/admin/EnhancedUniversityManager';
+import UniversityPageManager from '../../components/admin/UniversityPageManager';
 import AccreditationManager from '../../components/admin/AccreditationManager';
 import HiringPartnersManager from '../../components/admin/HiringPartnersManager';
 import CourseManager from '../../components/admin/CourseManager';
@@ -127,6 +128,7 @@ const EnhancedAdminDashboard = () => {
     { id: 'marketplaceredesign', label: 'Marketplace Redesign', icon: DollarSign, color: 'rose' },
     { id: 'courseshero', label: 'Courses Hero', icon: FileText, color: 'cyan' },
     { id: 'universities', label: 'Universities', icon: Building, color: 'purple' },
+    { id: 'university-page', label: 'University Page', icon: GraduationCap, color: 'blue' },
     { id: 'courses', label: 'Courses & Fees', icon: BookOpen, color: 'green' },
     { id: 'specializations', label: 'Course Specializations', icon: GraduationCap, color: 'teal' },
     { id: 'specializations-enhanced', label: 'Specializations (Enhanced)', icon: GraduationCap, color: 'violet' },
@@ -346,6 +348,7 @@ const EnhancedAdminDashboard = () => {
           {activeTab === 'marketplaceredesign' && <MarketplaceRedesignManager />}
           {activeTab === 'courseshero' && <CoursesHeroManager />}
           {activeTab === 'universities' && <EnhancedUniversityManager />}
+          {activeTab === 'university-page' && <UniversityPageManager />}
           {activeTab === 'courses' && <CourseManager />}
           {activeTab === 'specializations' && <CourseSpecializationsManager />}
           {activeTab === 'specializations-enhanced' && <EnhancedCourseSpecializationsManager />}
