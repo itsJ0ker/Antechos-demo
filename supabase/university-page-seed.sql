@@ -7,10 +7,10 @@ INSERT INTO university_page_hero (title, subtitle, background_image, is_active) 
 
 -- Hero Tabs (now below hero)
 INSERT INTO university_page_tabs (tab_name, tab_link, display_order) VALUES
-('XX Courses', '/courses', 1),
-('Alumni', '/alumni', 2),
-('Universities', '/universities', 3),
-('Travel Excella', '/travel', 4);
+('XX Courses', '#/courses', 1),
+('Alumni', '#/alumni', 2),
+('Universities', '#/universities', 3),
+('Travel Excella', '#/travel', 4);
 
 -- Stats Section
 INSERT INTO university_page_stats (stat_number, stat_label, icon_type, background_color, text_color, display_order) VALUES
@@ -68,17 +68,17 @@ INSERT INTO university_page_testimonials (student_name, before_title, after_titl
 
 -- Talk to Expert CTA
 INSERT INTO university_page_expert_cta (title, subtitle, button_text, button_link) VALUES
-('Talk to Expert', 'Get personalized guidance for your educational journey', 'Talk to Expert', '/contact-expert');
+('Talk to Expert', 'Get personalized guidance for your educational journey', 'Talk to Expert', '#/contact-expert');
 
 -- Blogs Section
 INSERT INTO university_page_blogs_section (section_title, section_subtitle) VALUES
 ('Blogs', 'Stay updated with the latest insights and trends in education');
 
 INSERT INTO university_page_blogs (title, excerpt, image_url, author_name, publish_date, read_time, category, link, display_order) VALUES
-('Top 10 MBA Specializations in 2024', 'Discover the most in-demand MBA specializations that can boost your career prospects', 'https://images.unsplash.com/photo-1434030216411-0b793f4b4173?w=400', 'Dr. Anjali Mehta', '2024-01-15', '5 min read', 'MBA', '/blog/mba-specializations', 1),
-('The Future of Online Education', 'How technology is reshaping the way we learn and grow', 'https://images.unsplash.com/photo-1501504905252-473c47e087f8?w=400', 'Prof. Rajesh Kumar', '2024-01-10', '7 min read', 'Education', '/blog/future-online-education', 2),
-('Career Transition: From IT to Management', 'A comprehensive guide for tech professionals looking to move into management roles', 'https://images.unsplash.com/photo-1552664730-d307ca884978?w=400', 'Sneha Gupta', '2024-01-05', '6 min read', 'Career', '/blog/it-to-management', 3),
-('Choosing the Right University: A Complete Guide', 'Key factors to consider when selecting your educational institution', 'https://images.unsplash.com/photo-1523050854058-8df90110c9f1?w=400', 'Dr. Vikram Singh', '2024-01-01', '8 min read', 'Admissions', '/blog/choosing-university', 4);
+('Top 10 MBA Specializations in 2024', 'Discover the most in-demand MBA specializations that can boost your career prospects', 'https://images.unsplash.com/photo-1434030216411-0b793f4b4173?w=400', 'Dr. Anjali Mehta', '2024-01-15', '5 min read', 'MBA', '#/blog/mba-specializations', 1),
+('The Future of Online Education', 'How technology is reshaping the way we learn and grow', 'https://images.unsplash.com/photo-1501504905252-473c47e087f8?w=400', 'Prof. Rajesh Kumar', '2024-01-10', '7 min read', 'Education', '#/blog/future-online-education', 2),
+('Career Transition: From IT to Management', 'A comprehensive guide for tech professionals looking to move into management roles', 'https://images.unsplash.com/photo-1552664730-d307ca884978?w=400', 'Sneha Gupta', '2024-01-05', '6 min read', 'Career', '#/blog/it-to-management', 3),
+('Choosing the Right University: A Complete Guide', 'Key factors to consider when selecting your educational institution', 'https://images.unsplash.com/photo-1523050854058-8df90110c9f1?w=400', 'Dr. Vikram Singh', '2024-01-01', '8 min read', 'Admissions', '#/blog/choosing-university', 4);
 
 -- Helper query to link existing data:
 -- Run these queries to see your existing data and then manually link them:
