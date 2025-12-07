@@ -511,10 +511,10 @@ const UniversityPage = () => {
         <div className="container mx-auto px-4">
           {/* Section Header */}
           <div className="mb-8">
-            <h2 className="text-3xl font-bold text-teal-700 mb-1">
+            <h2 className="text-3xl font-bold text-blue-600 mb-1">
               In-Demand Courses
             </h2>
-            <p className="text-teal-600 text-base">
+            <p className="text-blue-500 text-base">
               Discover in-demand courses across industries
             </p>
           </div>
@@ -564,7 +564,7 @@ const UniversityPage = () => {
                   {/* Course Content */}
                   <div className="p-4 space-y-3">
                     {/* Course Title */}
-                    <h3 className="text-base font-semibold text-teal-700 line-clamp-2 min-h-[2.5rem]">
+                    <h3 className="text-base font-semibold text-blue-600 line-clamp-2 min-h-[2.5rem]">
                       {course.course_name}
                     </h3>
 
@@ -596,7 +596,7 @@ const UniversityPage = () => {
                     </div>*/}
 
                     {/* View Program Button */}
-                    <button className="w-full bg-teal-700 hover:bg-teal-800 text-white text-sm font-medium py-2 px-3 rounded-lg transition-colors duration-200 flex items-center justify-center gap-2">
+                    <button className="w-full bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium py-2 px-3 rounded-lg transition-colors duration-200 flex items-center justify-center gap-2">
                       {clickedCourseId === course.id ? (
                         <div className="w-4 h-4 border-2 border-white/40 border-t-white rounded-full animate-spin"></div>
                       ) : (
@@ -643,7 +643,7 @@ const UniversityPage = () => {
                   onClick={() => setCurrentFeaturedIndex(idx * 4)}
                   className={`transition-all duration-300 rounded-full ${
                     Math.floor(currentFeaturedIndex / 4) === idx 
-                      ? 'w-8 h-3 bg-teal-700' 
+                      ? 'w-8 h-3 bg-blue-600' 
                       : 'w-3 h-3 bg-gray-300 hover:bg-gray-400'
                   }`}
                   aria-label={`Go to page ${idx + 1}`}
@@ -656,24 +656,24 @@ const UniversityPage = () => {
 
       {/* Enhanced Universities to Explore */}
       {exploreSection && (
-        <section className="py-20 bg-[#0d4d4d] relative overflow-hidden">
+        <section className="py-20 bg-blue-600 relative overflow-hidden">
           {/* Curved top edge */}
           <div className="absolute top-0 left-0 right-0 h-16 bg-white">
             <svg className="absolute bottom-0 w-full h-16" viewBox="0 0 1440 64" preserveAspectRatio="none">
-              <path d="M0,64 Q360,0 720,32 T1440,64 L1440,64 L0,64 Z" fill="#0d4d4d"/>
+              <path d="M0,64 Q360,0 720,32 T1440,64 L1440,64 L0,64 Z" fill="#2563eb"/>
             </svg>
           </div>
           
           {/* Curved bottom edge */}
           <div className="absolute bottom-0 left-0 right-0 h-16 bg-white">
             <svg className="absolute top-0 w-full h-16" viewBox="0 0 1440 64" preserveAspectRatio="none">
-              <path d="M0,0 Q360,64 720,32 T1440,0 L1440,0 L0,0 Z" fill="#0d4d4d"/>
+              <path d="M0,0 Q360,64 720,32 T1440,0 L1440,0 L0,0 Z" fill="#2563eb"/>
             </svg>
           </div>
           
           <div className="container mx-auto px-4 relative z-10 pt-12">
             <div className="text-center mb-12">
-              <h2 className="text-4xl md:text-5xl font-bold text-[#f4d03f] mb-4">
+              <h2 className="text-4xl md:text-5xl font-bold text-white mb-4">
                 {exploreSection.section_title}
               </h2>
               {exploreSection.section_subtitle && (
@@ -729,19 +729,19 @@ const UniversityPage = () => {
                       <div className="space-y-2 text-sm text-gray-600">
                         {card.description && (
                           <div className="flex items-start gap-2">
-                            <span className="text-[#0d4d4d] mt-0.5">✓</span>
+                            <span className="text-blue-600 mt-0.5">✓</span>
                             <span className="line-clamp-2">{card.description}</span>
                           </div>
                         )}
                         {card.course_count && (
                           <div className="flex items-start gap-2">
-                            <span className="text-[#0d4d4d]">✓</span>
+                            <span className="text-blue-600">✓</span>
                             <span>{card.course_count}+ Courses Available</span>
                           </div>
                         )}
                         {card.student_count && (
                           <div className="flex items-start gap-2">
-                            <span className="text-[#0d4d4d]">✓</span>
+                            <span className="text-blue-600">✓</span>
                             <span>{card.student_count.toLocaleString()} Active Students</span>
                           </div>
                         )}
@@ -749,7 +749,7 @@ const UniversityPage = () => {
                       
                       {/* Know More button */}
                       <div className="pt-3">
-                        <button className="w-full bg-[#0d4d4d] hover:bg-[#0a3d3d] text-white font-semibold py-2.5 px-4 rounded-lg transition-colors duration-300">
+                        <button className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2.5 px-4 rounded-lg transition-colors duration-300">
                           Know More
                         </button>
                       </div>
@@ -764,7 +764,7 @@ const UniversityPage = () => {
                   onClick={() => scrollExplore('left')}
                   className="absolute left-0 top-1/2 -translate-y-1/2 z-10 bg-white/90 hover:bg-white rounded-full p-3 shadow-lg transition-all duration-300"
                 >
-                  <ChevronLeft className="w-6 h-6 text-[#0d4d4d]" />
+                  <ChevronLeft className="w-6 h-6 text-blue-600" />
                 </button>
 
                 <div id="explore-scroll" className="flex gap-6 overflow-x-auto scrollbar-hide scroll-smooth px-12">
@@ -810,19 +810,19 @@ const UniversityPage = () => {
                         <div className="space-y-2 text-sm text-gray-600">
                           {card.description && (
                             <div className="flex items-start gap-2">
-                              <span className="text-[#0d4d4d] mt-0.5">✓</span>
+                              <span className="text-blue-600 mt-0.5">✓</span>
                               <span className="line-clamp-2">{card.description}</span>
                             </div>
                           )}
                           {card.course_count && (
                             <div className="flex items-start gap-2">
-                              <span className="text-[#0d4d4d]">✓</span>
+                              <span className="text-blue-600">✓</span>
                               <span>{card.course_count}+ Courses Available</span>
                             </div>
                           )}
                           {card.student_count && (
                             <div className="flex items-start gap-2">
-                              <span className="text-[#0d4d4d]">✓</span>
+                              <span className="text-blue-600">✓</span>
                               <span>{card.student_count.toLocaleString()} Active Students</span>
                             </div>
                           )}
@@ -830,7 +830,7 @@ const UniversityPage = () => {
                         
                         {/* Know More button */}
                         <div className="pt-3">
-                          <button className="w-full bg-[#0d4d4d] hover:bg-[#0a3d3d] text-white font-semibold py-2.5 px-4 rounded-lg transition-colors duration-300">
+                          <button className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2.5 px-4 rounded-lg transition-colors duration-300">
                             Know More
                           </button>
                         </div>
@@ -843,7 +843,7 @@ const UniversityPage = () => {
                   onClick={() => scrollExplore('right')}
                   className="absolute right-0 top-1/2 -translate-y-1/2 z-10 bg-white/90 hover:bg-white rounded-full p-3 shadow-lg transition-all duration-300"
                 >
-                  <ChevronRight className="w-6 h-6 text-[#0d4d4d]" />
+                  <ChevronRight className="w-6 h-6 text-blue-600" />
                 </button>
               </div>
             )}
@@ -851,7 +851,7 @@ const UniversityPage = () => {
             <div className="text-center mt-12">
               <button 
                 onClick={handleViewAllUniversities}
-                className="group inline-flex items-center gap-3 bg-[#f4d03f] hover:bg-[#e5c230] text-[#0d4d4d] font-bold px-8 py-3.5 rounded-lg transition-all duration-300 shadow-lg hover:shadow-xl"
+                className="group inline-flex items-center gap-3 bg-white hover:bg-gray-50 text-blue-600 font-bold px-8 py-3.5 rounded-lg transition-all duration-300 shadow-lg hover:shadow-xl border-2 border-white"
               >
                 <span>{showAllUniversities ? 'Show Less Universities' : 'View All Universities'}</span>
                 <ArrowRight className={`w-5 h-5 transition-transform duration-300 ${showAllUniversities ? 'rotate-180' : 'group-hover:translate-x-1'}`} />
@@ -944,7 +944,7 @@ const UniversityPage = () => {
           <div className="container mx-auto px-4">
             {/* Section Header */}
             <div className="text-center mb-12">
-              <h2 className="text-4xl font-bold text-[#0d5858] mb-3">
+              <h2 className="text-4xl font-bold text-blue-600 mb-3">
                 {storiesSection.section_title}
               </h2>
               {storiesSection.section_subtitle && (
@@ -1032,14 +1032,14 @@ const UniversityPage = () => {
 
                     {/* Arrow */}
                     <div className="hidden md:block">
-                      <ArrowRight className="w-8 h-8 text-[#0d5858]" />
+                      <ArrowRight className="w-8 h-8 text-blue-600" />
                     </div>
                   </div>
 
                   {/* After Card */}
                   <div className="flex-1 max-w-xs">
-                    <div className="bg-white rounded-xl border-2 border-[#0d5858] p-6 text-center">
-                      <div className="inline-block bg-[#0d5858] text-white text-xs font-bold px-3 py-1 rounded-full mb-4">
+                    <div className="bg-white rounded-xl border-2 border-blue-600 p-6 text-center">
+                      <div className="inline-block bg-blue-600 text-white text-xs font-bold px-3 py-1 rounded-full mb-4">
                         AFTER
                       </div>
                       {testimonials[currentTestimonialIndex].after_company_logo ? (
@@ -1052,7 +1052,7 @@ const UniversityPage = () => {
                         </div>
                       ) : (
                         <div className="h-16 flex items-center justify-center mb-3">
-                          <div className="w-12 h-12 bg-[#0d5858]/10 rounded-lg"></div>
+                          <div className="w-12 h-12 bg-blue-100 rounded-lg"></div>
                         </div>
                       )}
                       <p className="text-sm font-semibold text-gray-700">
@@ -1085,7 +1085,7 @@ const UniversityPage = () => {
                 {/* Testimonial Quote */}
                 <div className="bg-gray-50 rounded-xl p-6 mb-6">
                   <div className="flex justify-center mb-3">
-                    <span className="text-4xl text-[#0d5858] font-serif">"</span>
+                    <span className="text-4xl text-blue-600 font-serif">"</span>
                   </div>
                   <p className="text-base md:text-lg text-gray-700 leading-relaxed text-center italic">
                     {testimonials[currentTestimonialIndex].story}
@@ -1122,7 +1122,7 @@ const UniversityPage = () => {
                       onClick={() => setCurrentTestimonialIndex(index)}
                       className={`h-2 rounded-full transition-all duration-300 ${
                         index === currentTestimonialIndex 
-                          ? 'w-8 bg-[#0d5858]' 
+                          ? 'w-8 bg-blue-600' 
                           : 'w-2 bg-gray-300 hover:bg-gray-400'
                       }`}
                       aria-label={`Go to testimonial ${index + 1}`}
@@ -1135,7 +1135,7 @@ const UniversityPage = () => {
               <div className="text-center mt-8">
                 <a
                   href={expertCTA?.button_link || '/contact'}
-                  className="inline-flex items-center gap-2 bg-[#0d5858] hover:bg-[#0a4444] text-white font-semibold px-8 py-4 rounded-lg transition-colors duration-200 shadow-lg hover:shadow-xl"
+                  className="inline-flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white font-semibold px-8 py-4 rounded-lg transition-colors duration-200 shadow-lg hover:shadow-xl"
                 >
                   <span>Talk To Expert Counsellor</span>
                   <ArrowRight className="w-5 h-5" />
