@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { supabase } from '../lib/supabase';
-import { ChevronLeft, ChevronRight, Star, Users, BookOpen, ArrowRight } from 'lucide-react';
+import { ChevronLeft, ChevronRight, Star, Users, BookOpen, ArrowRight, Clock, GraduationCap, CreditCard } from 'lucide-react';
 
 // Enhanced custom styles for modern UI
 const customStyles = `
@@ -387,60 +387,38 @@ const UniversityPage = () => {
     <div className="min-h-screen bg-gray-50">
       {/* Inject custom styles */}
       <style dangerouslySetInnerHTML={{ __html: customStyles }} />
-      {/* Enhanced Hero Section */}
+      {/* Professional Hero Section */}
       {heroData && (
         <div 
-          className="relative h-[800px] bg-cover bg-center overflow-hidden"
+          className="relative h-[600px] bg-cover bg-center"
           style={{ backgroundImage: `url(${heroData.background_image})` }}
         >
-          {/* Animated gradient overlay */}
-          <div className="absolute inset-0 gradient-bg opacity-20"></div>
-          <div 
-            className="absolute inset-0 bg-gradient-to-br from-black/60 via-black/40 to-black/60"
-          ></div>
+          {/* Dark overlay for readability */}
+          <div className="absolute inset-0 bg-gradient-to-r from-black/70 to-black/50"></div>
           
-          {/* Floating particles */}
-          <div className="absolute inset-0 overflow-hidden">
-            <div className="absolute top-20 left-10 w-2 h-2 bg-white/30 rounded-full floating-animation"></div>
-            <div className="absolute top-40 right-20 w-3 h-3 bg-blue-400/40 rounded-full floating-animation" style={{ animationDelay: '1s' }}></div>
-            <div className="absolute bottom-40 left-20 w-1 h-1 bg-purple-400/50 rounded-full floating-animation" style={{ animationDelay: '2s' }}></div>
-            <div className="absolute top-60 left-1/3 w-2 h-2 bg-pink-400/30 rounded-full floating-animation" style={{ animationDelay: '0.5s' }}></div>
-          </div>
-          
-          <div className="relative z-10 container mx-auto px-4 h-full flex flex-col justify-center items-center text-white">
-            <div className="text-center max-w-5xl slide-in-up">
-              <h1 className="text-7xl md:text-8xl font-bold mb-8 text-shadow bg-gradient-to-r from-white via-blue-100 to-purple-100 bg-clip-text text-transparent">
+          <div className="relative z-10 container mx-auto px-4 h-full flex flex-col justify-center">
+            <div className="max-w-3xl">
+              <h1 className="text-5xl md:text-6xl font-bold mb-6 text-white">
                 {heroData.title}
               </h1>
               {heroData.subtitle && (
-                <p className="text-2xl md:text-3xl mb-12 text-shadow opacity-90 leading-relaxed">
+                <p className="text-xl md:text-2xl mb-8 text-gray-200 leading-relaxed">
                   {heroData.subtitle}
                 </p>
               )}
               {heroData.cta_text && (
-                <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
+                <div className="flex flex-col sm:flex-row gap-4">
                   <a
                     href={heroData.cta_link}
-                    className="group relative bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white px-12 py-5 rounded-2xl font-semibold text-xl transition-all duration-300 shadow-2xl hover:shadow-blue-500/25 pulse-glow"
+                    className="inline-block bg-blue-600 hover:bg-blue-700 text-white px-8 py-4 rounded-lg font-semibold text-lg transition-colors duration-200 text-center"
                   >
-                    <span className="relative z-10">{heroData.cta_text}</span>
-                    <div className="absolute inset-0 bg-gradient-to-r from-white/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity rounded-2xl"></div>
+                    {heroData.cta_text}
                   </a>
-                  <button className="glass-effect text-white px-8 py-4 rounded-xl font-medium hover:bg-white/20 transition-all duration-300">
-                    Watch Demo
-                  </button>
+                  {/*<button className="inline-block bg-white/10 hover:bg-white/20 backdrop-blur-sm text-white px-8 py-4 rounded-lg font-semibold text-lg transition-colors duration-200 border border-white/30">
+                    Learn More
+                  </button>*/}
                 </div>
               )}
-            </div>
-          </div>
-          
-          {/* Scroll indicator */}
-          <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 text-white/70">
-            <div className="flex flex-col items-center gap-2">
-              <span className="text-sm">Scroll to explore</span>
-              <div className="w-6 h-10 border-2 border-white/30 rounded-full flex justify-center">
-                <div className="w-1 h-3 bg-white/50 rounded-full mt-2 animate-bounce"></div>
-              </div>
             </div>
           </div>
         </div>
@@ -528,46 +506,27 @@ const UniversityPage = () => {
         </section>
       )}
 
-      {/* Enhanced Featured Courses Carousel */}
-      <section className="py-20 bg-gradient-to-br from-white via-blue-50/30 to-purple-50/30 relative overflow-hidden">
-        {/* Background decoration */}
-        <div className="absolute inset-0 opacity-5">
-          <div className="absolute top-20 left-20 w-64 h-64 bg-gradient-to-r from-blue-400 to-purple-400 rounded-full blur-3xl"></div>
-          <div className="absolute bottom-20 right-20 w-48 h-48 bg-gradient-to-r from-pink-400 to-orange-400 rounded-full blur-3xl"></div>
-        </div>
-        
-        <div className="container mx-auto px-4 relative z-10">
-          <div className="text-center mb-16">
-            <div className="inline-flex items-center gap-3 mb-4">
-              <div className="w-12 h-1 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full"></div>
-              <span className="text-sm font-semibold text-blue-600 uppercase tracking-wider">Featured</span>
-              <div className="w-12 h-1 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full"></div>
-            </div>
-            
-            <h2 className="text-5xl font-bold text-gray-800 mb-4">
-              In Demand <span className="bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">Courses</span>
+      {/* In-Demand Courses Section */}
+      <section className="py-12 bg-gray-50">
+        <div className="container mx-auto px-4">
+          {/* Section Header */}
+          <div className="mb-8">
+            <h2 className="text-3xl font-bold text-teal-700 mb-1">
+              In-Demand Courses
             </h2>
-            <p className="text-xl text-gray-600 max-w-2xl mx-auto">
-              Discover the most sought-after programs designed to accelerate your career
+            <p className="text-teal-600 text-base">
+              Discover in-demand courses across industries
             </p>
-            
-            {featuredCourses.length > 5 && (
-              <div className="flex items-center justify-center gap-3 mt-6">
-                <div className={`w-3 h-3 rounded-full ${isCarouselPaused ? 'bg-yellow-400' : 'bg-green-400'} animate-pulse shadow-lg`}></div>
-                <span className="text-sm font-medium text-gray-500">
-                  {isCarouselPaused ? 'Paused' : 'Auto-rotating'}
-                </span>
-              </div>
-            )}
           </div>
           
+          {/* Courses Grid */}
           <div 
-            className="relative mt-12"
+            className="relative"
             onMouseEnter={() => setIsCarouselPaused(true)}
             onMouseLeave={() => setIsCarouselPaused(false)}
           >
-            <div className="flex justify-center items-center gap-8 overflow-hidden">
-              {featuredCourses.slice(currentFeaturedIndex, currentFeaturedIndex + 5).map((course, index) => (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5">
+              {featuredCourses.slice(currentFeaturedIndex, currentFeaturedIndex + 4).map((course) => (
                 <div
                   key={course.id}
                   onClick={(e) => {
@@ -583,244 +542,218 @@ const UniversityPage = () => {
                   tabIndex={0}
                   role="button"
                   aria-label={`View course: ${course.course_name}`}
-                  className={`group flex-shrink-0 w-56 h-80 rounded-3xl p-8 flex flex-col items-center justify-center text-center shadow-xl hover:shadow-2xl focus:shadow-2xl focus:outline-none focus:ring-4 focus:ring-blue-500/20 transition-all duration-500 cursor-pointer transform hover:scale-110 hover:-translate-y-4 focus:scale-110 focus:-translate-y-4 relative overflow-hidden card-hover-lift ${
-                    clickedCourseId === course.id ? 'animate-pulse scale-95' : ''
+                  className={`group bg-white rounded-xl border-2 border-gray-200 overflow-hidden hover:shadow-lg transition-all duration-300 cursor-pointer ${
+                    clickedCourseId === course.id ? 'opacity-75' : ''
                   }`}
-                  style={{ 
-                    background: `linear-gradient(135deg, ${course.background_color}, ${course.background_color}dd)`,
-                    color: course.text_color 
-                  }}
                 >
-                  {/* Enhanced gradient overlay */}
-                  <div className="absolute inset-0 bg-gradient-to-br from-white/20 via-transparent to-black/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-                  
-                  {/* Enhanced floating particles */}
-                  <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-700">
-                    <div className="absolute top-6 left-6 w-3 h-3 bg-white/40 rounded-full animate-pulse"></div>
-                    <div className="absolute top-12 right-8 w-2 h-2 bg-white/50 rounded-full animate-bounce" style={{ animationDelay: '0.3s' }}></div>
-                    <div className="absolute bottom-12 left-8 w-2 h-2 bg-white/30 rounded-full animate-pulse" style={{ animationDelay: '0.6s' }}></div>
-                    <div className="absolute bottom-20 right-6 w-1 h-1 bg-white/60 rounded-full animate-bounce" style={{ animationDelay: '0.9s' }}></div>
-                  </div>
-
-                  {/* Enhanced shine effect */}
-                  <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000 ease-in-out"></div>
-
-                  <div className="relative z-10 space-y-4">
-                    {course.badge_text && (
-                      <div className="inline-flex">
-                        <span 
-                          className="text-xs font-semibold px-4 py-2 rounded-full backdrop-blur-sm border border-white/30 animate-pulse"
-                          style={{ backgroundColor: course.badge_color }}
-                        >
-                          ✨ {course.badge_text}
-                        </span>
+                  {/* Course Image */}
+                  <div className="relative h-36 overflow-hidden bg-gradient-to-br from-gray-100 to-gray-200">
+                    {course.image_url ? (
+                      <img 
+                        src={course.image_url} 
+                        alt={course.course_name}
+                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                      />
+                    ) : (
+                      <div className="w-full h-full flex items-center justify-center">
+                        <BookOpen className="w-12 h-12 text-gray-400" />
                       </div>
                     )}
-                    
-                    {/* Enhanced course icon */}
-                    <div className="transform group-hover:rotate-12 group-hover:scale-110 transition-all duration-500">
-                      <div className="w-16 h-16 mx-auto bg-white/25 backdrop-blur-sm rounded-2xl flex items-center justify-center mb-4 group-hover:bg-white/35 transition-all duration-300 shadow-lg">
-                        <BookOpen className="w-8 h-8 drop-shadow-lg" />
-                      </div>
-                    </div>
-
-                    <div className="space-y-2">
-                      <h3 className="text-3xl font-bold group-hover:scale-105 transition-transform duration-300 drop-shadow-lg">
-                        {course.course_code}
-                      </h3>
-                      <p className="text-sm opacity-90 group-hover:opacity-100 transition-opacity line-clamp-2 leading-relaxed">
-                        {course.course_name}
-                      </p>
-                    </div>
-
-                    {/* Enhanced hover indicator */}
-                    <div className="mt-6 opacity-0 group-hover:opacity-100 transform translate-y-4 group-hover:translate-y-0 transition-all duration-500">
-                      {clickedCourseId === course.id ? (
-                        <div className="w-6 h-6 mx-auto border-3 border-white/40 border-t-white rounded-full animate-spin"></div>
-                      ) : (
-                        <div className="flex items-center justify-center gap-2">
-                          <span className="text-xs font-medium">Explore Course</span>
-                          <ArrowRight className="w-4 h-4 animate-bounce" />
-                        </div>
-                      )}
-                    </div>
                   </div>
 
-                  {/* Enhanced border glow */}
-                  <div className="absolute inset-0 rounded-3xl border-2 border-white/0 group-hover:border-white/40 transition-all duration-500 shadow-inner"></div>
-                  
-                  {/* Pulse effect on hover */}
-                  <div className="absolute inset-0 rounded-3xl bg-white/10 opacity-0 group-hover:opacity-100 animate-pulse transition-opacity duration-300"></div>
+                  {/* Course Content */}
+                  <div className="p-4 space-y-3">
+                    {/* Course Title */}
+                    <h3 className="text-base font-semibold text-teal-700 line-clamp-2 min-h-[2.5rem]">
+                      {course.course_name}
+                    </h3>
+
+                    {/* Course Details 
+                    <div className="space-y-2 text-xs text-gray-600">*/}
+                      {/* Duration
+                      <div className="flex items-start gap-1.5">
+                        <Clock className="w-3.5 h-3.5 mt-0.5 flex-shrink-0 text-gray-500" />
+                        <span>Duration: 2 year | 4 semester</span>
+                      </div> */}
+
+                      {/* Degree 
+                      <div className="flex items-start gap-1.5">
+                        <GraduationCap className="w-3.5 h-3.5 mt-0.5 flex-shrink-0 text-gray-500" />
+                        <span>Approved: UGC-entitled degree programme</span>
+                      </div>*/}
+
+                      {/* Mode 
+                      <div className="flex items-start gap-1.5">
+                        <BookOpen className="w-3.5 h-3.5 mt-0.5 flex-shrink-0 text-gray-500" />
+                        <span>Mode: Online (Live/Recorded Lectures)</span>
+                      </div>*/}
+
+                      {/* Payment 
+                      <div className="flex items-start gap-1.5">
+                        <CreditCard className="w-3.5 h-3.5 mt-0.5 flex-shrink-0 text-gray-500" />
+                        <span>Payment: EMI options available</span>
+                      </div>
+                    </div>*/}
+
+                    {/* View Program Button */}
+                    <button className="w-full bg-teal-700 hover:bg-teal-800 text-white text-sm font-medium py-2 px-3 rounded-lg transition-colors duration-200 flex items-center justify-center gap-2">
+                      {clickedCourseId === course.id ? (
+                        <div className="w-4 h-4 border-2 border-white/40 border-t-white rounded-full animate-spin"></div>
+                      ) : (
+                        <>
+                          View Program
+                          <ArrowRight className="w-3.5 h-3.5" />
+                        </>
+                      )}
+                    </button>
+                  </div>
                 </div>
               ))}
             </div>
 
-            {/* Enhanced Carousel Dots */}
-            <div className="flex justify-center gap-4 mt-12">
-              {Array.from({ length: Math.ceil(featuredCourses.length / 5) }).map((_, idx) => (
-                <button
-                  key={idx}
-                  onClick={() => setCurrentFeaturedIndex(idx * 5)}
-                  className={`group relative overflow-hidden rounded-full transition-all duration-500 hover:scale-125 ${
-                    Math.floor(currentFeaturedIndex / 5) === idx 
-                      ? 'w-12 h-4 bg-gradient-to-r from-blue-500 to-purple-500 shadow-xl' 
-                      : 'w-4 h-4 bg-gray-300 hover:bg-gradient-to-r hover:from-gray-400 hover:to-gray-500 shadow-md'
-                  }`}
-                >
-                  {Math.floor(currentFeaturedIndex / 5) === idx && (
-                    <div className="absolute inset-0 bg-gradient-to-r from-blue-400 to-purple-400 animate-pulse opacity-75"></div>
-                  )}
-                  
-                  {/* Ripple effect */}
-                  <div className="absolute inset-0 rounded-full bg-white/30 scale-0 group-hover:scale-150 transition-transform duration-300 opacity-0 group-hover:opacity-100"></div>
-                </button>
-              ))}
-            </div>
-
-            {/* Enhanced Navigation arrows */}
-            {featuredCourses.length > 5 && (
+            {/* Navigation Arrows */}
+            {featuredCourses.length > 4 && (
               <>
                 <button
-                  onClick={() => setCurrentFeaturedIndex(Math.max(0, currentFeaturedIndex - 5))}
+                  onClick={() => setCurrentFeaturedIndex(Math.max(0, currentFeaturedIndex - 4))}
                   disabled={currentFeaturedIndex === 0}
-                  className="absolute left-8 top-1/2 -translate-y-1/2 glass-effect backdrop-blur-md hover:bg-white/90 rounded-2xl p-4 shadow-xl hover:shadow-2xl transition-all duration-300 disabled:opacity-30 disabled:cursor-not-allowed group border border-white/20 hover:border-blue-200"
+                  className="absolute -left-4 top-1/2 -translate-y-1/2 bg-white hover:bg-gray-50 rounded-full p-3 shadow-lg hover:shadow-xl transition-all duration-300 disabled:opacity-30 disabled:cursor-not-allowed z-10"
+                  aria-label="Previous courses"
                 >
-                  <ChevronLeft className="w-7 h-7 text-gray-700 group-hover:text-blue-600 transition-colors group-hover:scale-110 transform duration-200" />
-                  
-                  {/* Ripple effect */}
-                  <div className="absolute inset-0 rounded-2xl bg-blue-500/20 scale-0 group-hover:scale-100 transition-transform duration-300 opacity-0 group-hover:opacity-100"></div>
+                  <ChevronLeft className="w-6 h-6 text-gray-700" />
                 </button>
                 <button
-                  onClick={() => setCurrentFeaturedIndex(Math.min(featuredCourses.length - 5, currentFeaturedIndex + 5))}
-                  disabled={currentFeaturedIndex >= featuredCourses.length - 5}
-                  className="absolute right-8 top-1/2 -translate-y-1/2 glass-effect backdrop-blur-md hover:bg-white/90 rounded-2xl p-4 shadow-xl hover:shadow-2xl transition-all duration-300 disabled:opacity-30 disabled:cursor-not-allowed group border border-white/20 hover:border-blue-200"
+                  onClick={() => setCurrentFeaturedIndex(Math.min(featuredCourses.length - 4, currentFeaturedIndex + 4))}
+                  disabled={currentFeaturedIndex >= featuredCourses.length - 4}
+                  className="absolute -right-4 top-1/2 -translate-y-1/2 bg-white hover:bg-gray-50 rounded-full p-3 shadow-lg hover:shadow-xl transition-all duration-300 disabled:opacity-30 disabled:cursor-not-allowed z-10"
+                  aria-label="Next courses"
                 >
-                  <ChevronRight className="w-7 h-7 text-gray-700 group-hover:text-blue-600 transition-colors group-hover:scale-110 transform duration-200" />
-                  
-                  {/* Ripple effect */}
-                  <div className="absolute inset-0 rounded-2xl bg-blue-500/20 scale-0 group-hover:scale-100 transition-transform duration-300 opacity-0 group-hover:opacity-100"></div>
+                  <ChevronRight className="w-6 h-6 text-gray-700" />
                 </button>
               </>
             )}
-
-            
           </div>
+
+          {/* Pagination Dots */}
+          {featuredCourses.length > 4 && (
+            <div className="flex justify-center gap-2 mt-8">
+              {Array.from({ length: Math.ceil(featuredCourses.length / 4) }).map((_, idx) => (
+                <button
+                  key={idx}
+                  onClick={() => setCurrentFeaturedIndex(idx * 4)}
+                  className={`transition-all duration-300 rounded-full ${
+                    Math.floor(currentFeaturedIndex / 4) === idx 
+                      ? 'w-8 h-3 bg-teal-700' 
+                      : 'w-3 h-3 bg-gray-300 hover:bg-gray-400'
+                  }`}
+                  aria-label={`Go to page ${idx + 1}`}
+                />
+              ))}
+            </div>
+          )}
         </div>
       </section>
 
       {/* Enhanced Universities to Explore */}
       {exploreSection && (
-        <section className="py-20 bg-gradient-to-br from-gray-50 via-white to-blue-50/50 relative overflow-hidden">
-          {/* Background decoration */}
-          <div className="absolute inset-0 opacity-5">
-            <div className="absolute top-32 left-32 w-96 h-96 bg-gradient-to-r from-blue-400 to-cyan-400 rounded-full blur-3xl"></div>
-            <div className="absolute bottom-32 right-32 w-80 h-80 bg-gradient-to-r from-purple-400 to-pink-400 rounded-full blur-3xl"></div>
+        <section className="py-20 bg-[#0d4d4d] relative overflow-hidden">
+          {/* Curved top edge */}
+          <div className="absolute top-0 left-0 right-0 h-16 bg-white">
+            <svg className="absolute bottom-0 w-full h-16" viewBox="0 0 1440 64" preserveAspectRatio="none">
+              <path d="M0,64 Q360,0 720,32 T1440,64 L1440,64 L0,64 Z" fill="#0d4d4d"/>
+            </svg>
           </div>
           
-          <div className="container mx-auto px-4 relative z-10">
-            <div className="text-center mb-16">
-              <div className="inline-flex items-center gap-3 mb-6">
-                <div className="w-16 h-1 bg-gradient-to-r from-cyan-500 to-blue-500 rounded-full"></div>
-                <span className="text-sm font-bold text-blue-600 uppercase tracking-wider">Explore</span>
-                <div className="w-16 h-1 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full"></div>
-              </div>
-              
-              <h2 className="text-5xl font-bold text-gray-800 mb-6">
-                {exploreSection.section_title.split(' ').map((word, index) => (
-                  <span key={index} className={index === exploreSection.section_title.split(' ').length - 1 ? 'bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent' : ''}>
-                    {word}{' '}
-                  </span>
-                ))}
+          {/* Curved bottom edge */}
+          <div className="absolute bottom-0 left-0 right-0 h-16 bg-white">
+            <svg className="absolute top-0 w-full h-16" viewBox="0 0 1440 64" preserveAspectRatio="none">
+              <path d="M0,0 Q360,64 720,32 T1440,0 L1440,0 L0,0 Z" fill="#0d4d4d"/>
+            </svg>
+          </div>
+          
+          <div className="container mx-auto px-4 relative z-10 pt-12">
+            <div className="text-center mb-12">
+              <h2 className="text-4xl md:text-5xl font-bold text-[#f4d03f] mb-4">
+                {exploreSection.section_title}
               </h2>
               {exploreSection.section_subtitle && (
-                <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">{exploreSection.section_subtitle}</p>
+                <p className="text-lg text-white/90 max-w-4xl mx-auto leading-relaxed">
+                  {exploreSection.section_subtitle}
+                </p>
               )}
             </div>
 
             {showAllUniversities ? (
               // Grid view for all universities
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
                 {exploreCards.map((card, index) => (
                   <a
                     key={card.id}
                     href={card.link}
-                    className="group bg-white rounded-3xl shadow-lg hover:shadow-2xl transition-all duration-500 overflow-hidden card-hover-lift border border-gray-100 hover:border-blue-200 fade-in-scale"
+                    className="group bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden"
                     style={{ animationDelay: `${index * 0.1}s` }}
                   >
-                    {/* Image container with overlay */}
+                    {/* Image container */}
                     <div className="relative overflow-hidden">
                       <img 
                         src={card.image_url} 
                         alt={card.university_name} 
-                        className="w-full h-56 object-cover group-hover:scale-110 transition-transform duration-700" 
+                        className="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-500" 
                       />
                       
-                      {/* Gradient overlay */}
-                      <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-                      
-                      {/* Floating badge */}
-                      <div className="absolute top-4 right-4 bg-white/90 backdrop-blur-sm rounded-full px-3 py-1 text-xs font-semibold text-gray-700 opacity-0 group-hover:opacity-100 transform translate-y-2 group-hover:translate-y-0 transition-all duration-300">
-                        Featured
-                      </div>
-                    </div>
-                    
-                    <div className="p-8 space-y-4">
-                      {/* Logo with enhanced styling */}
-                      <div className="flex items-center gap-3">
+                      {/* Logo overlay */}
+                      <div className="absolute top-3 right-3 bg-white rounded-lg p-2 shadow-md">
                         <img 
                           src={card.logo_url} 
                           alt={card.university_name} 
-                          className="h-14 w-14 object-contain rounded-xl bg-gray-50 p-2 group-hover:scale-110 transition-transform duration-300" 
+                          className="h-10 w-10 object-contain" 
                         />
-                        <div className="flex-1">
-                          <h3 className="text-xl font-bold text-gray-800 group-hover:text-blue-600 transition-colors duration-300 line-clamp-2">
-                            {card.university_name}
-                          </h3>
-                        </div>
                       </div>
+                    </div>
+                    
+                    <div className="p-5 space-y-3">
+                      {/* University name */}
+                      <h3 className="text-lg font-bold text-gray-800 line-clamp-2 min-h-[3.5rem]">
+                        {card.university_name}
+                      </h3>
                       
-                      {card.description && (
-                        <p className="text-gray-600 text-sm leading-relaxed line-clamp-3 group-hover:text-gray-700 transition-colors">
-                          {card.description}
-                        </p>
+                      {/* Rating */}
+                      {card.rating && (
+                        <div className="flex items-center gap-1 text-sm">
+                          <Star className="w-4 h-4 fill-yellow-400 text-yellow-400" />
+                          <span className="font-semibold text-gray-700">{card.rating}</span>
+                        </div>
                       )}
                       
-                      {/* Enhanced stats */}
-                      <div className="flex items-center justify-between pt-4 border-t border-gray-100">
-                        <div className="flex items-center gap-4 text-sm">
-                          {card.rating && (
-                            <div className="flex items-center gap-1 bg-yellow-50 px-2 py-1 rounded-lg">
-                              <Star className="w-4 h-4 fill-yellow-400 text-yellow-400" />
-                              <span className="font-semibold text-yellow-700">{card.rating}</span>
-                            </div>
-                          )}
-                          {card.student_count && (
-                            <div className="flex items-center gap-1 text-gray-500">
-                              <Users className="w-4 h-4" />
-                              <span className="font-medium">{card.student_count.toLocaleString()}</span>
-                            </div>
-                          )}
-                        </div>
-                        
+                      {/* Features list */}
+                      <div className="space-y-2 text-sm text-gray-600">
+                        {card.description && (
+                          <div className="flex items-start gap-2">
+                            <span className="text-[#0d4d4d] mt-0.5">✓</span>
+                            <span className="line-clamp-2">{card.description}</span>
+                          </div>
+                        )}
                         {card.course_count && (
-                          <div className="flex items-center gap-1 bg-blue-50 px-3 py-1 rounded-lg">
-                            <BookOpen className="w-4 h-4 text-blue-600" />
-                            <span className="text-sm font-semibold text-blue-700">{card.course_count} courses</span>
+                          <div className="flex items-start gap-2">
+                            <span className="text-[#0d4d4d]">✓</span>
+                            <span>{card.course_count}+ Courses Available</span>
+                          </div>
+                        )}
+                        {card.student_count && (
+                          <div className="flex items-start gap-2">
+                            <span className="text-[#0d4d4d]">✓</span>
+                            <span>{card.student_count.toLocaleString()} Active Students</span>
                           </div>
                         )}
                       </div>
                       
-                      {/* Explore button */}
-                      <div className="pt-2">
-                        <div className="flex items-center justify-between text-blue-600 font-semibold group-hover:text-blue-700 transition-colors">
-                          <span>Explore University</span>
-                          <ArrowRight className="w-5 h-5 transform group-hover:translate-x-1 transition-transform duration-300" />
-                        </div>
+                      {/* Know More button */}
+                      <div className="pt-3">
+                        <button className="w-full bg-[#0d4d4d] hover:bg-[#0a3d3d] text-white font-semibold py-2.5 px-4 rounded-lg transition-colors duration-300">
+                          Know More
+                        </button>
                       </div>
                     </div>
-                    
-                    {/* Hover border effect */}
-                    <div className="absolute inset-0 rounded-3xl border-2 border-transparent group-hover:border-blue-200 transition-colors duration-300"></div>
                   </a>
                 ))}
               </div>
@@ -829,105 +762,88 @@ const UniversityPage = () => {
               <div className="relative">
                 <button
                   onClick={() => scrollExplore('left')}
-                  className="absolute left-0 top-1/2 -translate-y-1/2 z-10 bg-white rounded-full p-2 shadow-lg hover:bg-gray-100"
+                  className="absolute left-0 top-1/2 -translate-y-1/2 z-10 bg-white/90 hover:bg-white rounded-full p-3 shadow-lg transition-all duration-300"
                 >
-                  <ChevronLeft className="w-6 h-6" />
+                  <ChevronLeft className="w-6 h-6 text-[#0d4d4d]" />
                 </button>
 
-                <div id="explore-scroll" className="flex gap-8 overflow-x-auto scrollbar-hide scroll-smooth px-12">
+                <div id="explore-scroll" className="flex gap-6 overflow-x-auto scrollbar-hide scroll-smooth px-12">
                   {exploreCards.map((card, index) => (
                     <a
                       key={card.id}
                       href={card.link}
-                      className="group flex-shrink-0 w-96 bg-white rounded-3xl shadow-lg hover:shadow-2xl transition-all duration-500 overflow-hidden card-hover-lift border border-gray-100 hover:border-blue-200"
+                      className="group flex-shrink-0 w-80 bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden"
                     >
-                      {/* Enhanced image container */}
+                      {/* Image container */}
                       <div className="relative overflow-hidden">
                         <img 
                           src={card.image_url} 
                           alt={card.university_name} 
-                          className="w-full h-56 object-cover group-hover:scale-110 transition-transform duration-700" 
+                          className="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-500" 
                         />
                         
-                        {/* Gradient overlay */}
-                        <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-                        
-                        {/* Floating elements */}
-                        <div className="absolute top-4 right-4 bg-white/90 backdrop-blur-sm rounded-full px-3 py-1 text-xs font-semibold text-gray-700 opacity-0 group-hover:opacity-100 transform translate-y-2 group-hover:translate-y-0 transition-all duration-300">
-                          Featured
-                        </div>
-                      </div>
-                      
-                      <div className="p-8 space-y-5">
-                        {/* Enhanced logo section */}
-                        <div className="flex items-center gap-4">
+                        {/* Logo overlay */}
+                        <div className="absolute top-3 right-3 bg-white rounded-lg p-2 shadow-md">
                           <img 
                             src={card.logo_url} 
                             alt={card.university_name} 
-                            className="h-16 w-16 object-contain rounded-2xl bg-gray-50 p-3 group-hover:scale-110 transition-transform duration-300 shadow-sm" 
+                            className="h-10 w-10 object-contain" 
                           />
-                          <div className="flex-1">
-                            <h3 className="text-2xl font-bold text-gray-800 group-hover:text-blue-600 transition-colors duration-300 line-clamp-2">
-                              {card.university_name}
-                            </h3>
-                          </div>
                         </div>
+                      </div>
+                      
+                      <div className="p-5 space-y-3">
+                        {/* University name */}
+                        <h3 className="text-lg font-bold text-gray-800 line-clamp-2 min-h-[3.5rem]">
+                          {card.university_name}
+                        </h3>
                         
-                        {card.description && (
-                          <p className="text-gray-600 leading-relaxed line-clamp-3 group-hover:text-gray-700 transition-colors">
-                            {card.description}
-                          </p>
+                        {/* Rating */}
+                        {card.rating && (
+                          <div className="flex items-center gap-1 text-sm">
+                            <Star className="w-4 h-4 fill-yellow-400 text-yellow-400" />
+                            <span className="font-semibold text-gray-700">{card.rating}</span>
+                          </div>
                         )}
                         
-                        {/* Enhanced stats section */}
-                        <div className="space-y-3 pt-4 border-t border-gray-100">
-                          <div className="flex items-center justify-between">
-                            {card.rating && (
-                              <div className="flex items-center gap-2 bg-yellow-50 px-3 py-2 rounded-xl">
-                                <Star className="w-5 h-5 fill-yellow-400 text-yellow-400" />
-                                <span className="font-bold text-yellow-700">{card.rating}</span>
-                                <span className="text-xs text-yellow-600">Rating</span>
-                              </div>
-                            )}
-                            
-                            {card.course_count && (
-                              <div className="flex items-center gap-2 bg-blue-50 px-3 py-2 rounded-xl">
-                                <BookOpen className="w-5 h-5 text-blue-600" />
-                                <span className="font-bold text-blue-700">{card.course_count}</span>
-                                <span className="text-xs text-blue-600">Courses</span>
-                              </div>
-                            )}
-                          </div>
-                          
+                        {/* Features list */}
+                        <div className="space-y-2 text-sm text-gray-600">
+                          {card.description && (
+                            <div className="flex items-start gap-2">
+                              <span className="text-[#0d4d4d] mt-0.5">✓</span>
+                              <span className="line-clamp-2">{card.description}</span>
+                            </div>
+                          )}
+                          {card.course_count && (
+                            <div className="flex items-start gap-2">
+                              <span className="text-[#0d4d4d]">✓</span>
+                              <span>{card.course_count}+ Courses Available</span>
+                            </div>
+                          )}
                           {card.student_count && (
-                            <div className="flex items-center gap-2 text-gray-500">
-                              <Users className="w-5 h-5" />
-                              <span className="font-semibold">{card.student_count.toLocaleString()}</span>
-                              <span className="text-sm">Active Students</span>
+                            <div className="flex items-start gap-2">
+                              <span className="text-[#0d4d4d]">✓</span>
+                              <span>{card.student_count.toLocaleString()} Active Students</span>
                             </div>
                           )}
                         </div>
                         
-                        {/* Enhanced explore button */}
+                        {/* Know More button */}
                         <div className="pt-3">
-                          <div className="flex items-center justify-between text-blue-600 font-bold group-hover:text-blue-700 transition-colors">
-                            <span className="text-lg">Explore University</span>
-                            <ArrowRight className="w-6 h-6 transform group-hover:translate-x-2 transition-transform duration-300" />
-                          </div>
+                          <button className="w-full bg-[#0d4d4d] hover:bg-[#0a3d3d] text-white font-semibold py-2.5 px-4 rounded-lg transition-colors duration-300">
+                            Know More
+                          </button>
                         </div>
                       </div>
-                      
-                      {/* Enhanced hover border effect */}
-                      <div className="absolute inset-0 rounded-3xl border-2 border-transparent group-hover:border-blue-200 transition-colors duration-300"></div>
                     </a>
                   ))}
                 </div>
 
                 <button
                   onClick={() => scrollExplore('right')}
-                  className="absolute right-0 top-1/2 -translate-y-1/2 z-10 bg-white rounded-full p-2 shadow-lg hover:bg-gray-100"
+                  className="absolute right-0 top-1/2 -translate-y-1/2 z-10 bg-white/90 hover:bg-white rounded-full p-3 shadow-lg transition-all duration-300"
                 >
-                  <ChevronRight className="w-6 h-6" />
+                  <ChevronRight className="w-6 h-6 text-[#0d4d4d]" />
                 </button>
               </div>
             )}
@@ -935,7 +851,7 @@ const UniversityPage = () => {
             <div className="text-center mt-12">
               <button 
                 onClick={handleViewAllUniversities}
-                className="group inline-flex items-center gap-3 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-bold px-8 py-4 rounded-2xl transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105"
+                className="group inline-flex items-center gap-3 bg-[#f4d03f] hover:bg-[#e5c230] text-[#0d4d4d] font-bold px-8 py-3.5 rounded-lg transition-all duration-300 shadow-lg hover:shadow-xl"
               >
                 <span>{showAllUniversities ? 'Show Less Universities' : 'View All Universities'}</span>
                 <ArrowRight className={`w-5 h-5 transition-transform duration-300 ${showAllUniversities ? 'rotate-180' : 'group-hover:translate-x-1'}`} />
@@ -1022,212 +938,215 @@ const UniversityPage = () => {
         </section>
       )}
 
-      {/* Enhanced Real Stories / Testimonials */}
+      {/* Enhanced Real Stories / Testimonials - New Design */}
       {storiesSection && testimonials.length > 0 && (
-        <section className="py-24 bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50 relative overflow-hidden">
-          {/* Background decoration */}
-          <div className="absolute inset-0 opacity-10">
-            <div className="absolute top-20 left-20 w-72 h-72 bg-gradient-to-r from-blue-400 to-cyan-400 rounded-full blur-3xl animate-pulse"></div>
-            <div className="absolute bottom-20 right-20 w-96 h-96 bg-gradient-to-r from-purple-400 to-pink-400 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '2s' }}></div>
-          </div>
-          
-          <div className="container mx-auto px-4 relative z-10">
-            <div className="text-center mb-16">
-              <div className="inline-flex items-center gap-3 mb-6">
-                <div className="w-20 h-1 bg-gradient-to-r from-pink-500 to-purple-500 rounded-full"></div>
-                <span className="text-sm font-bold text-purple-600 uppercase tracking-wider">Success Stories</span>
-                <div className="w-20 h-1 bg-gradient-to-r from-purple-500 to-blue-500 rounded-full"></div>
-              </div>
-              
-              <h2 className="text-5xl font-bold text-gray-800 mb-6">
-                {storiesSection.section_title.split(' ').map((word, index) => (
-                  <span key={index} className={word.toLowerCase().includes('inspiring') || word.toLowerCase().includes('journey') ? 'bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent' : ''}>
-                    {word}{' '}
-                  </span>
-                ))}
+        <section className="py-16 bg-white">
+          <div className="container mx-auto px-4">
+            {/* Section Header */}
+            <div className="text-center mb-12">
+              <h2 className="text-4xl font-bold text-[#0d5858] mb-3">
+                {storiesSection.section_title}
               </h2>
               {storiesSection.section_subtitle && (
-                <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">{storiesSection.section_subtitle}</p>
+                <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+                  {storiesSection.section_subtitle}
+                </p>
               )}
             </div>
 
-            <div className="max-w-6xl mx-auto">
-              <div className="bg-white/80 backdrop-blur-sm rounded-3xl shadow-2xl p-12 border border-white/20 relative overflow-hidden">
-                {/* Decorative elements */}
-                <div className="absolute top-8 left-8 w-16 h-16 bg-gradient-to-r from-blue-400/20 to-purple-400/20 rounded-full blur-xl"></div>
-                <div className="absolute bottom-8 right-8 w-20 h-20 bg-gradient-to-r from-pink-400/20 to-orange-400/20 rounded-full blur-xl"></div>
+            {/* Testimonial Card */}
+            <div className="max-w-5xl mx-auto">
+              <div className="bg-white rounded-2xl border-2 border-gray-200 p-8 md:p-12 relative">
+                {/* Navigation Arrows */}
+                <button
+                  onClick={() => setCurrentTestimonialIndex((prev) => (prev - 1 + testimonials.length) % testimonials.length)}
+                  className="absolute left-4 top-1/2 -translate-y-1/2 bg-white hover:bg-gray-50 rounded-full p-3 shadow-lg border border-gray-200 transition-all duration-200 z-10"
+                  aria-label="Previous testimonial"
+                >
+                  <ChevronLeft className="w-6 h-6 text-gray-700" />
+                </button>
                 
-                {/* Before/After transformation */}
-                <div className="flex items-center justify-center gap-12 mb-12">
-                  <div className="text-center space-y-3">
-                    <div className="w-20 h-20 mx-auto bg-gradient-to-r from-red-100 to-orange-100 rounded-2xl flex items-center justify-center mb-4">
-                      <span className="text-2xl">😔</span>
+                <button
+                  onClick={() => setCurrentTestimonialIndex((prev) => (prev + 1) % testimonials.length)}
+                  className="absolute right-4 top-1/2 -translate-y-1/2 bg-white hover:bg-gray-50 rounded-full p-3 shadow-lg border border-gray-200 transition-all duration-200 z-10"
+                  aria-label="Next testimonial"
+                >
+                  <ChevronRight className="w-6 h-6 text-gray-700" />
+                </button>
+
+                {/* Before/After with Student Image */}
+                <div className="flex flex-col md:flex-row items-center justify-center gap-8 md:gap-12 mb-8">
+                  {/* Before Card */}
+                  <div className="flex-1 max-w-xs">
+                    <div className="bg-white rounded-xl border-2 border-gray-200 p-6 text-center">
+                      <div className="inline-block bg-gray-100 text-gray-700 text-xs font-bold px-3 py-1 rounded-full mb-4">
+                        BEFORE
+                      </div>
+                      {testimonials[currentTestimonialIndex].before_company_logo ? (
+                        <div className="flex items-center justify-center mb-3 h-16">
+                          <img 
+                            src={testimonials[currentTestimonialIndex].before_company_logo} 
+                            alt="Before company" 
+                            className="max-h-12 max-w-full object-contain"
+                          />
+                        </div>
+                      ) : (
+                        <div className="h-16 flex items-center justify-center mb-3">
+                          <div className="w-12 h-12 bg-gray-200 rounded-lg"></div>
+                        </div>
+                      )}
+                      <p className="text-sm font-semibold text-gray-700">
+                        {testimonials[currentTestimonialIndex].before_title || 'Previous Role'}
+                      </p>
                     </div>
-                    <p className="font-bold text-lg text-gray-800">Before</p>
-                    <p className="text-gray-600 max-w-xs leading-relaxed">{testimonials[currentTestimonialIndex].before_title}</p>
                   </div>
 
-                  <div className="flex items-center gap-4">
-                    <div className="w-16 h-1 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full"></div>
-                    <ArrowRight className="w-10 h-10 text-blue-600 animate-pulse" />
-                    <div className="w-16 h-1 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full"></div>
-                  </div>
-
-                  <div className="text-center space-y-3">
-                    <div className="w-20 h-20 mx-auto bg-gradient-to-r from-green-100 to-blue-100 rounded-2xl flex items-center justify-center mb-4">
-                      <span className="text-2xl">🎉</span>
+                  {/* Student Image with Arrow */}
+                  <div className="relative flex flex-col items-center">
+                    {/* Dotted line connecting before and after */}
+                    <div className="hidden md:block absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full">
+                      <div className="border-t-2 border-dashed border-gray-300 w-full"></div>
                     </div>
-                    <p className="font-bold text-lg text-gray-800">After</p>
-                    <p className="text-gray-600 max-w-xs leading-relaxed">{testimonials[currentTestimonialIndex].after_title}</p>
-                  </div>
-                </div>
-
-                {/* Main testimonial content */}
-                <div className="text-center space-y-8">
-                  <div className="space-y-4">
-                    <h3 className="text-4xl font-bold bg-gradient-to-r from-gray-800 to-gray-600 bg-clip-text text-transparent">
-                      {testimonials[currentTestimonialIndex].student_name}
-                    </h3>
                     
-                    {/* Quote marks */}
-                    <div className="flex justify-center mb-6">
-                      <span className="text-6xl text-blue-200 font-serif">"</span>
+                    {/* Student Image */}
+                    <div className="relative z-10 mb-4">
+                      {testimonials[currentTestimonialIndex].student_image_url ? (
+                        <img 
+                          src={testimonials[currentTestimonialIndex].student_image_url} 
+                          alt={testimonials[currentTestimonialIndex].student_name}
+                          className="w-32 h-32 md:w-40 md:h-40 rounded-full object-cover border-4 border-white shadow-lg"
+                        />
+                      ) : (
+                        <div className="w-32 h-32 md:w-40 md:h-40 rounded-full bg-gradient-to-br from-blue-100 to-purple-100 border-4 border-white shadow-lg flex items-center justify-center">
+                          <Users className="w-16 h-16 text-gray-400" />
+                        </div>
+                      )}
+                      
+                      {/* Salary Hike Badge */}
+                      {testimonials[currentTestimonialIndex].salary_hike && (
+                        <div className="absolute -bottom-2 left-1/2 -translate-x-1/2 bg-yellow-400 text-gray-900 text-xs font-bold px-3 py-1 rounded-full shadow-md whitespace-nowrap">
+                          {testimonials[currentTestimonialIndex].salary_hike}
+                        </div>
+                      )}
                     </div>
-                    
-                    <p className="text-xl text-gray-700 leading-relaxed max-w-4xl mx-auto italic">
-                      {testimonials[currentTestimonialIndex].story}
-                    </p>
+
+                    {/* Arrow */}
+                    <div className="hidden md:block">
+                      <ArrowRight className="w-8 h-8 text-[#0d5858]" />
+                    </div>
                   </div>
-                  
-                  {/* Course and university info */}
-                  <div className="flex items-center justify-center gap-8 text-gray-600 flex-wrap">
-                    {testimonials[currentTestimonialIndex].course_name && (
-                      <div className="flex items-center gap-2 bg-blue-50 px-4 py-2 rounded-xl">
-                        <BookOpen className="w-5 h-5 text-blue-600" />
-                        <span className="font-semibold">{testimonials[currentTestimonialIndex].course_name}</span>
+
+                  {/* After Card */}
+                  <div className="flex-1 max-w-xs">
+                    <div className="bg-white rounded-xl border-2 border-[#0d5858] p-6 text-center">
+                      <div className="inline-block bg-[#0d5858] text-white text-xs font-bold px-3 py-1 rounded-full mb-4">
+                        AFTER
                       </div>
-                    )}
-                    {testimonials[currentTestimonialIndex].university_name && (
-                      <div className="flex items-center gap-2 bg-purple-50 px-4 py-2 rounded-xl">
-                        <Users className="w-5 h-5 text-purple-600" />
-                        <span className="font-semibold">{testimonials[currentTestimonialIndex].university_name}</span>
-                      </div>
-                    )}
-                    {testimonials[currentTestimonialIndex].rating && (
-                      <div className="flex items-center gap-2 bg-yellow-50 px-4 py-2 rounded-xl">
-                        <Star className="w-5 h-5 fill-yellow-400 text-yellow-400" />
-                        <span className="font-bold text-yellow-700">{testimonials[currentTestimonialIndex].rating}/5</span>
-                      </div>
-                    )}
+                      {testimonials[currentTestimonialIndex].after_company_logo ? (
+                        <div className="flex items-center justify-center mb-3 h-16">
+                          <img 
+                            src={testimonials[currentTestimonialIndex].after_company_logo} 
+                            alt="After company" 
+                            className="max-h-12 max-w-full object-contain"
+                          />
+                        </div>
+                      ) : (
+                        <div className="h-16 flex items-center justify-center mb-3">
+                          <div className="w-12 h-12 bg-[#0d5858]/10 rounded-lg"></div>
+                        </div>
+                      )}
+                      <p className="text-sm font-semibold text-gray-700">
+                        {testimonials[currentTestimonialIndex].after_title || 'Current Role'}
+                      </p>
+                    </div>
                   </div>
                 </div>
 
-                {/* Enhanced Navigation */}
-                <div className="flex justify-center items-center gap-6 mt-12">
-                  <button
-                    onClick={() => setCurrentTestimonialIndex((prev) => (prev - 1 + testimonials.length) % testimonials.length)}
-                    className="group p-4 rounded-2xl bg-gradient-to-r from-blue-100 to-purple-100 hover:from-blue-200 hover:to-purple-200 transition-all duration-300 shadow-lg hover:shadow-xl"
-                  >
-                    <ChevronLeft className="w-6 h-6 text-gray-700 group-hover:text-blue-600 transition-colors" />
-                  </button>
-                  
-                  {/* Testimonial indicators */}
-                  <div className="flex gap-3">
-                    {testimonials.map((_, index) => (
-                      <button
-                        key={index}
-                        onClick={() => setCurrentTestimonialIndex(index)}
-                        className={`w-3 h-3 rounded-full transition-all duration-300 ${
-                          index === currentTestimonialIndex 
-                            ? 'bg-gradient-to-r from-blue-500 to-purple-500 w-8' 
-                            : 'bg-gray-300 hover:bg-gray-400'
-                        }`}
-                      />
-                    ))}
-                  </div>
-                  
-                  <button
-                    onClick={() => setCurrentTestimonialIndex((prev) => (prev + 1) % testimonials.length)}
-                    className="group p-4 rounded-2xl bg-gradient-to-r from-purple-100 to-pink-100 hover:from-purple-200 hover:to-pink-200 transition-all duration-300 shadow-lg hover:shadow-xl"
-                  >
-                    <ChevronRight className="w-6 h-6 text-gray-700 group-hover:text-purple-600 transition-colors" />
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
-      )}
-
-      {/* Enhanced Talk to Expert CTA */}
-      {expertCTA && (
-        <section className="py-20">
-          <div className="container mx-auto px-4">
-            <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-blue-600 via-purple-600 to-pink-600 p-16 text-center shadow-2xl">
-              {/* Animated background elements */}
-              <div className="absolute inset-0 opacity-20">
-                <div className="absolute top-10 left-10 w-32 h-32 bg-white rounded-full blur-2xl animate-pulse"></div>
-                <div className="absolute bottom-10 right-10 w-40 h-40 bg-yellow-300 rounded-full blur-2xl animate-pulse" style={{ animationDelay: '1s' }}></div>
-                <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-64 h-64 bg-white/10 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '2s' }}></div>
-              </div>
-              
-              {/* Floating particles */}
-              <div className="absolute inset-0 overflow-hidden">
-                <div className="absolute top-20 left-20 w-2 h-2 bg-white/40 rounded-full floating-animation"></div>
-                <div className="absolute top-32 right-32 w-3 h-3 bg-yellow-300/50 rounded-full floating-animation" style={{ animationDelay: '1s' }}></div>
-                <div className="absolute bottom-32 left-32 w-1 h-1 bg-white/60 rounded-full floating-animation" style={{ animationDelay: '2s' }}></div>
-                <div className="absolute bottom-20 right-20 w-2 h-2 bg-pink-300/40 rounded-full floating-animation" style={{ animationDelay: '0.5s' }}></div>
-              </div>
-              
-              <div className="relative z-10 space-y-8">
-                <div className="space-y-4">
-                  <h2 className="text-5xl font-bold text-white mb-6 text-shadow">
-                    {expertCTA.title}
-                  </h2>
-                  {expertCTA.subtitle && (
-                    <p className="text-2xl text-white/90 max-w-3xl mx-auto leading-relaxed text-shadow">
-                      {expertCTA.subtitle}
-                    </p>
+                {/* Student Name */}
+                <div className="text-center mb-6">
+                  <h3 className="text-2xl md:text-3xl font-bold text-gray-900 mb-2">
+                    {testimonials[currentTestimonialIndex].student_name}
+                  </h3>
+                  {testimonials[currentTestimonialIndex].linkedin_url && (
+                    <a 
+                      href={testimonials[currentTestimonialIndex].linkedin_url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-2 text-[#0077b5] hover:text-[#005885] transition-colors"
+                    >
+                      <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/>
+                      </svg>
+                      <span className="text-sm font-medium">View Profile</span>
+                    </a>
                   )}
                 </div>
-                
-                <div className="flex flex-col sm:flex-row gap-6 justify-center items-center">
-                  <a
-                    href={expertCTA.button_link}
-                    className="group relative inline-flex items-center gap-3 bg-white text-blue-600 px-10 py-5 rounded-2xl font-bold text-xl hover:bg-gray-50 transition-all duration-300 shadow-xl hover:shadow-2xl transform hover:scale-105"
-                  >
-                    <span className="relative z-10">{expertCTA.button_text}</span>
-                    <ArrowRight className="w-6 h-6 group-hover:translate-x-1 transition-transform duration-300" />
-                    
-                    {/* Button glow effect */}
-                    <div className="absolute inset-0 bg-gradient-to-r from-blue-400/20 to-purple-400/20 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300 blur-xl"></div>
-                  </a>
-                  
-                  <button className="glass-effect text-white border-2 border-white/30 px-8 py-4 rounded-xl font-semibold hover:bg-white/10 transition-all duration-300 backdrop-blur-sm">
-                    Schedule a Call
-                  </button>
+
+                {/* Testimonial Quote */}
+                <div className="bg-gray-50 rounded-xl p-6 mb-6">
+                  <div className="flex justify-center mb-3">
+                    <span className="text-4xl text-[#0d5858] font-serif">"</span>
+                  </div>
+                  <p className="text-base md:text-lg text-gray-700 leading-relaxed text-center italic">
+                    {testimonials[currentTestimonialIndex].story}
+                  </p>
                 </div>
-                
-                {/* Trust indicators */}
-                <div className="flex items-center justify-center gap-8 text-white/80 text-sm pt-8">
-                  <div className="flex items-center gap-2">
-                    <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
-                    <span>Available 24/7</span>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <Star className="w-4 h-4 fill-yellow-400 text-yellow-400" />
-                    <span>Expert Guidance</span>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <Users className="w-4 h-4" />
-                    <span>1000+ Students Helped</span>
-                  </div>
+
+                {/* Course Info */}
+                <div className="flex flex-wrap items-center justify-center gap-4 text-sm">
+                  {testimonials[currentTestimonialIndex].course_name && (
+                    <div className="flex items-center gap-2 bg-blue-50 px-4 py-2 rounded-lg">
+                      <BookOpen className="w-4 h-4 text-blue-600" />
+                      <span className="font-medium text-gray-700">{testimonials[currentTestimonialIndex].course_name}</span>
+                    </div>
+                  )}
+                  {testimonials[currentTestimonialIndex].university_name && (
+                    <div className="flex items-center gap-2 bg-purple-50 px-4 py-2 rounded-lg">
+                      <GraduationCap className="w-4 h-4 text-purple-600" />
+                      <span className="font-medium text-gray-700">{testimonials[currentTestimonialIndex].university_name}</span>
+                    </div>
+                  )}
+                  {testimonials[currentTestimonialIndex].rating && (
+                    <div className="flex items-center gap-2 bg-yellow-50 px-4 py-2 rounded-lg">
+                      <Star className="w-4 h-4 fill-yellow-400 text-yellow-400" />
+                      <span className="font-medium text-gray-700">{testimonials[currentTestimonialIndex].rating}/5</span>
+                    </div>
+                  )}
                 </div>
+
+                {/* Pagination Dots */}
+                <div className="flex justify-center gap-2 mt-8">
+                  {testimonials.map((_, index) => (
+                    <button
+                      key={index}
+                      onClick={() => setCurrentTestimonialIndex(index)}
+                      className={`h-2 rounded-full transition-all duration-300 ${
+                        index === currentTestimonialIndex 
+                          ? 'w-8 bg-[#0d5858]' 
+                          : 'w-2 bg-gray-300 hover:bg-gray-400'
+                      }`}
+                      aria-label={`Go to testimonial ${index + 1}`}
+                    />
+                  ))}
+                </div>
+              </div>
+
+              {/* Talk to Expert Button */}
+              <div className="text-center mt-8">
+                <a
+                  href={expertCTA?.button_link || '/contact'}
+                  className="inline-flex items-center gap-2 bg-[#0d5858] hover:bg-[#0a4444] text-white font-semibold px-8 py-4 rounded-lg transition-colors duration-200 shadow-lg hover:shadow-xl"
+                >
+                  <span>Talk To Expert Counsellor</span>
+                  <ArrowRight className="w-5 h-5" />
+                </a>
               </div>
             </div>
           </div>
         </section>
       )}
+
+
 
       {/* Blogs Section */}
       {blogsSection && blogs.length > 0 && (

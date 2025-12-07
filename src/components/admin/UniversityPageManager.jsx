@@ -590,9 +590,67 @@ const TestimonialsSection = ({ showMessage }) => {
                 value={formData.student_name || ''}
                 onChange={(e) => setFormData({ ...formData, student_name: e.target.value })}
                 className="w-full p-2 border rounded"
-                placeholder="Rahul Sharma"
+                placeholder="Akriti Gupta"
               />
             </div>
+
+            {/* Image Fields */}
+            <div className="col-span-2 bg-blue-50 p-4 rounded-lg">
+              <h4 className="font-semibold mb-3 text-blue-900">📸 Images</h4>
+              <div className="grid grid-cols-1 gap-4">
+                <div>
+                  <label className="block text-sm font-medium mb-2">Student Image URL</label>
+                  <input
+                    type="text"
+                    value={formData.student_image_url || ''}
+                    onChange={(e) => setFormData({ ...formData, student_image_url: e.target.value })}
+                    className="w-full p-2 border rounded"
+                    placeholder="https://example.com/student-photo.jpg"
+                  />
+                  <p className="text-xs text-gray-600 mt-1">Circular profile photo of the student</p>
+                  {formData.student_image_url && (
+                    <div className="mt-2">
+                      <img src={formData.student_image_url} alt="Preview" className="w-20 h-20 rounded-full object-cover border-2 border-gray-300" />
+                    </div>
+                  )}
+                </div>
+                
+                <div>
+                  <label className="block text-sm font-medium mb-2">Before Company Logo URL</label>
+                  <input
+                    type="text"
+                    value={formData.before_company_logo || ''}
+                    onChange={(e) => setFormData({ ...formData, before_company_logo: e.target.value })}
+                    className="w-full p-2 border rounded"
+                    placeholder="https://example.com/company-logo.png"
+                  />
+                  <p className="text-xs text-gray-600 mt-1">Logo of the company before career change</p>
+                  {formData.before_company_logo && (
+                    <div className="mt-2">
+                      <img src={formData.before_company_logo} alt="Preview" className="h-12 object-contain" />
+                    </div>
+                  )}
+                </div>
+                
+                <div>
+                  <label className="block text-sm font-medium mb-2">After Company Logo URL</label>
+                  <input
+                    type="text"
+                    value={formData.after_company_logo || ''}
+                    onChange={(e) => setFormData({ ...formData, after_company_logo: e.target.value })}
+                    className="w-full p-2 border rounded"
+                    placeholder="https://example.com/company-logo.png"
+                  />
+                  <p className="text-xs text-gray-600 mt-1">Logo of the company after career change</p>
+                  {formData.after_company_logo && (
+                    <div className="mt-2">
+                      <img src={formData.after_company_logo} alt="Preview" className="h-12 object-contain" />
+                    </div>
+                  )}
+                </div>
+              </div>
+            </div>
+
             <div>
               <label className="block text-sm font-medium mb-2">Before Title</label>
               <input
@@ -600,7 +658,7 @@ const TestimonialsSection = ({ showMessage }) => {
                 value={formData.before_title || ''}
                 onChange={(e) => setFormData({ ...formData, before_title: e.target.value })}
                 className="w-full p-2 border rounded"
-                placeholder="Sales Executive"
+                placeholder="Associate, Human Resource"
               />
             </div>
             <div>
@@ -610,17 +668,41 @@ const TestimonialsSection = ({ showMessage }) => {
                 value={formData.after_title || ''}
                 onChange={(e) => setFormData({ ...formData, after_title: e.target.value })}
                 className="w-full p-2 border rounded"
-                placeholder="Business Manager"
+                placeholder="Senior Associate, Human Resource"
               />
             </div>
+
+            <div>
+              <label className="block text-sm font-medium mb-2">Salary Hike (Optional)</label>
+              <input
+                type="text"
+                value={formData.salary_hike || ''}
+                onChange={(e) => setFormData({ ...formData, salary_hike: e.target.value })}
+                className="w-full p-2 border rounded"
+                placeholder="30% HIKE"
+              />
+              <p className="text-xs text-gray-600 mt-1">e.g., "30% HIKE" or "2x Salary"</p>
+            </div>
+
+            <div>
+              <label className="block text-sm font-medium mb-2">LinkedIn URL (Optional)</label>
+              <input
+                type="text"
+                value={formData.linkedin_url || ''}
+                onChange={(e) => setFormData({ ...formData, linkedin_url: e.target.value })}
+                className="w-full p-2 border rounded"
+                placeholder="https://linkedin.com/in/username"
+              />
+            </div>
+
             <div className="col-span-2">
-              <label className="block text-sm font-medium mb-2">Story</label>
+              <label className="block text-sm font-medium mb-2">Story / Testimonial</label>
               <textarea
                 value={formData.story || ''}
                 onChange={(e) => setFormData({ ...formData, story: e.target.value })}
                 className="w-full p-2 border rounded"
                 rows="4"
-                placeholder="The MBA program completely transformed my career..."
+                placeholder="Navigating the MBA landscape was daunting – a maze of countless programs, complex applications, and uncertain career paths..."
               />
             </div>
             <div>
@@ -670,18 +752,59 @@ const TestimonialsSection = ({ showMessage }) => {
       <div className="space-y-4">
         {testimonials.map((item) => (
           <div key={item.id} className="p-4 border rounded-lg bg-white">
-            <div className="flex justify-between items-start">
+            <div className="flex justify-between items-start gap-4">
+              {/* Student Image Preview */}
+              {item.student_image_url && (
+                <div className="flex-shrink-0">
+                  <img 
+                    src={item.student_image_url} 
+                    alt={item.student_name}
+                    className="w-16 h-16 rounded-full object-cover border-2 border-gray-300"
+                  />
+                </div>
+              )}
+              
               <div className="flex-1">
-                <p className="font-bold text-lg">{item.student_name}</p>
-                <p className="text-sm text-gray-600">{item.before_title} → {item.after_title}</p>
+                <div className="flex items-start gap-2 mb-2">
+                  <p className="font-bold text-lg">{item.student_name}</p>
+                  {item.salary_hike && (
+                    <span className="bg-yellow-100 text-yellow-800 text-xs font-semibold px-2 py-1 rounded">
+                      {item.salary_hike}
+                    </span>
+                  )}
+                </div>
+                
+                <div className="flex items-center gap-4 mb-2">
+                  <div className="flex items-center gap-2 text-sm">
+                    {item.before_company_logo && (
+                      <img src={item.before_company_logo} alt="Before" className="h-6 object-contain" />
+                    )}
+                    <span className="text-gray-600">{item.before_title}</span>
+                  </div>
+                  <span className="text-gray-400">→</span>
+                  <div className="flex items-center gap-2 text-sm">
+                    {item.after_company_logo && (
+                      <img src={item.after_company_logo} alt="After" className="h-6 object-contain" />
+                    )}
+                    <span className="text-gray-600">{item.after_title}</span>
+                  </div>
+                </div>
+                
                 <p className="text-sm mt-2 text-gray-700">{item.story?.substring(0, 150)}...</p>
-                <div className="flex gap-4 mt-2 text-xs text-gray-500">
-                  {item.course_name && <span>Course: {item.course_name}</span>}
-                  {item.university_name && <span>University: {item.university_name}</span>}
-                  {item.rating && <span>Rating: {item.rating}⭐</span>}
+                
+                <div className="flex gap-4 mt-2 text-xs text-gray-500 flex-wrap">
+                  {item.course_name && <span>📚 {item.course_name}</span>}
+                  {item.university_name && <span>🎓 {item.university_name}</span>}
+                  {item.rating && <span>⭐ {item.rating}/5</span>}
+                  {item.linkedin_url && (
+                    <a href={item.linkedin_url} target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">
+                      🔗 LinkedIn
+                    </a>
+                  )}
                 </div>
               </div>
-              <div className="flex gap-2">
+              
+              <div className="flex gap-2 flex-shrink-0">
                 <button
                   onClick={() => {
                     setEditingItem(item);

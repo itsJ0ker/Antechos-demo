@@ -101,11 +101,12 @@ const AppContent = () => {
           <Route path="/" element={<Home />} />
           <Route path="/AuthPage" element={<AuthPage />} />
           <Route path="/About" element={<About />} />
-          <Route path="/Marketplace" element={<MarketplaceImarticus />} />
+          {/*<Route path="/Marketplace" element={<MarketplaceImarticus />} />*/}
+          <Route path="/Marketplace" element={<MarketplaceRedesign />} />
           <Route path="/marketplace-new" element={<MarketplaceImarticus />} />
           <Route path="/marketplace-redesign" element={<MarketplaceRedesign />} />
           <Route path="/Courses" element={<Courses />} />
-          <Route path="/Universities" element={<Universities />} />
+          <Route path="/Universities" element={<UniversityPage />} />
           <Route path="/universities-new" element={<UniversityPage />} />
           <Route path="/trainer/:id" element={<TrainerProfile />} />
           <Route path="/university/:id" element={<UniversityDetail />} />
