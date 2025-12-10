@@ -39,6 +39,7 @@ import CoursesHeroManager from '../../components/admin/CoursesHeroManager';
 import MarketplaceImarticusManager from '../../components/admin/MarketplaceImarticusManager';
 import CourseSpecializationsManager from '../../components/admin/CourseSpecializationsManager';
 import EnhancedCourseSpecializationsManager from '../../components/admin/EnhancedCourseSpecializationsManager';
+import UnifiedUniversitySpecializationsManager from '../../components/admin/UnifiedUniversitySpecializationsManager';
 import MarketplaceRedesignManager from '../../components/admin/MarketplaceRedesignManager';
 
 const EnhancedAdminDashboard = () => {
@@ -123,15 +124,16 @@ const EnhancedAdminDashboard = () => {
     { id: 'banners', label: 'Banners', icon: ImageIcon, color: 'orange' },
     { id: 'homepage', label: 'Home Page', icon: Home, color: 'purple' },
     { id: 'aboutus', label: 'About Us', icon: Users, color: 'green' },
-    { id: 'marketplace', label: 'Marketplace', icon: DollarSign, color: 'blue' },
-    { id: 'marketplacenew', label: 'Marketplace (New)', icon: DollarSign, color: 'purple' },
+    //{ id: 'marketplace', label: 'Marketplace', icon: DollarSign, color: 'blue' },
+    //{ id: 'marketplacenew', label: 'Marketplace (New)', icon: DollarSign, color: 'purple' },
     { id: 'marketplaceredesign', label: 'Marketplace Redesign', icon: DollarSign, color: 'rose' },
     { id: 'courseshero', label: 'Courses Hero', icon: FileText, color: 'cyan' },
-    { id: 'universities', label: 'Universities', icon: Building, color: 'purple' },
+    //{ id: 'universities', label: 'Universities', icon: Building, color: 'purple' },
     { id: 'university-page', label: 'University Page', icon: GraduationCap, color: 'blue' },
     { id: 'courses', label: 'Courses & Fees', icon: BookOpen, color: 'green' },
-    { id: 'specializations', label: 'Course Specializations', icon: GraduationCap, color: 'teal' },
-    { id: 'specializations-enhanced', label: 'Specializations (Enhanced)', icon: GraduationCap, color: 'violet' },
+    //{ id: 'specializations', label: 'Course Specializations', icon: GraduationCap, color: 'teal' },
+    //{ id: 'specializations-enhanced', label: 'Specializations (Enhanced)', icon: GraduationCap, color: 'violet' },
+    { id: 'unified-manager', label: 'University & Specializations', icon: Building, color: 'emerald' },
     { id: 'accreditations', label: 'Accreditations', icon: Award, color: 'yellow' },
     { id: 'hiring-partners', label: 'Hiring Partners', icon: Briefcase, color: 'emerald' },
     { id: 'trainers', label: 'Trainers', icon: Users, color: 'pink' },
@@ -352,6 +354,7 @@ const EnhancedAdminDashboard = () => {
           {activeTab === 'courses' && <CourseManager />}
           {activeTab === 'specializations' && <CourseSpecializationsManager />}
           {activeTab === 'specializations-enhanced' && <EnhancedCourseSpecializationsManager />}
+          {activeTab === 'unified-manager' && <UnifiedUniversitySpecializationsManager />}
           {activeTab === 'accreditations' && <AccreditationManager />}
           {activeTab === 'hiring-partners' && <HiringPartnersManager />}
           {activeTab === 'trainers' && <TrainerManager />}
