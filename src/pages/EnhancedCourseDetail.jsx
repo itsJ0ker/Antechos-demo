@@ -13,7 +13,9 @@ import {
   Users,
   Briefcase,
   BookOpen,
-  X
+  X,
+  ChevronLeft,
+  ChevronRight
 } from 'lucide-react';
 
 const EnhancedCourseDetail = () => {
@@ -25,6 +27,8 @@ const EnhancedCourseDetail = () => {
   const [university, setUniversity] = useState(null);
   const [loading, setLoading] = useState(true);
   const [zoomedImage, setZoomedImage] = useState(null);
+  const [currentSlide, setCurrentSlide] = useState(0);
+  const [itemsPerView, setItemsPerView] = useState(3);
 
   useEffect(() => {
     fetchCourseDetails();
@@ -41,7 +45,26 @@ const EnhancedCourseDetail = () => {
         .single();
 
       if (courseError) throw courseError;
-      setCourse(courseData);
+      
+      // Parse foundation_curriculum if it exists
+      const parseField = (field) => {
+        if (typeof field === 'string') {
+          try {
+            return JSON.parse(field);
+          } catch (e) {
+            console.error('Error parsing foundation_curriculum:', e);
+            return [];
+          }
+        }
+        return field || [];
+      };
+
+      const parsedCourse = {
+        ...courseData,
+        foundation_curriculum: parseField(courseData.foundation_curriculum)
+      };
+      
+      setCourse(parsedCourse);
 
       // Fetch university details
       const { data: uniData } = await supabase
@@ -92,6 +115,46 @@ const EnhancedCourseDetail = () => {
       setLoading(false);
     }
   };
+
+  // Carousel navigation functions
+  const nextSlide = () => {
+    const maxSlide = Math.max(0, specializations.length - itemsPerView);
+    setCurrentSlide(prev => {
+      const newSlide = Math.min(prev + 1, maxSlide);
+      console.log('Next slide:', { prev, newSlide, maxSlide, itemsPerView, totalSpecs: specializations.length });
+      return newSlide;
+    });
+  };
+
+  const prevSlide = () => {
+    setCurrentSlide(prev => {
+      const newSlide = Math.max(prev - 1, 0);
+      console.log('Prev slide:', { prev, newSlide, itemsPerView, totalSpecs: specializations.length });
+      return newSlide;
+    });
+  };
+
+  // Responsive items per view
+  useEffect(() => {
+    const updateItemsPerView = () => {
+      if (window.innerWidth >= 1024) {
+        setItemsPerView(3); // lg: 3 items
+      } else if (window.innerWidth >= 768) {
+        setItemsPerView(2); // md: 2 items
+      } else {
+        setItemsPerView(1); // sm: 1 item
+      }
+    };
+
+    updateItemsPerView();
+    window.addEventListener('resize', updateItemsPerView);
+    return () => window.removeEventListener('resize', updateItemsPerView);
+  }, []);
+
+  // Reset carousel when specializations change
+  useEffect(() => {
+    setCurrentSlide(0);
+  }, [specializations]);
 
   if (loading) {
     return (
@@ -198,21 +261,39 @@ const EnhancedCourseDetail = () => {
           </div>
         )}
 
-        {/* Course Curriculum - Semester 1 & 2 (Common for all specializations) */}
-        {specializations.length > 0 && specializations[0]?.curriculum && Array.isArray(specializations[0].curriculum) && specializations[0].curriculum.length > 0 && (
+        {/* Foundation Curriculum - Semester 1 & 2 (From Course Level) */}
+        {course && (
           <div className="bg-white border border-gray-300 rounded-lg p-6 overflow-hidden">
-            <h2 className="text-2xl font-bold text-gray-900 mb-4">Course Curriculum</h2>
-            <p className="text-gray-600 mb-6">Foundation semesters common to all specializations</p>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              {specializations[0].curriculum
-                .filter((sem, idx) => idx < 2) // Only Semester 1 & 2
-                .map((sem, idx) => (
-                  <div key={idx} className="border border-gray-300 rounded-lg p-4 overflow-hidden">
-                    <h3 className="font-bold text-lg text-gray-900 mb-3 break-words">{sem.semester}</h3>
+            <div className="flex items-center gap-3 mb-4">
+              <div className="bg-blue-100 p-2 rounded-lg">
+                <BookOpen className="w-6 h-6 text-blue-600" />
+              </div>
+              <div>
+                <h2 className="text-2xl font-bold text-gray-900">Foundation Curriculum</h2>
+                <p className="text-gray-600">Common foundation semesters for all specializations</p>
+              </div>
+            </div>
+            
+            <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-6">
+              <p className="text-sm text-blue-800">
+                📚 These foundation semesters provide the core knowledge base that all specializations build upon.
+              </p>
+            </div>
+
+            {course.foundation_curriculum && Array.isArray(course.foundation_curriculum) && course.foundation_curriculum.length > 0 ? (
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                {course.foundation_curriculum.map((sem, idx) => (
+                  <div key={idx} className="border border-gray-300 rounded-lg p-4 overflow-hidden bg-gradient-to-br from-blue-50 to-white">
+                    <div className="flex items-center gap-2 mb-3">
+                      <div className="bg-blue-600 text-white text-xs font-bold px-2 py-1 rounded">
+                        {sem.semester}
+                      </div>
+                      <h3 className="font-bold text-lg text-gray-900 break-words">{sem.semester}</h3>
+                    </div>
                     {sem.description && (
                       <p className="text-sm text-gray-600 mb-3 break-words">{sem.description}</p>
                     )}
-                    {sem.subjects && Array.isArray(sem.subjects) && sem.subjects.length > 0 && (
+                    {sem.subjects && Array.isArray(sem.subjects) && sem.subjects.length > 0 ? (
                       <ul className="space-y-2">
                         {sem.subjects.map((subject, subIdx) => (
                           <li key={subIdx} className="flex items-start gap-2 text-sm text-gray-700">
@@ -221,12 +302,23 @@ const EnhancedCourseDetail = () => {
                           </li>
                         ))}
                       </ul>
+                    ) : (
+                      <p className="text-sm text-gray-500 italic">No subjects defined yet</p>
                     )}
                   </div>
                 ))}
-            </div>
+              </div>
+            ) : (
+              <div className="text-center py-8 border-2 border-dashed border-gray-300 rounded-lg">
+                <BookOpen className="w-12 h-12 text-gray-400 mx-auto mb-3" />
+                <p className="text-gray-600 mb-2">Foundation curriculum not yet defined</p>
+                <p className="text-sm text-gray-500">The foundation semesters will be added by the course administrator</p>
+              </div>
+            )}
           </div>
         )}
+
+
 
         {/* Available Specializations Section */}
         <div className="bg-white border border-gray-300 rounded-lg p-6 overflow-hidden">
@@ -240,72 +332,140 @@ const EnhancedCourseDetail = () => {
           </div>
 
           {specializations.length > 0 ? (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {specializations.map((spec) => (
-                <div
-                  key={spec.id}
-                  onClick={() => setSelectedSpec(spec)}
-                  className={`border-2 rounded-lg p-6 cursor-pointer transition-all ${
-                    selectedSpec?.id === spec.id
-                      ? 'border-blue-600 bg-blue-50'
-                      : 'border-gray-300 hover:border-blue-400 hover:shadow-lg'
-                  }`}
-                >
-                  {spec.image_url && (
-                    <div className="mb-4">
-                      <img
-                        src={spec.image_url}
-                        alt={spec.name}
-                        className="w-full h-40 object-cover rounded-lg"
-                      />
-                    </div>
-                  )}
-
-                  <h3 className="text-lg font-bold text-gray-900 mb-3 break-words">
-                    {spec.name}
-                  </h3>
-
-                  {spec.description && (
-                    <p className="text-sm text-gray-600 mb-4 line-clamp-3 break-words">
-                      {spec.description}
-                    </p>
-                  )}
-
-                  <div className="space-y-2 mb-4 pb-4 border-b border-gray-200">
-                    {spec.duration && (
-                      <div className="flex items-center justify-between text-sm">
-                        <span className="text-gray-600 flex items-center gap-2">
-                          <Clock className="w-4 h-4" />
-                          Duration
-                        </span>
-                        <span className="font-semibold text-gray-900">{spec.duration}</span>
-                      </div>
-                    )}
-                    {spec.fees && (
-                      <div className="flex items-center justify-between text-sm">
-                        <span className="text-gray-600 flex items-center gap-2">
-                          <DollarSign className="w-4 h-4" />
-                          Fees
-                        </span>
-                        <span className="font-semibold text-blue-600">{spec.fees}</span>
-                      </div>
-                    )}
-                  </div>
-
-                  {spec.eligibility && (
-                    <div className="mb-4">
-                      <p className="text-xs font-semibold text-gray-700 mb-1">Eligibility</p>
-                      <p className="text-sm text-gray-600">{spec.eligibility}</p>
-                    </div>
-                  )}
-
-                  {selectedSpec?.id === spec.id && (
-                    <div className="mt-4 pt-4 border-t border-blue-200">
-                      <p className="text-sm font-semibold text-blue-600">✓ Selected</p>
-                    </div>
-                  )}
+            <div className="relative">
+              {/* Carousel Navigation */}
+              <div className="flex items-center justify-between mb-4">
+                <div className="flex items-center gap-2">
+                  <span className="text-sm text-gray-600">
+                    Showing {Math.min(itemsPerView, specializations.length - currentSlide)} of {specializations.length} specializations
+                  </span>
                 </div>
-              ))}
+                <div className="flex gap-2">
+                  <button
+                    onClick={prevSlide}
+                    disabled={currentSlide === 0}
+                    className={`p-2 rounded-lg border transition-colors ${
+                      currentSlide === 0
+                        ? 'border-gray-200 text-gray-400 cursor-not-allowed'
+                        : 'border-gray-300 text-gray-600 hover:bg-gray-50 hover:border-gray-400'
+                    }`}
+                  >
+                    <ChevronLeft className="w-5 h-5" />
+                  </button>
+                  <button
+                    onClick={nextSlide}
+                    disabled={currentSlide >= specializations.length - itemsPerView}
+                    className={`p-2 rounded-lg border transition-colors ${
+                      currentSlide >= specializations.length - itemsPerView
+                        ? 'border-gray-200 text-gray-400 cursor-not-allowed'
+                        : 'border-gray-300 text-gray-600 hover:bg-gray-50 hover:border-gray-400'
+                    }`}
+                  >
+                    <ChevronRight className="w-5 h-5" />
+                  </button>
+                </div>
+              </div>
+
+              {/* Carousel Container */}
+              <div className="overflow-hidden">
+                <div 
+                  className="flex transition-transform duration-300 ease-in-out"
+                  style={{
+                    transform: `translateX(-${(currentSlide * 100) / itemsPerView}%)`,
+                  }}
+                >
+                  {specializations.map((spec) => (
+                    <div
+                      key={spec.id}
+                      className="flex-shrink-0 px-3"
+                      style={{ width: `${100 / itemsPerView}%` }}
+                    >
+                      <div
+                        onClick={() => setSelectedSpec(spec)}
+                        className={`border-2 rounded-lg p-6 cursor-pointer transition-all h-full ${
+                          selectedSpec?.id === spec.id
+                            ? 'border-blue-600 bg-blue-50 shadow-lg'
+                            : 'border-gray-300 hover:border-blue-400 hover:shadow-lg'
+                        }`}
+                      >
+                        {spec.image_url && (
+                          <div className="mb-4">
+                            <img
+                              src={spec.image_url}
+                              alt={spec.name}
+                              className="w-full h-40 object-cover rounded-lg"
+                            />
+                          </div>
+                        )}
+
+                        <h3 className="text-lg font-bold text-gray-900 mb-3 break-words">
+                          {spec.name}
+                        </h3>
+
+                        {spec.description && (
+                          <p className="text-sm text-gray-600 mb-4 line-clamp-3 break-words">
+                            {spec.description}
+                          </p>
+                        )}
+
+                        <div className="space-y-2 mb-4 pb-4 border-b border-gray-200">
+                          {spec.duration && (
+                            <div className="flex items-center justify-between text-sm">
+                              <span className="text-gray-600 flex items-center gap-2">
+                                <Clock className="w-4 h-4" />
+                                Duration
+                              </span>
+                              <span className="font-semibold text-gray-900">{spec.duration}</span>
+                            </div>
+                          )}
+                          {spec.fees && (
+                            <div className="flex items-center justify-between text-sm">
+                              <span className="text-gray-600 flex items-center gap-2">
+                                <DollarSign className="w-4 h-4" />
+                                Fees
+                              </span>
+                              <span className="font-semibold text-blue-600">{spec.fees}</span>
+                            </div>
+                          )}
+                        </div>
+
+                        {spec.eligibility && (
+                          <div className="mb-4">
+                            <p className="text-xs font-semibold text-gray-700 mb-1">Eligibility</p>
+                            <p className="text-sm text-gray-600">{spec.eligibility}</p>
+                          </div>
+                        )}
+
+                        {selectedSpec?.id === spec.id && (
+                          <div className="mt-4 pt-4 border-t border-blue-200">
+                            <p className="text-sm font-semibold text-blue-600 flex items-center gap-2">
+                              <CheckCircle className="w-4 h-4" />
+                              Selected
+                            </p>
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              {/* Carousel Dots Indicator */}
+              {specializations.length > itemsPerView && (
+                <div className="flex justify-center mt-6 gap-2">
+                  {Array.from({ length: Math.max(0, specializations.length - itemsPerView + 1) }).map((_, index) => (
+                    <button
+                      key={index}
+                      onClick={() => setCurrentSlide(index)}
+                      className={`w-3 h-3 rounded-full transition-colors ${
+                        currentSlide === index
+                          ? 'bg-blue-600'
+                          : 'bg-gray-300 hover:bg-gray-400'
+                      }`}
+                    />
+                  ))}
+                </div>
+              )}
             </div>
           ) : (
             <div className="text-center py-12 border-2 border-dashed border-gray-300 rounded-lg">
@@ -413,36 +573,53 @@ const EnhancedCourseDetail = () => {
               </div>
             )}
 
-            {/* Specialization Curriculum - Semester 3 & 4 (Specific to selected specialization) */}
-            {selectedSpec.curriculum && Array.isArray(selectedSpec.curriculum) && selectedSpec.curriculum.length > 2 && (
+            {/* Specialization Curriculum - Semester 3+ (Specific to selected specialization) */}
+            {selectedSpec.curriculum && Array.isArray(selectedSpec.curriculum) && selectedSpec.curriculum.length > 0 && (
               <div className="bg-white border border-gray-300 rounded-lg p-6 overflow-hidden">
-                <h2 className="text-2xl font-bold text-gray-900 mb-4 break-words">
-                  Advanced Curriculum - {selectedSpec.name}
-                </h2>
-                <p className="text-gray-600 mb-6">
-                  Specialized courses for Semester 3 & 4
-                </p>
+                <div className="flex items-center gap-3 mb-4">
+                  <div className="bg-purple-100 p-2 rounded-lg">
+                    <GraduationCap className="w-6 h-6 text-purple-600" />
+                  </div>
+                  <div>
+                    <h2 className="text-2xl font-bold text-gray-900 break-words">
+                      Specialization Curriculum - {selectedSpec.name}
+                    </h2>
+                    <p className="text-gray-600">Advanced courses specific to this specialization (Semester 3+)</p>
+                  </div>
+                </div>
+
+                <div className="bg-purple-50 border border-purple-200 rounded-lg p-4 mb-6">
+                  <p className="text-sm text-purple-800">
+                    🎯 These advanced semesters focus on specialized knowledge and skills specific to {selectedSpec.name}.
+                  </p>
+                </div>
+
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  {selectedSpec.curriculum
-                    .filter((sem, idx) => idx >= 2) // Only Semester 3 & 4+
-                    .map((sem, idx) => (
-                      <div key={idx} className="border border-blue-300 rounded-lg p-4 bg-blue-50 overflow-hidden">
-                        <h3 className="font-bold text-lg text-gray-900 mb-3 break-words">{sem.semester}</h3>
-                        {sem.description && (
-                          <p className="text-sm text-gray-600 mb-3 break-words">{sem.description}</p>
-                        )}
-                        {sem.subjects && Array.isArray(sem.subjects) && sem.subjects.length > 0 && (
-                          <ul className="space-y-2">
-                            {sem.subjects.map((subject, subIdx) => (
-                              <li key={subIdx} className="flex items-start gap-2 text-sm text-gray-700">
-                                <CheckCircle className="w-4 h-4 text-blue-600 mt-0.5 flex-shrink-0" />
-                                <span className="break-words">{subject}</span>
-                              </li>
-                            ))}
-                          </ul>
-                        )}
+                  {selectedSpec.curriculum.map((sem, idx) => (
+                    <div key={idx} className="border border-purple-300 rounded-lg p-4 bg-gradient-to-br from-purple-50 to-white overflow-hidden">
+                      <div className="flex items-center gap-2 mb-3">
+                        <div className="bg-purple-600 text-white text-xs font-bold px-2 py-1 rounded">
+                          SPEC
+                        </div>
+                        <h3 className="font-bold text-lg text-gray-900 break-words">{sem.semester}</h3>
                       </div>
-                    ))}
+                      {sem.description && (
+                        <p className="text-sm text-gray-600 mb-3 break-words">{sem.description}</p>
+                      )}
+                      {sem.subjects && Array.isArray(sem.subjects) && sem.subjects.length > 0 ? (
+                        <ul className="space-y-2">
+                          {sem.subjects.map((subject, subIdx) => (
+                            <li key={subIdx} className="flex items-start gap-2 text-sm text-gray-700">
+                              <CheckCircle className="w-4 h-4 text-purple-600 mt-0.5 flex-shrink-0" />
+                              <span className="break-words">{subject}</span>
+                            </li>
+                          ))}
+                        </ul>
+                      ) : (
+                        <p className="text-sm text-gray-500 italic">No subjects defined yet</p>
+                      )}
+                    </div>
+                  ))}
                 </div>
               </div>
             )}

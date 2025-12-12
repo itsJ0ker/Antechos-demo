@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { supabase } from '../../lib/supabase';
 import { 
   Plus, Edit2, Trash2, Save, X, ChevronDown, ChevronUp, 
@@ -113,7 +113,7 @@ const UnifiedUniversitySpecializationsManager = () => {
     try {
       const { data } = await supabase
         .from('university_courses')
-        .select('id, course_name')
+        .select('id, course_name, description, duration')
         .eq('university_id', universityId)
         .order('created_at');
       setCourses(data || []);
@@ -951,7 +951,7 @@ const UnifiedUniversitySpecializationsManager = () => {
                   </div>
                   <div className="flex items-center gap-2">
                     <QuickActionButton
-                      onClick={() => window.open(`/university/${selectedUniversity.id}`, '_blank')}
+                      onClick={() => window.open(`/#/university/${selectedUniversity.id}`, '_blank')}
                       icon={ExternalLink}
                       label="View Live"
                       variant="secondary"
@@ -1720,18 +1720,53 @@ const SpecializationsTab = ({
     {/* Course Selection */}
     <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
       <h3 className="text-lg font-semibold text-gray-900 mb-4">Select Course</h3>
-      <select
-        value={selectedCourse}
-        onChange={(e) => setSelectedCourse(e.target.value)}
-        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
-      >
-        <option value="">Choose a course</option>
-        {courses.map((course) => (
-          <option key={course.id} value={course.id}>
-            {course.course_name}
-          </option>
-        ))}
-      </select>
+      
+      {courses.length > 0 ? (
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
+          {courses.map((course) => (
+            <button
+              key={course.id}
+              onClick={() => setSelectedCourse(course.id)}
+              className={`p-4 rounded-lg border-2 text-left transition-all duration-200 hover:shadow-md ${
+                selectedCourse === course.id
+                  ? 'border-blue-500 bg-blue-50 text-blue-700'
+                  : 'border-gray-200 bg-white text-gray-700 hover:border-gray-300'
+              }`}
+            >
+              <div className="font-semibold text-sm mb-1">{course.course_name}</div>
+              {course.description && (
+                <div className="text-xs text-gray-500 line-clamp-2">
+                  {course.description}
+                </div>
+              )}
+              <div className="flex items-center justify-between mt-2">
+                <span className="text-xs text-gray-400">
+                  {course.duration || 'Duration not set'}
+                </span>
+                {selectedCourse === course.id && (
+                  <div className="w-2 h-2 bg-blue-500 rounded-full"></div>
+                )}
+              </div>
+            </button>
+          ))}
+        </div>
+      ) : (
+        <div className="text-center py-8 text-gray-500">
+          <BookOpen className="w-12 h-12 mx-auto mb-3 text-gray-300" />
+          <p>No courses available for this university</p>
+        </div>
+      )}
+
+      {selectedCourse && (
+        <div className="mt-4 p-3 bg-blue-50 border border-blue-200 rounded-lg">
+          <div className="flex items-center gap-2 text-blue-700">
+            <div className="w-2 h-2 bg-blue-500 rounded-full"></div>
+            <span className="font-medium">
+              Selected: {courses.find(c => c.id === selectedCourse)?.course_name}
+            </span>
+          </div>
+        </div>
+      )}
     </div>
 
     {/* Add New Specialization Button */}
@@ -1802,613 +1837,681 @@ const SpecializationsTab = ({
 const SpecializationForm = ({ 
   editingSpec, setEditingSpec, expandedSections, SectionHeader, 
   addArrayItem, removeArrayItem, onSave, saving 
-}) => (
-  <div className="bg-gradient-to-br from-blue-50 to-indigo-50 border-2 border-blue-200 rounded-xl p-6 space-y-6">
-    <div className="flex items-center justify-between">
-      <h3 className="text-xl font-bold text-gray-900">
-        {editingSpec.id ? 'Edit Specialization' : 'New Specialization'}
-      </h3>
-      <div className="flex gap-3">
-        <button
-          onClick={onSave}
-          disabled={saving}
-          className="flex items-center gap-2 bg-green-600 text-white px-6 py-2 rounded-lg hover:bg-green-700 disabled:opacity-50 shadow-lg"
-        >
-          <Save className="w-4 h-4" />
-          {saving ? 'Saving...' : 'Save Specialization'}
-        </button>
-        <button
-          onClick={() => setEditingSpec(null)}
-          className="flex items-center gap-2 bg-gray-200 text-gray-700 px-6 py-2 rounded-lg hover:bg-gray-300"
-        >
-          <X className="w-4 h-4" />
-          Cancel
-        </button>
+}) => {
+  const [activeSection, setActiveSection] = React.useState('basic');
+
+  const menuItems = [
+    { id: 'basic', label: 'Basic Information', icon: '📝' },
+    { id: 'overview', label: 'Program Overview', icon: '📋' },
+    { id: 'industry', label: 'Industry Insight', icon: '📊' },
+    { id: 'programHighlights', label: 'Program Highlights', icon: '🏆' },
+    { id: 'highlights', label: 'Core Features', icon: '⭐' },
+    { id: 'curriculum', label: 'Course Curriculum', icon: '📚' },
+    { id: 'career', label: 'Career Paths', icon: '🚀' },
+    { id: 'support', label: 'Support & Alumni', icon: '🤝' },
+    { id: 'levels', label: 'Career Levels', icon: '📈' }
+  ];
+
+  return (
+    <div className="bg-gradient-to-br from-blue-50 to-indigo-50 border-2 border-blue-200 rounded-xl overflow-hidden">
+      {/* Header */}
+      <div className="bg-white border-b border-blue-200 p-6">
+        <div className="flex items-center justify-between">
+          <h3 className="text-xl font-bold text-gray-900">
+            {editingSpec.id ? 'Edit Specialization' : 'New Specialization'}
+          </h3>
+          <div className="flex gap-3">
+            <button
+              onClick={onSave}
+              disabled={saving}
+              className="flex items-center gap-2 bg-green-600 text-white px-6 py-2 rounded-lg hover:bg-green-700 disabled:opacity-50 shadow-lg"
+            >
+              <Save className="w-4 h-4" />
+              {saving ? 'Saving...' : 'Save Specialization'}
+            </button>
+            <button
+              onClick={() => setEditingSpec(null)}
+              className="flex items-center gap-2 bg-gray-200 text-gray-700 px-6 py-2 rounded-lg hover:bg-gray-300"
+            >
+              <X className="w-4 h-4" />
+              Cancel
+            </button>
+          </div>
+        </div>
       </div>
-    </div>
 
-    {/* Basic Information */}
-    <div className="space-y-4">
-      <SectionHeader title="Basic Information" section="basic" />
-      {expandedSections.basic && (
-        <div className="bg-white p-6 rounded-lg space-y-4 shadow-sm">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                Specialization Name *
-              </label>
-              <input
-                type="text"
-                value={editingSpec.name}
-                onChange={(e) => setEditingSpec({ ...editingSpec, name: e.target.value })}
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
-                placeholder="e.g., MBA in Finance"
-              />
-            </div>
-
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">Duration</label>
-              <input
-                type="text"
-                value={editingSpec.duration || ''}
-                onChange={(e) => setEditingSpec({ ...editingSpec, duration: e.target.value })}
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
-                placeholder="e.g., 2 Years"
-              />
-            </div>
-
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">Fees</label>
-              <input
-                type="text"
-                value={editingSpec.fees || ''}
-                onChange={(e) => setEditingSpec({ ...editingSpec, fees: e.target.value })}
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
-                placeholder="e.g., ₹5,00,000"
-              />
-            </div>
-
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">Display Order</label>
-              <input
-                type="number"
-                value={editingSpec.display_order || 0}
-                onChange={(e) => setEditingSpec({ ...editingSpec, display_order: parseInt(e.target.value) })}
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
-              />
-            </div>
-          </div>
-
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">Description</label>
-            <textarea
-              value={editingSpec.description || ''}
-              onChange={(e) => setEditingSpec({ ...editingSpec, description: e.target.value })}
-              rows={3}
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
-              placeholder="Brief description"
-            />
-          </div>
-
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">Eligibility</label>
-            <input
-              type="text"
-              value={editingSpec.eligibility || ''}
-              onChange={(e) => setEditingSpec({ ...editingSpec, eligibility: e.target.value })}
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
-              placeholder="e.g., Bachelor's degree with 50% marks"
-            />
-          </div>
-
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">Image URL</label>
-            <input
-              type="text"
-              value={editingSpec.image_url || ''}
-              onChange={(e) => setEditingSpec({ ...editingSpec, image_url: e.target.value })}
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
-              placeholder="https://..."
-            />
-          </div>
-
-          <div className="flex items-center gap-6">
-            <label className="flex items-center gap-2 cursor-pointer">
-              <input
-                type="checkbox"
-                checked={editingSpec.is_active}
-                onChange={(e) => setEditingSpec({ ...editingSpec, is_active: e.target.checked })}
-                className="w-4 h-4"
-              />
-              <span className="text-sm font-medium text-gray-700">Active</span>
-            </label>
-
-            <label className="flex items-center gap-2 cursor-pointer">
-              <input
-                type="checkbox"
-                checked={editingSpec.booking_enabled}
-                onChange={(e) => setEditingSpec({ ...editingSpec, booking_enabled: e.target.checked })}
-                className="w-4 h-4"
-              />
-              <span className="text-sm font-medium text-gray-700">Booking Enabled</span>
-            </label>
-          </div>
-        </div>
-      )}
-    </div>
-
-    {/* Program Overview */}
-    <div className="space-y-4">
-      <SectionHeader title="Program Overview" section="overview" />
-      {expandedSections.overview && (
-        <div className="bg-white p-6 rounded-lg shadow-sm">
-          <textarea
-            value={editingSpec.program_overview || ''}
-            onChange={(e) => setEditingSpec({ ...editingSpec, program_overview: e.target.value })}
-            rows={5}
-            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
-            placeholder="Detailed program overview..."
-          />
-        </div>
-      )}
-    </div>
-
-    {/* Industry Insight */}
-    <div className="space-y-4">
-      <SectionHeader title="Industry Insight" section="industry" />
-      {expandedSections.industry && (
-        <div className="bg-white p-6 rounded-lg shadow-sm space-y-4">
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">Section Title</label>
-            <input
-              type="text"
-              value={editingSpec.industry_insight_title || ''}
-              onChange={(e) => setEditingSpec({ ...editingSpec, industry_insight_title: e.target.value })}
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
-              placeholder="Industry Insight"
-            />
-          </div>
-
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">Content</label>
-            <textarea
-              value={editingSpec.industry_insight_content || ''}
-              onChange={(e) => setEditingSpec({ ...editingSpec, industry_insight_content: e.target.value })}
-              rows={4}
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
-              placeholder="Industry insight content..."
-            />
-          </div>
-
-          <div>
-            <div className="flex items-center justify-between mb-2">
-              <label className="block text-sm font-medium text-gray-700">Statistics</label>
+      {/* Main Content Area */}
+      <div className="flex min-h-[600px]">
+        {/* Sidebar Menu */}
+        <div className="w-64 bg-white border-r border-blue-200 p-4">
+          <nav className="space-y-2">
+            {menuItems.map((item) => (
               <button
-                type="button"
-                onClick={() => addArrayItem('industry_insight_stats', { label: '', value: '' })}
-                className="text-sm text-blue-600 hover:text-blue-700"
+                key={item.id}
+                onClick={() => setActiveSection(item.id)}
+                className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg text-left transition-colors ${
+                  activeSection === item.id
+                    ? 'bg-blue-100 text-blue-700 border border-blue-200'
+                    : 'text-gray-700 hover:bg-gray-50'
+                }`}
               >
-                + Add Stat
+                <span className="text-lg">{item.icon}</span>
+                <span className="font-medium">{item.label}</span>
               </button>
-            </div>
-            {(Array.isArray(editingSpec.industry_insight_stats) ? editingSpec.industry_insight_stats : []).map((stat, idx) => (
-              <div key={idx} className="flex gap-2 mb-2">
-                <input
-                  type="text"
-                  value={stat.label || ''}
-                  onChange={(e) => {
-                    const stats = [...(editingSpec.industry_insight_stats || [])];
-                    stats[idx] = { ...stats[idx], label: e.target.value };
-                    setEditingSpec({ ...editingSpec, industry_insight_stats: stats });
-                  }}
-                  className="flex-1 px-3 py-2 border border-gray-300 rounded"
-                  placeholder="Label (e.g., Growth Rate)"
-                />
-                <input
-                  type="text"
-                  value={stat.value || ''}
-                  onChange={(e) => {
-                    const stats = [...(editingSpec.industry_insight_stats || [])];
-                    stats[idx] = { ...stats[idx], value: e.target.value };
-                    setEditingSpec({ ...editingSpec, industry_insight_stats: stats });
-                  }}
-                  className="flex-1 px-3 py-2 border border-gray-300 rounded"
-                  placeholder="Value (e.g., 25%)"
-                />
-                <button
-                  type="button"
-                  onClick={() => removeArrayItem('industry_insight_stats', idx)}
-                  className="px-3 py-2 text-red-600 hover:bg-red-50 rounded"
-                >
-                  <Trash2 className="w-4 h-4" />
-                </button>
-              </div>
             ))}
-          </div>
+          </nav>
         </div>
-      )}
-    </div>
 
-    {/* Program Highlights with Images */}
-    <div className="space-y-4">
-      <SectionHeader title="Program Highlights (With Images)" section="programHighlights" />
-      {expandedSections.programHighlights && (
-        <div className="bg-white p-6 rounded-lg shadow-sm space-y-4">
-          <div className="bg-blue-50 border border-blue-200 rounded p-3 mb-4">
-            <p className="text-sm text-blue-800">
-              💡 Add specialization-specific highlights with images (certifications, tools, partnerships, etc.)
-            </p>
-          </div>
-          <div className="flex items-center justify-between mb-2">
-            <label className="block text-sm font-medium text-gray-700">Highlights with Images</label>
-            <button
-              type="button"
-              onClick={() => addArrayItem('specialization_program_highlights', { title: '', description: '', image_url: '' })}
-              className="text-sm text-blue-600 hover:text-blue-700"
-            >
-              + Add Highlight
-            </button>
-          </div>
-          {(Array.isArray(editingSpec.specialization_program_highlights) ? editingSpec.specialization_program_highlights : []).map((highlight, idx) => (
-            <div key={idx} className="border border-gray-200 rounded-lg p-3 space-y-2">
-              <div className="flex items-center justify-between">
-                <span className="text-sm font-medium text-gray-700">Highlight {idx + 1}</span>
-                <button
-                  type="button"
-                  onClick={() => removeArrayItem('specialization_program_highlights', idx)}
-                  className="text-red-600 hover:bg-red-50 rounded p-1"
-                >
-                  <Trash2 className="w-4 h-4" />
-                </button>
-              </div>
-              <input
-                type="text"
-                value={highlight.title || ''}
-                onChange={(e) => {
-                  const highlights = [...(editingSpec.specialization_program_highlights || [])];
-                  highlights[idx] = { ...highlights[idx], title: e.target.value };
-                  setEditingSpec({ ...editingSpec, specialization_program_highlights: highlights });
-                }}
-                className="w-full px-3 py-2 border border-gray-300 rounded"
-                placeholder="Title (e.g., CFA Level 1 Prep)"
-              />
-              <textarea
-                value={highlight.description || ''}
-                onChange={(e) => {
-                  const highlights = [...(editingSpec.specialization_program_highlights || [])];
-                  highlights[idx] = { ...highlights[idx], description: e.target.value };
-                  setEditingSpec({ ...editingSpec, specialization_program_highlights: highlights });
-                }}
-                rows={2}
-                className="w-full px-3 py-2 border border-gray-300 rounded"
-                placeholder="Description"
-              />
-              <input
-                type="url"
-                value={highlight.image_url || ''}
-                onChange={(e) => {
-                  const highlights = [...(editingSpec.specialization_program_highlights || [])];
-                  highlights[idx] = { ...highlights[idx], image_url: e.target.value };
-                  setEditingSpec({ ...editingSpec, specialization_program_highlights: highlights });
-                }}
-                className="w-full px-3 py-2 border border-gray-300 rounded"
-                placeholder="Image URL (logo/badge)"
-              />
-            </div>
-          ))}
-        </div>
-      )}
-    </div>
+        {/* Content Area */}
+        <div className="flex-1 p-6 overflow-y-auto max-h-[600px]">
 
-    {/* Core of Specialization */}
-    <div className="space-y-4">
-      <SectionHeader title="Core of Specialization" section="highlights" />
-      {expandedSections.highlights && (
-        <div className="bg-white p-6 rounded-lg shadow-sm space-y-4">
-          <div className="flex items-center justify-between mb-2">
-            <label className="block text-sm font-medium text-gray-700">Core Features</label>
-            <button
-              type="button"
-              onClick={() => addArrayItem('program_highlights', { title: '', description: '' })}
-              className="text-sm text-blue-600 hover:text-blue-700"
-            >
-              + Add Core Feature
-            </button>
-          </div>
-          {(Array.isArray(editingSpec.program_highlights) ? editingSpec.program_highlights : []).map((highlight, idx) => (
-            <div key={idx} className="border border-gray-200 rounded-lg p-3 space-y-2">
-              <div className="flex items-center justify-between">
-                <span className="text-sm font-medium text-gray-700">Core Feature {idx + 1}</span>
-                <button
-                  type="button"
-                  onClick={() => removeArrayItem('program_highlights', idx)}
-                  className="text-red-600 hover:bg-red-50 rounded p-1"
-                >
-                  <Trash2 className="w-4 h-4" />
-                </button>
-              </div>
-              <input
-                type="text"
-                value={highlight.title || ''}
-                onChange={(e) => {
-                  const highlights = [...(editingSpec.program_highlights || [])];
-                  highlights[idx] = { ...highlights[idx], title: e.target.value };
-                  setEditingSpec({ ...editingSpec, program_highlights: highlights });
-                }}
-                className="w-full px-3 py-2 border border-gray-300 rounded"
-                placeholder="Title (e.g., Advanced Financial Modeling)"
-              />
-              <textarea
-                value={highlight.description || ''}
-                onChange={(e) => {
-                  const highlights = [...(editingSpec.program_highlights || [])];
-                  highlights[idx] = { ...highlights[idx], description: e.target.value };
-                  setEditingSpec({ ...editingSpec, program_highlights: highlights });
-                }}
-                rows={2}
-                className="w-full px-3 py-2 border border-gray-300 rounded"
-                placeholder="Description"
-              />
-            </div>
-          ))}
-        </div>
-      )}
-    </div>
-
-    {/* Curriculum Section */}
-    <div className="space-y-4">
-      <SectionHeader 
-        title="Course Curriculum (Semester-wise)" 
-        section="curriculum" 
-        count={editingSpec.curriculum?.length || 0}
-      />
-      {expandedSections.curriculum && (
-        <div className="bg-white p-6 rounded-lg shadow-sm space-y-4">
-          <div className="bg-blue-50 border border-blue-200 rounded p-3 mb-4">
-            <p className="text-sm text-blue-800 font-semibold mb-2">
-              📚 Curriculum Structure:
-            </p>
-            <ul className="text-sm text-blue-800 space-y-1 ml-4 list-disc">
-              <li><strong>Semester 1 & 2:</strong> Common foundation courses (same for all specializations)</li>
-              <li><strong>Semester 3 & 4+:</strong> Specialization-specific advanced courses</li>
-              <li>Add Semester 1 & 2 to ALL specializations with the SAME subjects</li>
-              <li>Add Semester 3 & 4+ with subjects specific to THIS specialization</li>
-            </ul>
-          </div>
-          <div className="flex items-center justify-between">
-            <label className="block text-sm font-medium text-gray-700">Semesters</label>
-            <button
-              type="button"
-              onClick={() => addArrayItem('curriculum', { semester: '', description: '', subjects: [] })}
-              className="flex items-center gap-1 text-sm bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
-            >
-              <Plus className="w-4 h-4" />
-              Add Semester
-            </button>
-          </div>
-          
-          {(Array.isArray(editingSpec.curriculum) ? editingSpec.curriculum : []).map((sem, semIdx) => (
-            <div key={semIdx} className="border border-gray-300 rounded-lg p-4 space-y-3">
-              <div className="flex items-center justify-between">
-                <span className="text-sm font-semibold text-gray-900">Semester {semIdx + 1}</span>
-                <button
-                  type="button"
-                  onClick={() => removeArrayItem('curriculum', semIdx)}
-                  className="text-red-600 hover:bg-red-50 rounded p-1"
-                >
-                  <Trash2 className="w-4 h-4" />
-                </button>
-              </div>
-              <input
-                type="text"
-                value={sem.semester || ''}
-                onChange={(e) => {
-                  const curriculum = [...(editingSpec.curriculum || [])];
-                  curriculum[semIdx] = { ...curriculum[semIdx], semester: e.target.value };
-                  setEditingSpec({ ...editingSpec, curriculum });
-                }}
-                className="w-full px-3 py-2 border border-gray-300 rounded"
-                placeholder="Semester Name (e.g., SEM 1)"
-              />
-              <textarea
-                value={sem.description || ''}
-                onChange={(e) => {
-                  const curriculum = [...(editingSpec.curriculum || [])];
-                  curriculum[semIdx] = { ...curriculum[semIdx], description: e.target.value };
-                  setEditingSpec({ ...editingSpec, curriculum });
-                }}
-                rows={2}
-                className="w-full px-3 py-2 border border-gray-300 rounded"
-                placeholder="Description (optional)"
-              />
-              
-              <div>
-                <div className="flex items-center justify-between mb-2">
-                  <label className="text-xs font-medium text-gray-600">Subjects</label>
-                  <button
-                    type="button"
-                    onClick={() => {
-                      const curriculum = [...(editingSpec.curriculum || [])];
-                      curriculum[semIdx].subjects = [...(curriculum[semIdx].subjects || []), ''];
-                      setEditingSpec({ ...editingSpec, curriculum });
-                    }}
-                    className="flex items-center gap-1 text-xs bg-green-600 text-white px-3 py-1 rounded hover:bg-green-700"
-                  >
-                    <Plus className="w-3 h-3" />
-                    Add Subject
-                  </button>
-                </div>
-                {(Array.isArray(sem.subjects) ? sem.subjects : []).map((subject, subIdx) => (
-                  <div key={subIdx} className="flex gap-2 mb-2">
+          {/* Basic Information */}
+          {activeSection === 'basic' && (
+            <div className="space-y-6">
+              <h4 className="text-lg font-semibold text-gray-900 flex items-center gap-2">
+                📝 Basic Information
+              </h4>
+              <div className="bg-white p-6 rounded-lg space-y-4 shadow-sm border">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                      Specialization Name *
+                    </label>
                     <input
                       type="text"
-                      value={subject || ''}
-                      onChange={(e) => {
-                        const curriculum = [...(editingSpec.curriculum || [])];
-                        curriculum[semIdx].subjects[subIdx] = e.target.value;
-                        setEditingSpec({ ...editingSpec, curriculum });
-                      }}
-                      className="flex-1 px-3 py-2 border border-gray-300 rounded text-sm"
-                      placeholder={`Subject ${subIdx + 1}`}
+                      value={editingSpec.name}
+                      onChange={(e) => setEditingSpec({ ...editingSpec, name: e.target.value })}
+                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                      placeholder="e.g., MBA in Finance"
                     />
+                  </div>
+
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">Duration</label>
+                    <input
+                      type="text"
+                      value={editingSpec.duration || ''}
+                      onChange={(e) => setEditingSpec({ ...editingSpec, duration: e.target.value })}
+                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                      placeholder="e.g., 2 Years"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">Fees</label>
+                    <input
+                      type="text"
+                      value={editingSpec.fees || ''}
+                      onChange={(e) => setEditingSpec({ ...editingSpec, fees: e.target.value })}
+                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                      placeholder="e.g., ₹5,00,000"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">Display Order</label>
+                    <input
+                      type="number"
+                      value={editingSpec.display_order || 0}
+                      onChange={(e) => setEditingSpec({ ...editingSpec, display_order: parseInt(e.target.value) })}
+                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                    />
+                  </div>
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">Description</label>
+                  <textarea
+                    value={editingSpec.description || ''}
+                    onChange={(e) => setEditingSpec({ ...editingSpec, description: e.target.value })}
+                    rows={3}
+                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                    placeholder="Brief description"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">Eligibility</label>
+                  <input
+                    type="text"
+                    value={editingSpec.eligibility || ''}
+                    onChange={(e) => setEditingSpec({ ...editingSpec, eligibility: e.target.value })}
+                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                    placeholder="e.g., Bachelor's degree with 50% marks"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">Image URL</label>
+                  <input
+                    type="text"
+                    value={editingSpec.image_url || ''}
+                    onChange={(e) => setEditingSpec({ ...editingSpec, image_url: e.target.value })}
+                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                    placeholder="https://..."
+                  />
+                </div>
+
+                <div className="flex items-center gap-6">
+                  <label className="flex items-center gap-2 cursor-pointer">
+                    <input
+                      type="checkbox"
+                      checked={editingSpec.is_active}
+                      onChange={(e) => setEditingSpec({ ...editingSpec, is_active: e.target.checked })}
+                      className="w-4 h-4"
+                    />
+                    <span className="text-sm font-medium text-gray-700">Active</span>
+                  </label>
+
+                  <label className="flex items-center gap-2 cursor-pointer">
+                    <input
+                      type="checkbox"
+                      checked={editingSpec.booking_enabled}
+                      onChange={(e) => setEditingSpec({ ...editingSpec, booking_enabled: e.target.checked })}
+                      className="w-4 h-4"
+                    />
+                    <span className="text-sm font-medium text-gray-700">Booking Enabled</span>
+                  </label>
+                </div>
+              </div>
+            </div>
+          )}
+
+          {/* Program Overview */}
+          {activeSection === 'overview' && (
+            <div className="space-y-6">
+              <h4 className="text-lg font-semibold text-gray-900 flex items-center gap-2">
+                📋 Program Overview
+              </h4>
+              <div className="bg-white p-6 rounded-lg shadow-sm border">
+                <textarea
+                  value={editingSpec.program_overview || ''}
+                  onChange={(e) => setEditingSpec({ ...editingSpec, program_overview: e.target.value })}
+                  rows={8}
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                  placeholder="Detailed program overview..."
+                />
+              </div>
+            </div>
+          )}
+
+          {/* Industry Insight */}
+          {activeSection === 'industry' && (
+            <div className="space-y-6">
+              <h4 className="text-lg font-semibold text-gray-900 flex items-center gap-2">
+                📊 Industry Insight
+              </h4>
+              <div className="bg-white p-6 rounded-lg shadow-sm space-y-4 border">
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">Section Title</label>
+                  <input
+                    type="text"
+                    value={editingSpec.industry_insight_title || ''}
+                    onChange={(e) => setEditingSpec({ ...editingSpec, industry_insight_title: e.target.value })}
+                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                    placeholder="Industry Insight"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">Content</label>
+                  <textarea
+                    value={editingSpec.industry_insight_content || ''}
+                    onChange={(e) => setEditingSpec({ ...editingSpec, industry_insight_content: e.target.value })}
+                    rows={4}
+                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                    placeholder="Industry insight content..."
+                  />
+                </div>
+
+                <div>
+                  <div className="flex items-center justify-between mb-2">
+                    <label className="block text-sm font-medium text-gray-700">Statistics</label>
                     <button
                       type="button"
-                      onClick={() => {
-                        const curriculum = [...(editingSpec.curriculum || [])];
-                        curriculum[semIdx].subjects.splice(subIdx, 1);
-                        setEditingSpec({ ...editingSpec, curriculum });
-                      }}
-                      className="px-2 text-red-600 hover:bg-red-50 rounded"
+                      onClick={() => addArrayItem('industry_insight_stats', { label: '', value: '' })}
+                      className="text-sm bg-blue-600 text-white px-3 py-1 rounded hover:bg-blue-700"
                     >
-                      <Trash2 className="w-4 h-4" />
+                      + Add Stat
                     </button>
+                  </div>
+                  {(Array.isArray(editingSpec.industry_insight_stats) ? editingSpec.industry_insight_stats : []).map((stat, idx) => (
+                    <div key={idx} className="flex gap-2 mb-2">
+                      <input
+                        type="text"
+                        value={stat.label || ''}
+                        onChange={(e) => {
+                          const stats = [...(editingSpec.industry_insight_stats || [])];
+                          stats[idx] = { ...stats[idx], label: e.target.value };
+                          setEditingSpec({ ...editingSpec, industry_insight_stats: stats });
+                        }}
+                        className="flex-1 px-3 py-2 border border-gray-300 rounded"
+                        placeholder="Label (e.g., Growth Rate)"
+                      />
+                      <input
+                        type="text"
+                        value={stat.value || ''}
+                        onChange={(e) => {
+                          const stats = [...(editingSpec.industry_insight_stats || [])];
+                          stats[idx] = { ...stats[idx], value: e.target.value };
+                          setEditingSpec({ ...editingSpec, industry_insight_stats: stats });
+                        }}
+                        className="flex-1 px-3 py-2 border border-gray-300 rounded"
+                        placeholder="Value (e.g., 25%)"
+                      />
+                      <button
+                        type="button"
+                        onClick={() => removeArrayItem('industry_insight_stats', idx)}
+                        className="px-3 py-2 text-red-600 hover:bg-red-50 rounded"
+                      >
+                        <Trash2 className="w-4 h-4" />
+                      </button>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          )}
+
+          {/* Program Highlights with Images */}
+          {activeSection === 'programHighlights' && (
+            <div className="space-y-6">
+              <h4 className="text-lg font-semibold text-gray-900 flex items-center gap-2">
+                🏆 Program Highlights (With Images)
+              </h4>
+              <div className="bg-white p-6 rounded-lg shadow-sm space-y-4 border">
+                <div className="bg-blue-50 border border-blue-200 rounded p-3 mb-4">
+                  <p className="text-sm text-blue-800">
+                    💡 Add specialization-specific highlights with images (certifications, tools, partnerships, etc.)
+                  </p>
+                </div>
+                <div className="flex items-center justify-between mb-2">
+                  <label className="block text-sm font-medium text-gray-700">Highlights with Images</label>
+                  <button
+                    type="button"
+                    onClick={() => addArrayItem('specialization_program_highlights', { title: '', description: '', image_url: '' })}
+                    className="text-sm bg-blue-600 text-white px-3 py-1 rounded hover:bg-blue-700"
+                  >
+                    + Add Highlight
+                  </button>
+                </div>
+                {(Array.isArray(editingSpec.specialization_program_highlights) ? editingSpec.specialization_program_highlights : []).map((highlight, idx) => (
+                  <div key={idx} className="border border-gray-200 rounded-lg p-3 space-y-2">
+                    <div className="flex items-center justify-between">
+                      <span className="text-sm font-medium text-gray-700">Highlight {idx + 1}</span>
+                      <button
+                        type="button"
+                        onClick={() => removeArrayItem('specialization_program_highlights', idx)}
+                        className="text-red-600 hover:bg-red-50 rounded p-1"
+                      >
+                        <Trash2 className="w-4 h-4" />
+                      </button>
+                    </div>
+                    <input
+                      type="text"
+                      value={highlight.title || ''}
+                      onChange={(e) => {
+                        const highlights = [...(editingSpec.specialization_program_highlights || [])];
+                        highlights[idx] = { ...highlights[idx], title: e.target.value };
+                        setEditingSpec({ ...editingSpec, specialization_program_highlights: highlights });
+                      }}
+                      className="w-full px-3 py-2 border border-gray-300 rounded"
+                      placeholder="Title (e.g., CFA Level 1 Prep)"
+                    />
+                    <textarea
+                      value={highlight.description || ''}
+                      onChange={(e) => {
+                        const highlights = [...(editingSpec.specialization_program_highlights || [])];
+                        highlights[idx] = { ...highlights[idx], description: e.target.value };
+                        setEditingSpec({ ...editingSpec, specialization_program_highlights: highlights });
+                      }}
+                      rows={2}
+                      className="w-full px-3 py-2 border border-gray-300 rounded"
+                      placeholder="Description"
+                    />
+                    <input
+                      type="url"
+                      value={highlight.image_url || ''}
+                      onChange={(e) => {
+                        const highlights = [...(editingSpec.specialization_program_highlights || [])];
+                        highlights[idx] = { ...highlights[idx], image_url: e.target.value };
+                        setEditingSpec({ ...editingSpec, specialization_program_highlights: highlights });
+                      }}
+                      className="w-full px-3 py-2 border border-gray-300 rounded"
+                      placeholder="Image URL (logo/badge)"
+                    />
                   </div>
                 ))}
               </div>
             </div>
-          ))}
-        </div>
-      )}
-    </div>
+          )}
 
-    {/* Career Paths */}
-    <div className="space-y-4">
-      <SectionHeader title="Career Paths" section="career" />
-      {expandedSections.career && (
-        <div className="bg-white p-6 rounded-lg shadow-sm space-y-4">
-          <div className="flex items-center justify-between mb-2">
-            <label className="block text-sm font-medium text-gray-700">Career Options</label>
-            <button
-              type="button"
-              onClick={() => addArrayItem('career_paths', { title: '', description: '', salary_range: '' })}
-              className="text-sm text-blue-600 hover:text-blue-700"
-            >
-              + Add Career Path
-            </button>
-          </div>
-          {(Array.isArray(editingSpec.career_paths) ? editingSpec.career_paths : []).map((career, idx) => (
-            <div key={idx} className="border border-gray-200 rounded-lg p-3 space-y-2">
-              <div className="flex items-center justify-between">
-                <span className="text-sm font-medium text-gray-700">Career {idx + 1}</span>
-                <button
-                  type="button"
-                  onClick={() => removeArrayItem('career_paths', idx)}
-                  className="text-red-600 hover:bg-red-50 rounded p-1"
-                >
-                  <Trash2 className="w-4 h-4" />
-                </button>
+          {/* Core of Specialization */}
+          {activeSection === 'highlights' && (
+            <div className="space-y-6">
+              <h4 className="text-lg font-semibold text-gray-900 flex items-center gap-2">
+                ⭐ Core Features
+              </h4>
+              <div className="bg-white p-6 rounded-lg shadow-sm space-y-4 border">
+                <div className="flex items-center justify-between mb-2">
+                  <label className="block text-sm font-medium text-gray-700">Core Features</label>
+                  <button
+                    type="button"
+                    onClick={() => addArrayItem('program_highlights', { title: '', description: '' })}
+                    className="text-sm bg-blue-600 text-white px-3 py-1 rounded hover:bg-blue-700"
+                  >
+                    + Add Core Feature
+                  </button>
+                </div>
+                {(Array.isArray(editingSpec.program_highlights) ? editingSpec.program_highlights : []).map((highlight, idx) => (
+                  <div key={idx} className="border border-gray-200 rounded-lg p-3 space-y-2">
+                    <div className="flex items-center justify-between">
+                      <span className="text-sm font-medium text-gray-700">Core Feature {idx + 1}</span>
+                      <button
+                        type="button"
+                        onClick={() => removeArrayItem('program_highlights', idx)}
+                        className="text-red-600 hover:bg-red-50 rounded p-1"
+                      >
+                        <Trash2 className="w-4 h-4" />
+                      </button>
+                    </div>
+                    <input
+                      type="text"
+                      value={highlight.title || ''}
+                      onChange={(e) => {
+                        const highlights = [...(editingSpec.program_highlights || [])];
+                        highlights[idx] = { ...highlights[idx], title: e.target.value };
+                        setEditingSpec({ ...editingSpec, program_highlights: highlights });
+                      }}
+                      className="w-full px-3 py-2 border border-gray-300 rounded"
+                      placeholder="Title (e.g., Advanced Financial Modeling)"
+                    />
+                    <textarea
+                      value={highlight.description || ''}
+                      onChange={(e) => {
+                        const highlights = [...(editingSpec.program_highlights || [])];
+                        highlights[idx] = { ...highlights[idx], description: e.target.value };
+                        setEditingSpec({ ...editingSpec, program_highlights: highlights });
+                      }}
+                      rows={2}
+                      className="w-full px-3 py-2 border border-gray-300 rounded"
+                      placeholder="Description"
+                    />
+                  </div>
+                ))}
               </div>
-              <input
-                type="text"
-                value={career.title || ''}
-                onChange={(e) => {
-                  const paths = [...(editingSpec.career_paths || [])];
-                  paths[idx] = { ...paths[idx], title: e.target.value };
-                  setEditingSpec({ ...editingSpec, career_paths: paths });
-                }}
-                className="w-full px-3 py-2 border border-gray-300 rounded"
-                placeholder="Job Title (e.g., Financial Analyst)"
-              />
-              <textarea
-                value={career.description || ''}
-                onChange={(e) => {
-                  const paths = [...(editingSpec.career_paths || [])];
-                  paths[idx] = { ...paths[idx], description: e.target.value };
-                  setEditingSpec({ ...editingSpec, career_paths: paths });
-                }}
-                rows={2}
-                className="w-full px-3 py-2 border border-gray-300 rounded"
-                placeholder="Job Description"
-              />
-              <input
-                type="text"
-                value={career.salary_range || ''}
-                onChange={(e) => {
-                  const paths = [...(editingSpec.career_paths || [])];
-                  paths[idx] = { ...paths[idx], salary_range: e.target.value };
-                  setEditingSpec({ ...editingSpec, career_paths: paths });
-                }}
-                className="w-full px-3 py-2 border border-gray-300 rounded"
-                placeholder="Salary Range (e.g., ₹6-12 LPA)"
-              />
             </div>
-          ))}
+          )}
+
+          {/* Curriculum Section */}
+          {activeSection === 'curriculum' && (
+            <div className="space-y-6">
+              <h4 className="text-lg font-semibold text-gray-900 flex items-center gap-2">
+                📚 Course Curriculum ({editingSpec.curriculum?.length || 0} semesters)
+              </h4>
+              <div className="bg-white p-6 rounded-lg shadow-sm space-y-4 border">
+                <div className="bg-blue-50 border border-blue-200 rounded p-3 mb-4">
+                  <p className="text-sm text-blue-800 font-semibold mb-2">
+                    📚 Specialization Curriculum (Semester 3+):
+                  </p>
+                  <ul className="text-sm text-blue-800 space-y-1 ml-4 list-disc">
+                    <li><strong>Foundation (Semester 1 & 2):</strong> Already defined at course level - same for all specializations</li>
+                    <li><strong>Specialization (Semester 3+):</strong> Add advanced courses specific to THIS specialization</li>
+                    <li>Start numbering from Semester 3 since foundation semesters are handled at course level</li>
+                    <li>Focus on specialization-specific subjects, electives, and advanced topics</li>
+                  </ul>
+                </div>
+                <div className="flex items-center justify-between">
+                  <label className="block text-sm font-medium text-gray-700">Semesters</label>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      const currentCount = editingSpec.curriculum?.length || 0;
+                      const semesterNumber = currentCount + 3; // Start from semester 3
+                      addArrayItem('curriculum', { 
+                        semester: `SEM ${semesterNumber}`, 
+                        description: `Specialization Semester ${semesterNumber}`, 
+                        subjects: [] 
+                      });
+                    }}
+                    className="flex items-center gap-1 text-sm bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
+                  >
+                    <Plus className="w-4 h-4" />
+                    Add Semester
+                  </button>
+                </div>
+                
+                {(Array.isArray(editingSpec.curriculum) ? editingSpec.curriculum : []).map((sem, semIdx) => (
+                  <div key={semIdx} className="border border-gray-300 rounded-lg p-4 space-y-3">
+                    <div className="flex items-center justify-between">
+                      <span className="text-sm font-semibold text-gray-900">Semester {semIdx + 1}</span>
+                      <button
+                        type="button"
+                        onClick={() => removeArrayItem('curriculum', semIdx)}
+                        className="text-red-600 hover:bg-red-50 rounded p-1"
+                      >
+                        <Trash2 className="w-4 h-4" />
+                      </button>
+                    </div>
+                    <input
+                      type="text"
+                      value={sem.semester || ''}
+                      onChange={(e) => {
+                        const curriculum = [...(editingSpec.curriculum || [])];
+                        curriculum[semIdx] = { ...curriculum[semIdx], semester: e.target.value };
+                        setEditingSpec({ ...editingSpec, curriculum });
+                      }}
+                      className="w-full px-3 py-2 border border-gray-300 rounded"
+                      placeholder="Semester Name (e.g., SEM 3, SEM 4)"
+                    />
+                    <textarea
+                      value={sem.description || ''}
+                      onChange={(e) => {
+                        const curriculum = [...(editingSpec.curriculum || [])];
+                        curriculum[semIdx] = { ...curriculum[semIdx], description: e.target.value };
+                        setEditingSpec({ ...editingSpec, curriculum });
+                      }}
+                      rows={2}
+                      className="w-full px-3 py-2 border border-gray-300 rounded"
+                      placeholder="Description (optional)"
+                    />
+                    
+                    <div>
+                      <div className="flex items-center justify-between mb-2">
+                        <label className="text-xs font-medium text-gray-600">Subjects</label>
+                        <button
+                          type="button"
+                          onClick={() => {
+                            const curriculum = [...(editingSpec.curriculum || [])];
+                            curriculum[semIdx].subjects = [...(curriculum[semIdx].subjects || []), ''];
+                            setEditingSpec({ ...editingSpec, curriculum });
+                          }}
+                          className="flex items-center gap-1 text-xs bg-green-600 text-white px-3 py-1 rounded hover:bg-green-700"
+                        >
+                          <Plus className="w-3 h-3" />
+                          Add Subject
+                        </button>
+                      </div>
+                      {(Array.isArray(sem.subjects) ? sem.subjects : []).map((subject, subIdx) => (
+                        <div key={subIdx} className="flex gap-2 mb-2">
+                          <input
+                            type="text"
+                            value={subject || ''}
+                            onChange={(e) => {
+                              const curriculum = [...(editingSpec.curriculum || [])];
+                              curriculum[semIdx].subjects[subIdx] = e.target.value;
+                              setEditingSpec({ ...editingSpec, curriculum });
+                            }}
+                            className="flex-1 px-3 py-2 border border-gray-300 rounded text-sm"
+                            placeholder={`Subject ${subIdx + 1}`}
+                          />
+                          <button
+                            type="button"
+                            onClick={() => {
+                              const curriculum = [...(editingSpec.curriculum || [])];
+                              curriculum[semIdx].subjects.splice(subIdx, 1);
+                              setEditingSpec({ ...editingSpec, curriculum });
+                            }}
+                            className="px-2 text-red-600 hover:bg-red-50 rounded"
+                          >
+                            <Trash2 className="w-4 h-4" />
+                          </button>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {/* Career Paths */}
+          {activeSection === 'career' && (
+            <div className="space-y-6">
+              <h4 className="text-lg font-semibold text-gray-900 flex items-center gap-2">
+                🚀 Career Paths
+              </h4>
+              <div className="bg-white p-6 rounded-lg shadow-sm space-y-4 border">
+                <div className="flex items-center justify-between mb-2">
+                  <label className="block text-sm font-medium text-gray-700">Career Options</label>
+                  <button
+                    type="button"
+                    onClick={() => addArrayItem('career_paths', { title: '', description: '', salary_range: '' })}
+                    className="text-sm bg-blue-600 text-white px-3 py-1 rounded hover:bg-blue-700"
+                  >
+                    + Add Career Path
+                  </button>
+                </div>
+                {(Array.isArray(editingSpec.career_paths) ? editingSpec.career_paths : []).map((career, idx) => (
+                  <div key={idx} className="border border-gray-200 rounded-lg p-3 space-y-2">
+                    <div className="flex items-center justify-between">
+                      <span className="text-sm font-medium text-gray-700">Career {idx + 1}</span>
+                      <button
+                        type="button"
+                        onClick={() => removeArrayItem('career_paths', idx)}
+                        className="text-red-600 hover:bg-red-50 rounded p-1"
+                      >
+                        <Trash2 className="w-4 h-4" />
+                      </button>
+                    </div>
+                    <input
+                      type="text"
+                      value={career.title || ''}
+                      onChange={(e) => {
+                        const paths = [...(editingSpec.career_paths || [])];
+                        paths[idx] = { ...paths[idx], title: e.target.value };
+                        setEditingSpec({ ...editingSpec, career_paths: paths });
+                      }}
+                      className="w-full px-3 py-2 border border-gray-300 rounded"
+                      placeholder="Job Title (e.g., Financial Analyst)"
+                    />
+                    <textarea
+                      value={career.description || ''}
+                      onChange={(e) => {
+                        const paths = [...(editingSpec.career_paths || [])];
+                        paths[idx] = { ...paths[idx], description: e.target.value };
+                        setEditingSpec({ ...editingSpec, career_paths: paths });
+                      }}
+                      rows={2}
+                      className="w-full px-3 py-2 border border-gray-300 rounded"
+                      placeholder="Job Description"
+                    />
+                    <input
+                      type="text"
+                      value={career.salary_range || ''}
+                      onChange={(e) => {
+                        const paths = [...(editingSpec.career_paths || [])];
+                        paths[idx] = { ...paths[idx], salary_range: e.target.value };
+                        setEditingSpec({ ...editingSpec, career_paths: paths });
+                      }}
+                      className="w-full px-3 py-2 border border-gray-300 rounded"
+                      placeholder="Salary Range (e.g., ₹6-12 LPA)"
+                    />
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {/* Support & Alumni */}
+          {activeSection === 'support' && (
+            <div className="space-y-6">
+              <h4 className="text-lg font-semibold text-gray-900 flex items-center gap-2">
+                🤝 Support & Alumni
+              </h4>
+              <div className="bg-white p-6 rounded-lg shadow-sm space-y-4 border">
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">Career Support</label>
+                  <textarea
+                    value={editingSpec.career_support || ''}
+                    onChange={(e) => setEditingSpec({ ...editingSpec, career_support: e.target.value })}
+                    rows={4}
+                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                    placeholder="Career support information..."
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">Alumni Network</label>
+                  <textarea
+                    value={editingSpec.alumni_network || ''}
+                    onChange={(e) => setEditingSpec({ ...editingSpec, alumni_network: e.target.value })}
+                    rows={4}
+                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                    placeholder="Alumni network information..."
+                  />
+                </div>
+              </div>
+            </div>
+          )}
+
+          {/* Career Level Information */}
+          {activeSection === 'levels' && (
+            <div className="space-y-6">
+              <h4 className="text-lg font-semibold text-gray-900 flex items-center gap-2">
+                📈 Career Level Information
+              </h4>
+              <div className="bg-white p-6 rounded-lg shadow-sm space-y-4 border">
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">Entry Level</label>
+                  <textarea
+                    value={editingSpec.entry_level_info || ''}
+                    onChange={(e) => setEditingSpec({ ...editingSpec, entry_level_info: e.target.value })}
+                    rows={3}
+                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                    placeholder="Entry level career information..."
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">Mid Level</label>
+                  <textarea
+                    value={editingSpec.mid_level_info || ''}
+                    onChange={(e) => setEditingSpec({ ...editingSpec, mid_level_info: e.target.value })}
+                    rows={3}
+                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                    placeholder="Mid level career information..."
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">Senior Level</label>
+                  <textarea
+                    value={editingSpec.senior_level_info || ''}
+                    onChange={(e) => setEditingSpec({ ...editingSpec, senior_level_info: e.target.value })}
+                    rows={3}
+                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                    placeholder="Senior level career information..."
+                  />
+                </div>
+              </div>
+            </div>
+          )}
         </div>
-      )}
+      </div>
     </div>
-
-    {/* Support & Alumni */}
-    <div className="space-y-4">
-      <SectionHeader title="Support & Alumni" section="support" />
-      {expandedSections.support && (
-        <div className="bg-white p-6 rounded-lg shadow-sm space-y-4">
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">Career Support</label>
-            <textarea
-              value={editingSpec.career_support || ''}
-              onChange={(e) => setEditingSpec({ ...editingSpec, career_support: e.target.value })}
-              rows={3}
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
-              placeholder="Career support information..."
-            />
-          </div>
-
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">Alumni Network</label>
-            <textarea
-              value={editingSpec.alumni_network || ''}
-              onChange={(e) => setEditingSpec({ ...editingSpec, alumni_network: e.target.value })}
-              rows={3}
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
-              placeholder="Alumni network information..."
-            />
-          </div>
-        </div>
-      )}
-    </div>
-
-    {/* Career Level Information */}
-    <div className="space-y-4">
-      <SectionHeader title="Career Level Information" section="levels" />
-      {expandedSections.levels && (
-        <div className="bg-white p-6 rounded-lg shadow-sm space-y-4">
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">Entry Level</label>
-            <textarea
-              value={editingSpec.entry_level_info || ''}
-              onChange={(e) => setEditingSpec({ ...editingSpec, entry_level_info: e.target.value })}
-              rows={3}
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
-              placeholder="Entry level career information..."
-            />
-          </div>
-
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">Mid Level</label>
-            <textarea
-              value={editingSpec.mid_level_info || ''}
-              onChange={(e) => setEditingSpec({ ...editingSpec, mid_level_info: e.target.value })}
-              rows={3}
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
-              placeholder="Mid level career information..."
-            />
-          </div>
-
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">Senior Level</label>
-            <textarea
-              value={editingSpec.senior_level_info || ''}
-              onChange={(e) => setEditingSpec({ ...editingSpec, senior_level_info: e.target.value })}
-              rows={3}
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
-              placeholder="Senior level career information..."
-            />
-          </div>
-        </div>
-      )}
-    </div>
-  </div>
-);
+  );
+};
 // Specializations List Component
 const SpecializationsList = ({ specializations, onEdit, onDelete }) => (
   <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
@@ -2757,7 +2860,11 @@ const CoursesTab = ({ universityId }) => {
     fees: '',
     specializations: [],
     image_url: '',
-    program_highlights: []
+    program_highlights: [],
+    foundation_curriculum: [
+      { semester: 'SEM 1', description: 'Foundation Semester 1', subjects: [] },
+      { semester: 'SEM 2', description: 'Foundation Semester 2', subjects: [] }
+    ]
   });
 
   useEffect(() => {
@@ -2791,7 +2898,11 @@ const CoursesTab = ({ universityId }) => {
       fees: '',
       specializations: [],
       image_url: '',
-      program_highlights: []
+      program_highlights: [],
+      foundation_curriculum: [
+        { semester: 'SEM 1', description: 'Foundation Semester 1', subjects: [] },
+        { semester: 'SEM 2', description: 'Foundation Semester 2', subjects: [] }
+      ]
     });
     setEditingId(null);
   };
@@ -2804,7 +2915,11 @@ const CoursesTab = ({ universityId }) => {
       fees: course.fees || '',
       specializations: course.specializations || [],
       image_url: course.image_url || '',
-      program_highlights: course.program_highlights || []
+      program_highlights: course.program_highlights || [],
+      foundation_curriculum: course.foundation_curriculum || [
+        { semester: 'SEM 1', description: 'Foundation Semester 1', subjects: [] },
+        { semester: 'SEM 2', description: 'Foundation Semester 2', subjects: [] }
+      ]
     });
     setEditingId(course.id);
   };
@@ -2814,6 +2929,9 @@ const CoursesTab = ({ universityId }) => {
       alert('Course name is required');
       return;
     }
+
+    // Debug: Log foundation curriculum data
+    console.log('Foundation Curriculum Data:', formData.foundation_curriculum);
 
     setSaving(true);
     try {
@@ -2825,23 +2943,37 @@ const CoursesTab = ({ universityId }) => {
         fees: formData.fees || null,
         specializations: formData.specializations || [],
         image_url: formData.image_url || null,
-        program_highlights: formData.program_highlights || []
+        program_highlights: formData.program_highlights || [],
+        foundation_curriculum: formData.foundation_curriculum || []
       };
 
+      // Debug: Log the complete courseData being saved
+      console.log('Complete Course Data being saved:', courseData);
+
       if (editingId) {
-        const { error } = await supabase
+        const { data, error } = await supabase
           .from('university_courses')
           .update(courseData)
-          .eq('id', editingId);
+          .eq('id', editingId)
+          .select();
         
-        if (error) throw error;
+        if (error) {
+          console.error('Update error:', error);
+          throw error;
+        }
+        console.log('Updated course data:', data);
         alert('Course updated successfully!');
       } else {
-        const { error } = await supabase
+        const { data, error } = await supabase
           .from('university_courses')
-          .insert([courseData]);
+          .insert([courseData])
+          .select();
         
-        if (error) throw error;
+        if (error) {
+          console.error('Insert error:', error);
+          throw error;
+        }
+        console.log('Inserted course data:', data);
         alert('Course added successfully!');
       }
 
@@ -2889,6 +3021,31 @@ const CoursesTab = ({ universityId }) => {
   const removeHighlight = (index) => {
     const highlights = formData.program_highlights.filter((_, i) => i !== index);
     setFormData({ ...formData, program_highlights: highlights });
+  };
+
+  // Foundation Curriculum Management Functions
+  const addSubjectToFoundationSemester = (semesterIndex) => {
+    const curriculum = [...formData.foundation_curriculum];
+    curriculum[semesterIndex].subjects = [...curriculum[semesterIndex].subjects, ''];
+    setFormData({ ...formData, foundation_curriculum: curriculum });
+  };
+
+  const updateFoundationSubject = (semesterIndex, subjectIndex, value) => {
+    const curriculum = [...formData.foundation_curriculum];
+    curriculum[semesterIndex].subjects[subjectIndex] = value;
+    setFormData({ ...formData, foundation_curriculum: curriculum });
+  };
+
+  const removeFoundationSubject = (semesterIndex, subjectIndex) => {
+    const curriculum = [...formData.foundation_curriculum];
+    curriculum[semesterIndex].subjects.splice(subjectIndex, 1);
+    setFormData({ ...formData, foundation_curriculum: curriculum });
+  };
+
+  const updateFoundationSemesterDescription = (semesterIndex, description) => {
+    const curriculum = [...formData.foundation_curriculum];
+    curriculum[semesterIndex].description = description;
+    setFormData({ ...formData, foundation_curriculum: curriculum });
   };
 
   if (loading) {
@@ -3011,6 +3168,71 @@ const CoursesTab = ({ universityId }) => {
                 >
                   <Trash2 className="w-4 h-4" />
                 </button>
+              </div>
+            ))}
+          </div>
+
+          {/* Foundation Curriculum (Semester 1 & 2) */}
+          <div className="md:col-span-2">
+            <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-4">
+              <h4 className="text-lg font-semibold text-blue-800 mb-2 flex items-center gap-2">
+                📚 Foundation Curriculum (Semester 1 & 2)
+              </h4>
+              <p className="text-sm text-blue-700">
+                These foundation semesters will be the same for ALL specializations of this course. 
+                Specialization-specific curriculum starts from Semester 3.
+              </p>
+            </div>
+
+            {formData.foundation_curriculum.map((semester, semesterIndex) => (
+              <div key={semesterIndex} className="border border-gray-300 rounded-lg p-4 mb-4">
+                <div className="flex items-center justify-between mb-3">
+                  <h5 className="font-semibold text-gray-900">{semester.semester}</h5>
+                </div>
+                
+                <div className="mb-3">
+                  <label className="block text-sm font-medium text-gray-700 mb-2">Description</label>
+                  <input
+                    type="text"
+                    value={semester.description}
+                    onChange={(e) => updateFoundationSemesterDescription(semesterIndex, e.target.value)}
+                    className="w-full px-3 py-2 border border-gray-300 rounded"
+                    placeholder="Semester description"
+                  />
+                </div>
+
+                <div>
+                  <div className="flex items-center justify-between mb-2">
+                    <label className="text-sm font-medium text-gray-700">Subjects</label>
+                    <button
+                      type="button"
+                      onClick={() => addSubjectToFoundationSemester(semesterIndex)}
+                      className="flex items-center gap-1 text-xs bg-green-600 text-white px-3 py-1 rounded hover:bg-green-700"
+                    >
+                      <Plus className="w-3 h-3" />
+                      Add Subject
+                    </button>
+                  </div>
+                  
+                  {semester.subjects.map((subject, subjectIndex) => (
+                    <div key={subjectIndex} className="flex gap-2 mb-2">
+                      <input
+                        type="text"
+                        value={subject}
+                        onChange={(e) => updateFoundationSubject(semesterIndex, subjectIndex, e.target.value)}
+                        className="flex-1 px-3 py-2 border border-gray-300 rounded text-sm"
+                        placeholder={`Subject ${subjectIndex + 1}`}
+                      />
+                      <button
+                        type="button"
+                        onClick={() => removeFoundationSubject(semesterIndex, subjectIndex)}
+                        className="px-2 text-red-600 hover:bg-red-50 rounded"
+                      >
+                        <Trash2 className="w-4 h-4" />
+                      </button>
+                    </div>
+                  ))}
+                </div>
               </div>
             ))}
           </div>
