@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Star, Clock, Check, Users, Award, BookOpen, Shield } from 'lucide-react';
 import { motion } from 'framer-motion';
 import allCourses from '../data/allCourses';
@@ -8,6 +9,7 @@ import BackToTop from '../components/common/BackToTop';
 import Newsletter from '../components/common/Newsletter';
 
 const CoursesNew = () => {
+  const navigate = useNavigate();
   const [courses, setCourses] = useState([]);
   const [loading, setLoading] = useState(true);
   const [selectedCategory, setSelectedCategory] = useState('all');
@@ -79,6 +81,10 @@ const CoursesNew = () => {
   const filteredCourses = selectedCategory === 'all' 
     ? courses 
     : courses.filter(c => c.category === selectedCategory);
+
+  const handleEnrollClick = (courseId) => {
+    navigate(`/course/${courseId}`);
+  };
 
   if (loading) {
     return (
@@ -374,7 +380,9 @@ const CoursesNew = () => {
                     </div>
                   </div>
 
-                  <button className={`w-full py-3.5 rounded-xl font-bold transition-all duration-200 flex items-center justify-center gap-2 ${
+                  <button 
+                    onClick={() => handleEnrollClick(course.id)}
+                    className={`w-full py-3.5 rounded-xl font-bold transition-all duration-200 flex items-center justify-center gap-2 ${
                     isPopular
                       ? 'bg-gradient-to-r from-blue-600 to-indigo-600 text-white hover:shadow-lg hover:scale-105'
                       : 'bg-gradient-to-r from-gray-900 to-gray-800 text-white hover:shadow-lg hover:scale-105'

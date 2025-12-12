@@ -46,8 +46,8 @@ const Navbar = () => {
     setIsOpen(false);
   };
 
-  const handleUniversityClick = (universityCode) => {
-    navigate(`/university/${universityCode}`);
+  const handleUniversityClick = (universityId) => {
+    navigate(`/university/${universityId}`);
     setShowUniversitiesDropdown(false);
     setIsOpen(false);
   };
@@ -139,7 +139,7 @@ const Navbar = () => {
                           universities.map((university) => (
                             <button
                               key={university.id}
-                              onClick={() => handleUniversityClick(university.code || university.id)}
+                              onClick={() => handleUniversityClick(university.id)}
                               className="w-full text-left px-4 py-3 hover:bg-blue-50 transition-colors duration-150 border-b border-gray-100 last:border-0"
                             >
                               <div className="font-semibold text-gray-800 text-sm">{university.name}</div>
@@ -228,7 +228,7 @@ const Navbar = () => {
                       {universities.slice(0, 5).map((university) => (
                         <button
                           key={university.id}
-                          onClick={() => handleUniversityClick(university.code || university.id)}
+                          onClick={() => handleUniversityClick(university.id)}
                           className="w-full text-left px-3 py-2 text-sm text-gray-600 hover:text-blue-600 hover:bg-blue-50 rounded-md transition-all"
                         >
                           {university.name}
