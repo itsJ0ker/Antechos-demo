@@ -158,11 +158,37 @@ const CourseDetailWrapper = () => {
   useEffect(() => {
     const fetchCourse = async () => {
       try {
-        const courses = await allCourses();
-        const foundCourse = courses.find((c) => c.id === parseInt(id));
-        setCourse(foundCourse);
+        console.log('Fetching course details for ID:', id);
+        
+        // First try to get from database
+        const { supabase } = await import('./lib/supabase');
+        const { data: courseData, error } = await supabase
+          .from('courses')
+          .select('*')
+          .eq('id', parseInt(id))
+          .eq('is_active', true)
+          .single();
+        
+        if (error) {
+          console.error('Database error, trying fallback:', error);
+          // Fallback to static data
+          const courses = await allCourses();
+          const foundCourse = courses.find((c) => c.id === parseInt(id));
+          setCourse(foundCourse);
+        } else {
+          console.log('Course loaded from database:', courseData);
+          setCourse(courseData);
+        }
       } catch (error) {
         console.error('Error fetching course:', error);
+        // Final fallback to static data
+        try {
+          const courses = await allCourses();
+          const foundCourse = courses.find((c) => c.id === parseInt(id));
+          setCourse(foundCourse);
+        } catch (fallbackError) {
+          console.error('Fallback error:', fallbackError);
+        }
       } finally {
         setLoading(false);
       }
@@ -172,7 +198,25 @@ const CourseDetailWrapper = () => {
   }, [id]);
 
   if (loading) {
-    return <div className="min-h-screen flex items-center justify-center">Loading...</div>;
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto mb-4"></div>
+          <p className="text-gray-600">Loading course details...</p>
+        </div>
+      </div>
+    );
+  }
+
+  if (!course) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="text-center">
+          <h2 className="text-2xl font-bold text-gray-900 mb-2">Course Not Found</h2>
+          <p className="text-gray-600">The course you're looking for doesn't exist.</p>
+        </div>
+      </div>
+    );
   }
 
   return <CourseDetailPage course={course} />;

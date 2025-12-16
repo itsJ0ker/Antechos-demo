@@ -68,10 +68,33 @@ const CoursesNew = () => {
 
   const fetchCourses = async () => {
     try {
-      const coursesData = await allCourses();
-      setCourses(coursesData || []);
+      console.log('Fetching courses from database...');
+      // Use Supabase directly to get courses
+      const { data: coursesData, error } = await supabase
+        .from('courses')
+        .select('*')
+        .eq('is_active', true)
+        .order('created_at', { ascending: false });
+      
+      if (error) {
+        console.error('Error fetching courses:', error);
+        // Fallback to static data if database fails
+        const fallbackData = await allCourses();
+        setCourses(fallbackData || []);
+      } else {
+        console.log('Courses loaded from database:', coursesData);
+        setCourses(coursesData || []);
+      }
     } catch (error) {
       console.error('Error:', error);
+      // Fallback to static data
+      try {
+        const fallbackData = await allCourses();
+        setCourses(fallbackData || []);
+      } catch (fallbackError) {
+        console.error('Fallback error:', fallbackError);
+        setCourses([]);
+      }
     } finally {
       setLoading(false);
     }
