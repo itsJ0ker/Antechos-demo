@@ -2,6 +2,14 @@ import { useState, useEffect, useRef } from 'react';
 import { supabase } from '../lib/supabase';
 import { ArrowRight, Download, ChevronLeft, ChevronRight, X, Star } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
+import SimpleLaserFlow from '../components/effects/SimpleLaserFlow';
+import LaserBeamEffect from '../components/effects/LaserBeamEffect';
+import ParticleFieldEffect from '../components/effects/ParticleFieldEffect';
+import WaveEffect from '../components/effects/WaveEffect';
+import GridEffect from '../components/effects/GridEffect';
+import CursorTrailEffect from '../components/effects/CursorTrailEffect';
+import RippleEffect from '../components/effects/RippleEffect';
+import GradualBlur from '../components/effects/GradualBlur';
 
 const MarketplaceRedesign = () => {
   const [loading, setLoading] = useState(true);
@@ -115,12 +123,15 @@ const MarketplaceRedesign = () => {
         <section 
           className="relative min-h-[600px] flex items-center justify-center overflow-hidden"
           style={{
-            backgroundImage: data.hero.background_image_url ? `url(${data.hero.background_image_url})` : 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+            backgroundImage: data.hero.background_image_url ? `url(${data.hero.background_image_url})` : 'linear-gradient(135deg, #1e293b 0%, #0f172a 100%)',
             backgroundSize: 'cover',
             backgroundPosition: 'center'
           }}
         >
-          <div className="absolute inset-0 bg-black/60"></div>
+          {/* Subtle Background Effect */}
+          <SimpleLaserFlow color="#3B82F6" intensity={0.25} speed={0.6} />
+          
+          <div className="absolute inset-0 bg-black/50"></div>
           
           <div className="relative z-10 max-w-7xl mx-auto px-6 py-16 grid grid-cols-1 lg:grid-cols-3 gap-8 items-center">
             {/* Left Image */}
@@ -155,12 +166,13 @@ const MarketplaceRedesign = () => {
               </div>
             )}
           </div>
+
         </section>
       )}
 
       {/* Partners Section */}
       {data.partners.length > 0 && (
-        <section className="py-12 bg-gray-800 overflow-hidden">
+        <section className="py-12 bg-gray-800">
           <div className="max-w-7xl mx-auto px-6">
             <h2 className="text-2xl font-bold text-center mb-8 text-white">
               Benefit of Network of {data.partners.length}+ Partners
@@ -288,7 +300,7 @@ const MarketplaceRedesign = () => {
                 <a
                   href={data.resources.download_url}
                   download
-                  className="inline-flex items-center gap-2 bg-blue-600 text-white px-8 py-4 rounded-xl font-bold hover:bg-blue-700 transition-all"
+                  className="inline-flex items-center gap-2 bg-gradient-to-r from-green-600 to-emerald-600 text-white px-8 py-4 rounded-xl font-bold hover:from-green-700 hover:to-emerald-700 transition-all shadow-lg hover:shadow-green-500/50"
                 >
                   <Download className="w-5 h-5" />
                   {data.resources.button_text}
@@ -393,12 +405,15 @@ const MarketplaceRedesign = () => {
 
           {/* Featured Professionals */}
           {data.professionals.length > 0 && (
-            <section className="py-16 bg-gray-900">
-              <div className="max-w-7xl mx-auto px-6">
+            <section className="relative py-16 bg-gray-900 overflow-hidden">
+              {/* Subtle Effect */}
+              <SimpleLaserFlow color="#8B5CF6" intensity={0.15} speed={0.5} />
+              
+              <div className="relative z-10 max-w-7xl mx-auto px-6">
                 <h2 className="text-3xl font-bold text-center mb-12 text-white">Featured Professionals</h2>
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
                   {data.professionals.map((prof) => (
-                    <div key={prof.id} className="bg-gray-800 rounded-2xl shadow-lg overflow-hidden hover:shadow-xl transition-all border border-gray-700">
+                    <div key={prof.id} className="bg-gray-800 rounded-2xl shadow-lg overflow-hidden hover:shadow-xl hover:shadow-purple-500/20 hover:border-purple-500 transition-all border border-gray-700">
                       <img src={prof.image_url} alt={prof.name} className="w-full h-64 object-cover" />
                       <div className="p-6">
                         <h3 className="text-xl font-bold mb-1 text-white">{prof.name}</h3>
@@ -406,7 +421,7 @@ const MarketplaceRedesign = () => {
                         <p className="text-gray-400 text-sm mb-4 line-clamp-2">{prof.short_bio}</p>
                         <button
                           onClick={() => setSelectedProfessional(prof)}
-                          className="w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition-all"
+                          className="w-full bg-gradient-to-r from-purple-600 to-pink-600 text-white py-2 rounded-lg hover:from-purple-700 hover:to-pink-700 transition-all shadow-md hover:shadow-purple-500/50"
                         >
                           View Details
                         </button>
@@ -517,7 +532,7 @@ const MarketplaceRedesign = () => {
 
       {/* Testimonials Carousel */}
       {data.testimonials.length > 0 && (
-        <section className="py-16 bg-gradient-to-b from-gray-800 to-gray-900 overflow-hidden">
+        <section className="py-16 bg-gradient-to-b from-gray-800 to-gray-900">
           <div className="max-w-7xl mx-auto px-6">
             <h2 className="text-3xl font-bold text-center mb-12 text-white">What our clients say about us</h2>
             <div className="relative h-96 overflow-hidden">
@@ -549,8 +564,11 @@ const MarketplaceRedesign = () => {
 
       {/* Comprehensive Solutions / Services */}
       {data.solutions.length > 0 && (
-        <section id="services" className="py-20 bg-gray-900">
-          <div className="max-w-7xl mx-auto px-6">
+        <section id="services" className="relative py-20 bg-gray-900 overflow-hidden">
+          {/* Subtle Background Effect */}
+          <SimpleLaserFlow color="#6366F1" intensity={0.15} speed={0.5} />
+          
+          <div className="relative z-10 max-w-7xl mx-auto px-6">
             <div className="text-center mb-16">
               <h2 className="text-4xl font-bold text-white mb-4">
                 Our <span className="text-blue-500">Services</span>
@@ -566,7 +584,7 @@ const MarketplaceRedesign = () => {
                   initial={{ opacity: 0, y: 30 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   transition={{ delay: index * 0.1 }}
-                  className="bg-gray-800 border-2 border-gray-700 rounded-2xl overflow-hidden hover:border-blue-500 hover:shadow-2xl transition-all duration-300 group"
+                  className="bg-gray-800 border-2 border-gray-700 rounded-2xl overflow-hidden hover:border-blue-500 hover:shadow-2xl hover:shadow-blue-500/20 transition-all duration-300 group"
                 >
                   {service.is_featured && (
                     <div className="bg-gradient-to-r from-amber-500 to-orange-500 text-white text-center py-2 text-sm font-bold">
@@ -618,7 +636,7 @@ const MarketplaceRedesign = () => {
                         </div>
                       </div>
                     )}
-                    <button className="w-full bg-blue-600 text-white py-3 rounded-lg font-bold hover:bg-blue-700 transition-all flex items-center justify-center gap-2">
+                    <button className="w-full bg-gradient-to-r from-blue-600 to-blue-500 text-white py-3 rounded-lg font-bold hover:from-blue-700 hover:to-blue-600 transition-all flex items-center justify-center gap-2 shadow-lg hover:shadow-blue-500/50">
                       View Details
                       <ChevronRight className="w-5 h-5" />
                     </button>
@@ -630,7 +648,7 @@ const MarketplaceRedesign = () => {
               <div className="text-center mt-12">
                 <button
                   onClick={() => setShowAllSolutions(!showAllSolutions)}
-                  className="px-8 py-3 bg-blue-600 text-white rounded-xl font-bold hover:bg-blue-700 transition-all"
+                  className="px-8 py-3 bg-gradient-to-r from-blue-600 to-indigo-600 text-white rounded-xl font-bold hover:from-blue-700 hover:to-indigo-700 transition-all shadow-lg hover:shadow-blue-500/50"
                 >
                   {showAllSolutions ? 'Show Less' : 'View More Services'}
                 </button>
