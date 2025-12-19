@@ -44,8 +44,8 @@
 }
 
 .professional-card .pc-contact-btn:hover {
-  background: rgba(139, 92, 246, 0.3);
-  border-color: rgba(139, 92, 246, 0.5);
+  background: rgba(139, 92, 246, 0.25);
+  border-color: rgba(139, 92, 246, 0.4);
   transform: translateY(-1px);
 }
 
@@ -80,4 +80,29 @@
   .professional-card .pc-details p {
     font-size: 12px;
   }
+}
+
+/* Further reduce effects for marketplace cards */
+.professional-card .pc-shine {
+  filter: brightness(0.3) contrast(1.05) saturate(0.15) opacity(0.2);
+}
+
+.professional-card .pc-card:hover .pc-shine,
+.professional-card .pc-card.active .pc-shine {
+  filter: brightness(0.45) contrast(1.1) saturate(0.25);
+}
+
+.professional-card .pc-glare {
+  filter: brightness(0.5) contrast(1.05);
+  opacity: 0.7;
+}
+
+.professional-card .pc-behind {
+  opacity: calc(0.3 * var(--card-opacity));
+  filter: blur(40px) saturate(0.6);
+}
+
+.professional-card .pc-card {
+  box-shadow: rgba(0, 0, 0, 0.6) calc((var(--pointer-from-left) * 8px) - 2px)
+    calc((var(--pointer-from-top) * 15px) - 4px) 15px -3px;
 }
