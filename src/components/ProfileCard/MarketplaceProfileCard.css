@@ -1,0 +1,83 @@
+/* Marketplace-specific ProfileCard adjustments */
+.professional-card .pc-card {
+  height: 400px;
+  max-height: 400px;
+  aspect-ratio: 0.75;
+}
+
+.professional-card .pc-details {
+  top: 2em;
+}
+
+.professional-card .pc-details h3 {
+  font-size: min(4vh, 1.8em);
+}
+
+.professional-card .pc-details p {
+  font-size: 14px;
+  top: -8px;
+}
+
+.professional-card .pc-user-info {
+  --ui-inset: 16px;
+  padding: 10px 12px;
+}
+
+.professional-card .pc-mini-avatar {
+  width: 32px;
+  height: 32px;
+}
+
+.professional-card .pc-handle {
+  font-size: 12px;
+}
+
+.professional-card .pc-status {
+  font-size: 11px;
+}
+
+.professional-card .pc-contact-btn {
+  padding: 8px 12px;
+  font-size: 11px;
+  background: rgba(139, 92, 246, 0.2);
+  border-color: rgba(139, 92, 246, 0.3);
+}
+
+.professional-card .pc-contact-btn:hover {
+  background: rgba(139, 92, 246, 0.3);
+  border-color: rgba(139, 92, 246, 0.5);
+  transform: translateY(-1px);
+}
+
+@media (max-width: 1024px) {
+  .professional-card .pc-card {
+    height: 350px;
+    max-height: 350px;
+  }
+}
+
+@media (max-width: 768px) {
+  .professional-card .pc-card {
+    height: 320px;
+    max-height: 320px;
+  }
+  
+  .professional-card .pc-details h3 {
+    font-size: min(3.5vh, 1.5em);
+  }
+}
+
+@media (max-width: 480px) {
+  .professional-card .pc-card {
+    height: 280px;
+    max-height: 280px;
+  }
+  
+  .professional-card .pc-details h3 {
+    font-size: min(3vh, 1.3em);
+  }
+  
+  .professional-card .pc-details p {
+    font-size: 12px;
+  }
+}

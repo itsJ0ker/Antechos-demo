@@ -10,6 +10,7 @@ import GridEffect from '../components/effects/GridEffect';
 import CursorTrailEffect from '../components/effects/CursorTrailEffect';
 import RippleEffect from '../components/effects/RippleEffect';
 import GradualBlur from '../components/effects/GradualBlur';
+import ProfileCard from '../components/ProfileCard/ProfileCard';
 
 const MarketplaceRedesign = () => {
   const [loading, setLoading] = useState(true);
@@ -413,20 +414,19 @@ const MarketplaceRedesign = () => {
                 <h2 className="text-3xl font-bold text-center mb-12 text-white">Featured Professionals</h2>
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
                   {data.professionals.map((prof) => (
-                    <div key={prof.id} className="bg-gray-800 rounded-2xl shadow-lg overflow-hidden hover:shadow-xl hover:shadow-purple-500/20 hover:border-purple-500 transition-all border border-gray-700">
-                      <img src={prof.image_url} alt={prof.name} className="w-full h-64 object-cover" />
-                      <div className="p-6">
-                        <h3 className="text-xl font-bold mb-1 text-white">{prof.name}</h3>
-                        <p className="text-blue-400 text-sm mb-3">{prof.role}</p>
-                        <p className="text-gray-400 text-sm mb-4 line-clamp-2">{prof.short_bio}</p>
-                        <button
-                          onClick={() => setSelectedProfessional(prof)}
-                          className="w-full bg-gradient-to-r from-purple-600 to-pink-600 text-white py-2 rounded-lg hover:from-purple-700 hover:to-pink-700 transition-all shadow-md hover:shadow-purple-500/50"
-                        >
-                          View Details
-                        </button>
-                      </div>
-                    </div>
+                    <ProfileCard
+                      key={prof.id}
+                      avatarUrl={prof.image_url}
+                      name={prof.name}
+                      title={prof.role}
+                      handle={prof.name.toLowerCase().replace(/\s+/g, '')}
+                      status="Available"
+                      contactText="View Details"
+                      onContactClick={() => setSelectedProfessional(prof)}
+                      behindGlowColor="rgba(139, 92, 246, 0.67)"
+                      innerGradient="linear-gradient(145deg, #60496e8c 0%, #8B5CF644 100%)"
+                      className="professional-card"
+                    />
                   ))}
                 </div>
               </div>
