@@ -84,25 +84,73 @@
 
 /* Further reduce effects for marketplace cards */
 .professional-card .pc-shine {
-  filter: brightness(0.3) contrast(1.05) saturate(0.15) opacity(0.2);
+  filter: brightness(0.2) contrast(1.02) saturate(0.1) opacity(0.1);
 }
 
 .professional-card .pc-card:hover .pc-shine,
 .professional-card .pc-card.active .pc-shine {
-  filter: brightness(0.45) contrast(1.1) saturate(0.25);
+  filter: brightness(0.3) contrast(1.05) saturate(0.15);
 }
 
 .professional-card .pc-glare {
-  filter: brightness(0.5) contrast(1.05);
-  opacity: 0.7;
+  filter: brightness(0.3) contrast(1.02);
+  opacity: 0.4;
 }
 
 .professional-card .pc-behind {
-  opacity: calc(0.3 * var(--card-opacity));
-  filter: blur(40px) saturate(0.6);
+  opacity: calc(0.2 * var(--card-opacity));
+  filter: blur(30px) saturate(0.4);
 }
 
 .professional-card .pc-card {
   box-shadow: rgba(0, 0, 0, 0.6) calc((var(--pointer-from-left) * 8px) - 2px)
     calc((var(--pointer-from-top) * 15px) - 4px) 15px -3px;
+}
+
+/* Clean up the avatar display */
+.professional-card .pc-avatar-content {
+  mix-blend-mode: normal;
+}
+
+.professional-card .pc-avatar-content .avatar {
+  filter: brightness(1.1) contrast(1.05) saturate(0.9);
+}
+
+/* Improve text visibility */
+.professional-card .pc-details h3 {
+  font-size: min(3vh, 1.4em);
+  color: #ffffff;
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.8);
+  font-weight: 600;
+  letter-spacing: 0.3px;
+}
+
+.professional-card .pc-details p {
+  font-size: 13px;
+  color: #e0e0e0;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.7);
+  font-weight: 500;
+  top: -6px;
+}
+
+/* Completely disable colorful effects for marketplace */
+.professional-card .pc-shine,
+.professional-card .pc-shine::after {
+  background-image: none;
+  background: transparent;
+}
+
+.professional-card .pc-shine::before {
+  background-image: none;
+  background: transparent;
+}
+
+/* Simple subtle glow instead */
+.professional-card .pc-card:hover .pc-glare,
+.professional-card .pc-card.active .pc-glare {
+  background-image: radial-gradient(
+    farthest-corner circle at var(--pointer-x) var(--pointer-y),
+    rgba(255, 255, 255, 0.1) 20%,
+    transparent 60%
+  );
 }
