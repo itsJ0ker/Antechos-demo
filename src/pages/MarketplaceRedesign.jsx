@@ -3,14 +3,8 @@ import { supabase } from '../lib/supabase';
 import { ArrowRight, Download, ChevronLeft, ChevronRight, X, Star } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import SimpleLaserFlow from '../components/effects/SimpleLaserFlow';
-import LaserBeamEffect from '../components/effects/LaserBeamEffect';
-import ParticleFieldEffect from '../components/effects/ParticleFieldEffect';
-import WaveEffect from '../components/effects/WaveEffect';
-import GridEffect from '../components/effects/GridEffect';
-import CursorTrailEffect from '../components/effects/CursorTrailEffect';
-import RippleEffect from '../components/effects/RippleEffect';
-import GradualBlur from '../components/effects/GradualBlur';
 import ProfileCard from '../components/ProfileCard/ProfileCard';
+import ChromaGrid from '../components/ChromaGrid/ChromaGrid';
 
 const MarketplaceRedesign = () => {
   const [loading, setLoading] = useState(true);
@@ -30,6 +24,8 @@ const MarketplaceRedesign = () => {
     teams: []
   });
   const [currentSlide, setCurrentSlide] = useState(0);
+  const [currentProfessionalSlide, setCurrentProfessionalSlide] = useState(0);
+  const [currentTeamSlide, setCurrentTeamSlide] = useState(0);
   const [showAllSolutions, setShowAllSolutions] = useState(false);
   const [selectedProfessional, setSelectedProfessional] = useState(null);
   const testimonialsRef = useRef(null);
@@ -122,7 +118,7 @@ const MarketplaceRedesign = () => {
       {/* Hero Section */}
       {data.hero && (
         <section 
-          className="relative min-h-[600px] flex items-center justify-center overflow-hidden"
+          className="relative min-h-[500px] sm:min-h-[600px] flex items-center justify-center overflow-hidden"
           style={{
             backgroundImage: data.hero.background_image_url ? `url(${data.hero.background_image_url})` : 'linear-gradient(135deg, #1e293b 0%, #0f172a 100%)',
             backgroundSize: 'cover',
@@ -134,26 +130,30 @@ const MarketplaceRedesign = () => {
           
           <div className="absolute inset-0 bg-black/50"></div>
           
-          <div className="relative z-10 max-w-7xl mx-auto px-6 py-16 grid grid-cols-1 lg:grid-cols-3 gap-8 items-center">
+          <div className="relative z-10 max-w-7xl mx-auto px-3 sm:px-4 md:px-6 py-8 sm:py-12 md:py-16 grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-8 items-center">
             {/* Left Image */}
             {data.hero.left_image_url && (
               <div className="hidden lg:block">
-                <img src={data.hero.left_image_url} alt="Left" className="rounded-2xl shadow-2xl w-full h-64 object-cover" />
+                <img src={data.hero.left_image_url} alt="Left" className="rounded-2xl shadow-2xl w-full h-48 lg:h-64 object-cover" />
               </div>
             )}
 
             {/* Center Content */}
-            <div className="text-center text-white lg:col-span-1">
-              <h1 className="text-4xl md:text-5xl font-bold mb-6">{data.hero.title}</h1>
+            <div className="text-center text-white lg:col-span-1 px-2">
+              <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold mb-4 sm:mb-6 leading-tight">
+                {data.hero.title}
+              </h1>
               {data.hero.subtitle && (
-                <p className="text-2xl font-semibold mb-6">{data.hero.subtitle}</p>
+                <p className="text-lg sm:text-xl md:text-2xl font-semibold mb-4 sm:mb-6 leading-relaxed">
+                  {data.hero.subtitle}
+                </p>
               )}
               {data.hero.bullet_points && data.hero.bullet_points.length > 0 && (
-                <ul className="space-y-3 text-lg">
+                <ul className="space-y-2 sm:space-y-3 text-sm sm:text-base md:text-lg max-w-md mx-auto">
                   {data.hero.bullet_points.map((point, idx) => (
                     <li key={idx} className="flex items-center justify-center gap-2">
-                      <span className="w-2 h-2 bg-white rounded-full"></span>
-                      {point}
+                      <span className="w-2 h-2 bg-white rounded-full flex-shrink-0"></span>
+                      <span className="text-left">{point}</span>
                     </li>
                   ))}
                 </ul>
@@ -163,7 +163,7 @@ const MarketplaceRedesign = () => {
             {/* Right Image */}
             {data.hero.right_image_url && (
               <div className="hidden lg:block">
-                <img src={data.hero.right_image_url} alt="Right" className="rounded-2xl shadow-2xl w-full h-64 object-cover" />
+                <img src={data.hero.right_image_url} alt="Right" className="rounded-2xl shadow-2xl w-full h-48 lg:h-64 object-cover" />
               </div>
             )}
           </div>
@@ -173,18 +173,18 @@ const MarketplaceRedesign = () => {
 
       {/* Partners Section */}
       {data.partners.length > 0 && (
-        <section className="py-12 bg-gray-800">
-          <div className="max-w-7xl mx-auto px-6">
-            <h2 className="text-2xl font-bold text-center mb-8 text-white">
+        <section className="py-8 sm:py-12 bg-gray-800">
+          <div className="max-w-7xl mx-auto px-3 sm:px-4 md:px-6">
+            <h2 className="text-lg sm:text-xl md:text-2xl font-bold text-center mb-6 sm:mb-8 text-white px-2">
               Benefit of Network of {data.partners.length}+ Partners
             </h2>
-            <div className="flex gap-12 justify-center items-center flex-wrap px-4">
+            <div className="flex gap-4 sm:gap-6 md:gap-8 lg:gap-12 justify-center items-center flex-wrap px-2">
               {data.partners.map((partner) => (
                 <div key={partner.id} className="flex-shrink-0">
                   <img 
                     src={partner.logo_url} 
                     alt={partner.name} 
-                    className="h-16 w-auto object-contain max-w-[150px] opacity-70 hover:opacity-100 hover:scale-110 transition-all duration-300 cursor-pointer" 
+                    className="h-10 sm:h-12 md:h-16 w-auto object-contain max-w-[100px] sm:max-w-[120px] md:max-w-[150px] opacity-70 hover:opacity-100 hover:scale-110 transition-all duration-300 cursor-pointer" 
                   />
                 </div>
               ))}
@@ -195,11 +195,15 @@ const MarketplaceRedesign = () => {
 
       {/* Banner Section */}
       {data.banner.length > 0 && (
-        <section className="py-8">
-          <div className="max-w-7xl mx-auto px-6">
+        <section className="py-4 sm:py-6 md:py-8">
+          <div className="max-w-7xl mx-auto px-3 sm:px-4 md:px-6">
             {data.banner.map((banner) => (
-              <div key={banner.id} className="rounded-2xl overflow-hidden shadow-lg">
-                <img src={banner.image_url} alt="Banner" className="w-full h-64 md:h-96 object-cover" />
+              <div key={banner.id} className="rounded-xl sm:rounded-2xl overflow-hidden shadow-lg">
+                <img 
+                  src={banner.image_url} 
+                  alt="Banner" 
+                  className="w-full h-48 sm:h-64 md:h-80 lg:h-96 object-cover" 
+                />
               </div>
             ))}
           </div>
@@ -208,17 +212,27 @@ const MarketplaceRedesign = () => {
 
       {/* Features Section */}
       {data.features.length > 0 && (
-        <section className="py-16 bg-gray-900">
-          <div className="max-w-7xl mx-auto px-6">
-            <h2 className="text-3xl font-bold text-center mb-12 text-white">Accept the change that make it grow</h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+        <section className="py-12 sm:py-14 md:py-16 bg-gray-900">
+          <div className="max-w-7xl mx-auto px-3 sm:px-4 md:px-6">
+            <h2 className="text-xl sm:text-2xl md:text-3xl font-bold text-center mb-8 sm:mb-10 md:mb-12 text-white px-2">
+              Accept the change that make it grow
+            </h2>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8">
               {data.features.map((feature) => (
-                <div key={feature.id} className="text-center">
-                  <div className="w-20 h-20 mx-auto mb-4 rounded-full bg-blue-900/50 flex items-center justify-center overflow-hidden">
-                    <img src={feature.icon_url} alt={feature.title} className="w-12 h-12 object-contain" />
+                <div key={feature.id} className="text-center px-2">
+                  <div className="w-16 h-16 sm:w-20 sm:h-20 mx-auto mb-3 sm:mb-4 rounded-full bg-blue-900/50 flex items-center justify-center overflow-hidden">
+                    <img 
+                      src={feature.icon_url} 
+                      alt={feature.title} 
+                      className="w-10 h-10 sm:w-12 sm:h-12 object-contain" 
+                    />
                   </div>
-                  <h3 className="text-xl font-bold mb-2 text-white">{feature.title}</h3>
-                  <p className="text-gray-400 text-sm">{feature.description}</p>
+                  <h3 className="text-lg sm:text-xl font-bold mb-2 text-white leading-tight">
+                    {feature.title}
+                  </h3>
+                  <p className="text-gray-400 text-sm leading-relaxed">
+                    {feature.description}
+                  </p>
                 </div>
               ))}
             </div>
@@ -406,13 +420,91 @@ const MarketplaceRedesign = () => {
 
           {/* Featured Professionals */}
           {data.professionals.length > 0 && (
-            <section className="relative py-16 bg-gray-900 overflow-hidden">
+            <section className="relative py-8 sm:py-12 md:py-16 bg-gray-900 overflow-hidden">
               {/* Subtle Effect */}
               <SimpleLaserFlow color="#8B5CF6" intensity={0.15} speed={0.5} />
               
-              <div className="relative z-10 max-w-7xl mx-auto px-6">
-                <h2 className="text-3xl font-bold text-center mb-12 text-white">Featured Professionals</h2>
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+              <div className="relative z-10 max-w-7xl mx-auto px-3 sm:px-4 md:px-6 lg:px-8">
+                <h2 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold text-center mb-6 sm:mb-8 md:mb-10 lg:mb-12 text-white px-2">
+                  Featured Professionals
+                </h2>
+                
+                {/* Mobile Carousel (xs to md) */}
+                <div className="block lg:hidden">
+                  <div className="relative">
+                    {/* Carousel Container */}
+                    <div className="overflow-hidden rounded-xl">
+                      <div 
+                        className="flex transition-transform duration-300 ease-in-out"
+                        style={{ transform: `translateX(-${currentProfessionalSlide * 100}%)` }}
+                      >
+                        {data.professionals.map((prof) => (
+                          <div key={prof.id} className="w-full flex-shrink-0 flex justify-center px-4 sm:px-6">
+                            <div className="w-full max-w-[280px] sm:max-w-[320px] h-[400px] sm:h-[450px] flex items-center justify-center">
+                              <div className="w-full h-full">
+                                <ProfileCard
+                                  avatarUrl={prof.image_url}
+                                  name={prof.name}
+                                  title={prof.role}
+                                  handle={prof.name.toLowerCase().replace(/\s+/g, '')}
+                                  status="Available"
+                                  contactText="View Details"
+                                  onContactClick={() => setSelectedProfessional(prof)}
+                                  behindGlowColor="rgba(139, 92, 246, 0.67)"
+                                  innerGradient="linear-gradient(145deg, #60496e8c 0%, #8B5CF644 100%)"
+                                  className="professional-card mobile-card"
+                                />
+                              </div>
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                    
+                    {/* Carousel Controls */}
+                    {data.professionals.length > 1 && (
+                      <>
+                        <button
+                          onClick={() => setCurrentProfessionalSlide((prev) => 
+                            prev === 0 ? data.professionals.length - 1 : prev - 1
+                          )}
+                          className="absolute left-1 sm:left-2 top-1/2 transform -translate-y-1/2 bg-gray-800/90 hover:bg-gray-700 text-white p-2 sm:p-3 rounded-full shadow-lg transition-all z-10 backdrop-blur-sm"
+                          aria-label="Previous professional"
+                        >
+                          <ChevronLeft className="w-4 h-4 sm:w-5 sm:h-5" />
+                        </button>
+                        <button
+                          onClick={() => setCurrentProfessionalSlide((prev) => 
+                            prev === data.professionals.length - 1 ? 0 : prev + 1
+                          )}
+                          className="absolute right-1 sm:right-2 top-1/2 transform -translate-y-1/2 bg-gray-800/90 hover:bg-gray-700 text-white p-2 sm:p-3 rounded-full shadow-lg transition-all z-10 backdrop-blur-sm"
+                          aria-label="Next professional"
+                        >
+                          <ChevronRight className="w-4 h-4 sm:w-5 sm:h-5" />
+                        </button>
+                        
+                        {/* Dots Indicator */}
+                        <div className="flex justify-center mt-6 gap-2">
+                          {data.professionals.map((_, index) => (
+                            <button
+                              key={index}
+                              onClick={() => setCurrentProfessionalSlide(index)}
+                              className={`w-2 h-2 rounded-full transition-all ${
+                                index === currentProfessionalSlide 
+                                  ? 'bg-purple-500 w-6' 
+                                  : 'bg-gray-600 hover:bg-gray-500'
+                              }`}
+                              aria-label={`Go to professional ${index + 1}`}
+                            />
+                          ))}
+                        </div>
+                      </>
+                    )}
+                  </div>
+                </div>
+
+                {/* Desktop Grid (lg and up) */}
+                <div className="hidden lg:grid lg:grid-cols-3 xl:grid-cols-4 gap-6 lg:gap-8">
                   {data.professionals.map((prof) => (
                     <ProfileCard
                       key={prof.id}
@@ -425,7 +517,7 @@ const MarketplaceRedesign = () => {
                       onContactClick={() => setSelectedProfessional(prof)}
                       behindGlowColor="rgba(139, 92, 246, 0.67)"
                       innerGradient="linear-gradient(145deg, #60496e8c 0%, #8B5CF644 100%)"
-                      className="professional-card"
+                      className="professional-card w-full"
                     />
                   ))}
                 </div>
@@ -471,20 +563,147 @@ const MarketplaceRedesign = () => {
           {/* Teams Section */}
           {data.teams.length > 0 && (
             <section className="py-16 bg-gray-900">
-              <div className="max-w-7xl mx-auto px-6">
-                <h2 className="text-3xl font-bold text-center mb-12 text-white">Teams that make it possible</h2>
-                <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
-                  {data.teams.map((member) => (
-                    <div key={member.id} className="text-center">
-                      <img 
-                        src={member.image_url} 
-                        alt={member.name}
-                        className="w-32 h-32 mx-auto rounded-full object-cover mb-4 shadow-lg"
-                      />
-                      <h4 className="font-bold text-white">{member.name}</h4>
-                      <p className="text-sm text-gray-400">{member.role}</p>
+              <div className="max-w-7xl mx-auto px-3 sm:px-4 md:px-6">
+                <h2 className="text-xl sm:text-2xl md:text-3xl font-bold text-center mb-8 sm:mb-10 md:mb-12 text-white px-2">
+                  Teams that make it possible
+                </h2>
+                
+                {/* Mobile Carousel (xs to lg) */}
+                <div className="block xl:hidden">
+                  <div className="relative">
+                    {/* Carousel Container */}
+                    <div className="overflow-hidden rounded-xl">
+                      <div 
+                        className="flex transition-transform duration-300 ease-in-out"
+                        style={{ transform: `translateX(-${(data.teams.findIndex((_, i) => i === currentTeamSlide) || 0) * 100}%)` }}
+                      >
+                        {data.teams.map((member, index) => {
+                          const colors = ['#4F46E5', '#10B981', '#F59E0B', '#EF4444', '#8B5CF6', '#06B6D4'];
+                          const borderColor = colors[index % colors.length];
+                          
+                          return (
+                            <div key={member.id || index} className="w-full flex-shrink-0 flex justify-center px-4 sm:px-6">
+                              <div className="w-full max-w-[280px] sm:max-w-[320px] md:max-w-[360px] h-[380px] sm:h-[420px] md:h-[460px] flex items-center justify-center">
+                                <div 
+                                  className="team-card w-full h-full rounded-2xl overflow-hidden shadow-2xl relative group cursor-pointer transform transition-all duration-300 hover:scale-105"
+                                  style={{
+                                    background: `linear-gradient(145deg, ${borderColor}22, rgb(16, 24, 40))`,
+                                    border: `2px solid ${borderColor}`,
+                                    boxShadow: `0 20px 40px ${borderColor}20`
+                                  }}
+                                >
+                                  {/* Image Container */}
+                                  <div className="relative h-3/5 overflow-hidden">
+                                    <img 
+                                      src={member.image_url || `https://i.pravatar.cc/300?img=${index + 1}`}
+                                      alt={member.name}
+                                      className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110"
+                                    />
+                                    <div 
+                                      className="absolute inset-0 opacity-20 group-hover:opacity-30 transition-opacity duration-300"
+                                      style={{
+                                        background: `linear-gradient(145deg, ${borderColor}, transparent)`
+                                      }}
+                                    />
+                                  </div>
+                                  
+                                  {/* Info Container */}
+                                  <div className="absolute bottom-0 left-0 right-0 p-4 sm:p-5 md:p-6 bg-gradient-to-t from-gray-900 via-gray-900/95 to-transparent">
+                                    <h3 className="text-lg sm:text-xl font-bold text-white mb-1 truncate">
+                                      {member.name}
+                                    </h3>
+                                    <p className="text-sm sm:text-base text-gray-300 mb-2 truncate">
+                                      {member.role || 'Team Member'}
+                                    </p>
+                                    <span 
+                                      className="text-xs sm:text-sm font-medium opacity-80"
+                                      style={{ color: borderColor }}
+                                    >
+                                      @{member.name.toLowerCase().replace(/\s+/g, '').replace(/[^a-z0-9]/g, '')}
+                                    </span>
+                                  </div>
+                                  
+                                  {/* Hover Effect Overlay */}
+                                  <div 
+                                    className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none"
+                                    style={{
+                                      background: `radial-gradient(circle at center, ${borderColor}15, transparent 70%)`
+                                    }}
+                                  />
+                                </div>
+                              </div>
+                            </div>
+                          );
+                        })}
+                      </div>
                     </div>
-                  ))}
+                    
+                    {/* Carousel Controls */}
+                    {data.teams.length > 1 && (
+                      <>
+                        <button
+                          onClick={() => setCurrentTeamSlide((prev) => 
+                            prev === 0 ? data.teams.length - 1 : prev - 1
+                          )}
+                          className="absolute left-1 sm:left-2 top-1/2 transform -translate-y-1/2 bg-gray-800/90 hover:bg-gray-700 text-white p-2 sm:p-3 rounded-full shadow-lg transition-all z-10 backdrop-blur-sm"
+                          aria-label="Previous team member"
+                        >
+                          <ChevronLeft className="w-4 h-4 sm:w-5 sm:h-5" />
+                        </button>
+                        <button
+                          onClick={() => setCurrentTeamSlide((prev) => 
+                            prev === data.teams.length - 1 ? 0 : prev + 1
+                          )}
+                          className="absolute right-1 sm:right-2 top-1/2 transform -translate-y-1/2 bg-gray-800/90 hover:bg-gray-700 text-white p-2 sm:p-3 rounded-full shadow-lg transition-all z-10 backdrop-blur-sm"
+                          aria-label="Next team member"
+                        >
+                          <ChevronRight className="w-4 h-4 sm:w-5 sm:h-5" />
+                        </button>
+                        
+                        {/* Dots Indicator */}
+                        <div className="flex justify-center mt-6 gap-2">
+                          {data.teams.map((_, index) => (
+                            <button
+                              key={index}
+                              onClick={() => setCurrentTeamSlide(index)}
+                              className={`w-2 h-2 rounded-full transition-all ${
+                                index === currentTeamSlide 
+                                  ? 'bg-blue-500 w-6' 
+                                  : 'bg-gray-600 hover:bg-gray-500'
+                              }`}
+                              aria-label={`Go to team member ${index + 1}`}
+                            />
+                          ))}
+                        </div>
+                      </>
+                    )}
+                  </div>
+                </div>
+
+                {/* Desktop ChromaGrid (xl and up) */}
+                <div className="hidden xl:block">
+                  <ChromaGrid 
+                    items={data.teams.map((member, index) => {
+                      // Generate a color palette for variety
+                      const colors = ['#4F46E5', '#10B981', '#F59E0B', '#EF4444', '#8B5CF6', '#06B6D4'];
+                      const borderColor = colors[index % colors.length];
+                      
+                      return {
+                        image: member.image_url || `https://i.pravatar.cc/300?img=${index + 1}`,
+                        title: member.name,
+                        subtitle: member.role || 'Team Member',
+                        handle: `@${member.name.toLowerCase().replace(/\s+/g, '').replace(/[^a-z0-9]/g, '')}`,
+                        borderColor: borderColor,
+                        gradient: `linear-gradient(145deg, ${borderColor}, rgb(16, 24, 40))`,
+                        url: null // No URL since we don't have profile links in the schema
+                      };
+                    })}
+                    columns={Math.min(data.teams.length, 4)}
+                    radius={250}
+                    damping={0.3}
+                    fadeOut={0.4}
+                    className="teams-chroma-grid"
+                  />
                 </div>
               </div>
             </section>
@@ -715,6 +934,141 @@ const MarketplaceRedesign = () => {
         }
         .animate-scroll-up {
           animation: scroll-up 20s linear infinite;
+        }
+        
+        /* Mobile ProfileCard adjustments */
+        @media (max-width: 1023px) {
+          .mobile-card .pc-card {
+            height: 380px !important;
+            max-height: 380px !important;
+            width: 100% !important;
+            aspect-ratio: 0.718 !important;
+          }
+          
+          .mobile-card .pc-user-info {
+            --ui-inset: 16px !important;
+            padding: 10px 12px !important;
+            bottom: 16px !important;
+            left: 16px !important;
+            right: 16px !important;
+          }
+          
+          .mobile-card .pc-contact-btn {
+            padding: 8px 12px !important;
+            font-size: 11px !important;
+            white-space: nowrap !important;
+            flex-shrink: 0 !important;
+          }
+          
+          .mobile-card .pc-mini-avatar {
+            width: 32px !important;
+            height: 32px !important;
+          }
+          
+          .mobile-card .pc-handle {
+            font-size: 12px !important;
+          }
+          
+          .mobile-card .pc-status {
+            font-size: 10px !important;
+          }
+        }
+        
+        @media (max-width: 640px) {
+          .mobile-card .pc-card {
+            height: 360px !important;
+            max-height: 360px !important;
+          }
+          
+          .mobile-card .pc-user-info {
+            --ui-inset: 14px !important;
+            padding: 8px 10px !important;
+            bottom: 14px !important;
+            left: 14px !important;
+            right: 14px !important;
+          }
+          
+          .mobile-card .pc-contact-btn {
+            padding: 6px 10px !important;
+            font-size: 10px !important;
+          }
+          
+          .mobile-card .pc-mini-avatar {
+            width: 28px !important;
+            height: 28px !important;
+          }
+        }
+        
+        @media (max-width: 480px) {
+          .mobile-card .pc-card {
+            height: 340px !important;
+            max-height: 340px !important;
+          }
+          
+          .mobile-card .pc-user-info {
+            --ui-inset: 12px !important;
+            padding: 6px 8px !important;
+            bottom: 12px !important;
+            left: 12px !important;
+            right: 12px !important;
+          }
+          
+          .mobile-card .pc-contact-btn {
+            padding: 5px 8px !important;
+            font-size: 9px !important;
+          }
+          
+          .mobile-card .pc-mini-avatar {
+            width: 24px !important;
+            height: 24px !important;
+          }
+        }
+        
+        /* Team Card Mobile Styles */
+        .team-card {
+          backdrop-filter: blur(10px);
+          -webkit-backdrop-filter: blur(10px);
+        }
+        
+        .team-card::before {
+          content: '';
+          position: absolute;
+          top: 0;
+          left: 0;
+          right: 0;
+          bottom: 0;
+          border-radius: inherit;
+          padding: 2px;
+          background: linear-gradient(145deg, var(--border-color, #4F46E5), transparent);
+          mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+          mask-composite: exclude;
+          -webkit-mask-composite: xor;
+          pointer-events: none;
+        }
+        
+        @media (max-width: 1279px) {
+          .team-card {
+            max-width: 100%;
+            margin: 0 auto;
+          }
+        }
+        
+        @media (max-width: 768px) {
+          .team-card {
+            height: 400px !important;
+          }
+        }
+        
+        @media (max-width: 640px) {
+          .team-card {
+            height: 380px !important;
+          }
+        }
+        
+        @media (max-width: 480px) {
+          .team-card {
+            height: 360px !important;
+          }
         }
       `}</style>
     </div>
