@@ -1,10 +1,11 @@
 import { useState, useEffect, useRef } from 'react';
 import { supabase } from '../lib/supabase';
-import { ArrowRight, Download, ChevronLeft, ChevronRight, X, Star } from 'lucide-react';
+import { ArrowRight, Download, ChevronLeft, ChevronRight, X, Star, Briefcase, Code, Users, Target, Zap, Shield } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import SimpleLaserFlow from '../components/effects/SimpleLaserFlow';
 import ProfileCard from '../components/ProfileCard/ProfileCard';
 import ChromaGrid from '../components/ChromaGrid/ChromaGrid';
+import ChainCarousel from '../components/ChainCarousel';
 
 const MarketplaceRedesign = () => {
   const [loading, setLoading] = useState(true);
@@ -26,7 +27,7 @@ const MarketplaceRedesign = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
   const [currentProfessionalSlide, setCurrentProfessionalSlide] = useState(0);
   const [currentTeamSlide, setCurrentTeamSlide] = useState(0);
-  const [showAllSolutions, setShowAllSolutions] = useState(false);
+
   const [selectedProfessional, setSelectedProfessional] = useState(null);
   const testimonialsRef = useRef(null);
 
@@ -111,7 +112,7 @@ const MarketplaceRedesign = () => {
     );
   }
 
-  const visibleSolutions = showAllSolutions ? data.solutions : data.solutions.filter(s => s.is_visible_initially);
+
 
   return (
     <div className="min-h-screen bg-gray-900">
@@ -796,83 +797,38 @@ const MarketplaceRedesign = () => {
                 Professional services designed to accelerate your career growth
               </p>
             </div>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {visibleSolutions.map((service, index) => (
-                <motion.div
-                  key={service.id}
-                  initial={{ opacity: 0, y: 30 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  transition={{ delay: index * 0.1 }}
-                  className="bg-gray-800 border-2 border-gray-700 rounded-2xl overflow-hidden hover:border-blue-500 hover:shadow-2xl hover:shadow-blue-500/20 transition-all duration-300 group"
-                >
-                  {service.is_featured && (
-                    <div className="bg-gradient-to-r from-amber-500 to-orange-500 text-white text-center py-2 text-sm font-bold">
-                      ⭐ Most Popular
-                    </div>
-                  )}
-                  {service.image_url && (
-                    <img
-                      src={service.image_url}
-                      alt={service.title}
-                      className="w-full h-48 object-cover"
-                    />
-                  )}
-                  <div className="p-6">
-                    <div className="flex items-center gap-2 mb-3">
-                      {service.category && (
-                        <span className="px-3 py-1 bg-blue-900/50 text-blue-400 rounded-full text-xs font-bold">
-                          {service.category}
-                        </span>
-                      )}
-                      {service.rating && service.rating > 0 && (
-                        <div className="flex items-center gap-1">
-                          <Star className="w-4 h-4 text-yellow-400 fill-current" />
-                          <span className="text-sm font-bold text-gray-300">{service.rating}</span>
-                        </div>
-                      )}
-                    </div>
-                    <h3 className="text-2xl font-bold text-white mb-3 group-hover:text-blue-400 transition-colors">
-                      {service.title}
-                    </h3>
-                    <p className="text-gray-400 mb-6 line-clamp-2">
-                      {service.short_description || service.description}
-                    </p>
-                    {service.price > 0 && (
-                      <div className="mb-4 pb-4 border-b border-gray-700">
-                        <div className="text-sm text-gray-500 mb-1">Price starting from</div>
-                        {service.original_price && service.original_price > service.price && (
-                          <div className="flex items-center gap-2 mb-1">
-                            <span className="text-gray-500 line-through text-sm">
-                              ₹{service.original_price.toLocaleString()}
-                            </span>
-                            <span className="px-2 py-0.5 bg-green-900/50 text-green-400 text-xs font-bold rounded">
-                              {Math.round(((service.original_price - service.price) / service.original_price) * 100)}% OFF
-                            </span>
-                          </div>
-                        )}
-                        <div className="text-3xl font-bold text-white">
-                          ₹{service.price.toLocaleString()}
-                        </div>
-                      </div>
-                    )}
-                    <button className="w-full bg-gradient-to-r from-blue-600 to-blue-500 text-white py-3 rounded-lg font-bold hover:from-blue-700 hover:to-blue-600 transition-all flex items-center justify-center gap-2 shadow-lg hover:shadow-blue-500/50">
-                      View Details
-                      <ChevronRight className="w-5 h-5" />
-                    </button>
-                  </div>
-                </motion.div>
-              ))}
-            </div>
-            {data.solutions.length > visibleSolutions.length && (
-              <div className="text-center mt-12">
-                <button
-                  onClick={() => setShowAllSolutions(!showAllSolutions)}
-                  className="px-8 py-3 bg-gradient-to-r from-blue-600 to-indigo-600 text-white rounded-xl font-bold hover:from-blue-700 hover:to-indigo-700 transition-all shadow-lg hover:shadow-blue-500/50"
-                >
-                  {showAllSolutions ? 'Show Less' : 'View More Services'}
-                </button>
-              </div>
-            )}
+
+            {/* Chain Carousel for Services */}
+            <ChainCarousel
+              items={data.solutions.map((service, index) => {
+                // Map service categories to appropriate icons
+                const getServiceIcon = (category) => {
+                  const categoryLower = (category || '').toLowerCase();
+                  if (categoryLower.includes('development') || categoryLower.includes('coding')) return Code;
+                  if (categoryLower.includes('business') || categoryLower.includes('consulting')) return Briefcase;
+                  if (categoryLower.includes('team') || categoryLower.includes('management')) return Users;
+                  if (categoryLower.includes('strategy') || categoryLower.includes('planning')) return Target;
+                  if (categoryLower.includes('performance') || categoryLower.includes('optimization')) return Zap;
+                  if (categoryLower.includes('security') || categoryLower.includes('protection')) return Shield;
+                  return Briefcase; // Default icon
+                };
+
+                return {
+                  id: service.id,
+                  name: service.title,
+                  icon: getServiceIcon(service.category),
+                  details: service.category || 'Professional Service',
+                  logo: service.image_url
+                };
+              })}
+              scrollSpeedMs={2000}
+              visibleItemCount={7}
+              className="mb-16"
+              onChainSelect={(serviceId, serviceName) => {
+                console.log(`Selected service: ${serviceName} (ID: ${serviceId})`);
+                // You can add custom logic here for service selection
+              }}
+            />
           </div>
         </section>
       )}

@@ -1,0 +1,90 @@
+/* ChainCarousel Styles */
+.chain-carousel-container {
+  --foreground: #ffffff;
+  --background: #1f2937;
+  --muted-foreground: #9ca3af;
+  --primary: #3b82f6;
+}
+
+.chain-carousel-container .text-foreground {
+  color: var(--foreground);
+}
+
+.chain-carousel-container .bg-foreground {
+  background-color: var(--foreground);
+}
+
+.chain-carousel-container .text-background {
+  color: var(--background);
+}
+
+.chain-carousel-container .bg-background {
+  background-color: var(--background);
+}
+
+.chain-carousel-container .text-primary {
+  color: var(--primary);
+}
+
+.chain-carousel-container .border-muted-foreground\/60 {
+  border-color: rgba(156, 163, 175, 0.6);
+}
+
+.chain-carousel-container .dark\:border-muted-foreground\/40 {
+  border-color: rgba(156, 163, 175, 0.4);
+}
+
+/* Size utilities */
+.chain-carousel-container .size-8 {
+  width: 2rem;
+  height: 2rem;
+}
+
+.chain-carousel-container .size-12 {
+  width: 3rem;
+  height: 3rem;
+}
+
+.chain-carousel-container .size-6 {
+  width: 1.5rem;
+  height: 1.5rem;
+}
+
+/* Responsive adjustments */
+@media (max-width: 1279px) {
+  .chain-carousel-container .xl\:flex {
+    display: none !important;
+  }
+}
+
+@media (min-width: 1280px) {
+  .chain-carousel-container .hidden.xl\:flex {
+    display: flex !important;
+  }
+}
+
+/* Animation improvements */
+.chain-carousel-container .carousel-item {
+  transition: all 0.4s ease-in-out;
+}
+
+.chain-carousel-container .search-dropdown {
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+/* Mobile responsiveness */
+@media (max-width: 768px) {
+  .chain-carousel-container .max-w-md {
+    max-width: 100%;
+    padding: 0 1rem;
+  }
+  
+  .chain-carousel-container .text-xl {
+    font-size: 1.125rem;
+  }
+  
+  .chain-carousel-container .xl\:text-2xl {
+    font-size: 1.25rem;
+  }
+}
