@@ -7,7 +7,7 @@ const HeroManager = () => {
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [formData, setFormData] = useState({
-    title: '', subtitle: '', bullet_points: [], left_image_url: '', right_image_url: '', background_image_url: ''
+    title: '', subtitle: '', bullet_points: [], left_image_url: '', right_image_url: '', background_image_url: '', video_url: ''
   });
   const [bulletInput, setBulletInput] = useState('');
 
@@ -63,6 +63,7 @@ const HeroManager = () => {
         <input type="text" placeholder="Title *" value={formData.title} onChange={(e) => setFormData({ ...formData, title: e.target.value })} className="px-4 py-2 border-2 rounded-lg" />
         <input type="text" placeholder="Subtitle" value={formData.subtitle} onChange={(e) => setFormData({ ...formData, subtitle: e.target.value })} className="px-4 py-2 border-2 rounded-lg" />
         <input type="url" placeholder="Background Image URL" value={formData.background_image_url} onChange={(e) => setFormData({ ...formData, background_image_url: e.target.value })} className="px-4 py-2 border-2 rounded-lg" />
+        <input type="url" placeholder="YouTube Video URL (e.g., https://www.youtube.com/embed/VIDEO_ID)" value={formData.video_url} onChange={(e) => setFormData({ ...formData, video_url: e.target.value })} className="px-4 py-2 border-2 rounded-lg" />
         <input type="url" placeholder="Left Image URL" value={formData.left_image_url} onChange={(e) => setFormData({ ...formData, left_image_url: e.target.value })} className="px-4 py-2 border-2 rounded-lg" />
         <input type="url" placeholder="Right Image URL" value={formData.right_image_url} onChange={(e) => setFormData({ ...formData, right_image_url: e.target.value })} className="px-4 py-2 border-2 rounded-lg" />
         

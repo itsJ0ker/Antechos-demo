@@ -1,4 +1,4 @@
-﻿import { useEffect, useRef } from 'react';
+import { useEffect, useRef } from 'react';
 import * as THREE from 'three';
 import './LaserFlow.css';
 
@@ -238,7 +238,7 @@ void main(){
 }
 `;
 
-export const LaserFlow = ({
+export const InstantLaserFlow = ({
   className,
   style,
   wispDensity = 1,
@@ -263,7 +263,6 @@ export const LaserFlow = ({
   const mountRef = useRef(null);
   const rendererRef = useRef(null);
   const uniformsRef = useRef(null);
-  const hasFadedRef = useRef(false);
   const rectRef = useRef(null);
   const baseDprRef = useRef(1);
   const currentDprRef = useRef(1);
@@ -342,7 +341,7 @@ export const LaserFlow = ({
       uFalloffStart: { value: falloffStart },
       uFogFallSpeed: { value: fogFallSpeed },
       uColor: { value: new THREE.Vector3(1, 1, 1) },
-      uFade: { value: hasFadedRef.current ? 1 : 0 }
+      uFade: { value: 1 } // INSTANT VISIBILITY - NO FADE IN
     };
     uniformsRef.current = uniforms;
 
@@ -362,12 +361,11 @@ export const LaserFlow = ({
 
     const clock = new THREE.Clock();
     let prevTime = 0;
-    let fade = hasFadedRef.current ? 1 : 0;
 
     const mouseTarget = new THREE.Vector2(0, 0);
     const mouseSmooth = new THREE.Vector2(0, 0);
 
-    const setSizeNow = () => {
+    const setSizeNow = (force = false) => {
       const w = mount.clientWidth || 1;
       const h = mount.clientHeight || 1;
       const pr = currentDprRef.current;
@@ -375,7 +373,9 @@ export const LaserFlow = ({
       const last = lastSizeRef.current;
       const sizeChanged = Math.abs(w - last.width) > 0.5 || Math.abs(h - last.height) > 0.5;
       const dprChanged = Math.abs(pr - last.dpr) > 0.01;
-      if (!sizeChanged && !dprChanged) {
+      
+      // Force initial setup or only proceed if size changed
+      if (!force && !sizeChanged && !dprChanged) {
         return;
       }
 
@@ -385,18 +385,24 @@ export const LaserFlow = ({
       uniforms.iResolution.value.set(w * pr, h * pr, pr);
       rectRef.current = canvas.getBoundingClientRect();
 
-      if (!pausedRef.current) {
-        renderer.render(scene, camera);
-      }
+      // Always render on size change
+      renderer.render(scene, camera);
     };
 
     let resizeRaf = 0;
     const scheduleResize = () => {
       if (resizeRaf) cancelAnimationFrame(resizeRaf);
-      resizeRaf = requestAnimationFrame(setSizeNow);
+      resizeRaf = requestAnimationFrame(() => setSizeNow(false));
     };
 
-    setSizeNow();
+    // Force initial setup
+    setSizeNow(true);
+    
+    // Add a small delay to ensure DOM is ready and force another render
+    setTimeout(() => {
+      setSizeNow(true);
+    }, 100);
+    
     const ro = new ResizeObserver(scheduleResize);
     ro.observe(mount);
 
@@ -472,7 +478,7 @@ export const LaserFlow = ({
       if (Math.abs(next - currentDprRef.current) > 0.01 && now - lastDprChangeRef > dprChangeCooldown) {
         currentDprRef.current = next;
         lastDprChangeRef = now;
-        setSizeNow();
+        setSizeNow(true);
       }
 
       fpsSamplesRef.current = [];
@@ -498,12 +504,8 @@ export const LaserFlow = ({
       uniforms.uFlowTime.value += cdt;
       uniforms.uFogTime.value += cdt;
 
-      if (!hasFadedRef.current) {
-        const fadeDur = 1.0;
-        fade = Math.min(1, fade + cdt / fadeDur);
-        uniforms.uFade.value = fade;
-        if (fade >= 1) hasFadedRef.current = true;
-      }
+      // NO FADE ANIMATION - ALWAYS VISIBLE
+      uniforms.uFade.value = 1;
 
       const tau = Math.max(1e-3, mouseSmoothTime);
       const alpha = 1 - Math.exp(-cdt / tau);
@@ -580,4 +582,4 @@ export const LaserFlow = ({
   return <div ref={mountRef} className={`laser-flow-container ${className || ''}`} style={style} />;
 };
 
-export default LaserFlow;
+export default InstantLaserFlow;
