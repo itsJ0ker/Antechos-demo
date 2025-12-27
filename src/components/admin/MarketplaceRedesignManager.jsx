@@ -12,6 +12,7 @@ import ProfessionalsManager from './marketplace/ProfessionalsManager';
 import TestimonialsManager from './marketplace/TestimonialsManager';
 import SolutionsManager from './marketplace/SolutionsManager';
 import TeamsManager from './marketplace/TeamsManager';
+import BlogsManager from './marketplace/BlogsManager';
 
 const MarketplaceRedesignManager = () => {
   const [activeTab, setActiveTab] = useState('hero');
@@ -29,7 +30,8 @@ const MarketplaceRedesignManager = () => {
     { id: 'professionals', label: 'Professionals' },
     { id: 'testimonials', label: 'Testimonials' },
     { id: 'solutions', label: 'Solutions' },
-    { id: 'teams', label: 'Teams' }
+    { id: 'teams', label: 'Teams' },
+    { id: 'blogs', label: 'Blogs' }
   ];
 
   return (
@@ -67,6 +69,7 @@ const MarketplaceRedesignManager = () => {
           {activeTab === 'testimonials' && <TestimonialsManager />}
           {activeTab === 'solutions' && <SolutionsManager />}
           {activeTab === 'teams' && <TeamsManager />}
+          {activeTab === 'blogs' && <BlogsManager />}
         </div>
       </div>
     </div>

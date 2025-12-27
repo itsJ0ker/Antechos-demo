@@ -1,12 +1,16 @@
 import { useState, useEffect, useRef } from 'react';
+import React from 'react';
 import { supabase } from '../lib/supabase';
-import { ArrowRight, Download, ChevronLeft, ChevronRight, X, Star, Briefcase, Code, Users, Target, Zap, Shield } from 'lucide-react';
+import { ArrowRight, ChevronLeft, ChevronRight, X, Star, Briefcase, Code, Users, Target, Zap, Shield } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import SimpleLaserFlow from '../components/effects/SimpleLaserFlow';
 import InstantLaserFlow from '../components/effects/InstantLaserFlow';
 import ProfileCard from '../components/ProfileCard/ProfileCard';
 import ChromaGrid from '../components/ChromaGrid/ChromaGrid';
-import ChainCarousel from '../components/ChainCarousel';
+import ServiceCarousel from '../components/ServiceCarousel/ServiceCarousel';
+import ChainCarouselWithCards from '../components/ChainCarousel/ChainCarouselWithCards';
+import Testimonials from '../components/Testimonials';
+import BlogCarousel from '../components/BlogCarousel/BlogCarousel';
 
 const MarketplaceRedesign = () => {
   const [loading, setLoading] = useState(true);
@@ -23,11 +27,13 @@ const MarketplaceRedesign = () => {
     professionals: [],
     testimonials: [],
     solutions: [],
-    teams: []
+    teams: [],
+    blogs: []
   });
   const [currentSlide, setCurrentSlide] = useState(0);
   const [currentProfessionalSlide, setCurrentProfessionalSlide] = useState(0);
   const [currentTeamSlide, setCurrentTeamSlide] = useState(0);
+  const [selectedTeamCategory, setSelectedTeamCategory] = useState('All');
 
   const [selectedProfessional, setSelectedProfessional] = useState(null);
   const testimonialsRef = useRef(null);
@@ -37,27 +43,27 @@ const MarketplaceRedesign = () => {
     fetchAllData();
   }, []);
 
+  // Reset team carousel when category changes
+  useEffect(() => {
+    setCurrentTeamSlide(0);
+  }, [selectedTeamCategory]);
+
   const fetchAllData = async () => {
     try {
-      const [
-        heroRes, partnersRes, bannerRes, featuresRes, slidesRes,
-        metricsRes, resourcesRes, businessRes, hireRes, profRes,
-        testimonialsRes, solutionsRes, teamsRes
-      ] = await Promise.all([
-        supabase.from('marketplace_hero').select('*').single(),
-        supabase.from('marketplace_partners').select('*').eq('is_active', true).order('order_index'),
-        supabase.from('marketplace_banner').select('*').eq('is_active', true).order('order_index'),
-        supabase.from('marketplace_features').select('*').eq('is_active', true).order('order_index'),
-        supabase.from('marketplace_slides').select('*').eq('is_active', true).order('order_index'),
-        supabase.from('marketplace_metrics').select('*').eq('is_active', true).order('order_index'),
-        supabase.from('marketplace_resources').select('*').eq('is_active', true).single(),
-        supabase.from('marketplace_business_deserves').select('*').eq('is_active', true).single(),
-        supabase.from('marketplace_hire_blocks').select('*').eq('is_active', true).order('order_index'),
-        supabase.from('marketplace_professionals').select('*').eq('is_active', true).order('order_index'),
-        supabase.from('marketplace_testimonials').select('*').eq('is_active', true).order('order_index'),
-        supabase.from('marketplace_solutions').select('*').eq('is_active', true).order('order_index'),
-        supabase.from('marketplace_teams').select('*').eq('is_active', true).order('order_index')
-      ]);
+      // Fetch all data with individual error handling
+      const heroRes = await supabase.from('marketplace_hero').select('*').single();
+      const partnersRes = await supabase.from('marketplace_partners').select('*').eq('is_active', true).order('order_index');
+      const bannerRes = await supabase.from('marketplace_banner').select('*').eq('is_active', true).order('order_index');
+      const featuresRes = await supabase.from('marketplace_features').select('*').eq('is_active', true).order('order_index');
+      const slidesRes = await supabase.from('marketplace_slides').select('*').eq('is_active', true).order('order_index');
+      const metricsRes = await supabase.from('marketplace_metrics').select('*').eq('is_active', true).order('order_index');
+      const businessRes = await supabase.from('marketplace_business_deserves').select('*').eq('is_active', true).single();
+      const hireRes = await supabase.from('marketplace_hire_blocks').select('*').eq('is_active', true).order('order_index');
+      const profRes = await supabase.from('marketplace_professionals').select('*').eq('is_active', true).order('order_index');
+      const testimonialsRes = await supabase.from('marketplace_testimonials').select('*').eq('is_active', true).order('order_index');
+      const solutionsRes = await supabase.from('marketplace_solutions').select('*').eq('is_active', true).order('order_index');
+      const teamsRes = await supabase.from('marketplace_teams').select('*').eq('is_active', true).order('order_index');
+      const blogsRes = await supabase.from('blog_posts').select('*').eq('is_published', true).order('published_at', { ascending: false }).limit(10);
 
       setData({
         hero: heroRes.data,
@@ -66,13 +72,13 @@ const MarketplaceRedesign = () => {
         features: featuresRes.data || [],
         slides: slidesRes.data || [],
         metrics: metricsRes.data || [],
-        resources: resourcesRes.data,
         businessDeserves: businessRes.data,
         hireBlocks: hireRes.data || [],
         professionals: profRes.data || [],
         testimonials: testimonialsRes.data || [],
         solutions: solutionsRes.data || [],
-        teams: teamsRes.data || []
+        teams: teamsRes.data || [],
+        blogs: blogsRes.data || []
       });
     } catch (error) {
       console.error('Error fetching data:', error);
@@ -81,28 +87,171 @@ const MarketplaceRedesign = () => {
     }
   };
 
-  const DonutChart = ({ percentage, label, color = '#a855f7' }) => {
-    const radius = 45;
+  const EnhancedDonutChart = ({ percentage, label, color = '#a855f7', description, icon }) => {
+    const radius = 50;
     const circumference = 2 * Math.PI * radius;
     const offset = circumference - (percentage / 100) * circumference;
+    
+    // Generate gradient colors based on the main color
+    const getGradientColors = (baseColor) => {
+      const colors = {
+        '#a855f7': ['#a855f7', '#c084fc', '#e879f9'], // Purple gradient
+        '#3b82f6': ['#3b82f6', '#60a5fa', '#93c5fd'], // Blue gradient
+        '#10b981': ['#10b981', '#34d399', '#6ee7b7'], // Green gradient
+        '#f59e0b': ['#f59e0b', '#fbbf24', '#fcd34d'], // Yellow gradient
+        '#ef4444': ['#ef4444', '#f87171', '#fca5a5'], // Red gradient
+        '#8b5cf6': ['#8b5cf6', '#a78bfa', '#c4b5fd'], // Violet gradient
+      };
+      return colors[baseColor] || colors['#a855f7'];
+    };
+
+    const gradientColors = getGradientColors(color);
+    const gradientId = `gradient-${Math.random().toString(36).substr(2, 9)}`;
 
     return (
-      <div className="flex flex-col items-center">
-        <div className="relative w-32 h-32">
-          <svg className="transform -rotate-90 w-32 h-32">
-            <circle cx="64" cy="64" r={radius} stroke="rgba(139, 92, 246, 0.2)" strokeWidth="10" fill="none" />
-            <circle
-              cx="64" cy="64" r={radius} stroke={color} strokeWidth="10" fill="none"
-              strokeDasharray={circumference} strokeDashoffset={offset}
-              className="transition-all duration-1000 drop-shadow-[0_0_8px_rgba(168,85,247,0.6)]"
+      <motion.div 
+        className="group relative"
+        initial={{ opacity: 0, y: 20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6 }}
+        viewport={{ once: true }}
+      >
+        {/* Background glow effect */}
+        <div 
+          className="absolute inset-0 rounded-full blur-xl opacity-20 group-hover:opacity-40 transition-opacity duration-500"
+          style={{ 
+            background: `radial-gradient(circle, ${color}40 0%, transparent 70%)`,
+            transform: 'scale(1.5)'
+          }}
+        />
+        
+        {/* Main card container */}
+        <div className="relative bg-gradient-to-br from-gray-800/80 to-gray-900/80 backdrop-blur-sm rounded-2xl p-6 border border-gray-700/50 hover:border-gray-600/70 transition-all duration-300 group-hover:transform group-hover:scale-105 shadow-xl">
+          {/* Icon at top if provided */}
+          {icon && (
+            <div className="flex justify-center mb-4">
+              <div 
+                className="w-12 h-12 rounded-full flex items-center justify-center"
+                style={{ 
+                  background: `linear-gradient(135deg, ${color}20, ${color}40)`,
+                  border: `1px solid ${color}60`
+                }}
+              >
+                {React.createElement(icon, { 
+                  className: "w-6 h-6", 
+                  style: { color: color }
+                })}
+              </div>
+            </div>
+          )}
+
+          {/* Enhanced SVG Chart */}
+          <div className="flex justify-center mb-4">
+            <div className="relative w-36 h-36">
+              <svg className="transform -rotate-90 w-36 h-36" viewBox="0 0 120 120">
+                {/* Define gradient */}
+                <defs>
+                  <linearGradient id={gradientId} x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" stopColor={gradientColors[0]} />
+                    <stop offset="50%" stopColor={gradientColors[1]} />
+                    <stop offset="100%" stopColor={gradientColors[2]} />
+                  </linearGradient>
+                  
+                  {/* Glow filter */}
+                  <filter id={`glow-${gradientId}`}>
+                    <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
+                    <feMerge> 
+                      <feMergeNode in="coloredBlur"/>
+                      <feMergeNode in="SourceGraphic"/>
+                    </feMerge>
+                  </filter>
+                </defs>
+                
+                {/* Background circle */}
+                <circle 
+                  cx="60" 
+                  cy="60" 
+                  r={radius} 
+                  stroke="rgba(139, 92, 246, 0.15)" 
+                  strokeWidth="8" 
+                  fill="none" 
+                />
+                
+                {/* Progress circle */}
+                <motion.circle
+                  cx="60" 
+                  cy="60" 
+                  r={radius} 
+                  stroke={`url(#${gradientId})`}
+                  strokeWidth="8" 
+                  fill="none"
+                  strokeDasharray={circumference} 
+                  strokeDashoffset={circumference}
+                  strokeLinecap="round"
+                  filter={`url(#glow-${gradientId})`}
+                  initial={{ strokeDashoffset: circumference }}
+                  whileInView={{ strokeDashoffset: offset }}
+                  transition={{ duration: 1.5, ease: "easeOut", delay: 0.2 }}
+                  viewport={{ once: true }}
+                  className="drop-shadow-lg"
+                />
+                
+                {/* Inner decorative circle */}
+                <circle 
+                  cx="60" 
+                  cy="60" 
+                  r="25" 
+                  stroke={color} 
+                  strokeWidth="1" 
+                  fill="none" 
+                  opacity="0.3"
+                />
+              </svg>
+              
+              {/* Center content */}
+              <div className="absolute inset-0 flex flex-col items-center justify-center">
+                <motion.span 
+                  className="text-3xl font-bold text-white"
+                  initial={{ scale: 0 }}
+                  whileInView={{ scale: 1 }}
+                  transition={{ duration: 0.5, delay: 0.8 }}
+                  viewport={{ once: true }}
+                >
+                  {percentage}%
+                </motion.span>
+                <div 
+                  className="w-8 h-0.5 mt-1 rounded-full"
+                  style={{ background: color }}
+                />
+              </div>
+            </div>
+          </div>
+
+          {/* Label and description */}
+          <div className="text-center">
+            <h3 className="text-lg font-bold text-white mb-2 leading-tight">
+              {label}
+            </h3>
+            {description && (
+              <p className="text-sm text-gray-400 leading-relaxed">
+                {description}
+              </p>
+            )}
+          </div>
+
+          {/* Animated progress bar at bottom */}
+          <div className="mt-4 w-full bg-gray-700/50 rounded-full h-1.5 overflow-hidden">
+            <motion.div
+              className="h-full rounded-full"
+              style={{ background: `linear-gradient(90deg, ${gradientColors[0]}, ${gradientColors[1]})` }}
+              initial={{ width: 0 }}
+              whileInView={{ width: `${percentage}%` }}
+              transition={{ duration: 1.2, delay: 0.5 }}
+              viewport={{ once: true }}
             />
-          </svg>
-          <div className="absolute inset-0 flex items-center justify-center">
-            <span className="text-2xl font-bold text-white">{percentage}%</span>
           </div>
         </div>
-        <p className="mt-3 text-sm font-semibold text-gray-300 text-center">{label}</p>
-      </div>
+      </motion.div>
     );
   };
 
@@ -114,7 +263,7 @@ const MarketplaceRedesign = () => {
     );
   }
 
-
+//Benefit of Network of {data.partners.length}+ Partners
 
   return (
     <div className="min-h-screen bg-gray-900">
@@ -124,7 +273,7 @@ const MarketplaceRedesign = () => {
           style={{
             position: 'relative',
             width: '100vw',
-            height: '100vh',
+            height: '70vh',
             overflow: 'hidden',
             background: 'radial-gradient(circle at top, #160022 0%, #0a0014 45%, #030007 100%)'
           }}
@@ -170,7 +319,7 @@ const MarketplaceRedesign = () => {
             />
           )}
 
-          {/* LaserFlow Effect */}
+          {/* LaserFlow Effect - Responsive */}
           <div
             style={{
               position: 'absolute',
@@ -179,25 +328,242 @@ const MarketplaceRedesign = () => {
               pointerEvents: 'none'
             }}
           >
-            <InstantLaserFlow
-              dpr={1}
-              horizontalBeamOffset={0}
-              verticalBeamOffset={-0.22}
-              verticalSizing={3.6}
-              horizontalSizing={0.22}
-              flowSpeed={0.22}
-              flowStrength={0.45}
-              wispDensity={1.6}
-              wispSpeed={22}
-              wispIntensity={7.5}
-              fogIntensity={0.75}
-              fogScale={0.45}
-              fogFallSpeed={0.85}
-              decay={1.35}
-              falloffStart={1.6}
-              color="#F2D9FF"
+            {/* Desktop LaserFlow - Original InstantLaserFlow */}
+            <div className="hidden md:block">
+              <InstantLaserFlow
+                dpr={1}
+                horizontalBeamOffset={0}
+                verticalBeamOffset={-0.22}
+                verticalSizing={3.6}
+                horizontalSizing={0.22}
+                flowSpeed={0.22}
+                flowStrength={0.45}
+                wispDensity={1.6}
+                wispSpeed={22}
+                wispIntensity={7.5}
+                fogIntensity={0.75}
+                fogScale={0.45}
+                fogFallSpeed={0.85}
+                decay={1.35}
+                falloffStart={1.6}
+                color="#F2D9FF"
+              />
+            </div>
+            
+            {/* Mobile LaserFlow - Simplified version */}
+            <div className="block md:hidden">
+              <SimpleLaserFlow 
+                color="#F2D9FF" 
+                intensity={0.4} 
+                speed={0.8} 
+              />
+            </div>
+          </div>
+
+          {/* Floating Particles */}
+          <div
+            style={{
+              position: 'absolute',
+              inset: 0,
+              zIndex: 3,
+              pointerEvents: 'none',
+              overflow: 'hidden'
+            }}
+          >
+            {[...Array(12)].map((_, i) => (
+              <div
+                key={i}
+                style={{
+                  position: 'absolute',
+                  width: Math.random() * 4 + 2 + 'px',
+                  height: Math.random() * 4 + 2 + 'px',
+                  background: `rgba(230, 183, 255, ${Math.random() * 0.6 + 0.2})`,
+                  borderRadius: '50%',
+                  left: Math.random() * 100 + '%',
+                  top: Math.random() * 100 + '%',
+                  animation: `float-${i % 3} ${Math.random() * 10 + 15}s infinite linear`,
+                  boxShadow: '0 0 10px rgba(230, 183, 255, 0.5)'
+                }}
+              />
+            ))}
+          </div>
+
+          {/* Animated Geometric Shapes */}
+          <div
+            style={{
+              position: 'absolute',
+              inset: 0,
+              zIndex: 3,
+              pointerEvents: 'none',
+              overflow: 'hidden'
+            }}
+          >
+            {/* Rotating Hexagons */}
+            <div
+              style={{
+                position: 'absolute',
+                top: '15%',
+                right: '10%',
+                width: '80px',
+                height: '80px',
+                border: '2px solid rgba(230, 183, 255, 0.3)',
+                transform: 'rotate(45deg)',
+                animation: 'spin 20s linear infinite',
+                clipPath: 'polygon(30% 0%, 70% 0%, 100% 30%, 100% 70%, 70% 100%, 30% 100%, 0% 70%, 0% 30%)'
+              }}
+            />
+            <div
+              style={{
+                position: 'absolute',
+                top: '60%',
+                left: '8%',
+                width: '60px',
+                height: '60px',
+                border: '1px solid rgba(230, 183, 255, 0.4)',
+                transform: 'rotate(-30deg)',
+                animation: 'spin-reverse 15s linear infinite',
+                clipPath: 'polygon(30% 0%, 70% 0%, 100% 30%, 100% 70%, 70% 100%, 30% 100%, 0% 70%, 0% 30%)'
+              }}
+            />
+
+            {/* Floating Triangles */}
+            <div
+              style={{
+                position: 'absolute',
+                top: '25%',
+                left: '15%',
+                width: '0',
+                height: '0',
+                borderLeft: '20px solid transparent',
+                borderRight: '20px solid transparent',
+                borderBottom: '35px solid rgba(230, 183, 255, 0.2)',
+                animation: 'float-triangle 12s ease-in-out infinite'
+              }}
+            />
+            <div
+              style={{
+                position: 'absolute',
+                top: '70%',
+                right: '20%',
+                width: '0',
+                height: '0',
+                borderLeft: '15px solid transparent',
+                borderRight: '15px solid transparent',
+                borderTop: '25px solid rgba(230, 183, 255, 0.25)',
+                animation: 'float-triangle-reverse 10s ease-in-out infinite'
+              }}
+            />
+
+            {/* Pulsing Circles */}
+            <div
+              style={{
+                position: 'absolute',
+                top: '40%',
+                right: '25%',
+                width: '100px',
+                height: '100px',
+                border: '1px solid rgba(230, 183, 255, 0.2)',
+                borderRadius: '50%',
+                animation: 'pulse-ring 8s ease-in-out infinite'
+              }}
+            />
+            <div
+              style={{
+                position: 'absolute',
+                top: '20%',
+                left: '70%',
+                width: '60px',
+                height: '60px',
+                border: '2px solid rgba(230, 183, 255, 0.3)',
+                borderRadius: '50%',
+                animation: 'pulse-ring-reverse 6s ease-in-out infinite'
+              }}
             />
           </div>
+
+          {/* Subtle Grid Overlay */}
+          <div
+            style={{
+              position: 'absolute',
+              inset: 0,
+              zIndex: 1,
+              pointerEvents: 'none',
+              backgroundImage: `
+                linear-gradient(rgba(230, 183, 255, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(230, 183, 255, 0.03) 1px, transparent 1px)
+              `,
+              backgroundSize: '50px 50px',
+              opacity: 0.4
+            }}
+          />
+
+          {/* Corner Accent Glows */}
+          <div
+            style={{
+              position: 'absolute',
+              top: 0,
+              left: 0,
+              width: '200px',
+              height: '200px',
+              background: 'radial-gradient(circle, rgba(230, 183, 255, 0.1) 0%, transparent 70%)',
+              pointerEvents: 'none',
+              zIndex: 1
+            }}
+          />
+          <div
+            style={{
+              position: 'absolute',
+              top: 0,
+              right: 0,
+              width: '150px',
+              height: '150px',
+              background: 'radial-gradient(circle, rgba(230, 183, 255, 0.08) 0%, transparent 70%)',
+              pointerEvents: 'none',
+              zIndex: 1
+            }}
+          />
+
+          <style>{`
+            @keyframes float-0 {
+              0%, 100% { transform: translateY(0px) translateX(0px); }
+              25% { transform: translateY(-20px) translateX(10px); }
+              50% { transform: translateY(-10px) translateX(-15px); }
+              75% { transform: translateY(-25px) translateX(5px); }
+            }
+            @keyframes float-1 {
+              0%, 100% { transform: translateY(0px) translateX(0px); }
+              33% { transform: translateY(-15px) translateX(-10px); }
+              66% { transform: translateY(-30px) translateX(8px); }
+            }
+            @keyframes float-2 {
+              0%, 100% { transform: translateY(0px) translateX(0px); }
+              50% { transform: translateY(-20px) translateX(-12px); }
+            }
+            @keyframes spin {
+              from { transform: rotate(45deg); }
+              to { transform: rotate(405deg); }
+            }
+            @keyframes spin-reverse {
+              from { transform: rotate(-30deg); }
+              to { transform: rotate(-390deg); }
+            }
+            @keyframes float-triangle {
+              0%, 100% { transform: translateY(0px) rotate(0deg); }
+              50% { transform: translateY(-30px) rotate(180deg); }
+            }
+            @keyframes float-triangle-reverse {
+              0%, 100% { transform: translateY(0px) rotate(0deg); }
+              50% { transform: translateY(20px) rotate(-180deg); }
+            }
+            @keyframes pulse-ring {
+              0%, 100% { transform: scale(1); opacity: 0.2; }
+              50% { transform: scale(1.2); opacity: 0.4; }
+            }
+            @keyframes pulse-ring-reverse {
+              0%, 100% { transform: scale(1.1); opacity: 0.3; }
+              50% { transform: scale(0.9); opacity: 0.1; }
+            }
+          `}</style>
 
           {/* Hero Content Box */}
           <div
@@ -208,7 +574,7 @@ const MarketplaceRedesign = () => {
               transform: 'translateX(-50%)',
               width: '88%',
               maxWidth: '1200px',
-              height: '58%',
+              height: '65%',
               zIndex: 5
             }}
           >
@@ -300,10 +666,15 @@ const MarketplaceRedesign = () => {
 
       {/* Partners Section */}
       {data.partners.length > 0 && (
-        <section className="py-8 sm:py-12 bg-gray-800 border-t border-gray-700">
+        <section 
+          className="py-6 sm:py-8 border-t border-purple-900/30"
+          style={{
+            background: 'radial-gradient(ellipse at center, #160022 0%, #0a0014 50%, #030007 100%)'
+          }}
+        >
           <div className="max-w-7xl mx-auto px-3 sm:px-4 md:px-6">
-            <h2 className="text-lg sm:text-xl md:text-2xl font-bold text-center mb-6 sm:mb-8 text-white px-2">
-              Benefit of Network of {data.partners.length}+ Partners
+            <h2 className="text-lg sm:text-xl md:text-2xl font-bold text-center mb-4 sm:mb-6 text-white px-2">
+              Network & Partners
             </h2>
             <div className="flex gap-4 sm:gap-6 md:gap-8 lg:gap-12 justify-center items-center flex-wrap px-2">
               {data.partners.map((partner) => (
@@ -339,31 +710,134 @@ const MarketplaceRedesign = () => {
         </section>
       )}
 
-      {/* Features Section */}
-      {data.features.length > 0 && (
-        <section className="py-12 sm:py-14 md:py-16 bg-gray-800">
-          <div className="max-w-7xl mx-auto px-3 sm:px-4 md:px-6">
-            <h2 className="text-xl sm:text-2xl md:text-3xl font-bold text-center mb-8 sm:mb-10 md:mb-12 text-white px-2">
-              Accept the change that make it grow
-            </h2>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8">
-              {data.features.map((feature) => (
-                <div key={feature.id} className="text-center px-2">
-                  <div className="w-16 h-16 sm:w-20 sm:h-20 mx-auto mb-3 sm:mb-4 rounded-full bg-gradient-to-br from-purple-600/50 to-pink-600/50 flex items-center justify-center overflow-hidden border border-purple-400/30 shadow-lg shadow-purple-500/20">
-                    <img 
-                      src={feature.icon_url} 
-                      alt={feature.title} 
-                      className="w-10 h-10 sm:w-12 sm:h-12 object-contain" 
+      {/* Enhanced Metrics Section */}
+      {data.metrics.length > 0 && (
+        <section className="relative py-20 overflow-hidden">
+          {/* Dynamic gradient background based on metrics */}
+          <div 
+            className="absolute inset-0"
+            style={{
+              background: `
+                radial-gradient(circle at 20% 30%, rgba(168, 85, 247, 0.15) 0%, transparent 50%),
+                radial-gradient(circle at 80% 70%, rgba(59, 130, 246, 0.12) 0%, transparent 50%),
+                radial-gradient(circle at 40% 80%, rgba(16, 185, 129, 0.1) 0%, transparent 50%),
+                linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #0f172a 100%)
+              `
+            }}
+          />
+          
+          {/* Animated background elements */}
+          <div className="absolute inset-0 overflow-hidden pointer-events-none">
+            {/* Floating geometric shapes */}
+            <div className="absolute top-20 left-10 w-20 h-20 border border-purple-500/20 rounded-full animate-pulse" />
+            <div className="absolute top-40 right-20 w-16 h-16 border border-blue-500/20 rotate-45 animate-bounce" style={{ animationDuration: '3s' }} />
+            <div className="absolute bottom-32 left-1/4 w-12 h-12 border border-green-500/20 rounded-full animate-ping" style={{ animationDuration: '4s' }} />
+            
+            {/* Grid pattern overlay */}
+            <div 
+              className="absolute inset-0 opacity-5"
+              style={{
+                backgroundImage: `
+                  linear-gradient(rgba(255,255,255,0.1) 1px, transparent 1px),
+                  linear-gradient(90deg, rgba(255,255,255,0.1) 1px, transparent 1px)
+                `,
+                backgroundSize: '60px 60px'
+              }}
+            />
+          </div>
+
+          <div className="relative z-10 max-w-7xl mx-auto px-6">
+            {/* Section header */}
+            <motion.div 
+              className="text-center mb-16"
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8 }}
+              viewport={{ once: true }}
+            >
+              <h2 className="text-4xl md:text-5xl font-bold text-white mb-4">
+                Our <span className="bg-gradient-to-r from-purple-400 to-blue-400 bg-clip-text text-transparent">Impact</span> in Numbers
+              </h2>
+              <p className="text-xl text-gray-300 max-w-3xl mx-auto leading-relaxed">
+                Measurable results that showcase our commitment to excellence and innovation
+              </p>
+              
+              {/* Decorative line */}
+              <div className="flex justify-center mt-6">
+                <div className="w-24 h-1 bg-gradient-to-r from-purple-500 to-blue-500 rounded-full" />
+              </div>
+            </motion.div>
+
+            {/* Enhanced metrics grid - Single line layout */}
+            <div className="flex flex-wrap justify-center items-center gap-6 lg:gap-8 xl:gap-12">
+              {data.metrics.map((metric, index) => {
+                // Define enhanced metric data with icons and descriptions
+                const enhancedMetrics = {
+                  'Success Rate': { 
+                    icon: Target, 
+                    description: 'Projects completed successfully',
+                    color: '#10b981'
+                  },
+                  'Client Satisfaction': { 
+                    icon: Star, 
+                    description: 'Happy clients worldwide',
+                    color: '#f59e0b'
+                  },
+                  'Team Efficiency': { 
+                    icon: Zap, 
+                    description: 'Faster delivery times',
+                    color: '#8b5cf6'
+                  },
+                  'Quality Assurance': { 
+                    icon: Shield, 
+                    description: 'Bug-free deployments',
+                    color: '#3b82f6'
+                  },
+                  'Code Coverage': { 
+                    icon: Code, 
+                    description: 'Tested codebase',
+                    color: '#ef4444'
+                  },
+                  'User Engagement': { 
+                    icon: Users, 
+                    description: 'Active user retention',
+                    color: '#06b6d4'
+                  }
+                };
+
+                // Get enhanced data or use defaults
+                const metricKey = Object.keys(enhancedMetrics).find(key => 
+                  metric.label.toLowerCase().includes(key.toLowerCase())
+                ) || 'default';
+                
+                const enhanced = enhancedMetrics[metricKey] || {
+                  icon: Briefcase,
+                  description: 'Professional excellence',
+                  color: metric.color || '#a855f7'
+                };
+
+                return (
+                  <motion.div
+                    key={metric.id}
+                    initial={{ opacity: 0, y: 50 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    transition={{ 
+                      duration: 0.6, 
+                      delay: index * 0.1,
+                      ease: "easeOut"
+                    }}
+                    viewport={{ once: true }}
+                  >
+                    <EnhancedDonutChart
+                      percentage={metric.primary_percentage}
+                      label={metric.label}
+                      color={enhanced.color}
+                      description={enhanced.description}
+                      icon={enhanced.icon}
                     />
-                  </div>
-                  <h3 className="text-lg sm:text-xl font-bold mb-2 text-white leading-tight">
-                    {feature.title}
-                  </h3>
-                  <p className="text-gray-300 text-sm leading-relaxed">
-                    {feature.description}
-                  </p>
-                </div>
-              ))}
+                  </motion.div>
+                );
+              })}
             </div>
           </div>
         </section>
@@ -415,60 +889,6 @@ const MarketplaceRedesign = () => {
         </section>
       )}
 
-      {/* Metrics Section */}
-      {data.metrics.length > 0 && (
-        <section className="py-16 bg-gray-800">
-          <div className="max-w-7xl mx-auto px-6">
-            <div className="flex flex-wrap justify-center gap-12">
-              {data.metrics.map((metric) => (
-                <DonutChart
-                  key={metric.id}
-                  percentage={metric.primary_percentage}
-                  label={metric.label}
-                  color={metric.color}
-                />
-              ))}
-            </div>
-          </div>
-        </section>
-      )}
-
-      {/* Resources Section */}
-      {data.resources && (
-        <section className="py-16 bg-gray-900">
-          <div className="max-w-7xl mx-auto px-6">
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-              <div>
-                <h2 className="text-3xl font-bold mb-4 text-white">{data.resources.heading}</h2>
-                <p className="text-gray-300 mb-6 leading-relaxed">{data.resources.description}</p>
-                <a
-                  href={data.resources.download_url}
-                  download
-                  className="inline-flex items-center gap-2 bg-gradient-to-r from-purple-600 to-pink-600 text-white px-8 py-4 rounded-xl font-bold hover:from-purple-700 hover:to-pink-700 transition-all shadow-lg hover:shadow-purple-500/50 border border-purple-400/30"
-                >
-                  <Download className="w-5 h-5" />
-                  {data.resources.button_text}
-                </a>
-              </div>
-              {data.resources.image_url_9_16 && (
-                <div className="flex justify-center">
-                  <div className="relative">
-                    <img 
-                      src={data.resources.image_url_9_16} 
-                      alt="Resource"
-                      className="rounded-2xl shadow-2xl w-80 h-[560px] object-cover border border-gray-700"
-                    />
-                    <div className="absolute -right-4 top-1/2 transform -translate-y-1/2">
-                      <ArrowRight className="w-12 h-12 text-purple-400 drop-shadow-[0_0_8px_rgba(168,85,247,0.6)]" />
-                    </div>
-                  </div>
-                </div>
-              )}
-            </div>
-          </div>
-        </section>
-      )}
-
       {/* Business Deserves Section */}
       {data.businessDeserves && (
         <section className="py-16 bg-gray-800">
@@ -503,6 +923,36 @@ const MarketplaceRedesign = () => {
                 <h3 className="text-2xl font-bold mb-3 text-white">{data.businessDeserves.right_heading}</h3>
                 <p className="text-lg text-gray-300 mb-4">{data.businessDeserves.right_subheading}</p>
               </div>
+            </div>
+          </div>
+        </section>
+      )}
+
+      {/* Features Section */}
+      {data.features.length > 0 && (
+        <section className="py-12 sm:py-14 md:py-16 bg-gray-800">
+          <div className="max-w-7xl mx-auto px-3 sm:px-4 md:px-6">
+            <h2 className="text-xl sm:text-2xl md:text-3xl font-bold text-center mb-8 sm:mb-10 md:mb-12 text-white px-2">
+              Accept the change that make it grow
+            </h2>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8">
+              {data.features.map((feature) => (
+                <div key={feature.id} className="text-center px-2">
+                  <div className="w-16 h-16 sm:w-20 sm:h-20 mx-auto mb-3 sm:mb-4 rounded-full bg-gradient-to-br from-purple-600/50 to-pink-600/50 flex items-center justify-center overflow-hidden border border-purple-400/30 shadow-lg shadow-purple-500/20">
+                    <img 
+                      src={feature.icon_url} 
+                      alt={feature.title} 
+                      className="w-10 h-10 sm:w-12 sm:h-12 object-contain" 
+                    />
+                  </div>
+                  <h3 className="text-lg sm:text-xl font-bold mb-2 text-white leading-tight">
+                    {feature.title}
+                  </h3>
+                  <p className="text-gray-300 text-sm leading-relaxed">
+                    {feature.description}
+                  </p>
+                </div>
+              ))}
             </div>
           </div>
         </section>
@@ -654,6 +1104,103 @@ const MarketplaceRedesign = () => {
             </section>
           )}
 
+          {/* Comprehensive Solutions / Services */}
+          {data.solutions.length > 0 && (
+            <section id="services" className="relative bg-gray-800 overflow-hidden">
+              {/* Different Background Effect for Services */}
+              <SimpleLaserFlow color="#10B981" intensity={0.2} speed={0.7} />
+              
+              <div className="relative z-10">
+                <div className="text-center mb-16 max-w-7xl mx-auto px-6 pt-20">
+                  <h2 className="text-4xl font-bold text-white mb-4">
+                    Our <span className="text-green-400">Services</span>
+                  </h2>
+                  <p className="text-xl text-gray-300 max-w-3xl mx-auto">
+                    Professional services designed to accelerate your career growth
+                  </p>
+                </div>
+
+                {/* Chain Carousel with Cards for Services */}
+                <ChainCarouselWithCards
+                  items={data.solutions.map((service, index) => {
+                    // Map service categories to appropriate icons
+                    const getServiceIcon = (category) => {
+                      const categoryLower = (category || '').toLowerCase();
+                      if (categoryLower.includes('development') || categoryLower.includes('coding')) return Code;
+                      if (categoryLower.includes('business') || categoryLower.includes('consulting')) return Briefcase;
+                      if (categoryLower.includes('team') || categoryLower.includes('management')) return Users;
+                      if (categoryLower.includes('strategy') || categoryLower.includes('planning')) return Target;
+                      if (categoryLower.includes('performance') || categoryLower.includes('optimization')) return Zap;
+                      if (categoryLower.includes('security') || categoryLower.includes('protection')) return Shield;
+                      return Briefcase; // Default icon
+                    };
+
+                    return {
+                      id: service.id,
+                      name: service.title,
+                      icon: getServiceIcon(service.category),
+                      details: service.category || 'Professional Service',
+                      logo: service.image_url,
+                      cardContent: (
+                        <div className="text-gray-200">
+                          <h4 className="text-lg font-bold text-white mb-2">{service.title}</h4>
+                          <p className="text-gray-300 mb-3 text-sm leading-relaxed">
+                            {service.description || `Professional ${service.category} services tailored to your needs.`}
+                          </p>
+                          <div className="space-y-1.5">
+                            <div className="flex justify-between text-sm">
+                              <span className="text-gray-400">Category:</span>
+                              <span className="text-white">{service.category}</span>
+                            </div>
+                            <div className="flex justify-between text-sm">
+                              <span className="text-gray-400">Service Type:</span>
+                              <span className="text-white">Professional</span>
+                            </div>
+                            <div className="flex justify-between text-sm">
+                              <span className="text-gray-400">Availability:</span>
+                              <span className="text-green-400">Available</span>
+                            </div>
+                          </div>
+                        </div>
+                      )
+                    };
+                  })}
+                  scrollSpeedMs={2000}
+                  visibleItemCount={7}
+                  width={400}
+                  height={420}
+                  delay={4000}
+                  pauseOnHover={true}
+                  onChainSelect={(service, index) => {
+                    console.log(`Selected service: ${service.name} (ID: ${service.id})`);
+                    // You can add custom logic here for service selection
+                  }}
+                  onCardClick={(index) => {
+                    console.log('Service card clicked:', index);
+                  }}
+                />
+              </div>
+            </section>
+          )}
+
+          {/* Simple Service Cards Carousel */}
+          {data.solutions.length > 0 && (
+            <section className="relative py-16 bg-gray-800 overflow-hidden">
+              {/* Same Background Effect as Our Services */}
+              <SimpleLaserFlow color="#10B981" intensity={0.2} speed={0.7} />
+              <div className="max-w-7xl mx-auto px-6 relative z-10">
+                <ServiceCarousel
+                  services={data.solutions}
+                  onViewDetails={(service) => {
+                    console.log('View details for service:', service.title);
+                    // You can add modal or navigation logic here
+                    // For example: navigate to service detail page or open modal
+                  }}
+                />
+              </div>
+            </section>
+          )}
+
           {/* Second Hire Block (Skilled Workforce) */}
           {data.hireBlocks.length > 1 && (
             <section className="py-16 bg-gray-800">
@@ -691,148 +1238,215 @@ const MarketplaceRedesign = () => {
 
           {/* Teams Section */}
           {data.teams.length > 0 && (
-            <section className="py-16 bg-gray-900">
-              <div className="max-w-7xl mx-auto px-3 sm:px-4 md:px-6">
-                <h2 className="text-xl sm:text-2xl md:text-3xl font-bold text-center mb-8 sm:mb-10 md:mb-12 text-white px-2">
+            <section className="py-8 sm:py-12 lg:py-16 bg-gray-900">
+              <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-center mb-6 sm:mb-8 lg:mb-12 text-white">
                   Teams that make it possible
                 </h2>
                 
-                {/* Mobile Carousel (xs to lg) */}
-                <div className="block xl:hidden">
-                  <div className="relative">
-                    {/* Carousel Container */}
-                    <div className="overflow-hidden rounded-xl">
-                      <div 
-                        className="flex transition-transform duration-300 ease-in-out"
-                        style={{ transform: `translateX(-${(data.teams.findIndex((_, i) => i === currentTeamSlide) || 0) * 100}%)` }}
-                      >
-                        {data.teams.map((member, index) => {
-                          const colors = ['#4F46E5', '#10B981', '#F59E0B', '#EF4444', '#8B5CF6', '#06B6D4'];
-                          const borderColor = colors[index % colors.length];
-                          
-                          return (
-                            <div key={member.id || index} className="w-full flex-shrink-0 flex justify-center px-4 sm:px-6">
-                              <div className="w-full max-w-[280px] sm:max-w-[320px] md:max-w-[360px] h-[380px] sm:h-[420px] md:h-[460px] flex items-center justify-center">
-                                <div 
-                                  className="team-card w-full h-full rounded-2xl overflow-hidden shadow-2xl relative group cursor-pointer transform transition-all duration-300 hover:scale-105"
-                                  style={{
-                                    background: `linear-gradient(145deg, ${borderColor}22, rgb(16, 24, 40))`,
-                                    border: `2px solid ${borderColor}`,
-                                    boxShadow: `0 20px 40px ${borderColor}20`
-                                  }}
-                                >
-                                  {/* Image Container */}
-                                  <div className="relative h-3/5 overflow-hidden">
-                                    <img 
-                                      src={member.image_url || `https://i.pravatar.cc/300?img=${index + 1}`}
-                                      alt={member.name}
-                                      className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110"
-                                    />
-                                    <div 
-                                      className="absolute inset-0 opacity-20 group-hover:opacity-30 transition-opacity duration-300"
-                                      style={{
-                                        background: `linear-gradient(145deg, ${borderColor}, transparent)`
-                                      }}
-                                    />
-                                  </div>
-                                  
-                                  {/* Info Container */}
-                                  <div className="absolute bottom-0 left-0 right-0 p-4 sm:p-5 md:p-6 bg-gradient-to-t from-gray-900 via-gray-900/95 to-transparent">
-                                    <h3 className="text-lg sm:text-xl font-bold text-white mb-1 truncate">
-                                      {member.name}
-                                    </h3>
-                                    <p className="text-sm sm:text-base text-gray-300 mb-2 truncate">
-                                      {member.role || 'Team Member'}
-                                    </p>
-                                    <span 
-                                      className="text-xs sm:text-sm font-medium opacity-80"
-                                      style={{ color: borderColor }}
-                                    >
-                                      @{member.name.toLowerCase().replace(/\s+/g, '').replace(/[^a-z0-9]/g, '')}
-                                    </span>
-                                  </div>
-                                  
-                                  {/* Hover Effect Overlay */}
-                                  <div 
-                                    className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none"
-                                    style={{
-                                      background: `radial-gradient(circle at center, ${borderColor}15, transparent 70%)`
-                                    }}
-                                  />
-                                </div>
-                              </div>
-                            </div>
-                          );
-                        })}
-                      </div>
-                    </div>
-                    
-                    {/* Carousel Controls */}
-                    {data.teams.length > 1 && (
-                      <>
-                        <button
-                          onClick={() => setCurrentTeamSlide((prev) => 
-                            prev === 0 ? data.teams.length - 1 : prev - 1
-                          )}
-                          className="absolute left-1 sm:left-2 top-1/2 transform -translate-y-1/2 bg-gray-800/90 hover:bg-gray-700 text-white p-2 sm:p-3 rounded-full shadow-lg transition-all z-10 backdrop-blur-sm"
-                          aria-label="Previous team member"
-                        >
-                          <ChevronLeft className="w-4 h-4 sm:w-5 sm:h-5" />
-                        </button>
-                        <button
-                          onClick={() => setCurrentTeamSlide((prev) => 
-                            prev === data.teams.length - 1 ? 0 : prev + 1
-                          )}
-                          className="absolute right-1 sm:right-2 top-1/2 transform -translate-y-1/2 bg-gray-800/90 hover:bg-gray-700 text-white p-2 sm:p-3 rounded-full shadow-lg transition-all z-10 backdrop-blur-sm"
-                          aria-label="Next team member"
-                        >
-                          <ChevronRight className="w-4 h-4 sm:w-5 sm:h-5" />
-                        </button>
-                        
-                        {/* Dots Indicator */}
-                        <div className="flex justify-center mt-6 gap-2">
-                          {data.teams.map((_, index) => (
+                <div className="flex flex-col lg:flex-row gap-6 lg:gap-8">
+                  {/* Left Side - Category Selector */}
+                  <div className="lg:w-1/4">
+                    <div className="bg-gray-800/50 backdrop-blur-sm rounded-xl p-4 sm:p-6 border border-gray-700/50">
+                      <h3 className="text-base sm:text-lg font-semibold text-white mb-3 sm:mb-4">Filter by Category</h3>
+                      
+                      {/* Mobile: Horizontal scroll for categories */}
+                      <div className="lg:hidden">
+                        <div className="flex gap-2 overflow-x-auto pb-2 scrollbar-hide">
+                          {['All', ...new Set(data.teams.map(member => member.category || 'General'))].map((category) => (
                             <button
-                              key={index}
-                              onClick={() => setCurrentTeamSlide(index)}
-                              className={`w-2 h-2 rounded-full transition-all ${
-                                index === currentTeamSlide 
-                                  ? 'bg-blue-500 w-6' 
-                                  : 'bg-gray-600 hover:bg-gray-500'
+                              key={category}
+                              onClick={() => setSelectedTeamCategory(category)}
+                              className={`flex-shrink-0 px-3 py-2 rounded-lg text-sm transition-all duration-200 whitespace-nowrap ${
+                                selectedTeamCategory === category
+                                  ? 'bg-blue-600 text-white shadow-lg'
+                                  : 'bg-gray-700/50 text-gray-300 hover:bg-gray-600/50 hover:text-white'
                               }`}
-                              aria-label={`Go to team member ${index + 1}`}
-                            />
+                            >
+                              {category}
+                              <span className="ml-2 text-xs opacity-70">
+                                {category === 'All' 
+                                  ? data.teams.length 
+                                  : data.teams.filter(member => (member.category || 'General') === category).length
+                                }
+                              </span>
+                            </button>
                           ))}
                         </div>
-                      </>
-                    )}
-                  </div>
-                </div>
+                      </div>
 
-                {/* Desktop ChromaGrid (xl and up) */}
-                <div className="hidden xl:block">
-                  <ChromaGrid 
-                    items={data.teams.map((member, index) => {
-                      // Generate a color palette for variety
-                      const colors = ['#4F46E5', '#10B981', '#F59E0B', '#EF4444', '#8B5CF6', '#06B6D4'];
-                      const borderColor = colors[index % colors.length];
+                      {/* Desktop: Vertical list for categories */}
+                      <div className="hidden lg:block space-y-2">
+                        {['All', ...new Set(data.teams.map(member => member.category || 'General'))].map((category) => (
+                          <button
+                            key={category}
+                            onClick={() => setSelectedTeamCategory(category)}
+                            className={`w-full text-left px-4 py-3 rounded-lg transition-all duration-200 ${
+                              selectedTeamCategory === category
+                                ? 'bg-blue-600 text-white shadow-lg'
+                                : 'bg-gray-700/50 text-gray-300 hover:bg-gray-600/50 hover:text-white'
+                            }`}
+                          >
+                            {category}
+                            <span className="float-right text-sm opacity-70">
+                              {category === 'All' 
+                                ? data.teams.length 
+                                : data.teams.filter(member => (member.category || 'General') === category).length
+                              }
+                            </span>
+                          </button>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Right Side - Team Cards Carousel */}
+                  <div className="lg:w-3/4">
+                    {(() => {
+                      const filteredTeams = selectedTeamCategory === 'All' 
+                        ? data.teams 
+                        : data.teams.filter(member => (member.category || 'General') === selectedTeamCategory);
                       
-                      return {
-                        image: member.image_url || `https://i.pravatar.cc/300?img=${index + 1}`,
-                        title: member.name,
-                        subtitle: member.role || 'Team Member',
-                        handle: `@${member.name.toLowerCase().replace(/\s+/g, '').replace(/[^a-z0-9]/g, '')}`,
-                        borderColor: borderColor,
-                        gradient: `linear-gradient(145deg, ${borderColor}, rgb(16, 24, 40))`,
-                        url: null // No URL since we don't have profile links in the schema
+                      // Responsive items per page
+                      const getItemsPerPage = () => {
+                        if (window.innerWidth < 640) return 1; // Mobile: 1 item
+                        if (window.innerWidth < 1024) return 2; // Tablet: 2 items
+                        return 4; // Desktop: 4 items (2x2 grid)
                       };
-                    })}
-                    columns={Math.min(data.teams.length, 4)}
-                    radius={250}
-                    damping={0.3}
-                    fadeOut={0.4}
-                    className="teams-chroma-grid"
-                  />
+                      
+                      const itemsPerPage = typeof window !== 'undefined' ? getItemsPerPage() : 4;
+                      const totalPages = Math.ceil(filteredTeams.length / itemsPerPage);
+                      const currentPage = Math.min(currentTeamSlide, totalPages - 1);
+                      const startIndex = currentPage * itemsPerPage;
+                      const currentPageTeams = filteredTeams.slice(startIndex, startIndex + itemsPerPage);
+
+                      return (
+                        <div className="relative">
+                          {/* Team Cards Grid */}
+                          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-4 sm:gap-6 min-h-[300px] sm:min-h-[400px] lg:min-h-[500px]">
+                            {currentPageTeams.map((member, index) => {
+                              const colors = ['#4F46E5', '#10B981', '#F59E0B', '#EF4444', '#8B5CF6', '#06B6D4'];
+                              const borderColor = colors[(startIndex + index) % colors.length];
+                              
+                              return (
+                                <div key={member.id || index} className="flex justify-center">
+                                  <div className="w-full max-w-[280px] sm:max-w-[300px] h-[180px] sm:h-[200px] lg:h-[220px]">
+                                    <div 
+                                      className="team-card w-full h-full rounded-xl lg:rounded-2xl overflow-hidden shadow-xl lg:shadow-2xl relative group cursor-pointer transform transition-all duration-300 hover:scale-105"
+                                      style={{
+                                        background: `linear-gradient(145deg, ${borderColor}22, rgb(16, 24, 40))`,
+                                        border: `2px solid ${borderColor}`,
+                                        boxShadow: `0 10px 30px ${borderColor}20`
+                                      }}
+                                    >
+                                      {/* Image Container */}
+                                      <div className="relative h-3/5 overflow-hidden">
+                                        <img 
+                                          src={member.image_url || `https://i.pravatar.cc/300?img=${(startIndex + index) + 1}`}
+                                          alt={member.name}
+                                          className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110"
+                                          loading="lazy"
+                                        />
+                                        <div 
+                                          className="absolute inset-0 opacity-20 group-hover:opacity-30 transition-opacity duration-300"
+                                          style={{
+                                            background: `linear-gradient(145deg, ${borderColor}, transparent)`
+                                          }}
+                                        />
+                                      </div>
+                                      
+                                      {/* Info Container */}
+                                      <div className="absolute bottom-0 left-0 right-0 p-2 sm:p-3 bg-gradient-to-t from-gray-900 via-gray-900/95 to-transparent">
+                                        <h3 className="text-xs sm:text-sm font-bold text-white mb-1 truncate">
+                                          {member.name}
+                                        </h3>
+                                        <p className="text-xs text-gray-300 mb-1 truncate">
+                                          {member.role || 'Team Member'}
+                                        </p>
+                                        <div className="flex justify-between items-center gap-1">
+                                          <span 
+                                            className="text-xs font-medium opacity-80 truncate flex-1"
+                                            style={{ color: borderColor }}
+                                          >
+                                            @{member.name.toLowerCase().replace(/\s+/g, '').replace(/[^a-z0-9]/g, '')}
+                                          </span>
+                                          <span className="text-xs text-gray-400 bg-gray-800/50 px-1.5 py-0.5 rounded text-center flex-shrink-0">
+                                            {(member.category || 'General').length > 8 
+                                              ? (member.category || 'General').substring(0, 8) + '...'
+                                              : (member.category || 'General')
+                                            }
+                                          </span>
+                                        </div>
+                                      </div>
+                                      
+                                      {/* Hover Effect Overlay */}
+                                      <div 
+                                        className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none"
+                                        style={{
+                                          background: `radial-gradient(circle at center, ${borderColor}15, transparent 70%)`
+                                        }}
+                                      />
+                                    </div>
+                                  </div>
+                                </div>
+                              );
+                            })}
+                          </div>
+
+                          {/* Carousel Controls */}
+                          {totalPages > 1 && (
+                            <>
+                              <button
+                                onClick={() => setCurrentTeamSlide((prev) => 
+                                  prev === 0 ? totalPages - 1 : prev - 1
+                                )}
+                                className="absolute left-1 sm:left-2 top-1/2 transform -translate-y-1/2 bg-gray-800/90 hover:bg-gray-700 text-white p-2 sm:p-3 rounded-full shadow-lg transition-all z-10 backdrop-blur-sm"
+                                aria-label="Previous team page"
+                              >
+                                <ChevronLeft className="w-4 h-4 sm:w-5 sm:h-5" />
+                              </button>
+                              <button
+                                onClick={() => setCurrentTeamSlide((prev) => 
+                                  prev === totalPages - 1 ? 0 : prev + 1
+                                )}
+                                className="absolute right-1 sm:right-2 top-1/2 transform -translate-y-1/2 bg-gray-800/90 hover:bg-gray-700 text-white p-2 sm:p-3 rounded-full shadow-lg transition-all z-10 backdrop-blur-sm"
+                                aria-label="Next team page"
+                              >
+                                <ChevronRight className="w-4 h-4 sm:w-5 sm:h-5" />
+                              </button>
+                              
+                              {/* Dots Indicator */}
+                              <div className="flex justify-center mt-4 sm:mt-6 gap-1.5 sm:gap-2">
+                                {Array.from({ length: totalPages }, (_, index) => (
+                                  <button
+                                    key={index}
+                                    onClick={() => setCurrentTeamSlide(index)}
+                                    className={`w-2 h-2 rounded-full transition-all ${
+                                      index === currentPage 
+                                        ? 'bg-blue-500 w-4 sm:w-6' 
+                                        : 'bg-gray-600 hover:bg-gray-500'
+                                    }`}
+                                    aria-label={`Go to team page ${index + 1}`}
+                                  />
+                                ))}
+                              </div>
+                            </>
+                          )}
+
+                          {/* No Results Message */}
+                          {filteredTeams.length === 0 && (
+                            <div className="flex items-center justify-center h-[300px] sm:h-[400px] lg:h-[500px]">
+                              <div className="text-center px-4">
+                                <Users className="w-12 h-12 sm:w-16 sm:h-16 text-gray-600 mx-auto mb-3 sm:mb-4" />
+                                <h3 className="text-lg sm:text-xl font-semibold text-gray-400 mb-2">No team members found</h3>
+                                <p className="text-sm sm:text-base text-gray-500">Try selecting a different category</p>
+                              </div>
+                            </div>
+                          )}
+                        </div>
+                      );
+                    })()}
+                  </div>
                 </div>
               </div>
             </section>
@@ -878,84 +1492,31 @@ const MarketplaceRedesign = () => {
         </>
       )}
 
-      {/* Testimonials Carousel */}
+      {/* Enhanced Testimonials with 3D Scroll Effect */}
       {data.testimonials.length > 0 && (
-        <section className="py-16 bg-gray-800">
-          <div className="max-w-7xl mx-auto px-6">
-            <h2 className="text-3xl font-bold text-center mb-12 text-white">What our clients say about us</h2>
-            <div className="relative h-96 overflow-hidden">
-              <div 
-                ref={testimonialsRef}
-                className="animate-scroll-up space-y-6"
-              >
-                {[...data.testimonials, ...data.testimonials].map((testimonial, idx) => (
-                  <div key={`${testimonial.id}-${idx}`} className="bg-gray-700 p-6 rounded-2xl shadow-lg max-w-2xl mx-auto border border-gray-600">
-                    <div className="flex items-center gap-4 mb-4">
-                      <img 
-                        src={testimonial.avatar_url} 
-                        alt={testimonial.client_name}
-                        className="w-16 h-16 rounded-full object-cover border-2 border-gray-500"
-                      />
-                      <div>
-                        <h4 className="font-bold text-white">{testimonial.client_name}</h4>
-                        <p className="text-sm text-gray-300">{testimonial.company}</p>
-                      </div>
-                    </div>
-                    <p className="text-gray-200 italic">"{testimonial.quote}"</p>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
-        </section>
+        <Testimonials
+          testimonials={data.testimonials}
+          title="What our clients say about us"
+        />
       )}
 
-      {/* Comprehensive Solutions / Services */}
-      {data.solutions.length > 0 && (
-        <section id="services" className="relative py-20 bg-gray-900 overflow-hidden">
-          {/* Subtle Background Effect */}
-          <SimpleLaserFlow color="#8B5CF6" intensity={0.15} speed={0.5} />
-          
-          <div className="relative z-10 max-w-7xl mx-auto px-6">
-            <div className="text-center mb-16">
-              <h2 className="text-4xl font-bold text-white mb-4">
-                Our <span className="text-purple-400">Services</span>
+      {/* Blog Section */}
+      {data.blogs.length > 0 && (
+        <section className="py-16 bg-gray-800">
+          <div className="max-w-7xl mx-auto px-6">
+            <div className="text-center mb-12">
+              <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
+                Latest <span className="text-purple-400">Insights</span>
               </h2>
               <p className="text-xl text-gray-300 max-w-3xl mx-auto">
-                Professional services designed to accelerate your career growth
+                Stay updated with the latest trends, tips, and insights from our experts
               </p>
             </div>
-
-            {/* Chain Carousel for Services */}
-            <ChainCarousel
-              items={data.solutions.map((service, index) => {
-                // Map service categories to appropriate icons
-                const getServiceIcon = (category) => {
-                  const categoryLower = (category || '').toLowerCase();
-                  if (categoryLower.includes('development') || categoryLower.includes('coding')) return Code;
-                  if (categoryLower.includes('business') || categoryLower.includes('consulting')) return Briefcase;
-                  if (categoryLower.includes('team') || categoryLower.includes('management')) return Users;
-                  if (categoryLower.includes('strategy') || categoryLower.includes('planning')) return Target;
-                  if (categoryLower.includes('performance') || categoryLower.includes('optimization')) return Zap;
-                  if (categoryLower.includes('security') || categoryLower.includes('protection')) return Shield;
-                  return Briefcase; // Default icon
-                };
-
-                return {
-                  id: service.id,
-                  name: service.title,
-                  icon: getServiceIcon(service.category),
-                  details: service.category || 'Professional Service',
-                  logo: service.image_url
-                };
-              })}
-              scrollSpeedMs={2000}
-              visibleItemCount={7}
-              className="mb-16"
-              onChainSelect={(serviceId, serviceName) => {
-                console.log(`Selected service: ${serviceName} (ID: ${serviceId})`);
-                // You can add custom logic here for service selection
-              }}
+            
+            <BlogCarousel 
+              blogs={data.blogs}
+              autoPlay={true}
+              autoPlayInterval={5000}
             />
           </div>
         </section>
@@ -1011,15 +1572,7 @@ const MarketplaceRedesign = () => {
         )}
       </AnimatePresence>
 
-      <style jsx>{`
-        @keyframes scroll-up {
-          0% { transform: translateY(0); }
-          100% { transform: translateY(-50%); }
-        }
-        .animate-scroll-up {
-          animation: scroll-up 20s linear infinite;
-        }
-        
+      <style>{`
         /* Mobile ProfileCard adjustments */
         @media (max-width: 1023px) {
           .mobile-card .pc-card {
@@ -1116,7 +1669,7 @@ const MarketplaceRedesign = () => {
         
         .team-card::before {
           content: '';
-          position: absolute;
+          position: 'absolute';
           top: 0;
           left: 0;
           right: 0;

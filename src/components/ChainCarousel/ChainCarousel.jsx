@@ -1,309 +1,109 @@
-import { useState, useEffect, useRef, useCallback, useMemo } from 'react';
-import { motion, useInView } from 'framer-motion';
-import {
-  TrendingUp, // Generic icon for fallback
-  Search,
-  X as DeleteIcon,
-} from 'lucide-react';
-import './ChainCarousel.css';
+import { useState, useEffect, useRef, useCallback } from 'react';
+import { motion } from 'framer-motion';
 
-// NOTE: Placeholder for your custom Input component
-const Input = (props) => (
-  <input {...props} />
-);
-
-// --- Core Data Interface ---
-// ChainItem: {
-//   id: string | number, // Unique ID
-//   name: string,
-//   icon: React.ComponentType,
-//   details?: string, // A secondary string line for the item, e.g., a short description or a value
-//   logo?: string // Optional image URL
+/* ---------- Types ---------- */
+// ChainItem interface:
+// {
+//   id: string | number;
+//   name: string;
+//   icon: LucideIcon;
+//   details?: string;
+//   logo?: string;
 // }
 
-// --- Component Props ---
-// ChainCarouselProps: {
-//   items: ChainItem[], // The list of items to display in the carousel (REQUIRED)
-//   scrollSpeedMs?: number, // The speed of the auto-scroll rotation in milliseconds
-//   visibleItemCount?: number, // The number of carousel items visible at once (must be an odd number)
-//   className?: string, // Custom class for the main container div
-//   onChainSelect?: (chainId, chainName) => void // Function to call when a chain is selected from the search dropdown
-// }
-
-// --- Helper Components ---
-/** A single item card for the carousel. */
-const CarouselItemCard = ({ chain, side }) => {
-  const { distanceFromCenter, id, name, details, logo, icon: FallbackIcon } = chain;
+/* ---------- Item Card ---------- */
+const CarouselItemCard = ({ chain }) => {
+  const { distanceFromCenter, name, details, logo, icon: Icon } = chain;
   const distance = Math.abs(distanceFromCenter);
-
-  // Visual effects based on distance from the center (0)
-  const opacity = 1 - distance / 4;
-  const scale = 1 - distance * 0.1;
-  const yOffset = distanceFromCenter * 90;
-  const xOffset = side === 'left' ? -distance * 50 : distance * 50;
-
-  const IconOrLogo = (
-    <div className="rounded-full border border-gray-500 p-2 bg-white">
-      {logo ? (
-        <img src={logo} alt={`${name} logo`} className="w-8 h-8 rounded-full object-cover" />
-      ) : (
-        <FallbackIcon className="w-8 h-8 text-gray-900" />
-      )}
-    </div>
-  );
 
   return (
     <motion.div
-      key={id}
-      className={`absolute flex items-center gap-4 text-background px-6 py-3 ${
-        side === 'left' ? 'flex-row-reverse' : 'flex-row'
-      }`}
+      className="absolute flex items-center gap-4 px-6 py-3"
       animate={{
-        opacity,
-        scale,
-        y: yOffset,
-        x: xOffset,
+        opacity: 1 - distance * 0.2,
+        scale: 1 - distance * 0.08,
+        y: distanceFromCenter * 85,
+        x: -distance * 40,
       }}
       transition={{ duration: 0.4, ease: 'easeInOut' }}
     >
-      {IconOrLogo}
-      <div className={`flex flex-col mx-4 ${side === 'left' ? 'text-right' : 'text-left'}`}>
-        {/* FIX: Added whitespace-nowrap to prevent the name from wrapping. */}
-        <span className="text-md lg:text-lg font-semibold text-white whitespace-nowrap">{name}</span>
-        {/* Display generic details/description */}
-        <span className="text-xs lg:text-sm text-gray-400">{details}</span>
+      <div className="p-2 rounded-full bg-white">
+        {logo ? (
+          <img src={logo} className="w-8 h-8 rounded-full object-cover" alt={name} />
+        ) : (
+          <Icon className="w-8 h-8 text-gray-900" />
+        )}
+      </div>
+      <div className="text-right">
+        <div className="font-semibold text-white whitespace-nowrap">{name}</div>
+        {details && (
+          <div className="text-xs text-gray-400">{details}</div>
+        )}
       </div>
     </motion.div>
   );
 };
 
-// --- Main Component ---
+/* ---------- Main Component ---------- */
 const ChainCarousel = ({
   items,
   scrollSpeedMs = 1500,
-  visibleItemCount = 9,
+  visibleItemCount = 7,
   className = '',
   onChainSelect,
 }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [isPaused, setIsPaused] = useState(false);
-  const [searchTerm, setSearchTerm] = useState('');
-  const [showDropdown, setShowDropdown] = useState(false);
+  const [paused, setPaused] = useState(false);
 
-  // References for Framer Motion scroll-based animation
-  const rightSectionRef = useRef(null);
-  const isInView = useInView(rightSectionRef, { margin: '-100px 0px -100px 0px' });
+  const total = items.length;
 
-  const totalItems = items.length;
-
-  // 1. Auto-scroll effect
+  /* Auto Scroll */
   useEffect(() => {
-    if (isPaused || totalItems === 0) return;
-    const interval = setInterval(() => {
-      setCurrentIndex((prev) => (prev + 1) % totalItems);
+    if (paused || total === 0) return;
+    const timer = setInterval(() => {
+      setCurrentIndex((i) => (i + 1) % total);
     }, scrollSpeedMs);
-    return () => clearInterval(interval);
-  }, [isPaused, totalItems, scrollSpeedMs]);
+    return () => clearInterval(timer);
+  }, [paused, total, scrollSpeedMs]);
 
-  // 2. Scroll listener to pause carousel on page scroll
-  useEffect(() => {
-    let timeoutId;
-    const handleScroll = () => {
-      setIsPaused(true);
-      clearTimeout(timeoutId);
-      timeoutId = setTimeout(() => {
-        setIsPaused(false);
-      }, 500); // Resume auto-scroll after 500ms of no scrolling
-    };
-
-    window.addEventListener('scroll', handleScroll, { passive: true });
-    return () => {
-      window.removeEventListener('scroll', handleScroll);
-      clearTimeout(timeoutId);
-    };
-  }, []);
-
-  // Memoized function for carousel items
+  /* Visible Items */
   const getVisibleItems = useCallback(() => {
-    const visibleItems = [];
-    if (totalItems === 0) return [];
+    const list = [];
+    if (!total) return list;
 
-    // Ensure visibleItemCount is an odd number for a clear center item
-    const itemsToShow = visibleItemCount % 2 === 0 ? visibleItemCount + 1 : visibleItemCount;
-    const half = Math.floor(itemsToShow / 2);
+    const count = visibleItemCount % 2 ? visibleItemCount : visibleItemCount + 1;
+    const half = Math.floor(count / 2);
 
     for (let i = -half; i <= half; i++) {
       let index = currentIndex + i;
-      if (index < 0) index += totalItems;
-      if (index >= totalItems) index -= totalItems;
+      if (index < 0) index += total;
+      if (index >= total) index -= total;
 
-      visibleItems.push({
+      list.push({
         ...items[index],
         originalIndex: index,
         distanceFromCenter: i,
       });
     }
 
-    return visibleItems;
-  }, [currentIndex, items, totalItems, visibleItemCount]);
+    return list;
+  }, [currentIndex, items, total, visibleItemCount]);
 
-  // Filtered list for search dropdown
-  const filteredItems = useMemo(() => {
-    return items.filter((item) =>
-      item.name.toLowerCase().includes(searchTerm.toLowerCase())
-    );
-  }, [items, searchTerm]);
-
-  // Handler for selecting an item from the dropdown
-  const handleSelectChain = (id, name) => {
-    const index = items.findIndex((c) => c.id === id);
-    if (index !== -1) {
-      setCurrentIndex(index); // Jump to the selected item
-      setIsPaused(true);       // Pause to highlight the selection
-      if (onChainSelect) {
-        onChainSelect(id, name);
-      }
-    }
-    setSearchTerm(name); // Set search term to the selected item's name
-    setShowDropdown(false);
-  };
-
-  // The current item displayed in the center
-  const currentItem = items[currentIndex];
-
-  // --- JSX Render ---
+  /* Render */
   return (
-    <div id='explore-section' className={`chain-carousel-container space-y-20 ${className}`}>
-      <div className='flex flex-col xl:flex-row max-w-7xl mx-auto px-4 md:px-8 gap-12 justify-center items-center'>
-        {/* Left Section - Chain Carousel (Hidden on smaller screens) */}
-        <motion.div
-          className="relative w-full max-w-md xl:max-w-2xl h-[450px] flex items-center justify-center hidden xl:flex -left-14"
-          onMouseEnter={() => !searchTerm && setIsPaused(true)}
-          onMouseLeave={() => !searchTerm && setIsPaused(false)}
-          initial={{ x: '-100%', opacity: 0 }}
-          animate={isInView ? { x: 0, opacity: 1 } : {}}
-          transition={{ type: 'spring', stiffness: 80, damping: 20, duration: 0.8 }}
-        >
-          {/* Fading overlay to mask items */}
-          <div className="absolute inset-0 z-10 pointer-events-none">
-            <div className="absolute top-0 h-1/4 w-full bg-transparent"></div>
-            <div className="absolute bottom-0 h-1/4 w-full bg-transparent "></div>
-          </div>
-          {getVisibleItems().map((chain) => (
-            <CarouselItemCard
-              key={chain.id}
-              chain={chain} // Renamed prop to 'chain' for this component's context
-              side="left"
-            />
-          ))}
-        </motion.div>
-
-        {/* Middle Section - Text and Search Input */}
-        <div className="flex flex-col text-center 2xl:text-center xl:text-center gap-4 max-w-md">
-          {/* Currently Selected Item Display */}
-          {currentItem && (
-            <div className="flex flex-col items-center justify-center gap-0 mt-4">
-              <div className='p-2 bg-white rounded-full'>
-                {currentItem.logo ? (
-                  <img src={currentItem.logo} alt={`${currentItem.name} logo`} className="w-12 h-12 rounded-full object-cover" />
-                ) : (
-                  <currentItem.icon className="w-8 h-8 text-gray-900" />
-                )}
-              </div>
-              <h3 className="text-xl xl:text-2xl font-bold text-white mt-2">{currentItem.name}</h3>
-              <p className="text-sm xl:text-lg text-gray-400">{currentItem.details || 'View Details'}</p>
-            </div>
-          )}
-
-          {/* Search Bar */}
-          <div className="mt-6 relative max-w-lg mx-auto xl:mx-0">
-            <div className="px-3 flex items-center relative">
-              <Input
-                type="text"
-                value={searchTerm}
-                placeholder="Search Items..."
-                onChange={(e) => {
-                  const val = e.target.value;
-                  setSearchTerm(val);
-                  setShowDropdown(val.length > 0);
-                  if (val === '') setIsPaused(false);
-                }}
-                onFocus={() => {
-                  if (searchTerm.length > 0) setShowDropdown(true);
-                  setIsPaused(true);
-                }}
-                onBlur={() => {
-                  // Wait briefly before hiding to allow click on dropdown item
-                  setTimeout(() => setShowDropdown(false), 200);
-                }}
-                className="flex-grow outline-none text-white bg-gray-800 px-4 placeholder-gray-400 text-lg rounded-full border-gray-500 pr-10 pl-10 py-2 cursor-pointer border"
-              />
-              <Search className="absolute text-white w-5 h-5 left-6 pointer-events-none" />
-              {searchTerm && (
-                <button
-                  onClick={() => {
-                    setSearchTerm('');
-                    setShowDropdown(false);
-                    setIsPaused(false);
-                  }}
-                  className="absolute right-6 text-white hover:text-gray-300"
-                >
-                  <DeleteIcon />
-                </button>
-              )}
-            </div>
-
-            {/* Dropdown for search results */}
-            {showDropdown && filteredItems.length > 0 && (
-              <div className="absolute left-0 right-0 mt-2 bg-gray-800 rounded-lg border border-gray-600 z-20 max-h-60 overflow-y-auto shadow-xl">
-                {filteredItems.slice(0, 10).map((chain) => (
-                  <div
-                    key={chain.id}
-                    // FIX: Use e.preventDefault() to stop browser's form validation/alert
-                    onMouseDown={(e) => {
-                      e.preventDefault();
-                      handleSelectChain(chain.id, chain.name);
-                    }}
-                    className="flex items-center gap-3 px-4 py-3 cursor-pointer hover:bg-gray-700 transition-colors duration-150 rounded-lg m-2"
-                  >
-                    {chain.logo ? (
-                      <img src={chain.logo} alt={`${chain.name} logo`} className="w-6 h-6 rounded-full object-cover" />
-                    ) : (
-                      <chain.icon size={24} className="text-blue-400" />
-                    )}
-                    <span className="text-white font-medium">{chain.name}</span>
-                    <span className="ml-auto text-sm text-gray-400">{chain.details}</span>
-                  </div>
-                ))}
-              </div>
-            )}
-          </div>
-        </div>
-
-        {/* Right Section - Chain Carousel */}
-        <motion.div
-          ref={rightSectionRef}
-          className="relative w-full max-w-md xl:max-w-2xl h-[450px] flex items-center justify-center -right-14"
-          onMouseEnter={() => !searchTerm && setIsPaused(true)}
-          onMouseLeave={() => !searchTerm && setIsPaused(false)}
-          initial={{ x: '100%', opacity: 0 }}
-          animate={isInView ? { x: 0, opacity: 1 } : {}}
-          transition={{ type: 'spring', stiffness: 80, damping: 20, duration: 0.8 }}
-        >
-          {/* Fading overlay to mask items */}
-          <div className="absolute inset-0 z-10 pointer-events-none">
-            <div className="absolute top-0 h-1/4 w-full bg-transparent "></div>
-            <div className="absolute bottom-0 h-1/4 w-full bg-transparent "></div>
-          </div>
-          {getVisibleItems().map((chain) => (
-            <CarouselItemCard
-              key={chain.id}
-              chain={chain}
-              side="right"
-            />
-          ))}
-        </motion.div>
-      </div>
+    <div className={`relative h-[450px] ${className}`}>
+      <motion.div
+        className="relative w-full h-full flex items-center justify-center"
+        onMouseEnter={() => setPaused(true)}
+        onMouseLeave={() => setPaused(false)}
+        initial={{ x: '-100%', opacity: 0 }}
+        animate={{ x: 0, opacity: 1 }}
+        transition={{ type: 'spring', stiffness: 80, damping: 18 }}
+      >
+        {getVisibleItems().map((chain) => (
+          <CarouselItemCard key={chain.id} chain={chain} />
+        ))}
+      </motion.div>
     </div>
   );
 };
