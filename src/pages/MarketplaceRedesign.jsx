@@ -34,6 +34,9 @@ const MarketplaceRedesign = () => {
   const [currentProfessionalSlide, setCurrentProfessionalSlide] = useState(0);
   const [currentTeamSlide, setCurrentTeamSlide] = useState(0);
   const [selectedTeamCategory, setSelectedTeamCategory] = useState('All');
+  
+  // Partners carousel state
+  const [isPartnersCarouselPaused, setIsPartnersCarouselPaused] = useState(false);
 
   const [selectedProfessional, setSelectedProfessional] = useState(null);
   const testimonialsRef = useRef(null);
@@ -664,7 +667,7 @@ const MarketplaceRedesign = () => {
         </section>
       )}
 
-      {/* Partners Section */}
+      {/* Partners Section - Continuous Moving Carousel */}
       {data.partners.length > 0 && (
         <section 
           className="py-6 sm:py-8 border-t border-purple-900/30"
@@ -676,20 +679,66 @@ const MarketplaceRedesign = () => {
             <h2 className="text-lg sm:text-xl md:text-2xl font-bold text-center mb-4 sm:mb-6 text-white px-2">
               Network & Partners
             </h2>
-            <div className="flex gap-4 sm:gap-6 md:gap-8 lg:gap-12 justify-center items-center flex-wrap px-2">
-              {data.partners.map((partner) => (
-                <div key={partner.id} className="flex-shrink-0">
-                  <div className="w-16 h-16 sm:w-20 sm:h-20 md:w-24 md:h-24 rounded-full bg-white/10 backdrop-blur-sm border border-white/20 overflow-hidden opacity-70 hover:opacity-100 hover:scale-110 transition-all duration-300 cursor-pointer hover:drop-shadow-[0_0_8px_rgba(168,85,247,0.4)] hover:border-purple-400/50">
-                    <img 
-                      src={partner.logo_url} 
-                      alt={partner.name} 
-                      className="w-full h-full object-cover" 
-                    />
+            
+            {/* Partners Carousel Container */}
+            <div className="relative overflow-hidden">
+              <div 
+                className="flex gap-4 sm:gap-6 md:gap-8 lg:gap-12 items-center"
+                style={{
+                  width: 'fit-content',
+                  animation: isPartnersCarouselPaused ? 'none' : 'scroll-left 30s linear infinite'
+                }}
+                onMouseEnter={() => setIsPartnersCarouselPaused(true)}
+                onMouseLeave={() => setIsPartnersCarouselPaused(false)}
+              >
+                {/* Triple the partners for seamless infinite loop */}
+                {[...data.partners, ...data.partners, ...data.partners].map((partner, index) => (
+                  <div 
+                    key={`partner-${partner.id}-${index}`} 
+                    className="flex-shrink-0"
+                  >
+                    <div className="w-16 h-16 sm:w-20 sm:h-20 md:w-24 md:h-24 rounded-full bg-white/10 backdrop-blur-sm border border-white/20 overflow-hidden opacity-70 hover:opacity-100 transition-all duration-300 cursor-pointer group relative">
+                      <img 
+                        src={partner.logo_url} 
+                        alt={partner.name} 
+                        className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105" 
+                      />
+                      {/* Hover overlay with better shadow */}
+                      <div className="absolute inset-0 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none"
+                           style={{
+                             boxShadow: '0 0 20px rgba(168, 85, 247, 0.6), 0 0 40px rgba(168, 85, 247, 0.4)',
+                             border: '2px solid rgba(168, 85, 247, 0.5)'
+                           }}>
+                      </div>
+                    </div>
                   </div>
-                </div>
-              ))}
+                ))}
+              </div>
+              
+              {/* Subtle gradient overlays for better visual effect */}
+              <div className="absolute left-0 top-0 w-8 sm:w-12 md:w-16 h-full bg-gradient-to-r from-[#160022] via-[#160022]/80 to-transparent pointer-events-none z-10"></div>
+              <div className="absolute right-0 top-0 w-8 sm:w-12 md:w-16 h-full bg-gradient-to-l from-[#160022] via-[#160022]/80 to-transparent pointer-events-none z-10"></div>
             </div>
+            
+            {/* Optional: Pause indicator */}
+            {isPartnersCarouselPaused && (
+              <div className="text-center mt-2">
+                <span className="text-xs text-gray-400 opacity-60">Carousel paused</span>
+              </div>
+            )}
           </div>
+          
+          {/* CSS Animation Styles */}
+          <style>{`
+            @keyframes scroll-left {
+              0% {
+                transform: translateX(0);
+              }
+              100% {
+                transform: translateX(-33.333%);
+              }
+            }
+          `}</style>
         </section>
       )}
 
@@ -1142,23 +1191,28 @@ const MarketplaceRedesign = () => {
                       details: service.category || 'Professional Service',
                       logo: service.image_url,
                       cardContent: (
-                        <div className="text-gray-200">
-                          <h4 className="text-lg font-bold text-white mb-2">{service.title}</h4>
-                          <p className="text-gray-300 mb-3 text-sm leading-relaxed">
-                            {service.description || `Professional ${service.category} services tailored to your needs.`}
+                        <div className="text-gray-200 p-2">
+                          <h4 className="text-xl font-bold text-white mb-3">{service.title}</h4>
+                          <p className="text-gray-300 mb-4 text-base leading-relaxed">
+                            {service.description || `Professional ${service.category} services designed to accelerate your career growth and enhance your professional capabilities.`}
                           </p>
-                          <div className="space-y-1.5">
-                            <div className="flex justify-between text-sm">
-                              <span className="text-gray-400">Category:</span>
-                              <span className="text-white">{service.category}</span>
+                          <div className="space-y-2">
+                            <div className="flex justify-between text-base">
+                              <span className="text-gray-400 font-medium">Category:</span>
+                              <span className="text-white font-semibold">{service.category}</span>
                             </div>
-                            <div className="flex justify-between text-sm">
-                              <span className="text-gray-400">Service Type:</span>
-                              <span className="text-white">Professional</span>
+                            <div className="flex justify-between text-base">
+                              <span className="text-gray-400 font-medium">Service Type:</span>
+                              <span className="text-white font-semibold">Professional</span>
                             </div>
-                            <div className="flex justify-between text-sm">
-                              <span className="text-gray-400">Availability:</span>
-                              <span className="text-green-400">Available</span>
+                            <div className="flex justify-between text-base">
+                              <span className="text-gray-400 font-medium">Availability:</span>
+                              <span className="text-green-400 font-semibold">Available Now</span>
+                            </div>
+                            <div className="mt-4 pt-3 border-t border-gray-600">
+                              <div className="flex items-center justify-center">
+                                <span className="text-gray-300 text-sm">Professional Service Excellence</span>
+                              </div>
                             </div>
                           </div>
                         </div>
@@ -1166,18 +1220,16 @@ const MarketplaceRedesign = () => {
                     };
                   })}
                   scrollSpeedMs={2000}
-                  visibleItemCount={7}
-                  width={400}
-                  height={420}
+                  visibleItemCount={6}
+                  width={500}
+                  height={520}
                   delay={4000}
                   pauseOnHover={true}
                   onChainSelect={(service, index) => {
-                    console.log(`Selected service: ${service.name} (ID: ${service.id})`);
-                    // You can add custom logic here for service selection
+                    // Service selection disabled for display purposes
+                    console.log(`Service viewed: ${service.name}`);
                   }}
-                  onCardClick={(index) => {
-                    console.log('Service card clicked:', index);
-                  }}
+                  // Removed onCardClick to make cards non-clickable
                 />
               </div>
             </section>

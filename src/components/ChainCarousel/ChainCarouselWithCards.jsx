@@ -15,20 +15,20 @@ const ChainCarouselItem = ({ chain, isActive, onClick }) => {
 
   return (
     <motion.div
-      className={`flex items-center gap-4 px-5 py-4 rounded-xl cursor-pointer transition-all duration-300 backdrop-blur-sm ${
+      className={`flex items-center gap-4 px-5 py-4 rounded-xl transition-all duration-300 backdrop-blur-sm select-none ${
         isActive
           ? 'bg-gradient-to-r from-blue-600/30 to-purple-600/30 border border-blue-400/50 shadow-xl shadow-blue-500/20'
-          : 'bg-white/5 hover:bg-white/10 border border-white/10'
+          : 'bg-white/5 border border-white/10'
       }`}
-      whileHover={{ 
-        scale: 1.05,
-        boxShadow: isActive ? '0 20px 40px rgba(99, 102, 241, 0.3)' : '0 10px 30px rgba(255, 255, 255, 0.1)'
-      }}
-      whileTap={{ scale: 0.95 }}
-      onClick={onClick}
       style={{
         minWidth: '250px', // Fixed width to prevent overlap
         backdropFilter: 'blur(10px)',
+        userSelect: 'none',
+        WebkitUserSelect: 'none',
+        MozUserSelect: 'none',
+        msUserSelect: 'none',
+        pointerEvents: 'none',
+        cursor: 'default'
       }}
     >
       <div className={`p-2.5 rounded-full transition-all duration-300 ${
@@ -71,7 +71,7 @@ const ChainCarouselWithCards = ({
 }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [paused, setPaused] = useState(false);
-  const [selectedChainIndex, setSelectedChainIndex] = useState(0);
+  const [selectedChainIndex, setSelectedChainIndex] = useState(-1); // No default selection
   
   const total = items.length;
 
@@ -320,13 +320,12 @@ const ChainCarouselWithCards = ({
     return list.sort((a, b) => b.zIndex - a.zIndex); // Sort by z-index so center renders on top
   }, [currentIndex, items, total, visibleItemCount]);
 
-  /* Handle Chain Selection */
+  /* Handle Chain Selection - Disabled for display only */
   const handleChainSelect = useCallback((chain, index) => {
-    setSelectedChainIndex(index);
-    setCurrentIndex(index);
+    // Chain selection disabled - display only
+    console.log(`Chain viewed: ${chain.name}`);
     onChainSelect?.(chain, index);
-    onCardClick?.(index);
-  }, [onChainSelect, onCardClick]);
+  }, [onChainSelect]);
 
   const rendered = childArr.map((child, i) =>
     isValidElement(child)
@@ -353,20 +352,22 @@ const ChainCarouselWithCards = ({
   }
 
   return (
-    <div className={`py-16 ${className}`}> {/* Reduced from py-20 */}
+    <div className={`py-16 select-none ${className}`} style={{ userSelect: 'none', WebkitUserSelect: 'none', MozUserSelect: 'none', msUserSelect: 'none' }}> {/* Reduced from py-20 */}
       <div className="max-w-7xl mx-auto px-6">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start"> {/* Reduced gap from 12 to 8 */}
           {/* Left Side - Chain Carousel - FIXED LAYOUT */}
           <motion.div 
-            className="relative h-[500px] md:h-[600px] flex items-center justify-center overflow-visible"
+            className="relative h-[500px] md:h-[600px] flex items-center justify-center overflow-visible select-none"
             initial={{ opacity: 0, x: -50 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.6, delay: 0.2 }}
+            style={{ userSelect: 'none', WebkitUserSelect: 'none', MozUserSelect: 'none', msUserSelect: 'none', pointerEvents: 'none' }}
           >
             <div 
               className="relative w-full h-full flex items-center justify-center"
               onMouseEnter={() => setPaused(true)}
               onMouseLeave={() => setPaused(false)}
+              style={{ pointerEvents: 'auto' }}
             >
               <div className="absolute inset-0 bg-gradient-to-r from-blue-500/10 to-purple-500/10 rounded-3xl backdrop-blur-sm" />
               
@@ -409,7 +410,7 @@ const ChainCarouselWithCards = ({
                       <ChainCarouselItem
                         chain={chain}
                         isActive={isActive}
-                        onClick={() => handleChainSelect(chain, chain.originalIndex)}
+                        onClick={() => {}} // Disabled click functionality
                       />
                     </motion.div>
                   );
@@ -433,22 +434,12 @@ const ChainCarouselWithCards = ({
 
           {/* Right Side - CardSwap */}
           <motion.div 
-            className="relative flex flex-col"
+            className="relative flex flex-col justify-end h-[500px] md:h-[600px] pt-24"
             initial={{ opacity: 0, x: 50 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.6, delay: 0.4 }}
           >
-            {/* Header Section - Fixed at top */}
-            <div className="mb-8 relative z-20 bg-gray-900/80 backdrop-blur-sm rounded-lg p-4">
-              <h2 className="text-xl md:text-2xl font-bold text-white mb-2">
-                {items[selectedChainIndex]?.name || 'Service Details'}
-              </h2>
-              <p className="text-gray-400 text-sm md:text-base">
-                Click on any service to view its detailed information
-              </p>
-            </div>
-            
-            {/* Card Container - Reduced size */}
+            {/* Card Container - Positioned lower and aligned to bottom */}
             <div className="relative flex-1 min-h-[420px]">
               <div 
                 ref={container} 
@@ -461,21 +452,6 @@ const ChainCarouselWithCards = ({
                 }}
               >
                 {rendered}
-              </div>
-            </div>
-            
-            {/* Controls Section - Fixed at bottom */}
-            <div className="mt-8 relative z-20 bg-gray-900/80 backdrop-blur-sm rounded-lg p-4">
-              <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4">
-                <button
-                  onClick={() => setPaused(!paused)}
-                  className="px-4 py-2 rounded-lg bg-white/10 text-white hover:bg-white/20 transition-colors text-sm"
-                >
-                  {paused ? 'Resume' : 'Pause'} Animation
-                </button>
-                <div className="text-sm text-gray-400">
-                  {selectedChainIndex + 1} of {total} services selected
-                </div>
               </div>
             </div>
           </motion.div>
