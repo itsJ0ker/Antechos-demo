@@ -341,7 +341,7 @@ const MarketplaceRedesign = () => {
                 dpr={1}
                 horizontalBeamOffset={0}
                 verticalBeamOffset={-0.05}  // Start from very top
-                verticalSizing={4.5}        // Extended to connect with video box
+                verticalSizing={0.5}        // Much shorter - reduced from 3.8 to 3.0
                 horizontalSizing={0.15}     // Narrower beam for precise connection
                 flowSpeed={0.25}            // Smooth flowing speed
                 flowStrength={0.7}          // Strong flow to show connection
@@ -586,7 +586,7 @@ const MarketplaceRedesign = () => {
             style={{
               position: 'absolute',
               left: '50%',
-              bottom: '8%',
+              bottom: '5%', // Moved down from 8% to 5%
               transform: 'translateX(-50%)',
               width: '88%',
               maxWidth: '1200px',
