@@ -3,6 +3,7 @@
   height: 400px;
   max-height: 400px;
   aspect-ratio: 0.75;
+  width: 100%;
 }
 
 .professional-card .pc-details {
@@ -49,32 +50,83 @@
   transform: translateY(-1px);
 }
 
+/* Lock dimensions for consistent layout across all devices */
+.professional-card.mobile-card .pc-card,
+.professional-card.desktop-card .pc-card {
+  height: 400px;
+  max-height: 400px;
+  width: 280px;
+  aspect-ratio: 0.7;
+}
+
+/* Ensure avatar images display properly on mobile */
+.professional-card .pc-avatar-content .avatar {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center top;
+  position: absolute;
+  left: 50%;
+  top: 0;
+  transform-origin: 50% 100%;
+  transform: translateX(-50%) translateZ(0);
+  bottom: auto;
+  backface-visibility: hidden;
+  will-change: transform;
+  transition: transform 120ms ease-out;
+  /* Ensure image loads and displays */
+  display: block;
+  opacity: 1;
+  visibility: visible;
+}
+
+/* Fix for mobile image loading issues */
+.professional-card .pc-avatar-content .avatar[src=""],
+.professional-card .pc-avatar-content .avatar:not([src]) {
+  background: linear-gradient(145deg, #8B5CF6 0%, #60496e 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.professional-card .pc-avatar-content .avatar[src=""]:after,
+.professional-card .pc-avatar-content .avatar:not([src]):after {
+  content: "👤";
+  font-size: 4rem;
+  color: white;
+  opacity: 0.7;
+}
+
+/* Remove responsive sizing variations for consistency */
 @media (max-width: 1024px) {
   .professional-card .pc-card {
-    height: 350px;
-    max-height: 350px;
+    height: 400px;
+    max-height: 400px;
+    width: 280px;
   }
 }
 
 @media (max-width: 768px) {
   .professional-card .pc-card {
-    height: 320px;
-    max-height: 320px;
+    height: 400px;
+    max-height: 400px;
+    width: 280px;
   }
   
   .professional-card .pc-details h3 {
-    font-size: min(3.5vh, 1.5em);
+    font-size: 1.5em;
   }
 }
 
 @media (max-width: 480px) {
   .professional-card .pc-card {
-    height: 280px;
-    max-height: 280px;
+    height: 400px;
+    max-height: 400px;
+    width: 280px;
   }
   
   .professional-card .pc-details h3 {
-    font-size: min(3vh, 1.3em);
+    font-size: 1.3em;
   }
   
   .professional-card .pc-details p {
@@ -118,7 +170,7 @@
 
 /* Improve text visibility */
 .professional-card .pc-details h3 {
-  font-size: min(3vh, 1.4em);
+  font-size: 1.4em;
   color: #ffffff;
   text-shadow: 0 1px 4px rgba(0, 0, 0, 0.8);
   font-weight: 600;

@@ -314,7 +314,18 @@ const ProfileCardComponent = ({
                 loading="lazy"
                 onError={e => {
                   const t = e.target;
-                  t.style.display = 'none';
+                  // Set a fallback image instead of hiding
+                  t.src = 'https://via.placeholder.com/400x600/8B5CF6/ffffff?text=Professional';
+                  t.style.display = 'block';
+                }}
+                onLoad={e => {
+                  const t = e.target;
+                  t.style.display = 'block';
+                  t.style.opacity = '1';
+                }}
+                style={{ 
+                  display: 'block',
+                  opacity: avatarUrl ? '1' : '0.8'
                 }}
               />
               {showUserInfo && (
@@ -327,9 +338,10 @@ const ProfileCardComponent = ({
                         loading="lazy"
                         onError={e => {
                           const t = e.target;
-                          t.style.opacity = '0.5';
-                          t.src = avatarUrl;
+                          t.src = 'https://via.placeholder.com/48x48/8B5CF6/ffffff?text=👤';
+                          t.style.opacity = '0.8';
                         }}
+                        style={{ display: 'block' }}
                       />
                     </div>
                     <div className="pc-user-text">

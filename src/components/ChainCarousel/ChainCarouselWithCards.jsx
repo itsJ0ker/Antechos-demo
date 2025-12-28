@@ -89,19 +89,19 @@ const ChainCarouselWithCards = ({
     easing === 'elastic'
       ? {
           ease: 'elastic.out(0.6,0.9)',
-          durDrop: 2,
-          durMove: 2,
-          durReturn: 2,
+          durDrop: 1.2,
+          durMove: 1.2,
+          durReturn: 1.2,
           promoteOverlap: 0.9,
           returnDelay: 0.05,
         }
       : {
           ease: 'power1.inOut',
-          durDrop: 0.8,
-          durMove: 0.8,
-          durReturn: 0.8,
+          durDrop: 0.5,
+          durMove: 0.5,
+          durReturn: 0.5,
           promoteOverlap: 0.45,
-          returnDelay: 0.2,
+          returnDelay: 0.1,
         },
     [easing]
   );
@@ -175,6 +175,12 @@ const ChainCarouselWithCards = ({
 
   const placeNow = useCallback((el, slot, skew) => {
     if (!el) return;
+    
+    // Apply blur based on z-index - front card (highest z-index) gets no blur
+    const isTopCard = slot.zIndex >= (refs.length - 1);
+    const blurAmount = isTopCard ? 0 : 3;
+    const opacityAmount = isTopCard ? 1 : 0.4;
+    
     gsap.set(el, {
       x: slot.x,
       y: slot.y,
@@ -184,9 +190,11 @@ const ChainCarouselWithCards = ({
       skewY: skew,
       transformOrigin: 'center center',
       zIndex: slot.zIndex,
+      filter: `blur(${blurAmount}px)`,
+      opacity: opacityAmount,
       force3D: true,
     });
-  }, []);
+  }, [refs.length]);
 
   /* CardSwap Animation Effect */
   useEffect(() => {
@@ -221,6 +229,10 @@ const ChainCarouselWithCards = ({
         if (!el) return;
         
         const slot = makeSlot(i, cardDistance, verticalDistance, refs.length);
+        const isTopCard = slot.zIndex >= (refs.length - 1);
+        const blurAmount = isTopCard ? 0 : 3;
+        const opacityAmount = isTopCard ? 1 : 0.4;
+        
         tl.set(el, { zIndex: slot.zIndex }, 'promote');
         tl.to(
           el,
@@ -228,6 +240,8 @@ const ChainCarouselWithCards = ({
             x: slot.x,
             y: slot.y,
             z: slot.z,
+            filter: `blur(${blurAmount}px)`,
+            opacity: opacityAmount,
             duration: config.durMove,
             ease: config.ease,
           },
@@ -236,6 +250,10 @@ const ChainCarouselWithCards = ({
       });
 
       const backSlot = makeSlot(refs.length - 1, cardDistance, verticalDistance, refs.length);
+      const isBackTopCard = backSlot.zIndex >= (refs.length - 1);
+      const backBlurAmount = isBackTopCard ? 0 : 3;
+      const backOpacityAmount = isBackTopCard ? 1 : 0.4;
+      
       tl.addLabel('return', `promote+=${config.durMove * config.returnDelay}`);
       tl.call(
         () => {
@@ -250,6 +268,8 @@ const ChainCarouselWithCards = ({
           x: backSlot.x,
           y: backSlot.y,
           z: backSlot.z,
+          filter: `blur(${backBlurAmount}px)`,
+          opacity: backOpacityAmount,
           duration: config.durReturn,
           ease: config.ease,
         },
@@ -434,19 +454,19 @@ const ChainCarouselWithCards = ({
 
           {/* Right Side - CardSwap */}
           <motion.div 
-            className="relative flex flex-col justify-end h-[500px] md:h-[600px] pt-24"
+            className="relative flex flex-col h-[500px] md:h-[600px] pt-16"
             initial={{ opacity: 0, x: 50 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.6, delay: 0.4 }}
           >
-            {/* Card Container - Positioned lower and aligned to bottom */}
-            <div className="relative flex-1 min-h-[420px]">
+            {/* Card Container - Positioned lower with proper spacing */}
+            <div className="relative flex-1 flex items-center justify-center" style={{ paddingTop: '60px' }}>
               <div 
                 ref={container} 
                 className="card-swap-container" 
                 style={{ 
                   width: typeof window !== 'undefined' ? Math.min(width, window.innerWidth - 100) : width, 
-                  height: 420, // Reduced height
+                  height: 420,
                   position: 'relative',
                   zIndex: 10
                 }}

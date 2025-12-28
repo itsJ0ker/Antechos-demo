@@ -9,11 +9,12 @@
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
+  padding-bottom: 50px; /* Add bottom padding to prevent cropping */
 }
 
 .card {
   position: absolute;
-  top: 50%;
+  top: 40%; /* Changed from 50% to 40% to move cards up slightly */
   left: 50%;
   border-radius: 24px;
   border: 2px solid rgba(16, 185, 129, 0.3);
@@ -37,6 +38,23 @@
   backface-visibility: hidden;
   -webkit-backface-visibility: hidden;
   transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  
+  /* Default blur for background cards */
+  filter: blur(3px);
+  opacity: 0.4;
+}
+
+/* Front card (highest z-index) - no blur */
+.card[style*="z-index: 1000"],
+.card[style*="z-index: 999"],
+.card[style*="z-index: 998"] {
+  filter: none !important;
+  opacity: 1 !important;
+  box-shadow: 
+    0 35px 70px rgba(0, 0, 0, 0.6),
+    0 0 0 1px rgba(16, 185, 129, 0.4),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2),
+    0 0 50px rgba(16, 185, 129, 0.3) !important;
 }
 
 .card::before {

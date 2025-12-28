@@ -1127,10 +1127,11 @@ const MarketplaceRedesign = () => {
                       >
                         {data.professionals.map((prof) => (
                           <div key={prof.id} className="w-full flex-shrink-0 flex justify-center px-4 sm:px-6">
-                            <div className="w-full max-w-[280px] sm:max-w-[320px] h-[400px] sm:h-[450px] flex items-center justify-center">
+                            {/* Fixed container with consistent dimensions */}
+                            <div className="w-[280px] h-[400px] flex items-center justify-center">
                               <div className="w-full h-full">
                                 <ProfileCard
-                                  avatarUrl={prof.image_url}
+                                  avatarUrl={prof.image_url || 'https://via.placeholder.com/400x600/8B5CF6/ffffff?text=Professional'}
                                   name={prof.name}
                                   title={prof.role}
                                   handle={prof.name.toLowerCase().replace(/\s+/g, '')}
@@ -1193,19 +1194,20 @@ const MarketplaceRedesign = () => {
                 {/* Desktop Grid (lg and up) */}
                 <div className="hidden lg:grid lg:grid-cols-3 xl:grid-cols-4 gap-6 lg:gap-8">
                   {data.professionals.map((prof) => (
-                    <ProfileCard
-                      key={prof.id}
-                      avatarUrl={prof.image_url}
-                      name={prof.name}
-                      title={prof.role}
-                      handle={prof.name.toLowerCase().replace(/\s+/g, '')}
-                      status="Available"
-                      contactText="View Details"
-                      onContactClick={() => setSelectedProfessional(prof)}
-                      behindGlowColor="rgba(139, 92, 246, 0.67)"
-                      innerGradient="linear-gradient(145deg, #60496e8c 0%, #8B5CF644 100%)"
-                      className="professional-card w-full"
-                    />
+                    <div key={prof.id} className="w-full h-[400px] flex items-center justify-center">
+                      <ProfileCard
+                        avatarUrl={prof.image_url || 'https://via.placeholder.com/400x600/8B5CF6/ffffff?text=Professional'}
+                        name={prof.name}
+                        title={prof.role}
+                        handle={prof.name.toLowerCase().replace(/\s+/g, '')}
+                        status="Available"
+                        contactText="View Details"
+                        onContactClick={() => setSelectedProfessional(prof)}
+                        behindGlowColor="rgba(139, 92, 246, 0.67)"
+                        innerGradient="linear-gradient(145deg, #60496e8c 0%, #8B5CF644 100%)"
+                        className="professional-card desktop-card"
+                      />
+                    </div>
                   ))}
                 </div>
               </div>
@@ -1282,7 +1284,7 @@ const MarketplaceRedesign = () => {
                   visibleItemCount={6}
                   width={500}
                   height={520}
-                  delay={4000}
+                  delay={2500}
                   pauseOnHover={true}
                   onChainSelect={(service, index) => {
                     // Service selection disabled for display purposes
