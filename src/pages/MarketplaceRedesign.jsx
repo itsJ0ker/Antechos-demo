@@ -322,46 +322,59 @@ const MarketplaceRedesign = () => {
             />
           )}
 
-          {/* LaserFlow Effect - Responsive */}
+          {/* LaserFlow Effect - Flows from top and connects to video box */}
           <div
             style={{
               position: 'absolute',
-              inset: 0,
-              zIndex: 2,
-              pointerEvents: 'none'
+              top: 0,
+              left: 0,
+              width: '100%',
+              height: '100%',
+              zIndex: 4,
+              pointerEvents: 'none',
+              overflow: 'hidden'
             }}
           >
-            {/* Desktop LaserFlow - Original InstantLaserFlow */}
-            <div className="hidden md:block">
+            {/* Desktop LaserFlow */}
+            <div className="hidden md:block" style={{ width: '100%', height: '100%' }}>
               <InstantLaserFlow
                 dpr={1}
                 horizontalBeamOffset={0}
-                verticalBeamOffset={-0.22}
-                verticalSizing={3.6}
-                horizontalSizing={0.22}
-                flowSpeed={0.22}
-                flowStrength={0.45}
-                wispDensity={1.6}
-                wispSpeed={22}
-                wispIntensity={7.5}
-                fogIntensity={0.75}
-                fogScale={0.45}
-                fogFallSpeed={0.85}
-                decay={1.35}
-                falloffStart={1.6}
+                verticalBeamOffset={-0.05}  // Start from very top
+                verticalSizing={4.5}        // Extended to connect with video box
+                horizontalSizing={0.15}     // Narrower beam for precise connection
+                flowSpeed={0.25}            // Smooth flowing speed
+                flowStrength={0.7}          // Strong flow to show connection
+                wispDensity={2.0}           // More wisps for energy effect
+                wispSpeed={25}
+                wispIntensity={8.5}
+                fogIntensity={0.8}          // More fog for dramatic effect
+                fogScale={0.35}
+                fogFallSpeed={0.9}
+                decay={1.2}                 // Less decay to maintain connection
+                falloffStart={2.0}          // Extended falloff
                 color="#F2D9FF"
+                style={{ 
+                  position: 'absolute',
+                  top: 0,
+                  left: 0,
+                  width: '100%',
+                  height: '100%'
+                }}
               />
             </div>
             
-            {/* Mobile LaserFlow - Simplified version */}
-            <div className="block md:hidden">
+            {/* Mobile LaserFlow */}
+            <div className="block md:hidden" style={{ width: '100%', height: '100%' }}>
               <SimpleLaserFlow 
                 color="#F2D9FF" 
-                intensity={0.4} 
+                intensity={0.6} 
                 speed={0.8} 
               />
             </div>
           </div>
+
+
 
           {/* Floating Particles */}
           <div
@@ -581,18 +594,34 @@ const MarketplaceRedesign = () => {
               zIndex: 5
             }}
           >
-            {/* Laser Contact Glow */}
+            {/* Laser Connection Glow - Where laser connects to video box */}
             <div
               style={{
                 position: 'absolute',
-                top: '-70px',
+                top: '-20px',
                 left: '50%',
                 transform: 'translateX(-50%)',
-                width: '420px',
-                height: '140px',
-                background: 'radial-gradient(circle, rgba(230,183,255,1) 0%, rgba(230,183,255,0.45) 35%, rgba(230,183,255,0.15) 55%, transparent 70%)',
-                filter: 'blur(45px)',
+                width: '200px',
+                height: '40px',
+                background: 'radial-gradient(ellipse at center, rgba(242,217,255,0.9) 0%, rgba(242,217,255,0.5) 40%, transparent 70%)',
+                filter: 'blur(15px)',
                 zIndex: 6,
+                pointerEvents: 'none'
+              }}
+            />
+
+            {/* Intense connection point */}
+            <div
+              style={{
+                position: 'absolute',
+                top: '-10px',
+                left: '50%',
+                transform: 'translateX(-50%)',
+                width: '80px',
+                height: '20px',
+                background: 'radial-gradient(ellipse at center, rgba(242,217,255,1) 0%, rgba(242,217,255,0.8) 30%, transparent 60%)',
+                filter: 'blur(5px)',
+                zIndex: 7,
                 pointerEvents: 'none'
               }}
             />
@@ -610,6 +639,37 @@ const MarketplaceRedesign = () => {
                 position: 'relative'
               }}
             >
+              {/* Laser Connection Point - Top center where laser enters */}
+              <div
+                style={{
+                  position: 'absolute',
+                  top: 0,
+                  left: '50%',
+                  transform: 'translateX(-50%)',
+                  width: '60px',
+                  height: '30px',
+                  background: 'linear-gradient(to bottom, rgba(242,217,255,0.6) 0%, rgba(242,217,255,0.3) 50%, transparent 100%)',
+                  filter: 'blur(8px)',
+                  zIndex: 1,
+                  pointerEvents: 'none'
+                }}
+              />
+
+              {/* Connection entry line */}
+              <div
+                style={{
+                  position: 'absolute',
+                  top: 0,
+                  left: '50%',
+                  transform: 'translateX(-50%)',
+                  width: '40px',
+                  height: '3px',
+                  background: 'linear-gradient(90deg, transparent 0%, rgba(242,217,255,1) 50%, transparent 100%)',
+                  zIndex: 2,
+                  pointerEvents: 'none'
+                }}
+              />
+
               {/* Inner Dotted Grid */}
               <div
                 style={{
@@ -618,13 +678,12 @@ const MarketplaceRedesign = () => {
                   backgroundImage: 'radial-gradient(rgba(255,255,255,0.08) 1px, transparent 1px)',
                   backgroundSize: '14px 14px',
                   opacity: 0.35,
-                  pointerEvents: 'none'
+                  pointerEvents: 'none',
+                  zIndex: 1
                 }}
               />
-
               {/* Hero Content */}
               <div className="relative z-10 h-full w-full">
-                {/* Check if we have a video URL, if so show video only, otherwise show text content */}
                 {data.hero.video_url ? (
                   /* Full Box Video - No Text */
                   <iframe
