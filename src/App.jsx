@@ -28,6 +28,11 @@ import allCourses from "./data/allCourses"; // ✅ your dataset
 import CourseDetailPage from "./components/sections/coursedetails";
 // ✅ detail page component
 
+// User Authentication
+import UserDashboard from "./pages/UserDashboard";
+import { UserAuthProvider } from "./contexts/UserAuthContext";
+import ProtectedUserRoute from "./components/auth/ProtectedUserRoute";
+
 // Admin components
 import AdminLogin from "./pages/admin/AdminLogin";
 import AdminDashboard from "./pages/admin/AdminDashboard";
@@ -51,7 +56,7 @@ const AppContent = () => {
   const [showPopup, setShowPopup] = useState(false);
   const location = useLocation();
 
-  const hideLayout = ["/AuthPage", "/admin/login", "/admin/dashboard", "/admin/old-dashboard", "/simple-login", "/simple-dashboard"].includes(location.pathname);
+  const hideLayout = ["/AuthPage", "/admin/login", "/admin/dashboard", "/admin/old-dashboard", "/simple-login", "/simple-dashboard", "/user-dashboard"].includes(location.pathname);
 
   // check login & form submission
   const isLoggedIn = localStorage.getItem("isLoggedIn") === "true";
@@ -120,6 +125,13 @@ const AppContent = () => {
 
           {/* ✅ Dynamic course details page */}
           <Route path="/course/:id" element={<CourseDetailWrapper />} />
+          
+          {/* User Dashboard */}
+          <Route path="/user-dashboard" element={
+            <ProtectedUserRoute>
+              <UserDashboard />
+            </ProtectedUserRoute>
+          } />
           
           {/* Admin routes */}
           <Route path="/admin" element={<AdminLogin />} />
@@ -224,11 +236,13 @@ const CourseDetailWrapper = () => {
 
 const App = () => (
   <HashRouter>
-    <AuthProvider>
-      <MockAuthProvider>
-        <AppContent />
-      </MockAuthProvider>
-    </AuthProvider>
+    <UserAuthProvider>
+      <AuthProvider>
+        <MockAuthProvider>
+          <AppContent />
+        </MockAuthProvider>
+      </AuthProvider>
+    </UserAuthProvider>
   </HashRouter>
 );
 
