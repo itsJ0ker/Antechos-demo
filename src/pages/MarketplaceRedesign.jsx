@@ -90,170 +90,106 @@ const MarketplaceRedesign = () => {
     }
   };
 
-  const EnhancedDonutChart = ({ percentage, label, color = '#a855f7', description, icon }) => {
-    const radius = 50;
+  const ProfessionalDonutChart = ({ percentage, label, color = '#3b82f6', description, icon }) => {
+    const radius = 45;
     const circumference = 2 * Math.PI * radius;
     const offset = circumference - (percentage / 100) * circumference;
-    
-    // Generate gradient colors based on the main color
-    const getGradientColors = (baseColor) => {
-      const colors = {
-        '#a855f7': ['#a855f7', '#c084fc', '#e879f9'], // Purple gradient
-        '#3b82f6': ['#3b82f6', '#60a5fa', '#93c5fd'], // Blue gradient
-        '#10b981': ['#10b981', '#34d399', '#6ee7b7'], // Green gradient
-        '#f59e0b': ['#f59e0b', '#fbbf24', '#fcd34d'], // Yellow gradient
-        '#ef4444': ['#ef4444', '#f87171', '#fca5a5'], // Red gradient
-        '#8b5cf6': ['#8b5cf6', '#a78bfa', '#c4b5fd'], // Violet gradient
-      };
-      return colors[baseColor] || colors['#a855f7'];
-    };
-
-    const gradientColors = getGradientColors(color);
     const gradientId = `gradient-${Math.random().toString(36).substr(2, 9)}`;
 
     return (
       <motion.div 
-        className="group relative"
-        initial={{ opacity: 0, y: 20 }}
+        className="flex flex-col items-center"
+        initial={{ opacity: 0, y: 30 }}
         whileInView={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6 }}
         viewport={{ once: true }}
       >
-        {/* Background glow effect */}
-        <div 
-          className="absolute inset-0 rounded-full blur-xl opacity-20 group-hover:opacity-40 transition-opacity duration-500"
-          style={{ 
-            background: `radial-gradient(circle, ${color}40 0%, transparent 70%)`,
-            transform: 'scale(1.5)'
-          }}
-        />
-        
-        {/* Main card container */}
-        <div className="relative bg-gradient-to-br from-gray-800/80 to-gray-900/80 backdrop-blur-sm rounded-2xl p-6 border border-gray-700/50 hover:border-gray-600/70 transition-all duration-300 group-hover:transform group-hover:scale-105 shadow-xl">
-          {/* Icon at top if provided */}
-          {icon && (
-            <div className="flex justify-center mb-4">
-              <div 
-                className="w-12 h-12 rounded-full flex items-center justify-center"
-                style={{ 
-                  background: `linear-gradient(135deg, ${color}20, ${color}40)`,
-                  border: `1px solid ${color}60`
-                }}
-              >
-                {React.createElement(icon, { 
-                  className: "w-6 h-6", 
-                  style: { color: color }
-                })}
-              </div>
-            </div>
-          )}
-
-          {/* Enhanced SVG Chart */}
-          <div className="flex justify-center mb-4">
-            <div className="relative w-36 h-36">
-              <svg className="transform -rotate-90 w-36 h-36" viewBox="0 0 120 120">
-                {/* Define gradient */}
-                <defs>
-                  <linearGradient id={gradientId} x1="0%" y1="0%" x2="100%" y2="100%">
-                    <stop offset="0%" stopColor={gradientColors[0]} />
-                    <stop offset="50%" stopColor={gradientColors[1]} />
-                    <stop offset="100%" stopColor={gradientColors[2]} />
-                  </linearGradient>
-                  
-                  {/* Glow filter */}
-                  <filter id={`glow-${gradientId}`}>
-                    <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
-                    <feMerge> 
-                      <feMergeNode in="coloredBlur"/>
-                      <feMergeNode in="SourceGraphic"/>
-                    </feMerge>
-                  </filter>
-                </defs>
-                
-                {/* Background circle */}
-                <circle 
-                  cx="60" 
-                  cy="60" 
-                  r={radius} 
-                  stroke="rgba(139, 92, 246, 0.15)" 
-                  strokeWidth="8" 
-                  fill="none" 
-                />
-                
-                {/* Progress circle */}
-                <motion.circle
-                  cx="60" 
-                  cy="60" 
-                  r={radius} 
-                  stroke={`url(#${gradientId})`}
-                  strokeWidth="8" 
-                  fill="none"
-                  strokeDasharray={circumference} 
-                  strokeDashoffset={circumference}
-                  strokeLinecap="round"
-                  filter={`url(#glow-${gradientId})`}
-                  initial={{ strokeDashoffset: circumference }}
-                  whileInView={{ strokeDashoffset: offset }}
-                  transition={{ duration: 1.5, ease: "easeOut", delay: 0.2 }}
-                  viewport={{ once: true }}
-                  className="drop-shadow-lg"
-                />
-                
-                {/* Inner decorative circle */}
-                <circle 
-                  cx="60" 
-                  cy="60" 
-                  r="25" 
-                  stroke={color} 
-                  strokeWidth="1" 
-                  fill="none" 
-                  opacity="0.3"
-                />
-              </svg>
+        {/* Professional 3D Donut Chart */}
+        <div className="relative w-32 h-32 mb-4">
+          <svg className="transform -rotate-90 w-32 h-32" viewBox="0 0 100 100">
+            <defs>
+              {/* Professional gradient */}
+              <linearGradient id={gradientId} x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stopColor={color} />
+                <stop offset="100%" stopColor={`${color}80`} />
+              </linearGradient>
               
-              {/* Center content */}
-              <div className="absolute inset-0 flex flex-col items-center justify-center">
-                <motion.span 
-                  className="text-3xl font-bold text-white"
-                  initial={{ scale: 0 }}
-                  whileInView={{ scale: 1 }}
-                  transition={{ duration: 0.5, delay: 0.8 }}
-                  viewport={{ once: true }}
-                >
-                  {percentage}%
-                </motion.span>
-                <div 
-                  className="w-8 h-0.5 mt-1 rounded-full"
-                  style={{ background: color }}
-                />
-              </div>
-            </div>
-          </div>
-
-          {/* Label and description */}
-          <div className="text-center">
-            <h3 className="text-lg font-bold text-white mb-2 leading-tight">
-              {label}
-            </h3>
-            {description && (
-              <p className="text-sm text-gray-400 leading-relaxed">
-                {description}
-              </p>
-            )}
-          </div>
-
-          {/* Animated progress bar at bottom */}
-          <div className="mt-4 w-full bg-gray-700/50 rounded-full h-1.5 overflow-hidden">
-            <motion.div
-              className="h-full rounded-full"
-              style={{ background: `linear-gradient(90deg, ${gradientColors[0]}, ${gradientColors[1]})` }}
-              initial={{ width: 0 }}
-              whileInView={{ width: `${percentage}%` }}
-              transition={{ duration: 1.2, delay: 0.5 }}
-              viewport={{ once: true }}
+              {/* Subtle glow */}
+              <filter id={`glow-${gradientId}`}>
+                <feGaussianBlur stdDeviation="2" result="coloredBlur"/>
+                <feMerge> 
+                  <feMergeNode in="coloredBlur"/>
+                  <feMergeNode in="SourceGraphic"/>
+                </feMerge>
+              </filter>
+            </defs>
+            
+            {/* Background circle - darker track */}
+            <circle 
+              cx="50" 
+              cy="50" 
+              r={radius} 
+              stroke="rgba(255, 255, 255, 0.1)" 
+              strokeWidth="10" 
+              fill="none" 
             />
+            
+            {/* Progress circle - professional donut */}
+            <motion.circle
+              cx="50" 
+              cy="50" 
+              r={radius} 
+              stroke={`url(#${gradientId})`}
+              strokeWidth="10" 
+              fill="none"
+              strokeDasharray={circumference} 
+              strokeDashoffset={circumference}
+              strokeLinecap="round"
+              filter={`url(#glow-${gradientId})`}
+              initial={{ strokeDashoffset: circumference }}
+              whileInView={{ strokeDashoffset: offset }}
+              transition={{ duration: 1.5, ease: "easeOut", delay: 0.2 }}
+              viewport={{ once: true }}
+              style={{
+                filter: 'drop-shadow(0 4px 8px rgba(0, 0, 0, 0.3))'
+              }}
+            />
+          </svg>
+          
+          {/* Center percentage */}
+          <div className="absolute inset-0 flex items-center justify-center">
+            <motion.span 
+              className="text-2xl font-bold text-white"
+              initial={{ scale: 0 }}
+              whileInView={{ scale: 1 }}
+              transition={{ duration: 0.5, delay: 0.8 }}
+              viewport={{ once: true }}
+              style={{
+                textShadow: '0 2px 4px rgba(0, 0, 0, 0.5)'
+              }}
+            >
+              {percentage}%
+            </motion.span>
           </div>
         </div>
+
+        {/* Label below */}
+        <motion.div 
+          className="text-center"
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          transition={{ duration: 0.6, delay: 0.4 }}
+          viewport={{ once: true }}
+        >
+          <h3 className="text-lg font-semibold text-white mb-1">
+            {label}
+          </h3>
+          {description && (
+            <p className="text-sm text-gray-400 max-w-24 leading-tight">
+              {description}
+            </p>
+          )}
+        </motion.div>
       </motion.div>
     );
   };
@@ -340,19 +276,19 @@ const MarketplaceRedesign = () => {
               <InstantLaserFlow
                 dpr={1}
                 horizontalBeamOffset={0}
-                verticalBeamOffset={-0.05}  // Start from very top
+                verticalBeamOffset={0.08}  // Start from very top
                 verticalSizing={0.5}        // Much shorter - reduced from 3.8 to 3.0
                 horizontalSizing={0.15}     // Narrower beam for precise connection
                 flowSpeed={0.25}            // Smooth flowing speed
                 flowStrength={0.7}          // Strong flow to show connection
-                wispDensity={2.0}           // More wisps for energy effect
+                wispDensity={1.2}           // More wisps for energy effect
                 wispSpeed={25}
                 wispIntensity={8.5}
-                fogIntensity={0.8}          // More fog for dramatic effect
-                fogScale={0.35}
+                fogIntensity={0.5}          // More fog for dramatic effect
+                fogScale={0.15}
                 fogFallSpeed={0.9}
                 decay={1.2}                 // Less decay to maintain connection
-                falloffStart={2.0}          // Extended falloff
+                falloffStart={1.0}          // Extended falloff
                 color="#F2D9FF"
                 style={{ 
                   position: 'absolute',
@@ -586,11 +522,11 @@ const MarketplaceRedesign = () => {
             style={{
               position: 'absolute',
               left: '50%',
-              bottom: '5%', // Moved down from 8% to 5%
+              bottom: '8%', // Moved back up for better positioning with smaller box
               transform: 'translateX(-50%)',
-              width: '88%',
-              maxWidth: '1200px',
-              height: '65%',
+              width: '70%', // Reduced from 88% to 70%
+              maxWidth: '900px', // Reduced from 1200px to 900px
+              height: '50%', // Reduced from 65% to 50%
               zIndex: 5
             }}
           >
@@ -779,12 +715,12 @@ const MarketplaceRedesign = () => {
               <div className="absolute right-0 top-0 w-8 sm:w-12 md:w-16 h-full bg-gradient-to-l from-[#160022] via-[#160022]/80 to-transparent pointer-events-none z-10"></div>
             </div>
             
-            {/* Optional: Pause indicator */}
+            {/* Optional: Pause indicator
             {isPartnersCarouselPaused && (
               <div className="text-center mt-2">
                 <span className="text-xs text-gray-400 opacity-60">Carousel paused</span>
               </div>
-            )}
+            )} */}
           </div>
           
           {/* CSS Animation Styles */}
@@ -810,7 +746,7 @@ const MarketplaceRedesign = () => {
                 <img 
                   src={banner.image_url} 
                   alt="Banner" 
-                  className="w-full h-48 sm:h-64 md:h-80 lg:h-96 object-cover" 
+                  className="w-full h-32 sm:h-40 md:h-48 lg:h-56 object-cover" 
                 />
               </div>
             ))}
@@ -876,8 +812,8 @@ const MarketplaceRedesign = () => {
               </div>
             </motion.div>
 
-            {/* Enhanced metrics grid - Single line layout */}
-            <div className="flex flex-wrap justify-center items-center gap-6 lg:gap-8 xl:gap-12">
+            {/* Professional metrics grid */}
+            <div className="flex flex-wrap justify-center items-center gap-8 lg:gap-12 xl:gap-16">
               {data.metrics.map((metric, index) => {
                 // Define enhanced metric data with icons and descriptions
                 const enhancedMetrics = {
@@ -936,7 +872,7 @@ const MarketplaceRedesign = () => {
                     }}
                     viewport={{ once: true }}
                   >
-                    <EnhancedDonutChart
+                    <ProfessionalDonutChart
                       percentage={metric.primary_percentage}
                       label={metric.label}
                       color={enhanced.color}

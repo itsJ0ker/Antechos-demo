@@ -443,13 +443,13 @@ const ChainCarouselWithCards = ({
               </div>
             </div>
             
-            {/* Auto-scroll Indicator */}
+            {/* Auto-scroll Indicator 
             <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2">
               <div className="flex items-center gap-2 text-white/50">
                 <span className="text-sm">{paused ? 'Paused' : 'Auto-scrolling'}</span>
                 <div className={`w-2 h-2 rounded-full ${paused ? 'bg-red-500' : 'bg-green-500'}`} />
               </div>
-            </div>
+            </div>*/}
           </motion.div>
 
           {/* Right Side - CardSwap */}

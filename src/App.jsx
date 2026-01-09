@@ -32,6 +32,7 @@ import CourseDetailPage from "./components/sections/coursedetails";
 import UserDashboard from "./pages/UserDashboard";
 import { UserAuthProvider } from "./contexts/UserAuthContext";
 import ProtectedUserRoute from "./components/auth/ProtectedUserRoute";
+import DatabaseTest from "./pages/DatabaseTest";
 
 // Admin components
 import AdminLogin from "./pages/admin/AdminLogin";
@@ -132,6 +133,9 @@ const AppContent = () => {
               <UserDashboard />
             </ProtectedUserRoute>
           } />
+          
+          {/* Database Test */}
+          <Route path="/database-test" element={<DatabaseTest />} />
           
           {/* Admin routes */}
           <Route path="/admin" element={<AdminLogin />} />
