@@ -1224,7 +1224,6 @@ const MarketplaceRedesign = () => {
                   pauseOnHover={true}
                   onChainSelect={(service, index) => {
                     // Service selection disabled for display purposes
-                    console.log(`Service viewed: ${service.name}`);
                   }}
                   // Removed onCardClick to make cards non-clickable
                 />
@@ -1241,7 +1240,6 @@ const MarketplaceRedesign = () => {
                 <ServiceCarousel
                   services={data.solutions}
                   onViewDetails={(service) => {
-                    console.log('View details for service:', service.title);
                     // You can add modal or navigation logic here
                     // For example: navigate to service detail page or open modal
                   }}
@@ -1356,14 +1354,8 @@ const MarketplaceRedesign = () => {
                         ? data.teams 
                         : data.teams.filter(member => (member.category || 'General') === selectedTeamCategory);
                       
-                      // Responsive items per page
-                      const getItemsPerPage = () => {
-                        if (window.innerWidth < 640) return 1; // Mobile: 1 item
-                        if (window.innerWidth < 1024) return 2; // Tablet: 2 items
-                        return 4; // Desktop: 4 items (2x2 grid)
-                      };
-                      
-                      const itemsPerPage = typeof window !== 'undefined' ? getItemsPerPage() : 4;
+                      // Fixed items per page - always show 2 cards
+                      const itemsPerPage = 2;
                       const totalPages = Math.ceil(filteredTeams.length / itemsPerPage);
                       const currentPage = Math.min(currentTeamSlide, totalPages - 1);
                       const startIndex = currentPage * itemsPerPage;
@@ -1371,71 +1363,29 @@ const MarketplaceRedesign = () => {
 
                       return (
                         <div className="relative">
-                          {/* Team Cards Grid */}
-                          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-4 sm:gap-6 min-h-[300px] sm:min-h-[400px] lg:min-h-[500px]">
+                          {/* Team Cards Grid - Always 2 columns */}
+                          <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 lg:gap-8 min-h-[400px] sm:min-h-[450px] lg:min-h-[500px]">
                             {currentPageTeams.map((member, index) => {
                               const colors = ['#4F46E5', '#10B981', '#F59E0B', '#EF4444', '#8B5CF6', '#06B6D4'];
                               const borderColor = colors[(startIndex + index) % colors.length];
                               
                               return (
                                 <div key={member.id || index} className="flex justify-center">
-                                  <div className="w-full max-w-[280px] sm:max-w-[300px] h-[180px] sm:h-[200px] lg:h-[220px]">
-                                    <div 
-                                      className="team-card w-full h-full rounded-xl lg:rounded-2xl overflow-hidden shadow-xl lg:shadow-2xl relative group cursor-pointer transform transition-all duration-300 hover:scale-105"
-                                      style={{
-                                        background: `linear-gradient(145deg, ${borderColor}22, rgb(16, 24, 40))`,
-                                        border: `2px solid ${borderColor}`,
-                                        boxShadow: `0 10px 30px ${borderColor}20`
+                                  <div className="w-full max-w-[320px] h-[400px] flex items-center justify-center">
+                                    <ProfileCard
+                                      avatarUrl={member.image_url || `https://i.pravatar.cc/400?img=${(startIndex + index) + 1}`}
+                                      name={member.name}
+                                      title={member.role || 'Team Member'}
+                                      handle={member.name.toLowerCase().replace(/\s+/g, '').replace(/[^a-z0-9]/g, '')}
+                                      status={member.category || 'General'}
+                                      contactText="View Profile"
+                                      onContactClick={() => {
+                                        // You can add modal or navigation logic here
                                       }}
-                                    >
-                                      {/* Image Container */}
-                                      <div className="relative h-3/5 overflow-hidden">
-                                        <img 
-                                          src={member.image_url || `https://i.pravatar.cc/300?img=${(startIndex + index) + 1}`}
-                                          alt={member.name}
-                                          className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110"
-                                          loading="lazy"
-                                        />
-                                        <div 
-                                          className="absolute inset-0 opacity-20 group-hover:opacity-30 transition-opacity duration-300"
-                                          style={{
-                                            background: `linear-gradient(145deg, ${borderColor}, transparent)`
-                                          }}
-                                        />
-                                      </div>
-                                      
-                                      {/* Info Container */}
-                                      <div className="absolute bottom-0 left-0 right-0 p-2 sm:p-3 bg-gradient-to-t from-gray-900 via-gray-900/95 to-transparent">
-                                        <h3 className="text-xs sm:text-sm font-bold text-white mb-1 truncate">
-                                          {member.name}
-                                        </h3>
-                                        <p className="text-xs text-gray-300 mb-1 truncate">
-                                          {member.role || 'Team Member'}
-                                        </p>
-                                        <div className="flex justify-between items-center gap-1">
-                                          <span 
-                                            className="text-xs font-medium opacity-80 truncate flex-1"
-                                            style={{ color: borderColor }}
-                                          >
-                                            @{member.name.toLowerCase().replace(/\s+/g, '').replace(/[^a-z0-9]/g, '')}
-                                          </span>
-                                          <span className="text-xs text-gray-400 bg-gray-800/50 px-1.5 py-0.5 rounded text-center flex-shrink-0">
-                                            {(member.category || 'General').length > 8 
-                                              ? (member.category || 'General').substring(0, 8) + '...'
-                                              : (member.category || 'General')
-                                            }
-                                          </span>
-                                        </div>
-                                      </div>
-                                      
-                                      {/* Hover Effect Overlay */}
-                                      <div 
-                                        className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none"
-                                        style={{
-                                          background: `radial-gradient(circle at center, ${borderColor}15, transparent 70%)`
-                                        }}
-                                      />
-                                    </div>
+                                      behindGlowColor={`${borderColor}AA`}
+                                      innerGradient={`linear-gradient(145deg, ${borderColor}22, rgba(16, 24, 40, 0.8))`}
+                                      className="team-profile-card"
+                                    />
                                   </div>
                                 </div>
                               );
@@ -1710,50 +1660,89 @@ const MarketplaceRedesign = () => {
           }
         }
         
-        /* Team Card Mobile Styles */
-        .team-card {
-          backdrop-filter: blur(10px);
-          -webkit-backdrop-filter: blur(10px);
+        /* Team ProfileCard adjustments */
+        .team-profile-card .pc-card {
+          height: 380px !important;
+          max-height: 380px !important;
+          width: 100% !important;
+          aspect-ratio: 0.718 !important;
         }
         
-        .team-card::before {
-          content: '';
-          position: 'absolute';
-          top: 0;
-          left: 0;
-          right: 0;
-          bottom: 0;
-          border-radius: inherit;
-          padding: 2px;
-          background: linear-gradient(145deg, var(--border-color, #4F46E5), transparent);
-          mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-          mask-composite: exclude;
-          -webkit-mask-composite: xor;
-          pointer-events: none;
+        .team-profile-card .pc-user-info {
+          --ui-inset: 16px !important;
+          padding: 12px 14px !important;
+          bottom: 16px !important;
+          left: 16px !important;
+          right: 16px !important;
         }
         
-        @media (max-width: 1279px) {
-          .team-card {
-            max-width: 100%;
-            margin: 0 auto;
-          }
+        .team-profile-card .pc-contact-btn {
+          padding: 8px 14px !important;
+          font-size: 12px !important;
+          white-space: nowrap !important;
+          flex-shrink: 0 !important;
         }
         
-        @media (max-width: 768px) {
-          .team-card {
-            height: 400px !important;
-          }
+        .team-profile-card .pc-mini-avatar {
+          width: 36px !important;
+          height: 36px !important;
+        }
+        
+        .team-profile-card .pc-handle {
+          font-size: 13px !important;
+        }
+        
+        .team-profile-card .pc-status {
+          font-size: 11px !important;
         }
         
         @media (max-width: 640px) {
-          .team-card {
-            height: 380px !important;
+          .team-profile-card .pc-card {
+            height: 360px !important;
+            max-height: 360px !important;
+          }
+          
+          .team-profile-card .pc-user-info {
+            --ui-inset: 14px !important;
+            padding: 10px 12px !important;
+            bottom: 14px !important;
+            left: 14px !important;
+            right: 14px !important;
+          }
+          
+          .team-profile-card .pc-contact-btn {
+            padding: 7px 12px !important;
+            font-size: 11px !important;
+          }
+          
+          .team-profile-card .pc-mini-avatar {
+            width: 32px !important;
+            height: 32px !important;
           }
         }
         
         @media (max-width: 480px) {
-          .team-card {
-            height: 360px !important;
+          .team-profile-card .pc-card {
+            height: 340px !important;
+            max-height: 340px !important;
+          }
+          
+          .team-profile-card .pc-user-info {
+            --ui-inset: 12px !important;
+            padding: 8px 10px !important;
+            bottom: 12px !important;
+            left: 12px !important;
+            right: 12px !important;
+          }
+          
+          .team-profile-card .pc-contact-btn {
+            padding: 6px 10px !important;
+            font-size: 10px !important;
+          }
+          
+          .team-profile-card .pc-mini-avatar {
+            width: 28px !important;
+            height: 28px !important;
           }
         }
       `}</style>

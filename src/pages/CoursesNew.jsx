@@ -68,7 +68,6 @@ const CoursesNew = () => {
 
   const fetchCourses = async () => {
     try {
-      console.log('Fetching courses from database...');
       // Use Supabase directly to get courses
       const { data: coursesData, error } = await supabase
         .from('courses')
@@ -82,7 +81,6 @@ const CoursesNew = () => {
         const fallbackData = await allCourses();
         setCourses(fallbackData || []);
       } else {
-        console.log('Courses loaded from database:', coursesData);
         setCourses(coursesData || []);
       }
     } catch (error) {

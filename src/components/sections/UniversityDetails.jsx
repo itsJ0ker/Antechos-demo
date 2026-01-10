@@ -38,7 +38,6 @@ const UniversityDetails = () => {
     const fetchUniversity = async () => {
       try {
         if (!supabase) {
-          console.log('Supabase not configured, using static data');
           const numericId = parseInt(id);
           const staticUniversity = universityData.find(uni => 
             uni.id === id || 
@@ -51,8 +50,6 @@ const UniversityDetails = () => {
           return;
         }
 
-        console.log('Fetching university with ID:', id);
-        
         // First try basic university data
         let { data, error } = await supabase
           .from('universities')
@@ -62,8 +59,6 @@ const UniversityDetails = () => {
           .single();
 
         if (data && !error) {
-          console.log('Basic university data loaded:', data);
-          
           // Try to fetch enhanced data separately
           try {
             // Fetch accreditations
@@ -84,7 +79,6 @@ const UniversityDetails = () => {
             
             if (accreditations) {
               data.university_accreditations = accreditations;
-              console.log('Accreditations loaded:', accreditations);
             }
 
             // Fetch other enhanced data
@@ -157,7 +151,6 @@ const UniversityDetails = () => {
             
             if (courses) {
               data.courses = courses;
-              console.log('Courses loaded:', courses);
             }
 
             // Fetch university FAQs
@@ -169,11 +162,10 @@ const UniversityDetails = () => {
             
             if (faqs) {
               data.faq = faqs;
-              console.log('FAQs loaded:', faqs);
             }
 
           } catch (enhancedError) {
-            console.log('Enhanced data not available:', enhancedError);
+            // Enhanced data not available, continue with basic data
           }
         }
 
@@ -182,7 +174,6 @@ const UniversityDetails = () => {
         }
 
         if (error || !data) {
-          console.log('Database university not found, using static data');
           const numericId = parseInt(id);
           const staticUniversity = universityData.find(uni => 
             uni.id === id || 
@@ -193,8 +184,6 @@ const UniversityDetails = () => {
             setUniversity(staticUniversity);
           }
         } else {
-          console.log('University data loaded from database:', data);
-          console.log('Accreditations found:', data.university_accreditations);
           setUniversity(data);
         }
       } catch (error) {

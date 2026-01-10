@@ -121,7 +121,6 @@ const EnhancedCourseDetail = () => {
     const maxSlide = Math.max(0, specializations.length - itemsPerView);
     setCurrentSlide(prev => {
       const newSlide = Math.min(prev + 1, maxSlide);
-      console.log('Next slide:', { prev, newSlide, maxSlide, itemsPerView, totalSpecs: specializations.length });
       return newSlide;
     });
   };
@@ -129,7 +128,6 @@ const EnhancedCourseDetail = () => {
   const prevSlide = () => {
     setCurrentSlide(prev => {
       const newSlide = Math.max(prev - 1, 0);
-      console.log('Prev slide:', { prev, newSlide, itemsPerView, totalSpecs: specializations.length });
       return newSlide;
     });
   };

@@ -57,9 +57,6 @@ const CourseDetail = () => {
         .eq('is_active', true)
         .order('display_order');
 
-      console.log('Frontend - Fetched specs:', specsData);
-      console.log('Frontend - Fetch error:', specsError);
-
       if (!specsError && specsData) {
         // Parse JSON strings to objects
         const parsedSpecs = specsData.map(spec => ({
@@ -73,7 +70,6 @@ const CourseDetail = () => {
         setSpecializations(parsedSpecs);
         // Auto-select first specialization if available
         if (parsedSpecs.length > 0) {
-          console.log('Frontend - Parsed curriculum:', parsedSpecs[0].curriculum);
           setSelectedSpec(parsedSpecs[0]);
         }
       }

@@ -1,7 +1,7 @@
 /* CardSwap.css - Enhanced Premium UI */
 .card-swap-container {
   position: relative;
-  perspective: 1200px;
+  perspective: 900px;
   overflow: visible;
   margin: 0 auto;
   min-height: 420px;
@@ -10,6 +10,14 @@
   -moz-user-select: none;
   -ms-user-select: none;
   padding-bottom: 50px; /* Add bottom padding to prevent cropping */
+
+
+  bottom: 0;
+  right: 0;
+  transform: translate(5%, 5%);
+  transform-origin: bottom right;
+
+ 
 }
 
 .card {

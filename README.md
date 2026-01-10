@@ -8,17 +8,16 @@ A comprehensive educational platform built with React, Vite, and Supabase, featu
 ## 🧹 Recent Cleanup (Latest)
 
 **✅ Source code cleaned and optimized!**
+- Removed 125+ unnecessary documentation files
+- Cleaned up redundant SQL files and test files
+- Organized all SQL files into supabase/ directory
+- Streamlined project structure for production readiness
 - Fixed 200+ console errors from placeholder images
-- Removed 23 unused documentation and test files
 - Implemented local SVG-based image placeholders
-- See `CLEANUP_SUMMARY.md` for full details
 
 ## 🚀 Quick Start
 
-**Want to deploy immediately?** Check these files:
-- 📄 `START_HERE.md` - Quick start guide
-- 📄 `DEPLOYMENT_GUIDE.md` - Deployment instructions
-- 📄 `VERCEL_DEPLOYMENT.md` - Vercel-specific deployment
+**Want to deploy immediately?** The project is now production-ready with a clean structure.
 
 ## ✨ Features
 

@@ -144,7 +144,6 @@ const UniversityPage = () => {
     // Track course click analytics
     try {
       setClickedCourseId(course.id);
-      console.log('Course clicked:', course.course_name, course.id);
       
       // Optional: Add a small delay for visual feedback
       setTimeout(() => {

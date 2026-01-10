@@ -343,7 +343,6 @@ const ChainCarouselWithCards = ({
   /* Handle Chain Selection - Disabled for display only */
   const handleChainSelect = useCallback((chain, index) => {
     // Chain selection disabled - display only
-    console.log(`Chain viewed: ${chain.name}`);
     onChainSelect?.(chain, index);
   }, [onChainSelect]);
 

@@ -38,7 +38,7 @@ const ServiceCarousel = ({ services = [], onViewDetails }) => {
     if (onViewDetails) {
       onViewDetails(service);
     } else {
-      console.log('View details for:', service.title);
+      // Default behavior when no handler provided
     }
   };
 

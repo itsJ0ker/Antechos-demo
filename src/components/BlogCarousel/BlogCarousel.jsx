@@ -57,7 +57,6 @@ const BlogCarousel = ({ blogs = [], autoPlay = true, autoPlayInterval = 4000 }) 
 
   const handleBlogClick = (blog) => {
     // You can customize this to navigate to blog detail page
-    console.log('Blog clicked:', blog);
     // Example: navigate(`/blog/${blog.slug}`);
   };
 
