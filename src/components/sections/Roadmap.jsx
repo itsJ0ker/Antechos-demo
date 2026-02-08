@@ -240,7 +240,7 @@ const RoadmapSection = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100 p-4 sm:p-6 lg:p-8">
-      <style jsx>{`
+      <style>{`
         .preserve-3d {
           transform-style: preserve-3d;
         }

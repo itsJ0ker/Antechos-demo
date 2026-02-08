@@ -2,7 +2,6 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Menu, X, ChevronDown } from "lucide-react";
 import { getCourses, getUniversities } from "../../lib/supabase";
-import LoginButton from "../auth/LoginButton";
 import logo from "../../assets/logo.png";
 
 const Navbar = () => {
@@ -166,9 +165,6 @@ const Navbar = () => {
                 );
               }
             })}
-            
-            {/* Login Button */}
-            <LoginButton />
           </div>
 
           {/* Mobile Menu Icon */}

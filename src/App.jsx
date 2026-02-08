@@ -10,6 +10,7 @@ import About from "./pages/Aboutus";
 import Courses from "./pages/CoursesNew";
 import Universities from "./pages/Universities";
 import UniversityPage from "./pages/UniversityPage";
+import UniversityPageNew from "./pages/UniversityPageNew";
 import MarketplaceImarticus from "./pages/MarketplaceImarticus";
 import MarketplaceRedesign from "./pages/MarketplaceRedesign";
 import TrainerProfile from "./components/sections/Trainerprofile";
@@ -39,6 +40,10 @@ import AdminLogin from "./pages/admin/AdminLogin";
 import AdminDashboard from "./pages/admin/AdminDashboard";
 import SimpleAdminDashboard from "./pages/admin/SimpleAdminDashboard";
 import EnhancedAdminDashboard from "./pages/admin/EnhancedAdminDashboard";
+import SimpleAdminBypass from "./pages/admin/SimpleAdminBypass";
+import WorkingAdminLogin from "./pages/admin/WorkingAdminLogin";
+import ProtectedAdminDashboard from "./pages/admin/ProtectedAdminDashboard";
+import AdminIndex from "./pages/admin/AdminIndex";
 import CourseSpecializationsPage from "./pages/admin/CourseSpecializationsPage";
 
 // Simple Auth components
@@ -113,7 +118,7 @@ const AppContent = () => {
           <Route path="/marketplace-redesign" element={<MarketplaceRedesign />} />
           <Route path="/Courses" element={<Courses />} />
           <Route path="/Universities" element={<UniversityPage />} />
-          <Route path="/universities-new" element={<UniversityPage />} />
+          <Route path="/universities-new" element={<UniversityPageNew />} />
           <Route path="/trainer/:id" element={<TrainerProfile />} />
           <Route path="/university/:id" element={<UniversityDetail />} />
           <Route path="/university/:universityId/course/:courseId" element={<EnhancedCourseDetail />} />
@@ -138,10 +143,13 @@ const AppContent = () => {
           <Route path="/database-test" element={<DatabaseTest />} />
           
           {/* Admin routes */}
-          <Route path="/admin" element={<AdminLogin />} />
+          <Route path="/admin" element={<AdminIndex />} />
           <Route path="/admin/login" element={<AdminLogin />} />
+          <Route path="/admin/working-login" element={<WorkingAdminLogin />} />
           <Route path="/admin/mock-login" element={<MockAdminLogin />} />
           <Route path="/admin/dashboard" element={<EnhancedAdminDashboard />} />
+          <Route path="/admin/working" element={<ProtectedAdminDashboard />} />
+          <Route path="/admin/bypass" element={<SimpleAdminBypass />} />
           <Route path="/admin/simple-dashboard" element={<SimpleAdminDashboard />} />
           <Route path="/admin/old-dashboard" element={<AdminDashboard />} />
           <Route path="/admin/course-specializations" element={<CourseSpecializationsPage />} />

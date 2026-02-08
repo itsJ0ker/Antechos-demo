@@ -25,9 +25,18 @@ const UserDashboard = () => {
 
   useEffect(() => {
     // Component is already protected by ProtectedUserRoute
-    // No need to check authentication here
+    // Add timeout to prevent infinite loading
+    const timer = setTimeout(() => {
+      if (loading) {
+        console.log('⚠️ UserDashboard loading timeout, forcing completion');
+        setLoading(false);
+      }
+    }, 5000);
+
     setLoading(false);
-  }, []);
+    
+    return () => clearTimeout(timer);
+  }, [loading]);
 
   const handleLogout = async () => {
     await logout();
