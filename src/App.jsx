@@ -117,8 +117,8 @@ const AppContent = () => {
           <Route path="/marketplace-new" element={<MarketplaceImarticus />} />
           <Route path="/marketplace-redesign" element={<MarketplaceRedesign />} />
           <Route path="/Courses" element={<Courses />} />
-          <Route path="/Universities" element={<UniversityPage />} />
-          <Route path="/universities-new" element={<UniversityPageNew />} />
+          <Route path="/Universities-mainbutnotinusenow" element={<UniversityPage />} />{/*maim*/}
+          <Route path="/universities" element={<UniversityPageNew />} />
           <Route path="/trainer/:id" element={<TrainerProfile />} />
           <Route path="/university/:id" element={<UniversityDetail />} />
           <Route path="/university/:universityId/course/:courseId" element={<EnhancedCourseDetail />} />
