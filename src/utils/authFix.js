@@ -53,7 +53,7 @@ export const safeLoadStats = async () => {
       withTimeout(supabase.from('trainers').select('id', { count: 'exact', head: true }), 3000),
       withTimeout(supabase.from('enquiries').select('id', { count: 'exact', head: true }), 3000),
       withTimeout(supabase.from('testimonials').select('id', { count: 'exact', head: true }), 3000),
-      withTimeout(supabase.from('user_profiles').select('id', { count: 'exact', head: true }), 3000),
+      withTimeout(supabase.from('profiles').select('id', { count: 'exact', head: true }), 3000),
     ]);
 
     return {

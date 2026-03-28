@@ -1,6 +1,17 @@
 import { useState } from "react";
-import { motion } from "framer-motion";
-import { FaUser, FaEnvelope, FaPhone, FaBook, FaGlobe } from "react-icons/fa";
+import { motion, AnimatePresence } from "framer-motion";
+import { 
+  User, 
+  Mail, 
+  Phone, 
+  BookOpen, 
+  Globe, 
+  X, 
+  CheckCircle2, 
+  ShieldCheck, 
+  ArrowRight,
+  Headphones
+} from "lucide-react";
 import { submitEnquiry } from "../../lib/supabase";
 
 export default function EnquiryPopup({ onClose, onSubmit }) {
@@ -13,169 +24,194 @@ export default function EnquiryPopup({ onClose, onSubmit }) {
   });
 
   const [submitted, setSubmitted] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const handleChange = (e) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value,
-    });
+    setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true);
     
     try {
-      // Submit to Supabase
       const enquiryData = {
         name: formData.name,
         email: formData.email,
         phone: formData.phone,
         course_interest: formData.course,
         country: formData.country,
-        source: 'popup_form'
+        source: 'executive_consulting_popup'
       };
       
-      const { data, error } = await submitEnquiry(enquiryData);
+      const { error } = await submitEnquiry(enquiryData);
       
-      if (error) {
-        console.error('Error submitting enquiry:', error);
-        alert('There was an error submitting your enquiry. Please try again.');
-        return;
-      }
+      if (error) throw error;
       
-      setSubmitted(true); // ✅ show thank-you box
-      onSubmit(formData);
+      setSubmitted(true);
+      if (onSubmit) onSubmit(formData);
+      setTimeout(() => {
+        setSubmitted(false);
+        onClose();
+      }, 3000);
 
-      // Optional: reset form after submission
-      setFormData({
-        name: "",
-        email: "",
-        phone: "",
-        course: "",
-        country: "",
-      });
-
-      // Optional: hide thank-you message after 4s
-      setTimeout(() => setSubmitted(false), 4000);
     } catch (error) {
-      console.error('Error in handleSubmit:', error);
-      alert('There was an error submitting your enquiry. Please try again.');
+      console.error('Submission Error:', error);
+      alert('Security Verification: We encountered a temporary sync issue. Please retry in a moment.');
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
-    <div className="fixed inset-0 bg-black/70 flex justify-center items-center z-50 p-4">
-      <motion.div
-        initial={{ scale: 0.8, opacity: 0 }}
-        animate={{ scale: 1, opacity: 1 }}
-        className="relative bg-gradient-to-br from-indigo-50 to-white shadow-2xl rounded-2xl p-6 sm:p-8 max-w-lg w-full"
-      >
-        {/* Close button */}
-        <button
-          className="absolute top-3 right-3 text-gray-500 hover:text-black text-xl"
-          onClick={onClose}
-        >
-          ✖
-        </button>
-
-        <h2 className="text-2xl font-bold text-indigo-700 mb-6 text-center">
-         Get In Touch With Us
-        </h2>
-
-        {/* ✅ Thank you message */}
-        {submitted && (
-          <div className="text-center py-3 mb-4 bg-green-50 border border-green-200 rounded-lg shadow-sm">
-            <h3 className="text-lg font-semibold text-green-600">
-              🎉 Thank You!
-            </h3>
-            <p className="text-gray-600 text-sm">
-              Your enquiry has been submitted successfully. Our team will
-              contact you soon.
-            </p>
-          </div>
-        )}
-
-        {/* Form */}
-        <form onSubmit={handleSubmit} className="space-y-4">
-          {/* Name */}
-          <div className="flex items-center border rounded-lg px-3 py-2 bg-white shadow-sm">
-            <FaUser className="text-indigo-500 mr-2" />
-            <input
-              type="text"
-              name="name"
-              placeholder="Full Name"
-              value={formData.name}
-              onChange={handleChange}
-              className="w-full outline-none"
-              required
-            />
-          </div>
-
-          {/* Email */}
-          <div className="flex items-center border rounded-lg px-3 py-2 bg-white shadow-sm">
-            <FaEnvelope className="text-indigo-500 mr-2" />
-            <input
-              type="email"
-              name="email"
-              placeholder="Email Address"
-              value={formData.email}
-              onChange={handleChange}
-              className="w-full outline-none"
-              required
-            />
-          </div>
-
-          {/* Phone */}
-          <div className="flex items-center border rounded-lg px-3 py-2 bg-white shadow-sm">
-            <FaPhone className="text-indigo-500 mr-2" />
-            <input
-              type="tel"
-              name="phone"
-              placeholder="Phone Number"
-              value={formData.phone}
-              onChange={handleChange}
-              className="w-full outline-none"
-              required
-            />
-          </div>
-
-          {/* Course Interest */}
-          <div className="flex items-center border rounded-lg px-3 py-2 bg-white shadow-sm">
-            <FaBook className="text-indigo-500 mr-2" />
-            <input
-              type="text"
-              name="course"
-              placeholder="Course / Program of Interest"
-              value={formData.course}
-              onChange={handleChange}
-              className="w-full outline-none"
-              required
-            />
-          </div>
-
-          {/* Country */}
-          <div className="flex items-center border rounded-lg px-3 py-2 bg-white shadow-sm">
-            <FaGlobe className="text-indigo-500 mr-2" />
-            <input
-              type="text"
-              name="country"
-              placeholder="Your Country"
-              value={formData.country}
-              onChange={handleChange}
-              className="w-full outline-none"
-              required
-            />
-          </div>
-
-          {/* Submit */}
-          <button
-            type="submit"
-            className="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-3 rounded-lg transition duration-200 shadow-md"
+    <div className="fixed inset-0 bg-slate-900/40 backdrop-blur-xl flex justify-center items-center z-[100] p-4">
+      <AnimatePresence>
+        {!submitted ? (
+          <motion.div
+            initial={{ y: 50, opacity: 0, scale: 0.95 }}
+            animate={{ y: 0, opacity: 1, scale: 1 }}
+            exit={{ y: -50, opacity: 0, scale: 0.95 }}
+            className="relative bg-white shadow-[0_40px_100px_-20px_rgba(0,0,0,0.3)] rounded-[3rem] p-8 md:p-12 max-w-xl w-full border border-slate-100 overflow-hidden"
           >
-            Submit Enquiry
-          </button>
-        </form>
-      </motion.div>
+            {/* Background Accent */}
+            <div className="absolute -top-24 -right-24 w-64 h-64 bg-indigo-50 rounded-full blur-3xl pointer-events-none opacity-50"></div>
+            
+            <button 
+              onClick={onClose}
+              className="absolute top-8 right-8 text-slate-300 hover:text-slate-900 transition-colors bg-slate-50 p-2 rounded-full"
+            >
+              <X className="w-5 h-5" />
+            </button>
+
+            <div className="relative mb-12">
+              <div className="inline-flex items-center gap-2 bg-indigo-50 text-indigo-600 px-4 py-1.5 rounded-full text-[9px] font-black uppercase tracking-[0.2em] mb-6">
+                <ShieldCheck className="w-3.5 h-3.5" />
+                <span>Secure Intelligence Portal</span>
+              </div>
+              <h2 className="text-4xl font-black text-slate-900 mb-4 font-display leading-[1.1]">
+                Executive Academic <span className="text-indigo-600">Consultation</span>
+              </h2>
+              <p className="text-slate-500 font-medium text-sm leading-relaxed">
+                Connect with our senior architects to design your optimized educational trajectory.
+              </p>
+            </div>
+
+            <form onSubmit={handleSubmit} className="space-y-5">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+                <div className="group relative">
+                  <User className="absolute left-6 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 group-focus-within:text-indigo-600 transition-colors" />
+                  <input
+                    type="text"
+                    name="name"
+                    placeholder="FULL NAME"
+                    required
+                    value={formData.name}
+                    onChange={handleChange}
+                    className="w-full bg-slate-50 border border-slate-100 rounded-3xl py-5 pl-14 pr-6 text-xs font-black text-slate-900 outline-none focus:ring-2 focus:ring-indigo-600/20 focus:border-indigo-600 transition-all placeholder:text-slate-300 placeholder:uppercase"
+                  />
+                </div>
+                <div className="group relative">
+                  <Mail className="absolute left-6 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 group-focus-within:text-indigo-600 transition-colors" />
+                  <input
+                    type="email"
+                    name="email"
+                    placeholder="EMAIL ADDRESS"
+                    required
+                    value={formData.email}
+                    onChange={handleChange}
+                    className="w-full bg-slate-50 border border-slate-100 rounded-3xl py-5 pl-14 pr-6 text-xs font-black text-slate-900 outline-none focus:ring-2 focus:ring-indigo-600/20 focus:border-indigo-600 transition-all placeholder:text-slate-300 placeholder:uppercase"
+                  />
+                </div>
+              </div>
+
+              <div className="group relative">
+                <Phone className="absolute left-6 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 group-focus-within:text-indigo-600 transition-colors" />
+                <input
+                  type="tel"
+                  name="phone"
+                  placeholder="TELEPHONE CONTACT"
+                  required
+                  value={formData.phone}
+                  onChange={handleChange}
+                  className="w-full bg-slate-50 border border-slate-100 rounded-3xl py-5 pl-14 pr-6 text-xs font-black text-slate-900 outline-none focus:ring-2 focus:ring-indigo-600/20 focus:border-indigo-600 transition-all placeholder:text-slate-300 placeholder:uppercase"
+                />
+              </div>
+
+              <div className="group relative">
+                <BookOpen className="absolute left-6 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 group-focus-within:text-indigo-600 transition-colors" />
+                <input
+                  type="text"
+                  name="course"
+                  placeholder="TARGET ACADEMIC PROGRAM"
+                  required
+                  value={formData.course}
+                  onChange={handleChange}
+                  className="w-full bg-slate-50 border border-slate-100 rounded-3xl py-5 pl-14 pr-6 text-xs font-black text-slate-900 outline-none focus:ring-2 focus:ring-indigo-600/20 focus:border-indigo-600 transition-all placeholder:text-slate-300 placeholder:uppercase"
+                />
+              </div>
+
+              <div className="group relative">
+                <Globe className="absolute left-6 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 group-focus-within:text-indigo-600 transition-colors" />
+                <input
+                  type="text"
+                  name="country"
+                  placeholder="GEOGRAPHIC LOCATION"
+                  required
+                  value={formData.country}
+                  onChange={handleChange}
+                  className="w-full bg-slate-50 border border-slate-100 rounded-3xl py-5 pl-14 pr-6 text-xs font-black text-slate-900 outline-none focus:ring-2 focus:ring-indigo-600/20 focus:border-indigo-600 transition-all placeholder:text-slate-300 placeholder:uppercase"
+                />
+              </div>
+
+              <button
+                type="submit"
+                disabled={loading}
+                className="w-full bg-slate-900 hover:bg-slate-800 text-white font-black py-6 rounded-[2rem] transition-all flex items-center justify-center gap-4 text-xs tracking-[0.3em] uppercase group"
+              >
+                {loading ? (
+                  <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
+                ) : (
+                  <>
+                    <span>Initialize Handshake</span>
+                    <ArrowRight className="w-4 h-4 group-hover:translate-x-2 transition-transform" />
+                  </>
+                )}
+              </button>
+
+              <div className="flex items-center justify-center gap-6 pt-6 opacity-30">
+                <div className="flex items-center gap-2">
+                  <ShieldCheck className="w-3 h-3" />
+                  <span className="text-[8px] font-black uppercase tracking-widest">256-Bit SSL</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <CheckCircle2 className="w-3 h-3" />
+                  <span className="text-[8px] font-black uppercase tracking-widest">UGC Compliant</span>
+                </div>
+              </div>
+            </form>
+          </motion.div>
+        ) : (
+          <motion.div
+            initial={{ scale: 0.9, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
+            className="bg-white p-12 md:p-20 rounded-[4rem] text-center max-w-lg w-full border border-slate-100 shadow-2xl shadow-indigo-500/10"
+          >
+            <div className="w-24 h-24 bg-green-50 rounded-full flex items-center justify-center mx-auto mb-10 text-green-500 border border-green-100">
+              <CheckCircle2 className="w-12 h-12" />
+            </div>
+            <h3 className="text-4xl font-black text-slate-900 mb-6 font-display">Communication Live</h3>
+            <p className="text-slate-500 font-semibold text-lg leading-relaxed mb-10">
+              Handshake initialized successfully. An executive admissions partner will penetrate your contact orbit shortly.
+            </p>
+            <button 
+              onClick={onClose}
+              className="px-12 py-5 bg-slate-900 text-white text-[10px] font-black uppercase tracking-[0.3em] rounded-full hover:bg-slate-800 transition-all"
+            >
+              Monitor Dashboard
+            </button>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 }

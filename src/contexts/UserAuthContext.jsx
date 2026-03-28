@@ -64,9 +64,9 @@ export const UserAuthProvider = ({ children }) => {
       if (!supabase) return;
 
       const { data, error } = await supabase
-        .from('user_profiles')
+        .from('profiles')
         .select('*')
-        .eq('user_id', userId)
+        .eq('id', userId)
         .single();
 
       if (error && error.code !== 'PGRST116') {
@@ -138,10 +138,12 @@ export const UserAuthProvider = ({ children }) => {
       if (!supabase) return;
 
       const { data, error } = await supabase
-        .from('user_profiles')
+        .from('profiles')
         .insert([{
-          user_id: userId,
-          ...profileData,
+          id: userId,
+          email: profileData.email,
+          full_name: profileData.full_name,
+          role: 'user', // Default Role
           created_at: new Date().toISOString(),
           updated_at: new Date().toISOString()
         }])
@@ -165,12 +167,12 @@ export const UserAuthProvider = ({ children }) => {
       }
 
       const { data, error } = await supabase
-        .from('user_profiles')
+        .from('profiles')
         .update({
           ...updates,
           updated_at: new Date().toISOString()
         })
-        .eq('user_id', user.id)
+        .eq('id', user.id)
         .select()
         .single();
 

@@ -1,46 +1,64 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { supabase } from '../../lib/supabase';
 
 const WorkingAdminLogin = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [role, setRole] = useState('admin');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const navigate = useNavigate();
-
-  // Simple admin credentials (for demo/development)
-  const adminCredentials = {
-    'admin@antechos.com': 'admin123',
-    'admin@example.com': 'password',
-    'test@admin.com': 'test123'
-  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError('');
     setLoading(true);
 
-    // Simulate loading
-    await new Promise(resolve => setTimeout(resolve, 1000));
+    try {
+      console.log('--- ATTEMPTING SUPABASE SECURE LOGIN ---');
+      const { data, error: authError } = await supabase.auth.signInWithPassword({
+        email,
+        password
+      });
 
-    // Check credentials
-    if (adminCredentials[email] && adminCredentials[email] === password) {
-      // Store admin session
+      if (authError) {
+        console.warn('Supabase Auth failed, trying Local Bypass fallback:', authError.message);
+        // Fallback to local creds if Supabase fails (e.g. user not in DB yet)
+        const adminCredentials = {
+          'admin@antechos.com': 'admin123',
+          'admin@example.com': 'password',
+          'test@admin.com': 'test123'
+        };
+
+        if (adminCredentials[email] && adminCredentials[email] === password) {
+          localStorage.setItem('adminLoggedIn', 'true');
+          localStorage.setItem('adminEmail', email);
+          localStorage.setItem('adminLoginTime', new Date().toISOString());
+          navigate('/admin/bypass');
+          return;
+        } else {
+          throw new Error('Invalid credentials. (DB: ' + authError.message + ')');
+        }
+      }
+
+      // Successful Supabase Login
       localStorage.setItem('adminLoggedIn', 'true');
-      localStorage.setItem('adminEmail', email);
+      localStorage.setItem('adminEmail', data.user.email);
       localStorage.setItem('adminLoginTime', new Date().toISOString());
       
-      console.log('✅ Admin login successful');
-      navigate('/admin/bypass');
-    } else {
-      setError('Invalid email or password');
+      console.log('✅ Secure Admin login successful');
+      navigate('/admin/dashboard');
+
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setLoading(false);
     }
-    
-    setLoading(false);
   };
 
   const handleQuickAccess = () => {
-    // Quick access without credentials
+    // Quick access without credentials (Warning: RLS results will be empty)
     localStorage.setItem('adminLoggedIn', 'true');
     localStorage.setItem('adminEmail', 'admin@antechos.com');
     localStorage.setItem('adminLoginTime', new Date().toISOString());

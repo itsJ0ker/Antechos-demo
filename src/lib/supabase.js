@@ -355,12 +355,11 @@ export const submitEnquiry = async (enquiryData) => {
   const check = checkSupabase();
   if (check) return check;
   
-  const { data, error } = await supabase
+  const { error } = await supabase
     .from('enquiries')
     .insert([enquiryData])
-    .select()
 
-  return { data, error }
+  return { error }
 }
 
 export const getSettings = async (key = null) => {
