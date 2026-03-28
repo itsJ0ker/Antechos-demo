@@ -89,6 +89,16 @@ const OFFICIAL_COURSES = [
   { name: "Online BA", category: "Undergraduate", link: "https://courses.universityadmission.co.in/online-ba?source_campaign=LAM%20Influencer&campaign_name=4711&ad_group_name=General&ads_name=onlineBA", icon: <Globe className="w-5 h-5" />, badge: "Diverse Curriculum" },
   { name: "Online M.Com", category: "Postgraduate", link: "https://courses.universityadmission.co.in/online-mcom?source_campaign=LAM%20Influencer&campaign_name=4711&ad_group_name=General&ads_name=onlineMCom", icon: <CreditCard className="w-5 h-5" />, badge: "Finance Focused" },
   { name: "Online B.Com", category: "Undergraduate", link: "https://courses.universityadmission.co.in/online-bcom?source_campaign=LAM%20Influencer&campaign_name=4711&ad_group_name=General&ads_name=onlineBCom", icon: <Activity className="w-5 h-5" />, badge: "Business Foundation" },
+  // PROFESSIONAL & TECH SERIES
+  { name: "Block Chain (EPGP)", category: "Professional", link: "https://courses.universityadmission.co.in/online-executive-pg-diploma-certificate-blockchain?source_campaign=LAM%20Influencer&campaign_name=4711&ad_group_name=General&ads_name=courseBlockchain", icon: <ShieldCheck className="w-5 h-5" />, badge: "Web3 Mastery" },
+  { name: "Cyber Security (EPGP)", category: "Professional", link: "https://courses.universityadmission.co.in/online-executive-pg-diploma-certificate-cyber-security?source_campaign=LAM%20Influencer&campaign_name=4711&ad_group_name=General&ads_name=courseCyberSecurity", icon: <ShieldCheck className="w-5 h-5" />, badge: "Security Vetting" },
+  { name: "Dev Ops (EPGP)", category: "Professional", link: "https://courses.universityadmission.co.in/online-executive-pg-diploma-certificate-devops?source_campaign=LAM%20Influencer&campaign_name=4711&ad_group_name=General&ads_name=courseDEVOPS", icon: <Zap className="w-5 h-5" />, badge: "Deployment Ready" },
+  { name: "AI & Machine Learning", category: "Professional", link: "https://courses.universityadmission.co.in/online-executive-pg-diploma-certificate-ai-machine-learning?source_campaign=LAM%20Influencer&campaign_name=4711&ad_group_name=General&ads_name=courseAInML", icon: <Lightbulb className="w-5 h-5" />, badge: "Deep Intelligence" },
+  { name: "UI & UX Design", category: "Professional", link: "https://courses.universityadmission.co.in/epgp-ui-ux-design-online?source_campaign=LAM%20Influencer&campaign_name=4711&ad_group_name=General&ads_name=UIUXcertification", icon: <Star className="w-5 h-5" />, badge: "Experience Strategy" },
+  { name: "Generative AI (EPGP)", category: "Professional", link: "https://courses.universityadmission.co.in/online-epg-diploma-certificate-generative-ai?source_campaign=LAM%20Influencer&campaign_name=4711&ad_group_name=General&ads_name=courseGENERATIVEAI", icon: <Rocket className="w-5 h-5" />, badge: "Future Proof" },
+  { name: "Data Science & Analytics", category: "Professional", link: "https://courses.universityadmission.co.in/online-epg-diploma-certificate-data-science-analytics?source_campaign=LAM%20Influencer&campaign_name=4711&ad_group_name=General&ads_name=CourseDSA", icon: <TrendingUp className="w-5 h-5" />, badge: "Big Data Elite" },
+  { name: "Gen AI & Agentic AI", category: "Professional", link: "https://courses.universityadmission.co.in/generative-ai-and-agentic-ai-programs-online?source_campaign=LAM%20Influencer&campaign_name=4711&ad_group_name=General&ads_name=courseGenAI", icon: <Activity className="w-5 h-5" />, badge: "Advanced Agents" },
+
   { name: "Online M.Sc", category: "Postgraduate", link: "https://courses.universityadmission.co.in/online-msc?source_campaign=LAM%20Influencer&campaign_name=4711&ad_group_name=General&ads_name=onlineMSc", icon: <Info className="w-5 h-5" />, badge: "Advanced Science" },
   { name: "Online B.Sc", category: "Undergraduate", link: "https://courses.universityadmission.co.in/online-bsc?source_campaign=LAM%20Influencer&campaign_name=4711&ad_group_name=General&ads_name=onlineBSc", icon: <Star className="w-5 h-5" />, badge: "Foundational Science" },
   { name: "Online Dual MBA", category: "Professional", link: "https://courses.universityadmission.co.in/online-mba-dual-specialization?source_campaign=LAM%20Influencer&campaign_name=4711&ad_group_name=General&ads_name=DualMBA", icon: <Briefcase className="w-5 h-5" />, badge: "Expert Specialization" },
@@ -107,6 +117,7 @@ const UniversityPageNew = () => {
   const [showAll, setShowAll] = useState(false);
   const [showEnquiry, setShowEnquiry] = useState(false);
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [showAllPrograms, setShowAllPrograms] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
   const [filterCategory, setFilterCategory] = useState('All');
   const [filterStream, setFilterStream] = useState('All');
@@ -324,7 +335,7 @@ const UniversityPageNew = () => {
           <div className="flex flex-col md:flex-row justify-between items-end gap-12 mb-20">
             <div className="max-w-2xl">
               <span className="text-indigo-600 font-black uppercase tracking-[0.4em] text-[10px] mb-6 block">Curriculum 2026</span>
-              <h2 className="text-5xl md:text-6xl font-black text-slate-900 mb-0 font-display">Official Program Portfolios</h2>
+              <h2 className="text-5xl md:text-6xl font-black text-slate-900 mb-0 font-display uppercase tracking-tighter">Strategic Program <span className="text-indigo-600">Intelligence.</span></h2>
             </div>
             <div className="flex flex-wrap gap-4 bg-slate-50 p-2 rounded-3xl border border-slate-100">
                {['All', 'Postgraduate', 'Undergraduate', 'Professional'].map(tab => (
@@ -341,32 +352,95 @@ const UniversityPageNew = () => {
             </div>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {filteredCourses.map((course, idx) => (
+          <div className="relative">
+            {!showAllPrograms && (
+              <div className="flex justify-end mb-4 pr-4">
+                <span className="text-[9px] font-black uppercase tracking-[0.3em] text-slate-300 flex items-center gap-2 animate-pulse">
+                  <ArrowRight className="w-3 h-3" />
+                  Drag to Explore Catalog
+                </span>
+              </div>
+            )}
+            {!showAllPrograms ? (
               <motion.div 
-                key={idx}
-                whileHover={{ y: -8 }}
-                className="group relative bg-white border border-slate-100 p-8 rounded-[2.5rem] hover:border-indigo-100 hover:shadow-2xl transition-all duration-500"
+                className="flex gap-8 cursor-grab active:cursor-grabbing pb-12 overflow-x-hidden touch-pan-x"
+                drag="x"
+                dragConstraints={{ right: 0, left: -((filteredCourses.length - 1) * 350) }}
+                whileTap={{ cursor: "grabbing" }}
               >
-                <div className="absolute top-6 right-6 opacity-10 group-hover:opacity-100 group-hover:text-indigo-600 transition-all">
-                  {course.icon}
-                </div>
-                <div className="mb-8">
-                   <span className="bg-indigo-50 text-indigo-600 px-3 py-1 rounded-full text-[8px] font-black uppercase tracking-widest">{course.badge}</span>
-                </div>
-                <h3 className="text-2xl font-black text-slate-900 mb-2 leading-tight">{course.name}</h3>
-                <p className="text-slate-400 text-[10px] font-bold uppercase tracking-widest mb-10">{course.category} Certification</p>
-                <button 
-                  onClick={() => handleUniversityClick(course.link)}
-                  className="w-full bg-slate-50 group-hover:bg-slate-900 text-slate-400 group-hover:text-white font-black py-4 rounded-2xl transition-all flex items-center justify-center gap-3 text-[10px] uppercase tracking-widest"
-                >
-                  <span>Apply Now</span>
-                  <ExternalLink className="w-3 h-3" />
-                </button>
+                {filteredCourses.map((course, idx) => (
+                  <motion.div 
+                    key={idx}
+                    className="flex-shrink-0 w-[350px] relative bg-slate-50 border border-slate-100 p-8 rounded-[2.5rem] hover:border-indigo-100 hover:bg-white hover:shadow-2xl transition-all duration-700"
+                  >
+                    <div className="absolute top-6 right-6 opacity-40 group-hover:opacity-100 group-hover:text-indigo-600 text-slate-400 transition-all">
+                      {course.icon}
+                    </div>
+                    <div className="mb-10">
+                       <span className="bg-white text-indigo-600 px-4 py-1.5 rounded-full text-[9px] font-black uppercase tracking-widest border border-indigo-100">{course.badge}</span>
+                    </div>
+                    <h3 className="text-2xl font-black text-slate-900 mb-3 leading-tight uppercase">{course.name}</h3>
+                    <p className="text-slate-500 text-[10px] font-bold uppercase tracking-widest mb-12">{course.category} Certification</p>
+                    <button 
+                      onClick={() => handleUniversityClick(course.link)}
+                      className="w-full bg-slate-900 hover:bg-indigo-600 text-white font-black py-5 rounded-2xl transition-all flex items-center justify-center gap-4 text-[10px] uppercase tracking-[0.2em] group"
+                    >
+                      <span>Secure Enrollment</span>
+                      <ExternalLink className="w-4 h-4 group-hover:rotate-45 transition-transform" />
+                    </button>
+                  </motion.div>
+                ))}
               </motion.div>
-            ))}
+            ) : (
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                {filteredCourses.map((course, idx) => (
+                  <motion.div 
+                    key={idx}
+                    initial={{ opacity: 0, y: 30 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: idx * 0.05 }}
+                    className="relative bg-slate-50 border border-slate-100 p-8 rounded-[2.5rem] hover:border-indigo-100 hover:bg-white hover:shadow-2xl transition-all duration-700"
+                  >
+                    <div className="absolute top-6 right-6 opacity-40 text-slate-400">
+                      {course.icon}
+                    </div>
+                    <div className="mb-10">
+                       <span className="bg-white text-indigo-600 px-4 py-1.5 rounded-full text-[9px] font-black uppercase tracking-widest border border-indigo-100">{course.badge}</span>
+                    </div>
+                    <h3 className="text-2xl font-black text-slate-900 mb-3 leading-tight uppercase">{course.name}</h3>
+                    <p className="text-slate-500 text-[10px] font-bold uppercase tracking-widest mb-12">{course.category} Certification</p>
+                    <button 
+                      onClick={() => handleUniversityClick(course.link)}
+                      className="w-full bg-slate-900 hover:bg-indigo-600 text-white font-black py-5 rounded-2xl transition-all flex items-center justify-center gap-4 text-[10px] uppercase tracking-[0.2em]"
+                    >
+                      <span>Secure Enrollment</span>
+                      <ExternalLink className="w-4 h-4" />
+                    </button>
+                  </motion.div>
+                ))}
+              </div>
+            )}
+            
+            {!showAllPrograms && (
+              <div className="absolute bottom-0 left-0 w-full h-32 bg-gradient-to-t from-white via-transparent to-transparent pointer-events-none"></div>
+            )}
+          </div>
+
+          <div className="mt-16 flex justify-center">
+            <button
+              onClick={() => setShowAllPrograms(!showAllPrograms)}
+              className="group bg-slate-50 hover:bg-slate-900 text-slate-900 hover:text-white border border-slate-200 font-extrabold px-16 py-6 rounded-[2.5rem] shadow-xl transition-all flex items-center gap-6"
+            >
+              <span className="text-[10px] uppercase tracking-[0.4em]">
+                {showAllPrograms ? "Reduce Master Catalog" : "Synchronize Full Portfolio"}
+              </span>
+              <div className={`transition-transform duration-500 ${showAllPrograms ? "rotate-180" : "group-hover:translate-y-2"}`}>
+                <ChevronDown className="w-5 h-5" />
+              </div>
+            </button>
           </div>
         </div>
+        
         {/* Subtle background ornamentation */}
         <div className="absolute -bottom-24 -left-24 w-96 h-96 bg-indigo-50/50 rounded-full blur-3xl pointer-events-none"></div>
       </section>
@@ -377,9 +451,9 @@ const UniversityPageNew = () => {
           <div className="flex flex-col md:flex-row justify-between items-end gap-12 mb-20 border-b border-slate-200 pb-12">
             <div className="max-w-2xl">
               <span className="text-indigo-600 font-black uppercase tracking-[0.3em] text-[10px] mb-4 block">The Antechos Edge</span>
-              <h2 className="text-5xl font-black text-slate-900 mb-0 font-display">Professional Decision Architecture</h2>
+              <h2 className="text-5xl font-black text-slate-900 mb-0 font-display uppercase tracking-tight">Why Choose <span className="text-indigo-600">Antechos</span> for Distance Learning?</h2>
             </div>
-            <p className="text-slate-500 font-semibold text-lg max-w-sm leading-relaxed">Systematic engineering of educational pathways for high-potential individuals.</p>
+            <p className="text-slate-500 font-semibold text-lg max-w-sm leading-relaxed">Systematic engineering of educational pathways for high-potential individuals through India's premier consulting network.</p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
