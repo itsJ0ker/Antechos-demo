@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { 
   ChevronLeft, 
   ChevronRight, 
@@ -11,7 +11,11 @@ import {
   Award, 
   Building2, 
   Briefcase,
-  Users
+  Users,
+  X,
+  CheckCircle2,
+  ChevronDown,
+  Info
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { universities } from '../data/universities';
@@ -21,6 +25,8 @@ const UniversityPageNew = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [searchTerm, setSearchTerm] = useState('');
   const [filterCategory, setFilterCategory] = useState('All');
+  const [selectedPrograms, setSelectedPrograms] = useState([]);
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
 
   const itemsPerPage = 6;
@@ -33,12 +39,25 @@ const UniversityPageNew = () => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  const filteredUniversities = universities.filter(uni => {
-    const matchesSearch = uni.name.toLowerCase().includes(searchTerm.toLowerCase()) || 
-                         uni.location.toLowerCase().includes(searchTerm.toLowerCase());
-    const matchesCategory = filterCategory === 'All' || uni.category === filterCategory;
-    return matchesSearch && matchesCategory;
-  });
+  // Extract all unique programs for filtering
+  const allPrograms = useMemo(() => {
+    const programs = new Set();
+    universities.forEach(uni => {
+      uni.programs.forEach(p => programs.add(p));
+    });
+    return Array.from(programs).sort();
+  }, []);
+
+  const filteredUniversities = useMemo(() => {
+    return universities.filter(uni => {
+      const matchesSearch = uni.name.toLowerCase().includes(searchTerm.toLowerCase()) || 
+                           uni.location.toLowerCase().includes(searchTerm.toLowerCase());
+      const matchesCategory = filterCategory === 'All' || uni.category === filterCategory;
+      const matchesPrograms = selectedPrograms.length === 0 || 
+                             selectedPrograms.some(p => uni.programs.includes(p));
+      return matchesSearch && matchesCategory && matchesPrograms;
+    });
+  }, [searchTerm, filterCategory, selectedPrograms]);
 
   const categories = ['All', ...new Set(universities.map(u => u.category))];
 
@@ -62,6 +81,20 @@ const UniversityPageNew = () => {
   const handleViewAllToggle = () => {
     setShowAll(!showAll);
     setCurrentIndex(0);
+  };
+
+  const toggleProgram = (program) => {
+    setSelectedPrograms(prev => 
+      prev.includes(program) 
+        ? prev.filter(p => p !== program) 
+        : [...prev, program]
+    );
+  };
+
+  const clearFilters = () => {
+    setSearchTerm('');
+    setFilterCategory('All');
+    setSelectedPrograms([]);
   };
 
   const displayedUniversities = showAll 
@@ -92,8 +125,8 @@ const UniversityPageNew = () => {
 
   return (
     <div className="min-h-screen bg-[#F8FAFC]">
-      {/* Hero Section */}
-      <div className="relative h-[600px] flex items-center justify-center overflow-hidden">
+      {/* Hero Section - More Professional and Compact */}
+      <div className="relative h-[450px] flex items-center justify-center overflow-hidden">
         <motion.div 
           className="absolute inset-0 bg-cover bg-center"
           style={{ backgroundImage: 'url(https://images.unsplash.com/photo-1541339907198-e08756dedf3f?q=80&w=1920&auto=format&fit=crop)' }}
@@ -101,351 +134,368 @@ const UniversityPageNew = () => {
           animate={{ scale: 1 }}
           transition={{ duration: 1.5 }}
         >
-          <div className="absolute inset-0 bg-gradient-to-br from-[#1E3A8A]/95 via-[#1E3A8A]/80 to-[#1E3A8A]/90"></div>
+          <div className="absolute inset-0 bg-gradient-to-br from-[#1E3A8A]/95 via-[#1E3A8A]/85 to-[#1E3A8A]/90"></div>
         </motion.div>
         
-        {/* Animated Background Elements */}
-        <div className="absolute inset-0 overflow-hidden pointer-events-none">
-          <motion.div 
-            className="absolute top-1/4 left-1/4 w-96 h-96 bg-blue-400 rounded-full mix-blend-overlay opacity-20 filter blur-3xl"
-            animate={{ 
-              scale: [1, 1.2, 1],
-              x: [-20, 20, -20],
-              y: [-20, 20, -20]
-            }}
-            transition={{ duration: 10, repeat: Infinity }}
-          />
-          <motion.div 
-            className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-purple-400 rounded-full mix-blend-overlay opacity-20 filter blur-3xl"
-            animate={{ 
-              scale: [1.2, 1, 1.2],
-              x: [20, -20, 20],
-              y: [20, -20, 20]
-            }}
-            transition={{ duration: 10, repeat: Infinity }}
-          />
-        </div>
-
         <div className="relative z-10 text-center px-4 max-w-6xl mx-auto">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
           >
-            <span className="inline-block px-4 py-1.5 mb-6 text-sm font-semibold tracking-wider text-blue-100 uppercase bg-blue-500/20 backdrop-blur-md rounded-full border border-blue-400/30">
-              Transform Your Future
+            <span className="inline-block px-4 py-1.5 mb-4 text-xs font-bold tracking-widest text-blue-200 uppercase bg-blue-500/20 backdrop-blur-md rounded-full border border-blue-400/30">
+              EXPLORE PREMIER INSTITUTIONS
             </span>
-            <h1 className="text-5xl md:text-7xl font-bold text-white mb-6 leading-tight">
-              Unlock Your Potential at <br />
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-300 to-indigo-200">
-                Premier Universities
-              </span>
+            <h1 className="text-4xl md:text-6xl font-extrabold text-white mb-4 leading-tight">
+              Colleges & Universities
             </h1>
-            <p className="text-xl md:text-2xl text-blue-50/90 mb-10 max-w-3xl mx-auto font-light">
-              Antechos India brings you closer to your academic dreams with our handpicked network of world-class educational institutions.
+            <p className="text-lg md:text-xl text-blue-50/80 mb-8 max-w-2xl mx-auto font-light">
+              Find the perfect academic partner to shape your future career. Browse through our handpicked list of global-standard educational institutions.
             </p>
-            
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-white mt-12 bg-white/5 backdrop-blur-lg rounded-3xl p-8 border border-white/10 shadow-2xl">
-              <div className="text-center">
-                <Users className="w-8 h-8 text-blue-300 mx-auto mb-2" />
-                <div className="text-3xl font-bold">{universities.length}</div>
-                <div className="text-sm text-blue-200/80">Partner Unis</div>
-              </div>
-              <div className="text-center">
-                <Award className="w-8 h-8 text-blue-300 mx-auto mb-2" />
-                <div className="text-3xl font-bold">100+</div>
-                <div className="text-sm text-blue-200/80">Premium Courses</div>
-              </div>
-              <div className="text-center">
-                <Building2 className="w-8 h-8 text-blue-300 mx-auto mb-2" />
-                <div className="text-3xl font-bold">12+</div>
-                <div className="text-sm text-blue-200/80">States Covered</div>
-              </div>
-              <div className="text-center">
-                <Briefcase className="w-8 h-8 text-blue-300 mx-auto mb-2" />
-                <div className="text-3xl font-bold">50K+</div>
-                <div className="text-sm text-blue-200/80">Successful Alums</div>
-              </div>
-            </div>
           </motion.div>
         </div>
       </div>
 
-      {/* University Search & Filter Section */}
-      <div className="container mx-auto px-4 -mt-16 relative z-20">
-        <motion.div 
-          className="bg-white rounded-[2rem] shadow-2xl p-6 md:p-10 border border-gray-100"
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.2 }}
-        >
-          <div className="flex flex-col md:flex-row gap-6 items-center">
-            <div className="relative flex-1 group w-full">
-              <Search className="absolute left-5 top-1/2 -translate-y-1/2 text-gray-400 group-focus-within:text-blue-600 transition-colors" />
-              <input 
-                type="text" 
-                placeholder="Search by university name or location..." 
-                className="w-full pl-14 pr-6 py-5 bg-gray-50 border-none rounded-2xl focus:ring-2 focus:ring-blue-500/20 focus:bg-white transition-all text-gray-700 text-lg shadow-inner"
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-              />
-            </div>
-            <div className="flex items-center gap-4 w-full md:w-auto">
-              <div className="relative w-full">
-                <Filter className="absolute left-5 top-1/2 -translate-y-1/2 text-gray-400" />
-                <select 
-                  className="w-full pl-14 pr-10 py-5 bg-gray-50 border-none rounded-2xl focus:ring-2 focus:ring-blue-500/20 focus:bg-white transition-all text-gray-700 text-lg shadow-inner appearance-none cursor-pointer"
-                  value={filterCategory}
-                  onChange={(e) => setFilterCategory(e.target.value)}
-                >
-                  {categories.map(cat => (
-                    <option key={cat} value={cat}>{cat} Category</option>
-                  ))}
-                </select>
-              </div>
-            </div>
-          </div>
-        </motion.div>
-      </div>
-
-      {/* Universities Grid Section */}
-      <section className="py-24">
-        <div className="container mx-auto px-4">
-          <div className="flex flex-col md:flex-row justify-between items-end mb-16 gap-6">
-            <div className="max-w-2xl">
-              <h2 className="text-4xl md:text-5xl font-bold text-[#1E293B] mb-6 tracking-tight">
-                Academic Excellence Near You
-              </h2>
-              <p className="text-lg text-slate-500 leading-relaxed">
-                Discover institutions that match your career goals. From historic public universities to modern innovative private campuses.
-              </p>
-            </div>
-            {!showAll && filteredUniversities.length > itemsPerPage && (
-              <div className="flex items-center gap-4 bg-white p-2 rounded-2xl shadow-lg border border-gray-100">
-                <button
-                  onClick={handlePrev}
-                  disabled={currentIndex === 0}
-                  className="p-3 rounded-xl bg-gray-50 hover:bg-blue-50 disabled:opacity-30 disabled:cursor-not-allowed transition-colors"
-                >
-                  <ChevronLeft className="w-6 h-6 text-gray-700" />
-                </button>
-                <div className="text-sm font-medium text-slate-400 px-4">
-                   Page {Math.floor(currentIndex/itemsPerPage) + 1} of {Math.ceil(filteredUniversities.length / itemsPerPage)}
-                </div>
-                <button
-                  onClick={handleNext}
-                  disabled={currentIndex + itemsPerPage >= filteredUniversities.length}
-                  className="p-3 rounded-xl bg-gray-50 hover:bg-blue-50 disabled:opacity-30 disabled:cursor-not-allowed transition-colors"
-                >
-                  <ChevronRight className="w-6 h-6 text-gray-700" />
-                </button>
-              </div>
-            )}
-          </div>
-
-          {filteredUniversities.length > 0 ? (
-            <motion.div 
-              className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10"
-              variants={containerVariants}
-              initial="hidden"
-              animate="visible"
-              key={showAll ? 'all' : 'paged'}
-            >
-              <AnimatePresence mode="popLayout">
-                {displayedUniversities.map((university) => (
-                  <motion.div
-                    key={university.id}
-                    variants={cardVariants}
-                    layout
-                    initial={{ opacity: 0, scale: 0.9 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    exit={{ opacity: 0, scale: 0.9 }}
-                    className="group"
+      {/* Main Content Area */}
+      <div className="container mx-auto px-4 py-12">
+        <div className="flex flex-col lg:flex-row gap-8">
+          
+          {/* Sidebar Filters - Desktop */}
+          <aside className="hidden lg:block w-72 flex-shrink-0">
+            <div className="bg-white rounded-3xl p-6 shadow-sm border border-slate-200 sticky top-24">
+              <div className="flex items-center justify-between mb-6">
+                <h3 className="text-lg font-bold text-slate-800 flex items-center gap-2">
+                  <Filter className="w-5 h-5 text-blue-600" />
+                  Filters
+                </h3>
+                {(searchTerm || filterCategory !== 'All' || selectedPrograms.length > 0) && (
+                  <button 
+                    onClick={clearFilters}
+                    className="text-xs font-semibold text-red-500 hover:text-red-600 transition-colors"
                   >
-                    <div className="bg-white rounded-[2.5rem] overflow-hidden shadow-xl shadow-slate-200/60 hover:shadow-2xl hover:shadow-blue-500/10 transition-all duration-500 border border-gray-100 flex flex-col h-full active:scale-[0.98]">
-                      {/* Image Header */}
-                      <div className="relative h-72 overflow-hidden flex-shrink-0">
-                        <img 
-                          src={university.image} 
-                          alt={university.name}
-                          className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 ease-out"
-                        />
-                        <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"></div>
-                        
-                        <div className="absolute top-6 left-6 flex flex-col gap-2">
-                          <span className="px-4 py-1.5 bg-white/20 backdrop-blur-md rounded-full text-white text-xs font-bold border border-white/20">
-                            {university.category}
-                          </span>
-                        </div>
+                    Clear All
+                  </button>
+                )}
+              </div>
 
-                        <div className="absolute top-6 right-6">
-                          <div className="w-12 h-12 bg-white rounded-2xl flex items-center justify-center shadow-lg group-hover:rotate-12 transition-transform duration-300">
-                            <GraduationCap className="w-6 h-6 text-blue-600" />
+              {/* Search Within */}
+              <div className="mb-8">
+                <label className="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-3">Search University</label>
+                <div className="relative">
+                  <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
+                  <input 
+                    type="text" 
+                    placeholder="E.g. Galgotias..." 
+                    className="w-full pl-9 pr-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all text-sm"
+                    value={searchTerm}
+                    onChange={(e) => setSearchTerm(e.target.value)}
+                  />
+                </div>
+              </div>
+
+              {/* Category Filter */}
+              <div className="mb-8">
+                <label className="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-3">Institution Type</label>
+                <div className="space-y-2">
+                  {categories.map(cat => (
+                    <label key={cat} className="flex items-center gap-3 cursor-pointer group">
+                      <div className={`w-5 h-5 rounded-md border flex items-center justify-center transition-all ${filterCategory === cat ? 'bg-blue-600 border-blue-600' : 'bg-slate-50 border-slate-200 group-hover:border-blue-300'}`}>
+                        {filterCategory === cat && <CheckCircle2 className="w-3 h-3 text-white" />}
+                      </div>
+                      <input 
+                        type="radio" 
+                        className="hidden" 
+                        name="category"
+                        checked={filterCategory === cat}
+                        onChange={() => setFilterCategory(cat)}
+                      />
+                      <span className={`text-sm ${filterCategory === cat ? 'text-blue-600 font-bold' : 'text-slate-600'}`}>{cat}</span>
+                    </label>
+                  ))}
+                </div>
+              </div>
+
+              {/* Programs Filter */}
+              <div>
+                <label className="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-3">Popular Programs</label>
+                <div className="space-y-2 max-h-64 overflow-y-auto pr-2 scrollbar-thin scrollbar-thumb-slate-200 scrollbar-track-transparent">
+                  {allPrograms.map(prog => (
+                    <label key={prog} className="flex items-center gap-3 cursor-pointer group">
+                      <div className={`w-5 h-5 rounded-md border flex items-center justify-center transition-all ${selectedPrograms.includes(prog) ? 'bg-blue-600 border-blue-600' : 'bg-slate-50 border-slate-200 group-hover:border-blue-300'}`}>
+                        {selectedPrograms.includes(prog) && <CheckCircle2 className="w-3 h-3 text-white" />}
+                      </div>
+                      <input 
+                        type="checkbox" 
+                        className="hidden" 
+                        checked={selectedPrograms.includes(prog)}
+                        onChange={() => toggleProgram(prog)}
+                      />
+                      <span className={`text-sm ${selectedPrograms.includes(prog) ? 'text-blue-600 font-bold' : 'text-slate-600'}`}>{prog}</span>
+                    </label>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </aside>
+
+          {/* Mobile Filter Toggle */}
+          <div className="lg:hidden mb-6">
+            <button 
+              onClick={() => setIsSidebarOpen(!isSidebarOpen)}
+              className="w-full flex items-center justify-between bg-white p-4 rounded-2xl shadow-sm border border-slate-200 font-bold text-slate-700"
+            >
+              <div className="flex items-center gap-2">
+                <Filter className="w-5 h-5 text-blue-600" />
+                Filters & Search
+              </div>
+              <ChevronDown className={`w-5 h-5 transition-transform ${isSidebarOpen ? 'rotate-180' : ''}`} />
+            </button>
+            <AnimatePresence>
+              {isSidebarOpen && (
+                <motion.div 
+                  initial={{ height: 0, opacity: 0 }}
+                  animate={{ height: 'auto', opacity: 1 }}
+                  exit={{ height: 0, opacity: 0 }}
+                  className="overflow-hidden bg-white mt-2 rounded-2xl border border-slate-200 shadow-xl"
+                >
+                  <div className="p-6 space-y-6">
+                    <div>
+                      <label className="block text-xs font-bold text-slate-400 uppercase mb-2">Search</label>
+                      <input 
+                        type="text" 
+                        className="w-full p-3 bg-slate-50 rounded-xl border border-slate-200 text-sm"
+                        placeholder="Search..."
+                        value={searchTerm}
+                        onChange={(e) => setSearchTerm(e.target.value)}
+                      />
+                    </div>
+                    {/* ... other mobile filters can go here ... */}
+                    <button 
+                      onClick={() => setIsSidebarOpen(false)}
+                      className="w-full py-3 bg-blue-600 text-white rounded-xl font-bold"
+                    >
+                      Apply Filters
+                    </button>
+                  </div>
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </div>
+
+          {/* Main Content List */}
+          <main className="flex-1">
+            <div className="flex flex-col md:flex-row justify-between items-center mb-8 gap-4">
+              <div>
+                <h2 className="text-2xl font-bold text-slate-800">
+                  {filteredUniversities.length} Institutions Found
+                </h2>
+                <div className="flex items-center gap-2 text-slate-500 text-sm mt-1">
+                  <Info className="w-4 h-4" />
+                  <span>Showing top accredited universities in India</span>
+                </div>
+              </div>
+              
+              {!showAll && filteredUniversities.length > itemsPerPage && (
+                <div className="flex items-center gap-3 bg-white p-1.5 rounded-xl shadow-sm border border-slate-200">
+                  <button
+                    onClick={handlePrev}
+                    disabled={currentIndex === 0}
+                    className="p-2 rounded-lg hover:bg-slate-100 disabled:opacity-20 disabled:cursor-not-allowed transition-colors"
+                  >
+                    <ChevronLeft className="w-5 h-5 text-slate-700" />
+                  </button>
+                  <div className="text-xs font-bold text-slate-500 px-2">
+                    {Math.floor(currentIndex/itemsPerPage) + 1} / {Math.ceil(filteredUniversities.length / itemsPerPage)}
+                  </div>
+                  <button
+                    onClick={handleNext}
+                    disabled={currentIndex + itemsPerPage >= filteredUniversities.length}
+                    className="p-2 rounded-lg hover:bg-slate-100 disabled:opacity-20 disabled:cursor-not-allowed transition-colors"
+                  >
+                    <ChevronRight className="w-5 h-5 text-slate-700" />
+                  </button>
+                </div>
+              )}
+            </div>
+
+            {filteredUniversities.length > 0 ? (
+              <motion.div 
+                className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6"
+                variants={containerVariants}
+                initial="hidden"
+                animate="visible"
+                key={showAll ? 'all' : 'paged'}
+              >
+                <AnimatePresence mode="popLayout">
+                  {displayedUniversities.map((university) => (
+                    <motion.div
+                      key={university.id}
+                      variants={cardVariants}
+                      layout
+                      initial={{ opacity: 0, scale: 0.95 }}
+                      animate={{ opacity: 1, scale: 1 }}
+                      exit={{ opacity: 0, scale: 0.95 }}
+                      className="group"
+                    >
+                      <div className="bg-white rounded-3xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-500 border border-slate-200 flex flex-col h-full">
+                        {/* Image Header with Badge Overlay */}
+                        <div className="relative h-48 overflow-hidden flex-shrink-0">
+                          <img 
+                            src={university.image} 
+                            alt={university.name}
+                            className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
+                          />
+                          <div className="absolute inset-0 bg-gradient-to-t from-slate-900/60 to-transparent"></div>
+                          
+                          {/* Rating Badge - Like reference */}
+                          <div className="absolute top-4 right-4 bg-orange-500 text-white px-2 py-1 rounded-lg flex items-center gap-1.5 shadow-lg">
+                            <Star className="w-3.5 h-3.5 fill-current" />
+                            <span className="text-sm font-bold">{university.rating}</span>
+                          </div>
+
+                          {/* Accreditation Mock - Professional touch */}
+                          <div className="absolute top-4 left-4">
+                            <span className="px-3 py-1 bg-white/90 backdrop-blur-sm text-blue-700 text-[10px] font-extrabold rounded-md shadow-sm border border-blue-100 uppercase tracking-wider">
+                              NAAC A++
+                            </span>
+                          </div>
+
+                          <div className="absolute bottom-4 left-4 right-4 text-white">
+                             <div className="flex items-center gap-1 text-[10px] font-bold uppercase tracking-widest text-blue-200 mb-1">
+                               <Building2 className="w-3 h-3" />
+                               {university.category}
+                             </div>
+                             <h3 className="text-xl font-bold leading-tight line-clamp-1">
+                              {university.name}
+                             </h3>
                           </div>
                         </div>
-                        
-                        <div className="absolute bottom-6 left-6 right-6">
-                           <div className="flex items-center gap-2 mb-2">
-                            <Star className="w-5 h-5 fill-yellow-400 text-yellow-400" />
-                            <span className="text-white font-bold text-lg">{university.rating}</span>
-                            <span className="text-white/60 text-sm font-medium">/ 5.0</span>
-                           </div>
-                           <h3 className="text-2xl font-bold text-white tracking-tight leading-tight">
-                            {university.name}
-                           </h3>
-                        </div>
-                      </div>
 
-                      {/* Content Body */}
-                      <div className="p-8 flex flex-col flex-grow">
-                        <div className="flex items-center gap-2 text-slate-500 mb-6 bg-slate-50 py-2 px-4 rounded-xl self-start">
-                          <MapPin className="w-4 h-4 text-blue-500" />
-                          <span className="text-sm font-medium">{university.location}</span>
-                        </div>
-                        
-                        <p className="text-slate-500 text-base leading-relaxed mb-8 line-clamp-3">
-                          {university.description}
-                        </p>
-                        
-                        {/* Programs Tags */}
-                        <div className="space-y-4 mb-8">
-                          <div className="text-xs font-bold text-slate-400 uppercase tracking-widest">Available Programs</div>
-                          <div className="flex flex-wrap gap-2">
-                            {university.programs.map((program, idx) => (
+                        {/* Content Body */}
+                        <div className="p-5 flex flex-col flex-grow">
+                          <div className="flex items-center gap-2 text-slate-500 mb-4 bg-slate-50 py-1.5 px-3 rounded-lg self-start">
+                            <MapPin className="w-3.5 h-3.5 text-blue-500" />
+                            <span className="text-xs font-semibold">{university.location}</span>
+                          </div>
+                          
+                          <p className="text-slate-500 text-xs leading-relaxed mb-4 line-clamp-2">
+                            {university.description}
+                          </p>
+                          
+                          {/* Programs Tags */}
+                          <div className="flex flex-wrap gap-2 mb-6">
+                            {university.programs.slice(0, 3).map((program, idx) => (
                               <span 
                                 key={idx}
-                                className="text-xs font-semibold bg-gray-50 text-slate-600 px-4 py-2 rounded-xl group-hover:bg-blue-50 group-hover:text-blue-600 transition-colors"
+                                className="text-[10px] font-bold bg-slate-100 text-slate-600 px-2.5 py-1 rounded-md"
                               >
                                 {program}
                               </span>
                             ))}
-                          </div>
-                        </div>
-                        
-                        {/* Established & Footer */}
-                        <div className="mt-auto pt-8 border-t border-gray-50 flex items-center justify-between">
-                          <div className="flex flex-col">
-                            <span className="text-[10px] font-bold text-slate-300 uppercase tracking-wider">ESTABLISHED</span>
-                            <span className="text-sm font-bold text-slate-600">{university.established}</span>
+                            {university.programs.length > 3 && (
+                               <span className="text-[10px] font-bold text-slate-400">+{university.programs.length - 3} more</span>
+                            )}
                           </div>
                           
-                          <button 
-                            onClick={(e) => {
-                              e.stopPropagation();
-                              handleUniversityClick(university.link);
-                            }}
-                            className="bg-[#1E293B] hover:bg-blue-600 text-white font-bold py-4 px-8 rounded-2xl transition-all duration-300 flex items-center gap-3 shadow-lg shadow-slate-200 group-hover:shadow-blue-500/20 group/btn"
-                          >
-                            <span>Apply Now</span>
-                            <ExternalLink className="w-4 h-4 group-hover/btn:translate-x-1 group-hover/btn:-translate-y-1 transition-transform" />
-                          </button>
+                          {/* Action Buttons */}
+                          <div className="mt-auto pt-4 border-t border-slate-100 flex flex-col gap-4">
+                            <div className="grid grid-cols-2 gap-3">
+                              <button 
+                                onClick={() => handleUniversityClick(university.link)}
+                                className="text-blue-600 border-2 border-blue-600 hover:bg-blue-600 hover:text-white font-bold py-3 rounded-xl transition-all text-[11px] uppercase tracking-wider flex items-center justify-center gap-2 group/details"
+                              >
+                                <span>View Details</span>
+                                <ExternalLink className="w-3.5 h-3.5 group-hover/details:translate-x-0.5 group-hover/details:-translate-y-0.5 transition-transform" />
+                              </button>
+                              <button 
+                                onClick={() => handleUniversityClick(university.link)}
+                                className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 rounded-xl transition-all text-[11px] uppercase tracking-wider flex items-center justify-center gap-2 shadow-lg shadow-blue-500/20"
+                              >
+                                <span>Apply Now</span>
+                              </button>
+                            </div>
+                            
+                            {/* Compare Checkbox - Professional touch from reference */}
+                            <label className="flex items-center gap-2 cursor-pointer self-center group/compare py-1 px-4 rounded-full hover:bg-slate-50 transition-colors mt-1">
+                              <div className={`w-4 h-4 rounded border flex items-center justify-center transition-all ${selectedPrograms.length > 5 ? 'border-blue-500 bg-blue-50' : 'border-slate-300 bg-white'}`}>
+                                <CheckCircle2 className="w-3 h-3 text-blue-600 opacity-0 group-hover/compare:opacity-40 transition-opacity" />
+                              </div>
+                              <span className="text-[10px] font-bold text-slate-400 group-hover/compare:text-slate-600 transition-colors uppercase tracking-widest">Compare Institutional Stats</span>
+                            </label>
+                          </div>
                         </div>
                       </div>
-                    </div>
-                  </motion.div>
-                ))}
-              </AnimatePresence>
-            </motion.div>
-          ) : (
-            <motion.div 
-              className="text-center py-40 flex flex-col items-center gap-6"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-            >
-              <div className="w-24 h-24 bg-slate-100 rounded-full flex items-center justify-center">
-                <Search className="w-10 h-10 text-slate-300" />
-              </div>
-              <h3 className="text-2xl font-bold text-slate-800">No Universities Found</h3>
-              <p className="text-slate-500 max-w-sm">We couldn't find any results matching your search terms. Try adjusting your filters.</p>
-              <button 
-                onClick={() => { setSearchTerm(''); setFilterCategory('All'); }}
-                className="text-blue-600 font-bold hover:underline"
+                    </motion.div>
+                  ))}
+                </AnimatePresence>
+              </motion.div>
+            ) : (
+              <motion.div 
+                className="text-center py-32 flex flex-col items-center gap-6 bg-white rounded-[3rem] border border-slate-200"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
               >
-                Clear all filters
-              </button>
-            </motion.div>
-          )}
+                <div className="w-20 h-20 bg-slate-100 rounded-full flex items-center justify-center">
+                  <Search className="w-8 h-8 text-slate-300" />
+                </div>
+                <h3 className="text-2xl font-bold text-slate-800">No Universities Found</h3>
+                <p className="text-slate-500 max-w-sm">We couldn't find any results matching your search terms. Try adjusting your filters.</p>
+                <button 
+                  onClick={clearFilters}
+                  className="bg-blue-600 text-white px-8 py-3 rounded-2xl font-bold shadow-lg"
+                >
+                  Clear all filters
+                </button>
+              </motion.div>
+            )}
 
-          {/* View All Button */}
-          <div className="mt-24 text-center">
-            <motion.button
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              onClick={handleViewAllToggle}
-              className="inline-flex items-center gap-4 bg-white hover:bg-[#1E293B] text-[#1E293B] hover:text-white font-bold px-12 py-6 rounded-3xl transition-all duration-300 shadow-2xl border-2 border-[#1E293B] group"
-            >
-              <span className="text-xl">{showAll ? 'Show Paginated View' : `View All ${filteredUniversities.length} Institutions`}</span>
-              <div className={`p-1 rounded-full border-2 border-current transition-transform duration-500 ${showAll ? 'rotate-180' : ''}`}>
-                <ChevronRight className="w-6 h-6" />
+            {/* View All / Load More Action */}
+            {!showAll && filteredUniversities.length > itemsPerPage && (
+              <div className="mt-16 text-center">
+                <button
+                  onClick={handleViewAllToggle}
+                  className="inline-flex items-center gap-3 bg-white hover:bg-slate-50 text-slate-800 font-bold px-10 py-4 rounded-2xl transition-all shadow-lg border border-slate-200 group"
+                >
+                  <span>View All {filteredUniversities.length} Institutions</span>
+                  <ChevronDown className="w-5 h-5 group-hover:translate-y-1 transition-transform" />
+                </button>
               </div>
-            </motion.button>
-          </div>
+            )}
+          </main>
         </div>
-      </section>
+      </div>
 
-      {/* Trust Quote Section */}
-      <section className="py-32 bg-[#1E293B] relative overflow-hidden">
-        <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-blue-500 to-transparent"></div>
-        <div className="container mx-auto px-4 relative z-10">
-          <div className="max-w-4xl mx-auto text-center">
-            <motion.div
-              initial={{ opacity: 0, scale: 0.9 }}
-              whileInView={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.8 }}
-              viewport={{ once: true }}
-            >
-              <h2 className="text-4xl md:text-6xl font-bold text-white mb-10 leading-tight">
-                "Education is the most powerful weapon which you can use to change the world."
-              </h2>
-              <div className="w-24 h-1 bg-blue-500 mx-auto mb-8 rounded-full"></div>
-              <p className="text-xl text-blue-100/60 font-medium uppercase tracking-[0.2em]">Nelson Mandela</p>
-            </motion.div>
-          </div>
-        </div>
-        
-        {/* Animated Background Elements */}
-        <div className="absolute inset-0 pointer-events-none opacity-10">
-           <Building2 className="absolute -bottom-10 -left-10 w-96 h-96 text-white" />
-           <GraduationCap className="absolute -top-10 -right-10 w-96 h-96 text-white" />
-        </div>
-      </section>
-
-      {/* CTA Section */}
-      <section className="py-32 bg-white relative">
+      {/* Counseling Section - Premium Redesign */}
+      <section className="py-24 bg-white">
         <div className="container mx-auto px-4">
           <motion.div 
-            className="bg-gradient-to-br from-[#1E3A8A] to-[#1E40AF] rounded-[3rem] p-12 md:p-24 text-center relative overflow-hidden shadow-[0_40px_80px_-15px_rgba(30,58,138,0.4)]"
-            initial={{ opacity: 0, scale: 0.95 }}
-            whileInView={{ opacity: 1, scale: 1 }}
+            className="bg-gradient-to-br from-slate-900 to-slate-800 rounded-[3rem] p-10 md:p-20 text-center relative overflow-hidden"
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
             viewport={{ once: true }}
           >
-            {/* Glossy overlay */}
-            <div className="absolute top-0 right-0 w-full h-full bg-gradient-to-br from-white/10 to-transparent pointer-events-none"></div>
+            {/* Background Accent */}
+            <div className="absolute -top-24 -right-24 w-64 h-64 bg-blue-600/10 rounded-full blur-3xl"></div>
+            <div className="absolute -bottom-24 -left-24 w-64 h-64 bg-orange-500/10 rounded-full blur-3xl"></div>
             
             <div className="relative z-10">
-              <h2 className="text-4xl md:text-6xl font-bold text-white mb-10 leading-tight max-w-4xl mx-auto">
-                Can't decide the right university for you?
+              <span className="text-orange-400 font-bold uppercase tracking-widest text-xs mb-4 inline-block">Free Support</span>
+              <h2 className="text-3xl md:text-5xl font-bold text-white mb-6 leading-tight max-w-3xl mx-auto">
+                Need help choosing the right university?
               </h2>
-              <p className="text-xl md:text-2xl text-blue-100/90 mb-14 max-w-2xl mx-auto font-light leading-relaxed">
-                Connect with our expert education counsellors for a 1-on-1 session to map out your perfect academic journey.
+              <p className="text-slate-400 text-lg mb-10 max-w-2xl mx-auto font-light">
+                Our expert advisors are ready to guide you through the process of selecting and applying to your dream institution.
               </p>
               <div className="flex flex-col sm:flex-row items-center justify-center gap-6">
-                <button className="bg-white hover:bg-blue-50 text-[#1E3A8A] font-bold px-12 py-6 rounded-[2rem] transition-all duration-300 shadow-xl hover:shadow-2xl flex items-center gap-4 text-xl group">
-                  <span>Get Free Counselling</span>
-                  <div className="w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center text-blue-600 group-hover:scale-110 transition-transform">
-                    <ChevronRight className="w-5 h-5" />
-                  </div>
+                <button className="w-full sm:w-auto bg-blue-600 hover:bg-blue-700 text-white font-bold px-10 py-4 rounded-2xl transition-all shadow-xl shadow-blue-500/20 flex items-center justify-center gap-3">
+                  <span>Get Free Counseling</span>
+                  <ChevronRight className="w-5 h-5" />
                 </button>
-                <button className="bg-[#1E293B] hover:bg-slate-800 text-white font-bold px-12 py-6 rounded-[2rem] transition-all duration-300 shadow-xl border border-white/10 text-xl">
-                  Contact Support
+                <button className="w-full sm:w-auto bg-white/10 hover:bg-white/20 text-white font-bold px-10 py-4 rounded-2xl transition-all border border-white/10">
+                  Talk to Expert
                 </button>
               </div>
-            </div>
-            
-            {/* Background elements */}
-            <div className="absolute top-1/2 left-10 -translate-y-1/2 opacity-10">
-              <Users className="w-64 h-64 text-white" />
             </div>
           </motion.div>
         </div>
