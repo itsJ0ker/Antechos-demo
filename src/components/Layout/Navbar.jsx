@@ -2,12 +2,13 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Menu, X, ChevronDown } from "lucide-react";
 import { getCourses, getUniversities } from "../../lib/supabase";
+import { universities as staticUniversities } from "../../data/universities";
 import logo from "../../assets/logo.png";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [courses, setCourses] = useState([]);
-  const [universities, setUniversities] = useState([]);
+  const [universities, setUniversities] = useState(staticUniversities);
   const [showCoursesDropdown, setShowCoursesDropdown] = useState(false);
   const [showUniversitiesDropdown, setShowUniversitiesDropdown] = useState(false);
   const navigate = useNavigate();
@@ -22,7 +23,19 @@ const Navbar = () => {
       const { data: universitiesData } = await getUniversities();
       
       if (coursesData) setCourses(coursesData);
-      if (universitiesData) setUniversities(universitiesData);
+      
+      // Merge with static data to ensure all unis from UniversityPageNew are present
+      if (universitiesData && universitiesData.length > 0) {
+        setUniversities(prev => {
+          const merged = [...prev];
+          universitiesData.forEach(uni => {
+            if (!merged.find(m => m.name === uni.name)) {
+              merged.push(uni);
+            }
+          });
+          return merged;
+        });
+      }
     } catch (error) {
       console.error("Error fetching data:", error);
     }
@@ -46,8 +59,12 @@ const Navbar = () => {
     setIsOpen(false);
   };
 
-  const handleUniversityClick = (universityId) => {
-    navigate(`/university/${universityId}`);
+  const handleUniversityClick = (university) => {
+    if (university.link && (university.link.startsWith('http') || university.link.startsWith('https'))) {
+      window.open(university.link, '_blank', 'noopener,noreferrer');
+    } else {
+      navigate(`/university/${university.id}`);
+    }
     setShowUniversitiesDropdown(false);
     setIsOpen(false);
   };
@@ -139,7 +156,7 @@ const Navbar = () => {
                           universities.map((university) => (
                             <button
                               key={university.id}
-                              onClick={() => handleUniversityClick(university.id)}
+                              onClick={() => handleUniversityClick(university)}
                               className="w-full text-left px-4 py-3 hover:bg-blue-50 transition-colors duration-150 border-b border-gray-100 last:border-0"
                             >
                               <div className="font-semibold text-gray-800 text-sm">{university.name}</div>
@@ -228,7 +245,7 @@ const Navbar = () => {
                       {universities.slice(0, 5).map((university) => (
                         <button
                           key={university.id}
-                          onClick={() => handleUniversityClick(university.id)}
+                          onClick={() => handleUniversityClick(university)}
                           className="w-full text-left px-3 py-2 text-sm text-gray-600 hover:text-blue-600 hover:bg-blue-50 rounded-md transition-all"
                         >
                           {university.name}

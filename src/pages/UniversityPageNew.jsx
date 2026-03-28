@@ -1,275 +1,49 @@
-import React, { useState } from 'react';
-import { ChevronLeft, ChevronRight, Star, GraduationCap, MapPin, ExternalLink } from 'lucide-react';
-
-// Custom styles
-const customStyles = `
-  @keyframes float {
-    0%, 100% { transform: translateY(0px); }
-    50% { transform: translateY(-10px); }
-  }
-  
-  @keyframes shimmer {
-    0% { background-position: -200% 0; }
-    100% { background-position: 200% 0; }
-  }
-  
-  @keyframes slideInUp {
-    from { transform: translateY(30px); opacity: 0; }
-    to { transform: translateY(0); opacity: 1; }
-  }
-  
-  @keyframes gradient-shift {
-    0% { background-position: 0% 50%; }
-    50% { background-position: 100% 50%; }
-    100% { background-position: 0% 50%; }
-  }
-  
-  .gradient-bg {
-    background: linear-gradient(-45deg, #667eea, #764ba2, #f093fb, #f5576c);
-    background-size: 400% 400%;
-    animation: gradient-shift 15s ease infinite;
-  }
-  
-  .card-hover-lift {
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  }
-  
-  .card-hover-lift:hover {
-    transform: translateY(-8px) scale(1.02);
-    box-shadow: 0 20px 40px rgba(0,0,0,0.15);
-  }
-  
-  .scrollbar-hide {
-    -ms-overflow-style: none;
-    scrollbar-width: none;
-  }
-  
-  .scrollbar-hide::-webkit-scrollbar {
-    display: none;
-  }
-`;
-
-// University data with links
-const universities = [
-  {
-    id: 1,
-    name: 'Galgotias University',
-    location: 'Greater Noida, Uttar Pradesh',
-    description: 'Known for technical and management education with strong industry connections.',
-    image: 'https://images.unsplash.com/photo-1562774053-701939374585?w=800&h=600&fit=crop',
-    rating: 4.1,
-    link: 'https://cvadm.com/vEjYUq',
-    programs: ['Engineering', 'Law', 'MBA', 'Media Studies'],
-    established: '2011'
-  },
-  {
-    id: 2,
-    name: 'Andhra University',
-    location: 'Visakhapatnam, Andhra Pradesh',
-    description: 'One of the oldest universities with strong research programs.',
-    image: 'https://images.unsplash.com/photo-1541339907198-e08756dedf3f?w=800&h=600&fit=crop',
-    rating: 4.2,
-    link: 'https://cvadm.com/em1Okj',
-    programs: ['Engineering', 'Science', 'Arts', 'Law', 'Pharmacy'],
-    established: '1926'
-  },
-  {
-    id: 3,
-    name: 'UPES',
-    location: 'Dehradun, Uttarakhand',
-    description: 'Industry-focused programs with global rankings and recognition.',
-    image: 'https://images.unsplash.com/photo-1523050854058-8df90110c9f1?w=800&h=600&fit=crop',
-    rating: 4.6,
-    link: 'https://cvadm.com/tWu4Ay',
-    programs: ['BBA', 'BCA', 'MBA', 'MCA', 'Engineering'],
-    established: '2003'
-  },
-  {
-    id: 4,
-    name: 'SRM University',
-    location: 'Chennai, Tamil Nadu',
-    description: 'Top private university with focus on innovation and placements.',
-    image: 'https://images.unsplash.com/photo-1498243691581-b145c3f54a5a?w=800&h=600&fit=crop',
-    rating: 4.6,
-    link: 'https://cvadm.com/dRdcc4',
-    programs: ['Engineering', 'Medical', 'Law', 'MBA'],
-    established: '1985'
-  },
-  {
-    id: 5,
-    name: 'GLA University',
-    location: 'Mathura, Uttar Pradesh',
-    description: 'Strong emphasis on research and innovation with modern infrastructure.',
-    image: 'https://images.unsplash.com/photo-1564981797816-1043664bf78d?w=800&h=600&fit=crop',
-    rating: 4.0,
-    link: 'https://cvadm.com/wrsEfe',
-    programs: ['Engineering', 'Pharmacy', 'Management', 'Science'],
-    established: '1998'
-  },
-  {
-    id: 6,
-    name: 'D Y Patil University',
-    location: 'Mumbai, Maharashtra',
-    description: 'Professional education with strong industry connections and placements.',
-    image: 'https://images.unsplash.com/photo-1607237138185-eedd9c632b0b?w=800&h=600&fit=crop',
-    rating: 4.1,
-    link: 'https://cvadm.com/euYZ7D',
-    programs: ['Engineering', 'Management', 'Pharmacy', 'Architecture'],
-    established: '2014'
-  },
-  {
-    id: 7,
-    name: 'VGU',
-    location: 'Jaipur, Rajasthan',
-    description: 'Modern university with focus on holistic education and skill development.',
-    image: 'https://images.unsplash.com/photo-1571260899304-425eee4c7efc?w=800&h=600&fit=crop',
-    rating: 4.3,
-    link: 'https://cvadm.com/jSAJxr',
-    programs: ['Engineering', 'Management', 'Design', 'Law'],
-    established: '2012'
-  },
-  {
-    id: 8,
-    name: 'Manipal University Jaipur',
-    location: 'Jaipur, Rajasthan',
-    description: 'UGC-entitled programs with industry-aligned curriculum and global recognition.',
-    image: 'https://images.unsplash.com/photo-1576495199011-eb94736d05d6?w=800&h=600&fit=crop',
-    rating: 4.7,
-    link: 'https://cvadm.com/7QTNnF',
-    programs: ['BBA', 'BCA', 'MBA', 'B.Com', 'M.Com', 'MA', 'MCA', 'B.Tech'],
-    established: '2011'
-  },
-  {
-    id: 9,
-    name: 'MAHE',
-    location: 'Manipal, Karnataka',
-    description: 'Deemed university with focus on global education and research excellence.',
-    image: 'https://images.unsplash.com/photo-1562774053-701939374585?w=800&h=600&fit=crop',
-    rating: 4.6,
-    link: 'https://cvadm.com/ek32fs',
-    programs: ['Medical', 'Engineering', 'Pharmacy', 'Law'],
-    established: '1953'
-  },
-  {
-    id: 10,
-    name: 'SMU',
-    location: 'Gangtok, Sikkim',
-    description: 'Blend of conventional and distance education with quality programs.',
-    image: 'https://images.unsplash.com/photo-1541339907198-e08756dedf3f?w=800&h=600&fit=crop',
-    rating: 4.0,
-    link: 'https://cvadm.com/64dA1p',
-    programs: ['Engineering', 'MBA', 'Medical', 'IT'],
-    established: '1995'
-  },
-  {
-    id: 11,
-    name: 'Parul University',
-    location: 'Vadodara, Gujarat',
-    description: 'Emerging university with strong academic focus and modern facilities.',
-    image: 'https://images.unsplash.com/photo-1523050854058-8df90110c9f1?w=800&h=600&fit=crop',
-    rating: 4.2,
-    link: 'https://cvadm.com/OSjCO2',
-    programs: ['Engineering', 'Law', 'MBA', 'Medical'],
-    established: '2015'
-  },
-  {
-    id: 12,
-    name: 'Amity University',
-    location: 'Noida, Uttar Pradesh',
-    description: 'Leading private university offering UGC-entitled online degrees.',
-    image: 'https://images.unsplash.com/photo-1498243691581-b145c3f54a5a?w=800&h=600&fit=crop',
-    rating: 4.4,
-    link: 'https://cvadm.com/xBg72Q',
-    programs: ['BBA', 'BCA', 'MBA', 'B.Com', 'M.Com'],
-    established: '2005'
-  },
-  {
-    id: 13,
-    name: 'Amrita University',
-    location: 'Coimbatore, Tamil Nadu',
-    description: 'NAAC A++ accredited university with focus on value-based education.',
-    image: 'https://images.unsplash.com/photo-1564981797816-1043664bf78d?w=800&h=600&fit=crop',
-    rating: 4.7,
-    link: 'https://cvadm.com/xK9KaM',
-    programs: ['B.Tech', 'MBA', 'Medical', 'Arts'],
-    established: '1994'
-  },
-  {
-    id: 14,
-    name: 'LPU',
-    location: 'Phagwara, Punjab',
-    description: 'Largest private university in India with global exposure.',
-    image: 'https://images.unsplash.com/photo-1607237138185-eedd9c632b0b?w=800&h=600&fit=crop',
-    rating: 4.3,
-    link: 'https://cvadm.com/TZ4e3j',
-    programs: ['Engineering', 'Management', 'Law', 'Design'],
-    established: '2005'
-  },
-  {
-    id: 15,
-    name: 'Uttaranchal University',
-    location: 'Dehradun, Uttarakhand',
-    description: 'NAAC A+ accredited with comprehensive online and offline programs.',
-    image: 'https://images.unsplash.com/photo-1571260899304-425eee4c7efc?w=800&h=600&fit=crop',
-    rating: 4.2,
-    link: 'https://cvadm.com/buT2Ip',
-    programs: ['Engineering', 'Management', 'Law', 'Pharmacy'],
-    established: '2013'
-  },
-  {
-    id: 16,
-    name: 'NMIMS',
-    location: 'Mumbai, Maharashtra',
-    description: 'Leading management and multidisciplinary university.',
-    image: 'https://images.unsplash.com/photo-1576495199011-eb94736d05d6?w=800&h=600&fit=crop',
-    rating: 4.5,
-    link: 'https://cvadm.com/2i2WdH',
-    programs: ['MBA', 'Engineering', 'Law', 'Design'],
-    established: '1981'
-  },
-  {
-    id: 17,
-    name: 'Shoolini University',
-    location: 'Solan, Himachal Pradesh',
-    description: 'Research-focused private university with excellent facilities.',
-    image: 'https://images.unsplash.com/photo-1562774053-701939374585?w=800&h=600&fit=crop',
-    rating: 4.3,
-    link: 'https://cvadm.com/9xEqyX',
-    programs: ['Biotech', 'Pharmacy', 'MBA', 'Engineering'],
-    established: '2009'
-  },
-  {
-    id: 18,
-    name: 'Andhra University',
-    location: 'Visakhapatnam, Andhra Pradesh',
-    description: 'Historic university with comprehensive academic programs.',
-    image: 'https://images.unsplash.com/photo-1541339907198-e08756dedf3f?w=800&h=600&fit=crop',
-    rating: 4.2,
-    link: 'https://cvadm.com/WDOMd4',
-    programs: ['Engineering', 'Science', 'Arts', 'Law'],
-    established: '1926'
-  },
-  {
-    id: 19,
-    name: 'Kurukshetra University',
-    location: 'Kurukshetra, Haryana',
-    description: 'One of the oldest universities in Haryana with diverse programs.',
-    image: 'https://images.unsplash.com/photo-1523050854058-8df90110c9f1?w=800&h=600&fit=crop',
-    rating: 4.1,
-    link: 'https://cvadm.com/Uk4vYF',
-    programs: ['Arts', 'Science', 'Law', 'Management'],
-    established: '1956'
-  }
-];
+import React, { useState, useEffect } from 'react';
+import { 
+  ChevronLeft, 
+  ChevronRight, 
+  Star, 
+  GraduationCap, 
+  MapPin, 
+  ExternalLink, 
+  Search, 
+  Filter, 
+  Award, 
+  Building2, 
+  Briefcase,
+  Users
+} from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { universities } from '../data/universities';
 
 const UniversityPageNew = () => {
   const [showAll, setShowAll] = useState(false);
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [searchTerm, setSearchTerm] = useState('');
+  const [filterCategory, setFilterCategory] = useState('All');
+  const [isScrolled, setIsScrolled] = useState(false);
 
-  const itemsPerPage = 4;
+  const itemsPerPage = 6;
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 50);
+    };
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  const filteredUniversities = universities.filter(uni => {
+    const matchesSearch = uni.name.toLowerCase().includes(searchTerm.toLowerCase()) || 
+                         uni.location.toLowerCase().includes(searchTerm.toLowerCase());
+    const matchesCategory = filterCategory === 'All' || uni.category === filterCategory;
+    return matchesSearch && matchesCategory;
+  });
+
+  const categories = ['All', ...new Set(universities.map(u => u.category))];
 
   const handleNext = () => {
-    const maxIndex = universities.length - itemsPerPage;
+    const maxIndex = filteredUniversities.length - itemsPerPage;
     if (currentIndex < maxIndex) {
       setCurrentIndex(currentIndex + itemsPerPage);
     }
@@ -287,212 +61,401 @@ const UniversityPageNew = () => {
 
   const handleViewAllToggle = () => {
     setShowAll(!showAll);
-    setCurrentIndex(0); // Reset to first page when toggling
+    setCurrentIndex(0);
   };
 
-  // Get universities to display
-  const getDisplayedUniversities = () => {
-    if (showAll) {
-      return universities; // Show all universities
-    } else {
-      // Show paginated view (4 at a time)
-      return universities.slice(currentIndex, currentIndex + itemsPerPage);
+  const displayedUniversities = showAll 
+    ? filteredUniversities 
+    : filteredUniversities.slice(currentIndex, currentIndex + itemsPerPage);
+
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.1
+      }
     }
   };
 
-  const displayedUniversities = getDisplayedUniversities();
+  const cardVariants = {
+    hidden: { y: 20, opacity: 0 },
+    visible: {
+      y: 0,
+      opacity: 1,
+      transition: {
+        duration: 0.5,
+        ease: "easeOut"
+      }
+    }
+  };
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      <style dangerouslySetInnerHTML={{ __html: customStyles }} />
-      
+    <div className="min-h-screen bg-[#F8FAFC]">
       {/* Hero Section */}
-      <div className="relative h-[500px] flex items-center justify-center overflow-hidden">
-        {/* Background Image */}
-        <div 
+      <div className="relative h-[600px] flex items-center justify-center overflow-hidden">
+        <motion.div 
           className="absolute inset-0 bg-cover bg-center"
-          style={{ backgroundImage: 'url(https://images.unsplash.com/photo-1541339907198-e08756dedf3f?w=1920&q=80)' }}
-        ></div>
-        {/* Gradient Overlay */}
-        <div className="absolute inset-0 bg-gradient-to-r from-blue-900/90 via-purple-900/85 to-blue-900/90"></div>
-        <div className="relative z-10 text-center px-4">
-          <h1 className="text-5xl md:text-6xl font-bold text-white mb-6">
-            Discover Top Universities
-          </h1>
-          <p className="text-xl md:text-2xl text-white/90 mb-8 max-w-3xl mx-auto">
-            Explore world-class institutions and transform your career with quality education
-          </p>
-          <div className="flex items-center justify-center gap-8 text-white">
-            <div className="text-center">
-              <div className="text-4xl font-bold">{universities.length}+</div>
-              <div className="text-sm opacity-90">Universities</div>
+          style={{ backgroundImage: 'url(https://images.unsplash.com/photo-1541339907198-e08756dedf3f?q=80&w=1920&auto=format&fit=crop)' }}
+          initial={{ scale: 1.1 }}
+          animate={{ scale: 1 }}
+          transition={{ duration: 1.5 }}
+        >
+          <div className="absolute inset-0 bg-gradient-to-br from-[#1E3A8A]/95 via-[#1E3A8A]/80 to-[#1E3A8A]/90"></div>
+        </motion.div>
+        
+        {/* Animated Background Elements */}
+        <div className="absolute inset-0 overflow-hidden pointer-events-none">
+          <motion.div 
+            className="absolute top-1/4 left-1/4 w-96 h-96 bg-blue-400 rounded-full mix-blend-overlay opacity-20 filter blur-3xl"
+            animate={{ 
+              scale: [1, 1.2, 1],
+              x: [-20, 20, -20],
+              y: [-20, 20, -20]
+            }}
+            transition={{ duration: 10, repeat: Infinity }}
+          />
+          <motion.div 
+            className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-purple-400 rounded-full mix-blend-overlay opacity-20 filter blur-3xl"
+            animate={{ 
+              scale: [1.2, 1, 1.2],
+              x: [20, -20, 20],
+              y: [20, -20, 20]
+            }}
+            transition={{ duration: 10, repeat: Infinity }}
+          />
+        </div>
+
+        <div className="relative z-10 text-center px-4 max-w-6xl mx-auto">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+          >
+            <span className="inline-block px-4 py-1.5 mb-6 text-sm font-semibold tracking-wider text-blue-100 uppercase bg-blue-500/20 backdrop-blur-md rounded-full border border-blue-400/30">
+              Transform Your Future
+            </span>
+            <h1 className="text-5xl md:text-7xl font-bold text-white mb-6 leading-tight">
+              Unlock Your Potential at <br />
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-300 to-indigo-200">
+                Premier Universities
+              </span>
+            </h1>
+            <p className="text-xl md:text-2xl text-blue-50/90 mb-10 max-w-3xl mx-auto font-light">
+              Antechos India brings you closer to your academic dreams with our handpicked network of world-class educational institutions.
+            </p>
+            
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-white mt-12 bg-white/5 backdrop-blur-lg rounded-3xl p-8 border border-white/10 shadow-2xl">
+              <div className="text-center">
+                <Users className="w-8 h-8 text-blue-300 mx-auto mb-2" />
+                <div className="text-3xl font-bold">{universities.length}</div>
+                <div className="text-sm text-blue-200/80">Partner Unis</div>
+              </div>
+              <div className="text-center">
+                <Award className="w-8 h-8 text-blue-300 mx-auto mb-2" />
+                <div className="text-3xl font-bold">100+</div>
+                <div className="text-sm text-blue-200/80">Premium Courses</div>
+              </div>
+              <div className="text-center">
+                <Building2 className="w-8 h-8 text-blue-300 mx-auto mb-2" />
+                <div className="text-3xl font-bold">12+</div>
+                <div className="text-sm text-blue-200/80">States Covered</div>
+              </div>
+              <div className="text-center">
+                <Briefcase className="w-8 h-8 text-blue-300 mx-auto mb-2" />
+                <div className="text-3xl font-bold">50K+</div>
+                <div className="text-sm text-blue-200/80">Successful Alums</div>
+              </div>
             </div>
-            <div className="text-center">
-              <div className="text-4xl font-bold">100+</div>
-              <div className="text-sm opacity-90">Programs</div>
-            </div>
-            <div className="text-center">
-              <div className="text-4xl font-bold">50K+</div>
-              <div className="text-sm opacity-90">Students</div>
-            </div>
-          </div>
+          </motion.div>
         </div>
       </div>
 
-      {/* Universities Section */}
-      <section className="py-16 bg-white">
-        <div className="container mx-auto px-4">
-          <div className="text-center mb-12">
-            <h2 className="text-4xl font-bold text-gray-800 mb-4">
-              Explore Our Partner Universities
-            </h2>
-            <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-              Choose from our carefully selected universities offering quality education and excellent career opportunities
-            </p>
-          </div>
-
-          {/* University Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
-            {displayedUniversities.map((university) => (
-              <div
-                key={university.id}
-                onClick={() => handleUniversityClick(university.link)}
-                className="card-hover-lift bg-white rounded-2xl overflow-hidden border-2 border-gray-200 hover:border-blue-500 cursor-pointer group"
-              >
-                {/* University Image */}
-                <div className="relative h-48 overflow-hidden">
-                  <img 
-                    src={university.image} 
-                    alt={university.name}
-                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
-                  
-                  {/* Logo Badge */}
-                  <div className="absolute top-3 right-3 bg-white rounded-lg p-2 shadow-lg">
-                    <GraduationCap className="w-8 h-8 text-blue-600" />
-                  </div>
-                  
-                  {/* Rating Badge */}
-                  {university.rating && (
-                    <div className="absolute bottom-3 left-3 bg-white/95 backdrop-blur-sm rounded-lg px-3 py-1 flex items-center gap-1">
-                      <Star className="w-4 h-4 fill-yellow-400 text-yellow-400" />
-                      <span className="font-bold text-gray-800">{university.rating}</span>
-                    </div>
-                  )}
-                </div>
-
-                {/* University Info */}
-                <div className="p-5 space-y-3">
-                  <h3 className="text-xl font-bold text-gray-800 line-clamp-2 min-h-[3.5rem] group-hover:text-blue-600 transition-colors">
-                    {university.name}
-                  </h3>
-                  
-                  <div className="flex items-center gap-2 text-sm text-gray-600">
-                    <MapPin className="w-4 h-4 flex-shrink-0" />
-                    <span className="line-clamp-1">{university.location}</span>
-                  </div>
-                  
-                  <p className="text-sm text-gray-600 line-clamp-2 min-h-[2.5rem]">
-                    {university.description}
-                  </p>
-                  
-                  {/* Programs */}
-                  <div className="flex flex-wrap gap-1">
-                    {university.programs.slice(0, 3).map((program, idx) => (
-                      <span 
-                        key={idx}
-                        className="text-xs bg-blue-50 text-blue-600 px-2 py-1 rounded"
-                      >
-                        {program}
-                      </span>
-                    ))}
-                    {university.programs.length > 3 && (
-                      <span className="text-xs bg-gray-100 text-gray-600 px-2 py-1 rounded">
-                        +{university.programs.length - 3}
-                      </span>
-                    )}
-                  </div>
-                  
-                  {/* Established Year */}
-                  <div className="text-xs text-gray-500 pt-2 border-t border-gray-100">
-                    Established: {university.established}
-                  </div>
-                  
-                  {/* Apply Button */}
-                  <button className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-4 rounded-lg transition-colors duration-200 flex items-center justify-center gap-2 group-hover:shadow-lg">
-                    <span>Apply Now</span>
-                    <ExternalLink className="w-4 h-4" />
-                  </button>
-                </div>
-              </div>
-            ))}
-          </div>
-
-          {/* Navigation Controls */}
-          {!showAll && (
-            <div className="flex items-center justify-center gap-4 mb-8">
-              <button
-                onClick={handlePrev}
-                disabled={currentIndex === 0}
-                className="bg-white hover:bg-gray-50 disabled:opacity-30 disabled:cursor-not-allowed rounded-full p-3 shadow-lg transition-all duration-200"
-              >
-                <ChevronLeft className="w-6 h-6 text-gray-700" />
-              </button>
-              
-              <div className="flex gap-2">
-                {Array.from({ length: Math.ceil(universities.length / itemsPerPage) }).map((_, idx) => (
-                  <button
-                    key={idx}
-                    onClick={() => setCurrentIndex(idx * itemsPerPage)}
-                    className={`transition-all duration-300 rounded-full ${
-                      Math.floor(currentIndex / itemsPerPage) === idx 
-                        ? 'w-8 h-3 bg-blue-600' 
-                        : 'w-3 h-3 bg-gray-300 hover:bg-gray-400'
-                    }`}
-                  />
-                ))}
-              </div>
-              
-              <button
-                onClick={handleNext}
-                disabled={currentIndex + itemsPerPage >= universities.length}
-                className="bg-white hover:bg-gray-50 disabled:opacity-30 disabled:cursor-not-allowed rounded-full p-3 shadow-lg transition-all duration-200"
-              >
-                <ChevronRight className="w-6 h-6 text-gray-700" />
-              </button>
+      {/* University Search & Filter Section */}
+      <div className="container mx-auto px-4 -mt-16 relative z-20">
+        <motion.div 
+          className="bg-white rounded-[2rem] shadow-2xl p-6 md:p-10 border border-gray-100"
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.2 }}
+        >
+          <div className="flex flex-col md:flex-row gap-6 items-center">
+            <div className="relative flex-1 group w-full">
+              <Search className="absolute left-5 top-1/2 -translate-y-1/2 text-gray-400 group-focus-within:text-blue-600 transition-colors" />
+              <input 
+                type="text" 
+                placeholder="Search by university name or location..." 
+                className="w-full pl-14 pr-6 py-5 bg-gray-50 border-none rounded-2xl focus:ring-2 focus:ring-blue-500/20 focus:bg-white transition-all text-gray-700 text-lg shadow-inner"
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+              />
             </div>
+            <div className="flex items-center gap-4 w-full md:w-auto">
+              <div className="relative w-full">
+                <Filter className="absolute left-5 top-1/2 -translate-y-1/2 text-gray-400" />
+                <select 
+                  className="w-full pl-14 pr-10 py-5 bg-gray-50 border-none rounded-2xl focus:ring-2 focus:ring-blue-500/20 focus:bg-white transition-all text-gray-700 text-lg shadow-inner appearance-none cursor-pointer"
+                  value={filterCategory}
+                  onChange={(e) => setFilterCategory(e.target.value)}
+                >
+                  {categories.map(cat => (
+                    <option key={cat} value={cat}>{cat} Category</option>
+                  ))}
+                </select>
+              </div>
+            </div>
+          </div>
+        </motion.div>
+      </div>
+
+      {/* Universities Grid Section */}
+      <section className="py-24">
+        <div className="container mx-auto px-4">
+          <div className="flex flex-col md:flex-row justify-between items-end mb-16 gap-6">
+            <div className="max-w-2xl">
+              <h2 className="text-4xl md:text-5xl font-bold text-[#1E293B] mb-6 tracking-tight">
+                Academic Excellence Near You
+              </h2>
+              <p className="text-lg text-slate-500 leading-relaxed">
+                Discover institutions that match your career goals. From historic public universities to modern innovative private campuses.
+              </p>
+            </div>
+            {!showAll && filteredUniversities.length > itemsPerPage && (
+              <div className="flex items-center gap-4 bg-white p-2 rounded-2xl shadow-lg border border-gray-100">
+                <button
+                  onClick={handlePrev}
+                  disabled={currentIndex === 0}
+                  className="p-3 rounded-xl bg-gray-50 hover:bg-blue-50 disabled:opacity-30 disabled:cursor-not-allowed transition-colors"
+                >
+                  <ChevronLeft className="w-6 h-6 text-gray-700" />
+                </button>
+                <div className="text-sm font-medium text-slate-400 px-4">
+                   Page {Math.floor(currentIndex/itemsPerPage) + 1} of {Math.ceil(filteredUniversities.length / itemsPerPage)}
+                </div>
+                <button
+                  onClick={handleNext}
+                  disabled={currentIndex + itemsPerPage >= filteredUniversities.length}
+                  className="p-3 rounded-xl bg-gray-50 hover:bg-blue-50 disabled:opacity-30 disabled:cursor-not-allowed transition-colors"
+                >
+                  <ChevronRight className="w-6 h-6 text-gray-700" />
+                </button>
+              </div>
+            )}
+          </div>
+
+          {filteredUniversities.length > 0 ? (
+            <motion.div 
+              className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10"
+              variants={containerVariants}
+              initial="hidden"
+              animate="visible"
+              key={showAll ? 'all' : 'paged'}
+            >
+              <AnimatePresence mode="popLayout">
+                {displayedUniversities.map((university) => (
+                  <motion.div
+                    key={university.id}
+                    variants={cardVariants}
+                    layout
+                    initial={{ opacity: 0, scale: 0.9 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    exit={{ opacity: 0, scale: 0.9 }}
+                    className="group"
+                  >
+                    <div className="bg-white rounded-[2.5rem] overflow-hidden shadow-xl shadow-slate-200/60 hover:shadow-2xl hover:shadow-blue-500/10 transition-all duration-500 border border-gray-100 flex flex-col h-full active:scale-[0.98]">
+                      {/* Image Header */}
+                      <div className="relative h-72 overflow-hidden flex-shrink-0">
+                        <img 
+                          src={university.image} 
+                          alt={university.name}
+                          className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 ease-out"
+                        />
+                        <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"></div>
+                        
+                        <div className="absolute top-6 left-6 flex flex-col gap-2">
+                          <span className="px-4 py-1.5 bg-white/20 backdrop-blur-md rounded-full text-white text-xs font-bold border border-white/20">
+                            {university.category}
+                          </span>
+                        </div>
+
+                        <div className="absolute top-6 right-6">
+                          <div className="w-12 h-12 bg-white rounded-2xl flex items-center justify-center shadow-lg group-hover:rotate-12 transition-transform duration-300">
+                            <GraduationCap className="w-6 h-6 text-blue-600" />
+                          </div>
+                        </div>
+                        
+                        <div className="absolute bottom-6 left-6 right-6">
+                           <div className="flex items-center gap-2 mb-2">
+                            <Star className="w-5 h-5 fill-yellow-400 text-yellow-400" />
+                            <span className="text-white font-bold text-lg">{university.rating}</span>
+                            <span className="text-white/60 text-sm font-medium">/ 5.0</span>
+                           </div>
+                           <h3 className="text-2xl font-bold text-white tracking-tight leading-tight">
+                            {university.name}
+                           </h3>
+                        </div>
+                      </div>
+
+                      {/* Content Body */}
+                      <div className="p-8 flex flex-col flex-grow">
+                        <div className="flex items-center gap-2 text-slate-500 mb-6 bg-slate-50 py-2 px-4 rounded-xl self-start">
+                          <MapPin className="w-4 h-4 text-blue-500" />
+                          <span className="text-sm font-medium">{university.location}</span>
+                        </div>
+                        
+                        <p className="text-slate-500 text-base leading-relaxed mb-8 line-clamp-3">
+                          {university.description}
+                        </p>
+                        
+                        {/* Programs Tags */}
+                        <div className="space-y-4 mb-8">
+                          <div className="text-xs font-bold text-slate-400 uppercase tracking-widest">Available Programs</div>
+                          <div className="flex flex-wrap gap-2">
+                            {university.programs.map((program, idx) => (
+                              <span 
+                                key={idx}
+                                className="text-xs font-semibold bg-gray-50 text-slate-600 px-4 py-2 rounded-xl group-hover:bg-blue-50 group-hover:text-blue-600 transition-colors"
+                              >
+                                {program}
+                              </span>
+                            ))}
+                          </div>
+                        </div>
+                        
+                        {/* Established & Footer */}
+                        <div className="mt-auto pt-8 border-t border-gray-50 flex items-center justify-between">
+                          <div className="flex flex-col">
+                            <span className="text-[10px] font-bold text-slate-300 uppercase tracking-wider">ESTABLISHED</span>
+                            <span className="text-sm font-bold text-slate-600">{university.established}</span>
+                          </div>
+                          
+                          <button 
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              handleUniversityClick(university.link);
+                            }}
+                            className="bg-[#1E293B] hover:bg-blue-600 text-white font-bold py-4 px-8 rounded-2xl transition-all duration-300 flex items-center gap-3 shadow-lg shadow-slate-200 group-hover:shadow-blue-500/20 group/btn"
+                          >
+                            <span>Apply Now</span>
+                            <ExternalLink className="w-4 h-4 group-hover/btn:translate-x-1 group-hover/btn:-translate-y-1 transition-transform" />
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  </motion.div>
+                ))}
+              </AnimatePresence>
+            </motion.div>
+          ) : (
+            <motion.div 
+              className="text-center py-40 flex flex-col items-center gap-6"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+            >
+              <div className="w-24 h-24 bg-slate-100 rounded-full flex items-center justify-center">
+                <Search className="w-10 h-10 text-slate-300" />
+              </div>
+              <h3 className="text-2xl font-bold text-slate-800">No Universities Found</h3>
+              <p className="text-slate-500 max-w-sm">We couldn't find any results matching your search terms. Try adjusting your filters.</p>
+              <button 
+                onClick={() => { setSearchTerm(''); setFilterCategory('All'); }}
+                className="text-blue-600 font-bold hover:underline"
+              >
+                Clear all filters
+              </button>
+            </motion.div>
           )}
 
           {/* View All Button */}
-          <div className="text-center">
-            <button
+          <div className="mt-24 text-center">
+            <motion.button
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
               onClick={handleViewAllToggle}
-              className="inline-flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white font-bold px-8 py-4 rounded-lg transition-all duration-300 shadow-lg hover:shadow-xl"
+              className="inline-flex items-center gap-4 bg-white hover:bg-[#1E293B] text-[#1E293B] hover:text-white font-bold px-12 py-6 rounded-3xl transition-all duration-300 shadow-2xl border-2 border-[#1E293B] group"
             >
-              <span>{showAll ? 'Show Less' : 'View All Universities'}</span>
-              <ChevronRight className={`w-5 h-5 transition-transform duration-300 ${showAll ? 'rotate-90' : ''}`} />
-            </button>
+              <span className="text-xl">{showAll ? 'Show Paginated View' : `View All ${filteredUniversities.length} Institutions`}</span>
+              <div className={`p-1 rounded-full border-2 border-current transition-transform duration-500 ${showAll ? 'rotate-180' : ''}`}>
+                <ChevronRight className="w-6 h-6" />
+              </div>
+            </motion.button>
           </div>
+        </div>
+      </section>
+
+      {/* Trust Quote Section */}
+      <section className="py-32 bg-[#1E293B] relative overflow-hidden">
+        <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-blue-500 to-transparent"></div>
+        <div className="container mx-auto px-4 relative z-10">
+          <div className="max-w-4xl mx-auto text-center">
+            <motion.div
+              initial={{ opacity: 0, scale: 0.9 }}
+              whileInView={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.8 }}
+              viewport={{ once: true }}
+            >
+              <h2 className="text-4xl md:text-6xl font-bold text-white mb-10 leading-tight">
+                "Education is the most powerful weapon which you can use to change the world."
+              </h2>
+              <div className="w-24 h-1 bg-blue-500 mx-auto mb-8 rounded-full"></div>
+              <p className="text-xl text-blue-100/60 font-medium uppercase tracking-[0.2em]">Nelson Mandela</p>
+            </motion.div>
+          </div>
+        </div>
+        
+        {/* Animated Background Elements */}
+        <div className="absolute inset-0 pointer-events-none opacity-10">
+           <Building2 className="absolute -bottom-10 -left-10 w-96 h-96 text-white" />
+           <GraduationCap className="absolute -top-10 -right-10 w-96 h-96 text-white" />
         </div>
       </section>
 
       {/* CTA Section */}
-      <section className="py-16 bg-gradient-to-r from-blue-600 to-purple-600">
-        <div className="container mx-auto px-4 text-center">
-          <h2 className="text-4xl font-bold text-white mb-4">
-            Ready to Start Your Journey?
-          </h2>
-          <p className="text-xl text-white/90 mb-8 max-w-2xl mx-auto">
-            Connect with our expert counsellors to find the perfect university and program for your career goals
-          </p>
-          <button className="bg-white hover:bg-gray-100 text-blue-600 font-bold px-8 py-4 rounded-lg transition-all duration-300 shadow-lg hover:shadow-xl">
-            Talk to Expert Counsellor
-          </button>
+      <section className="py-32 bg-white relative">
+        <div className="container mx-auto px-4">
+          <motion.div 
+            className="bg-gradient-to-br from-[#1E3A8A] to-[#1E40AF] rounded-[3rem] p-12 md:p-24 text-center relative overflow-hidden shadow-[0_40px_80px_-15px_rgba(30,58,138,0.4)]"
+            initial={{ opacity: 0, scale: 0.95 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.8 }}
+            viewport={{ once: true }}
+          >
+            {/* Glossy overlay */}
+            <div className="absolute top-0 right-0 w-full h-full bg-gradient-to-br from-white/10 to-transparent pointer-events-none"></div>
+            
+            <div className="relative z-10">
+              <h2 className="text-4xl md:text-6xl font-bold text-white mb-10 leading-tight max-w-4xl mx-auto">
+                Can't decide the right university for you?
+              </h2>
+              <p className="text-xl md:text-2xl text-blue-100/90 mb-14 max-w-2xl mx-auto font-light leading-relaxed">
+                Connect with our expert education counsellors for a 1-on-1 session to map out your perfect academic journey.
+              </p>
+              <div className="flex flex-col sm:flex-row items-center justify-center gap-6">
+                <button className="bg-white hover:bg-blue-50 text-[#1E3A8A] font-bold px-12 py-6 rounded-[2rem] transition-all duration-300 shadow-xl hover:shadow-2xl flex items-center gap-4 text-xl group">
+                  <span>Get Free Counselling</span>
+                  <div className="w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center text-blue-600 group-hover:scale-110 transition-transform">
+                    <ChevronRight className="w-5 h-5" />
+                  </div>
+                </button>
+                <button className="bg-[#1E293B] hover:bg-slate-800 text-white font-bold px-12 py-6 rounded-[2rem] transition-all duration-300 shadow-xl border border-white/10 text-xl">
+                  Contact Support
+                </button>
+              </div>
+            </div>
+            
+            {/* Background elements */}
+            <div className="absolute top-1/2 left-10 -translate-y-1/2 opacity-10">
+              <Users className="w-64 h-64 text-white" />
+            </div>
+          </motion.div>
         </div>
       </section>
+
+      <FooterSpacer />
     </div>
   );
 };
+
+const FooterSpacer = () => <div className="h-20 bg-white" />;
 
 export default UniversityPageNew;
