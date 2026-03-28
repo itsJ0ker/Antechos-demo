@@ -31,6 +31,46 @@ import { motion, AnimatePresence, useScroll, useTransform } from 'framer-motion'
 import { universities as staticUniversities } from '../data/universities';
 import { getUniversities } from '../lib/supabase';
 
+/* ─── Inline CSS ─────────────────────────────────────────────────────────── */
+const styles = `
+  @import url('https://fonts.googleapis.com/css2?family=Sora:wght@300;400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,400&display=swap');
+
+  :root {
+    --accent: #38BDF8;
+    --accent-light: #7DD3FC;
+    --dark: #0A0C0F;
+    --dark-2: #0F1318;
+    --dark-3: #161C24;
+    --card-bg: #FFFFFF;
+    --border: rgba(56,189,248,0.1);
+  }
+
+  .uni-page-new { font-family: 'DM Sans', sans-serif; background: #FFF; color: var(--dark); }
+  .uni-page-new h1, .uni-page-new h2, .uni-page-new h3, .uni-page-new h4 { font-family: 'Sora', sans-serif; }
+  
+  .section-label {
+    display: inline-flex; alignItems: center; gap: 8px;
+    padding: 6px 16px; background: rgba(56,189,248,0.08);
+    border: 1px solid rgba(56,189,248,0.2); borderRadius: 100px;
+    fontSize: 12px; fontWeight: 700; color: var(--accent);
+    letterSpacing: '0.05em'; textTransform: 'uppercase'; marginBottom: 16px;
+  }
+
+  .grid-pattern {
+    position: absolute; inset: 0; 
+    backgroundImage: linear-gradient(rgba(56,189,248,0.03) 1px, transparent 1px), 
+                     linear-gradient(90deg, rgba(56,189,248,0.03) 1px, transparent 1px);
+    backgroundSize: 50px 50px; pointerEvents: none;
+  }
+`;
+
+const SectionLabel = ({ children, icon: Icon }) => (
+  <div className="section-label flex items-center gap-2 mb-6">
+    {Icon && <Icon className="w-3.5 h-3.5" />}
+    <span className="tracking-[0.15em] font-black uppercase text-[10px]">{children}</span>
+  </div>
+);
+
 // --- PREMIUM ASSETS ---
 const HERO_IMAGES = [
   "https://images.unsplash.com/photo-1523050335456-c4b4f65511ca?q=80&w=1920&auto=format&fit=crop",
@@ -165,10 +205,17 @@ const UniversityPageNew = () => {
   const handleUniversityClick = (link) => window.open(link, '_blank', 'noopener,noreferrer');
 
   return (
-    <div className="min-h-screen bg-[#FDFDFD] font-sans">
+    <div className="uni-page-new min-h-screen">
+      <style>{styles}</style>
 
       {/* 1. HERO SECTION */}
-      <section className="relative h-[700px] md:h-[850px] overflow-hidden flex items-center">
+      <section className="relative h-[700px] md:h-[850px] overflow-hidden flex items-center bg-slate-900">
+        <div className="grid-pattern"></div>
+        
+        {/* Decorative Blobs */}
+        <div className="absolute top-[-10%] right-[-5%] w-[600px] h-[600px] rounded-full bg-radial-gradient(circle, rgba(56,189,248,0.1) 0%, transparent 70%) pointer-events-none"></div>
+        <div className="absolute bottom-[-15%] left-[-5%] w-[500px] h-[500px] rounded-full bg-radial-gradient(circle, rgba(56,189,248,0.05) 0%, transparent 70%) pointer-events-none"></div>
+
         <AnimatePresence mode="wait">
           <motion.div
             key={heroIndex}
@@ -183,7 +230,7 @@ const UniversityPageNew = () => {
               backgroundPosition: 'center'
             }}
           >
-            <div className="absolute inset-0 bg-gradient-to-r from-slate-900 via-slate-900/80 to-slate-900/20"></div>
+            <div className="absolute inset-0 bg-gradient-to-r from-slate-900 via-slate-900/90 to-slate-900/40"></div>
           </motion.div>
         </AnimatePresence>
 
@@ -192,20 +239,18 @@ const UniversityPageNew = () => {
             <motion.div
               initial={{ opacity: 0, scale: 0.8 }}
               animate={{ opacity: 1, scale: 1 }}
-              className="inline-flex items-center gap-3 bg-indigo-600 text-white px-5 py-2.5 rounded-full text-xs font-black tracking-[0.2em] uppercase mb-10 shadow-2xl shadow-indigo-600/40"
             >
-              <Activity className="w-4 h-4 animate-pulse" />
-              Live Admission Status: Open for 2026
+              <SectionLabel icon={Activity}>Strategic Academic Intelligence 2026</SectionLabel>
             </motion.div>
 
             <motion.h1
               initial={{ opacity: 0, y: 100 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ type: "spring", damping: 20, stiffness: 100 }}
-              className="text-6xl md:text-[6.5rem] font-black text-white leading-[0.9] mb-12 tracking-tighter"
+              className="text-6xl md:text-[7rem] font-black text-white leading-[0.85] mb-12 tracking-tighter"
             >
-              The Modern <br />
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 via-blue-400 to-indigo-500">Academic Standard.</span>
+              Academic <br />
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-indigo-400 to-blue-500">Transcendence.</span>
             </motion.h1>
 
             <motion.p
@@ -214,7 +259,7 @@ const UniversityPageNew = () => {
               transition={{ delay: 0.5, duration: 1 }}
               className="text-xl md:text-3xl text-slate-300 font-medium max-w-2xl mb-16 leading-relaxed"
             >
-              Engineered pathways to top-tier universities. Data-backed, student-verified.
+              A higher standard of institutional intelligence. Engineered for leaders, curated for success.
             </motion.p>
 
             <motion.div
@@ -238,7 +283,7 @@ const UniversityPageNew = () => {
           <div className="flex items-center gap-12 whitespace-nowrap animate-marquee px-4">
             {[1, 2, 3, 4, 5].map(i => (
               <div key={i} className="flex items-center gap-3">
-                <div className="w-2 h-2 rounded-full bg-green-500 animate-ping"></div>
+                <div className="w-2 h-2 rounded-full bg-blue-500 animate-ping"></div>
                 <span className="text-white/60 text-[10px] font-black uppercase tracking-widest">UPES Dehradun Application Deadline: April 15th</span>
                 <span className="text-white/20 mx-4">|</span>
                 <span className="text-white/60 text-[10px] font-black uppercase tracking-widest">Sikkim Manipal Admission: 50% Scholarship Available</span>
@@ -248,7 +293,34 @@ const UniversityPageNew = () => {
         </div>
       </section>
 
-      {/* 2. LOGO CAROUSEL */}
+      {/* 2. IMPACT STATS (From About Page) */}
+      <section className="py-20 bg-white border-b border-slate-100 relative overflow-hidden">
+        <div className="container mx-auto px-6">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
+            {[
+              { val: '18k', label: 'Certified Leaders', suffix: '+' },
+              { val: '95', label: 'Placement Trajectory', suffix: '%' },
+              { val: '50', label: 'Partner Institutions', suffix: '+' },
+              { val: '4.9', label: 'Average Evaluation', suffix: '/5' }
+            ].map((stat, i) => (
+              <motion.div 
+                key={i}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                className="text-center p-8 rounded-[2rem] bg-slate-50 border border-slate-100 hover:border-blue-200 transition-all group"
+              >
+                <div className="text-4xl md:text-5xl font-black text-blue-600 mb-2 group-hover:scale-110 transition-transform">
+                  {stat.val}{stat.suffix}
+                </div>
+                <div className="text-[10px] font-black text-slate-400 uppercase tracking-widest">{stat.label}</div>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* 3. LOGO CAROUSEL */}
       <section className="bg-white py-14 overflow-hidden relative border-b border-slate-100">
         <div className="flex items-center gap-20 whitespace-nowrap animate-marquee">
           {[...UNIVERSITY_LOGOS, ...UNIVERSITY_LOGOS].map((logo, idx) => (
@@ -259,14 +331,14 @@ const UniversityPageNew = () => {
                 className="h-10 w-auto object-contain"
                 onError={(e) => { e.target.style.display = 'none'; e.target.nextSibling.style.display = 'block'; }}
               />
-              <span className="hidden text-slate-400 font-black tracking-widest text-xs uppercase group-hover:text-indigo-600">{logo.fallback}</span>
+              <span className="hidden text-slate-400 font-black tracking-widest text-xs uppercase group-hover:text-blue-600">{logo.fallback}</span>
               <span className="text-slate-900 font-black tracking-tight text-xl">{logo.name}</span>
             </div>
           ))}
         </div>
       </section>
 
-      {/* 3. SMART FINDER */}
+      {/* 4. SMART FINDER */}
       <section className="py-24 bg-slate-50 relative">
         <div className="container mx-auto px-6">
           <div className="bg-slate-900 rounded-[4rem] p-10 md:p-20 shadow-[0_50px_100px_-20px_rgba(0,0,0,0.5)] relative overflow-hidden">
@@ -277,7 +349,7 @@ const UniversityPageNew = () => {
             <div className="relative z-10">
               <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-8 mb-20">
                 <div className="max-w-xl">
-                  <span className="text-indigo-400 font-black uppercase tracking-[0.4em] text-[10px] mb-6 block">Algorithm 4.0</span>
+                  <SectionLabel icon={Zap}>Intelligence Algorithm 4.0</SectionLabel>
                   <h2 className="text-4xl md:text-6xl font-black text-white mb-6 leading-tight">University Intelligence Engine</h2>
                   <p className="text-slate-400 font-medium text-lg leading-relaxed">Match your profile with thousands of institutional data points.</p>
                 </div>
@@ -286,8 +358,8 @@ const UniversityPageNew = () => {
                     <p className="text-white font-black text-xl">18+</p>
                     <p className="text-slate-500 text-[10px] font-bold uppercase tracking-widest">Catalogued Units</p>
                   </div>
-                  <div className="w-12 h-12 bg-indigo-500/20 rounded-2xl flex items-center justify-center">
-                    <Building2 className="w-6 h-6 text-indigo-400" />
+                  <div className="w-12 h-12 bg-blue-500/20 rounded-2xl flex items-center justify-center">
+                    <Building2 className="w-6 h-6 text-blue-400" />
                   </div>
                 </div>
               </div>
@@ -296,7 +368,7 @@ const UniversityPageNew = () => {
                 <div className="space-y-4">
                   <label className="text-xs font-black text-slate-500 uppercase tracking-[0.2em] ml-2">Academic Vertical</label>
                   <select
-                    className="w-full bg-white/5 border border-white/10 text-white p-6 rounded-3xl font-black focus:ring-2 focus:ring-indigo-500 appearance-none cursor-pointer"
+                    className="w-full bg-white/5 border border-white/10 text-white p-6 rounded-3xl font-black focus:ring-2 focus:ring-blue-500 appearance-none cursor-pointer"
                     value={finderStream}
                     onChange={(e) => setFinderStream(e.target.value)}
                   >
@@ -307,19 +379,19 @@ const UniversityPageNew = () => {
                 </div>
                 <div className="space-y-4">
                   <label className="text-xs font-black text-slate-500 uppercase tracking-[0.2em] ml-2">Fee Structure</label>
-                  <select className="w-full bg-white/5 border border-white/10 text-white p-6 rounded-3xl font-black focus:ring-2 focus:ring-indigo-500 appearance-none cursor-pointer">
+                  <select className="w-full bg-white/5 border border-white/10 text-white p-6 rounded-3xl font-black focus:ring-2 focus:ring-blue-500 appearance-none cursor-pointer">
                     <option className="bg-slate-900">Any</option>
                   </select>
                 </div>
                 <div className="space-y-4">
                   <label className="text-xs font-black text-slate-500 uppercase tracking-[0.2em] ml-2">Degree Duration</label>
-                  <select className="w-full bg-white/5 border border-white/10 text-white p-6 rounded-3xl font-black focus:ring-2 focus:ring-indigo-500 appearance-none cursor-pointer">
+                  <select className="w-full bg-white/5 border border-white/10 text-white p-6 rounded-3xl font-black focus:ring-2 focus:ring-blue-500 appearance-none cursor-pointer">
                     <option className="bg-slate-900">Any</option>
                   </select>
                 </div>
                 <div className="flex flex-col justify-end">
                   <button className="w-full bg-white text-slate-900 font-black p-6 rounded-3xl shadow-xl transition-all hover:bg-slate-100 flex items-center justify-center gap-3">
-                    <Zap className="w-5 h-5 text-indigo-600 fill-current" />
+                    <Zap className="w-5 h-5 text-blue-600 fill-current" />
                     <span className="uppercase tracking-widest text-xs">Analyze Selection</span>
                   </button>
                 </div>
@@ -329,13 +401,13 @@ const UniversityPageNew = () => {
         </div>
       </section>
 
-      {/* NEW: OFFICIAL PROGRAM PORTFOLIOS */}
+      {/* 5. OFFICIAL PROGRAM PORTFOLIOS */}
       <section className="py-24 bg-white relative overflow-hidden">
         <div className="container mx-auto px-6">
           <div className="flex flex-col md:flex-row justify-between items-end gap-12 mb-20">
             <div className="max-w-2xl">
-              <span className="text-indigo-600 font-black uppercase tracking-[0.4em] text-[10px] mb-6 block">Curriculum 2026</span>
-              <h2 className="text-5xl md:text-6xl font-black text-slate-900 mb-0 font-display uppercase tracking-tighter">Strategic Program <span className="text-indigo-600">Intelligence.</span></h2>
+              <SectionLabel icon={Award}>Curriculum Standards 2026</SectionLabel>
+              <h2 className="text-5xl md:text-6xl font-black text-slate-900 mb-0 font-display uppercase tracking-tighter">Strategic Program <span className="text-blue-600">Intelligence.</span></h2>
             </div>
             <div className="flex flex-wrap gap-4 bg-slate-50 p-2 rounded-3xl border border-slate-100">
                {['All', 'Postgraduate', 'Undergraduate', 'Professional'].map(tab => (
@@ -445,13 +517,13 @@ const UniversityPageNew = () => {
         <div className="absolute -bottom-24 -left-24 w-96 h-96 bg-indigo-50/50 rounded-full blur-3xl pointer-events-none"></div>
       </section>
 
-      {/* 4. WHY CHOOSE: "Executive Feature Set" */}
+      {/* 6. WHY CHOOSE: "Executive Feature Set" */}
       <section className="py-24 bg-slate-50">
         <div className="container mx-auto px-6">
           <div className="flex flex-col md:flex-row justify-between items-end gap-12 mb-20 border-b border-slate-200 pb-12">
             <div className="max-w-2xl">
-              <span className="text-indigo-600 font-black uppercase tracking-[0.3em] text-[10px] mb-4 block">The Antechos Edge</span>
-              <h2 className="text-5xl font-black text-slate-900 mb-0 font-display uppercase tracking-tight">Why Choose <span className="text-indigo-600">Antechos</span> for Distance Learning?</h2>
+              <SectionLabel icon={TrendingUp}>The Antechos Advantage</SectionLabel>
+              <h2 className="text-5xl font-black text-slate-900 mb-0 font-display uppercase tracking-tight leading-none">Why Choose <span className="text-blue-600">Antechos</span> <br /> for Distance Learning?</h2>
             </div>
             <p className="text-slate-500 font-semibold text-lg max-w-sm leading-relaxed">Systematic engineering of educational pathways for high-potential individuals through India's premier consulting network.</p>
           </div>
@@ -461,9 +533,9 @@ const UniversityPageNew = () => {
               <motion.div 
                 key={idx}
                 whileHover={{ y: -12 }}
-                className="group p-10 rounded-[3rem] bg-white border border-slate-100 hover:border-indigo-100 shadow-sm hover:shadow-2xl transition-all duration-700"
+                className="group p-10 rounded-[3rem] bg-white border border-slate-100 hover:border-blue-200 shadow-sm hover:shadow-2xl transition-all duration-700"
               >
-                <div className={`w-16 h-16 ${item.color} rounded-2xl flex items-center justify-center mb-10 transform group-hover:rotate-12 transition-transform duration-500`}>
+                <div className={`w-16 h-16 bg-blue-50 rounded-2xl flex items-center justify-center mb-10 transform group-hover:rotate-12 transition-transform duration-500`}>
                   {item.icon}
                 </div>
                 <h3 className="text-2xl font-black text-slate-900 mb-6 font-display">{item.title}</h3>
@@ -474,14 +546,14 @@ const UniversityPageNew = () => {
         </div>
       </section>
 
-      {/* 5. UNIVERSITY GRID */}
+      {/* 7. UNIVERSITY GRID */}
       <section className="py-24 bg-white" id="directory">
         <div className="container mx-auto px-6">
           {/* SECTION HEADER */}
           <div className="flex flex-col md:flex-row justify-between items-center gap-12 mb-24">
             <div className="text-center md:text-left">
-              <span className="text-indigo-600 font-black uppercase tracking-[0.4em] text-[10px] mb-4 block">Archive 2026</span>
-              <h2 className="text-5xl md:text-6xl font-black text-slate-900 mb-0 font-display">Institution Portfolio</h2>
+              <SectionLabel icon={Building2}>Institution Archive 2026</SectionLabel>
+              <h2 className="text-5xl md:text-6xl font-black text-slate-900 mb-0 font-display uppercase tracking-tighter">Academic <span className="text-blue-600">Portfolio.</span></h2>
             </div>
             
             <div className="flex flex-wrap justify-center gap-3 bg-white p-2 rounded-[2.5rem] border border-slate-100 shadow-sm">
@@ -507,13 +579,13 @@ const UniversityPageNew = () => {
                 initial={{ opacity: 0, y: 30 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                className="group flex flex-col bg-white rounded-[3.5rem] overflow-hidden border border-slate-100 hover:border-indigo-100 transition-all duration-700 hover:shadow-[0_40px_80px_-15px_rgba(0,0,0,0.08)]"
+                className="group flex flex-col bg-white rounded-[3.5rem] overflow-hidden border border-slate-100 hover:border-blue-100 transition-all duration-700 hover:shadow-[0_40px_80px_-15px_rgba(0,0,0,0.08)]"
               >
                 <div className="relative h-72 overflow-hidden">
                   <img src={uni.image} alt={uni.name} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-1000" />
                   <div className="absolute top-6 left-6 flex flex-col gap-2">
                     <span className="bg-white/90 backdrop-blur-md text-slate-900 py-2 px-4 rounded-xl text-[10px] font-black uppercase tracking-widest shadow-xl border border-white/20">{uni.category}</span>
-                    <span className="bg-indigo-600 text-white py-2 px-4 rounded-xl text-[10px] font-black uppercase tracking-widest shadow-xl">Top Rated</span>
+                    <span className="bg-blue-600 text-white py-2 px-4 rounded-xl text-[10px] font-black uppercase tracking-widest shadow-xl">Top Rated</span>
                   </div>
                   <div className="absolute top-6 right-6 bg-slate-900/80 backdrop-blur-md text-white p-2 px-4 rounded-2xl flex items-center gap-2 font-black text-xs border border-white/10">
                     <Star className="w-4 h-4 text-orange-400 fill-current" />
@@ -524,10 +596,10 @@ const UniversityPageNew = () => {
 
                 <div className="p-10 flex flex-col flex-grow">
                   <div className="flex items-center gap-3 mb-6">
-                    <MapPin className="w-4 h-4 text-indigo-600" />
+                    <MapPin className="w-4 h-4 text-blue-600" />
                     <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest">{uni.location}</span>
                   </div>
-                  <h3 className="text-2xl font-black text-slate-900 mb-6 font-display group-hover:text-indigo-600 transition-colors uppercase leading-[1.1]">{uni.name}</h3>
+                  <h3 className="text-2xl font-black text-slate-900 mb-6 font-display group-hover:text-blue-600 transition-colors uppercase leading-[1.1]">{uni.name}</h3>
                   <p className="text-slate-500 font-medium text-sm leading-relaxed mb-8 line-clamp-3">{uni.description}</p>
 
                   <div className="flex flex-wrap gap-2 mb-10">
@@ -539,7 +611,7 @@ const UniversityPageNew = () => {
                   <div className="mt-auto">
                     <button
                       onClick={() => handleUniversityClick(uni.link)}
-                      className="w-full flex items-center justify-between group/btn bg-slate-900 hover:bg-indigo-600 text-white p-6 rounded-[2rem] transition-all duration-500"
+                      className="w-full flex items-center justify-between group/btn bg-slate-900 hover:bg-blue-600 text-white p-6 rounded-[2rem] transition-all duration-500"
                     >
                       <span className="text-[10px] font-black uppercase tracking-[0.3em]">Full Institution Intel</span>
                       <ArrowRight className="w-5 h-5 group-hover/btn:translate-x-2 transition-transform" />
@@ -566,7 +638,7 @@ const UniversityPageNew = () => {
             {showAll && (
               <button
                 onClick={() => setShowAll(false)}
-                className="text-slate-400 hover:text-indigo-600 font-black text-[10px] uppercase tracking-[0.4em] transition-all border-b border-transparent hover:border-indigo-600 pb-1"
+                className="text-slate-400 hover:text-blue-600 font-black text-[10px] uppercase tracking-[0.4em] transition-all border-b border-transparent hover:border-blue-600 pb-1"
               >
                 Show Less
               </button>
@@ -575,16 +647,19 @@ const UniversityPageNew = () => {
         </div>
       </section>
 
-      {/* 5. ADVISORY PANEL */}
-      <section className="py-24 bg-white">
+      {/* 8. ADVISORY PANEL */}
+      <section className="py-24 bg-white relative overflow-hidden">
         <div className="container mx-auto px-6">
-          <div className="bg-indigo-600 rounded-[5rem] p-12 md:p-32 relative overflow-hidden flex flex-col items-center text-center text-white shadow-2xl">
+          <div className="bg-slate-900 rounded-[5rem] p-12 md:p-32 relative overflow-hidden flex flex-col items-center text-center text-white shadow-2xl">
             <div className="absolute inset-0 opacity-10 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')]"></div>
+            <div className="grid-pattern opacity-10"></div>
+            
             <div className="relative z-10 max-w-4xl">
-              <h2 className="text-5xl md:text-[6.5rem] font-black mb-12 tracking-tight leading-[0.9]">Transform your <br /> Academic Trajectory.</h2>
+              <SectionLabel icon={Rocket}>Direct Counsel Available</SectionLabel>
+              <h2 className="text-5xl md:text-[6.5rem] font-black mb-12 tracking-tighter uppercase leading-[0.85]">Transform your <br /> Academic <span className="text-blue-500">Trajectory.</span></h2>
               <button 
                 onClick={() => setShowEnquiry(true)}
-                className="bg-white text-indigo-600 font-black px-16 py-8 rounded-[2rem] text-2xl shadow-2xl transition-all hover:scale-105 active:scale-95"
+                className="bg-blue-600 text-white font-black px-16 py-8 rounded-[2rem] text-2xl shadow-2xl transition-all hover:scale-105 active:scale-95 hover:bg-blue-700"
               >
                 Book Free Strategic Counsel
               </button>
