@@ -92,9 +92,14 @@ const SectionLabel = ({ children, icon: Icon }) => (
 
 // --- PREMIUM ASSETS ---
 const HERO_IMAGES = [
-  "https://images.unsplash.com/photo-1523050335456-c4b4f65511ca?q=80&w=1920&auto=format&fit=crop",
-  "https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?q=80&w=1920&auto=format&fit=crop",
-  "https://images.unsplash.com/photo-1541339907198-e08756dedf3f?q=80&w=1920&auto=format&fit=crop"
+  "https://i.ibb.co/yc5sqVnw/be65068c-9959-4394-9e69-f63f9526271f.jpg",
+  "https://i.ibb.co/nqScDwxV/c687a0ff-9444-4401-a677-dcfa7a83b34c.jpg",
+  "https://i.ibb.co/BVt60Wzb/3f983d9b-5985-42bd-b73c-c5d4985dc100.jpg",
+  "https://i.ibb.co/gZyjnbKS/d593a5d8-3a69-4a69-894d-625df826d339.jpg",
+  "https://i.ibb.co/CKFBqM8k/4827edca-062f-4d88-bee2-94ccad2c0622.jpg",
+  "https://i.ibb.co/rfchMpqt/9c67c950-4b88-4a48-8c99-5e92c1e82ed9.jpg",
+  "https://i.ibb.co/0jG1X0Tn/76f5a1ed-52ee-4bda-a603-cd513c8bdd3c.jpg",
+  "https://i.ibb.co/S4JFQLTn/07e3524e-cf9b-47a7-87fa-712a918b3e75.jpg"
 ];
 
 const TRUST_LOGOS = [
@@ -281,7 +286,7 @@ const UniversityPageNew = () => {
               backgroundPosition: 'center'
             }}
           >
-            <div className="absolute inset-0 bg-gradient-to-r from-slate-900 via-slate-900/90 to-slate-900/40"></div>
+            <div className="absolute inset-0 bg-slate-900/30"></div>
           </motion.div>
         </AnimatePresence>
 
@@ -313,20 +318,6 @@ const UniversityPageNew = () => {
               A higher standard of institutional intelligence. Engineered for leaders, curated for success.
             </motion.p>
 
-            <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.8 }}
-              className="flex flex-col sm:flex-row gap-8"
-            >
-              <button className="group bg-indigo-600 hover:bg-indigo-700 text-white font-black px-14 py-6 rounded-2xl shadow-2xl shadow-indigo-600/40 transition-all flex items-center gap-4 text-xl">
-                <span>Start Application</span>
-                <ArrowRight className="w-6 h-6 group-hover:translate-x-2 transition-transform" />
-              </button>
-              <button className="bg-white/5 backdrop-blur-md border border-white/20 hover:bg-white/10 text-white font-black px-14 py-6 rounded-2xl transition-all text-xl">
-                View Institutions
-              </button>
-            </motion.div>
           </div>
         </div>
 
