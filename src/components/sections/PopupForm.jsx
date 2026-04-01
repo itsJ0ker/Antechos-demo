@@ -64,23 +64,30 @@ export default function EnquiryPopup({ onClose, onSubmit }) {
   };
 
   return (
-    <div className="fixed inset-0 bg-slate-900/40 backdrop-blur-xl flex justify-center items-center z-[100] p-4">
-      <AnimatePresence>
+    <div 
+      className="fixed inset-0 bg-slate-900/60 backdrop-blur-xl flex justify-center items-center z-[1000] p-4"
+      onClick={(e) => {
+        if (e.target === e.currentTarget) onClose();
+      }}
+    >
+      <AnimatePresence mode="wait">
         {!submitted ? (
           <motion.div
+            key="enquiry-form"
             initial={{ y: 50, opacity: 0, scale: 0.95 }}
             animate={{ y: 0, opacity: 1, scale: 1 }}
             exit={{ y: -50, opacity: 0, scale: 0.95 }}
-            className="relative bg-white shadow-[0_40px_100px_-20px_rgba(0,0,0,0.3)] rounded-[3rem] p-8 md:p-12 max-w-xl w-full border border-slate-100 overflow-hidden"
+            className="relative bg-white shadow-[0_40px_100px_-20px_rgba(0,0,0,0.3)] rounded-[2.5rem] md:rounded-[3rem] p-6 sm:p-10 md:p-12 max-w-xl w-full border border-slate-100 overflow-hidden"
           >
             {/* Background Accent */}
             <div className="absolute -top-24 -right-24 w-64 h-64 bg-indigo-50 rounded-full blur-3xl pointer-events-none opacity-50"></div>
             
             <button 
               onClick={onClose}
-              className="absolute top-8 right-8 text-slate-300 hover:text-slate-900 transition-colors bg-slate-50 p-2 rounded-full"
+              className="absolute top-4 right-4 md:top-8 md:right-8 text-slate-400 hover:text-slate-900 transition-all bg-slate-100/50 hover:bg-slate-100 p-3 md:p-2 rounded-full z-[110]"
+              aria-label="Close popup"
             >
-              <X className="w-5 h-5" />
+              <X className="w-6 h-6 md:w-5 md:h-5" />
             </button>
 
             <div className="relative mb-12">
@@ -192,10 +199,19 @@ export default function EnquiryPopup({ onClose, onSubmit }) {
           </motion.div>
         ) : (
           <motion.div
+            key="success-message"
             initial={{ scale: 0.9, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
-            className="bg-white p-12 md:p-20 rounded-[4rem] text-center max-w-lg w-full border border-slate-100 shadow-2xl shadow-indigo-500/10"
+            className="relative bg-white p-12 md:p-20 rounded-[3rem] md:rounded-[4rem] text-center max-w-lg w-full border border-slate-100 shadow-2xl shadow-indigo-500/10"
           >
+            <button 
+              onClick={onClose}
+              className="absolute top-4 right-4 md:top-8 md:right-8 text-slate-400 hover:text-slate-900 transition-all bg-slate-100/50 hover:bg-slate-100 p-3 md:p-2 rounded-full z-[110]"
+              aria-label="Close popup"
+            >
+              <X className="w-6 h-6 md:w-5 md:h-5" />
+            </button>
+
             <div className="w-24 h-24 bg-green-50 rounded-full flex items-center justify-center mx-auto mb-10 text-green-500 border border-green-100">
               <CheckCircle2 className="w-12 h-12" />
             </div>
