@@ -480,7 +480,7 @@ const UniversityPageNew = () => {
                   </a>
                </motion.div>
 
-               <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8 w-full max-w-6xl">
+               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8 w-full max-w-6xl">
                   {[
                      { val: '50000', label: 'of Students Guided', suffix: '+' },
                      { val: '100', label: 'Partner Universities', suffix: '+' },
@@ -491,12 +491,12 @@ const UniversityPageNew = () => {
                         initial={{ opacity: 0, y: 30 }}
                         whileInView={{ opacity: 1, y: 0 }}
                         transition={{ delay: i * 0.1 }}
-                        className="p-8 md:p-12 rounded-[2rem] md:rounded-[2.5rem] bg-white border border-blue-100/50 shadow-sm hover:shadow-xl transition-all text-center flex flex-col items-center justify-center group"
+                        className={`p-8 md:p-10 rounded-xl bg-white border border-blue-100/50 shadow-sm hover:shadow-2xl transition-all text-center flex flex-col items-center justify-center group ${i === 2 && 'sm:col-span-2 lg:col-span-1'}`}
                      >
-                        <div className="text-4xl md:text-6xl font-black text-slate-900 mb-4 font-display group-hover:scale-110 transition-transform">
+                        <div className="text-4xl md:text-5xl lg:text-6xl font-black text-slate-900 mb-4 font-display group-hover:scale-105 transition-transform">
                            {stat.val}{stat.suffix}
                         </div>
-                        <div className="text-xs font-bold text-slate-400 uppercase tracking-widest">{stat.label}</div>
+                        <div className="text-[10px] md:text-xs font-bold text-slate-400 uppercase tracking-widest">{stat.label}</div>
                      </motion.div>
                   ))}
                </div>
