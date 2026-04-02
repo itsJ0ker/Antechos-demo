@@ -692,17 +692,17 @@ const UniversityPageNew = () => {
                                     key={uni.id}
                                     className="flex-shrink-0 w-[300px] md:w-[380px] h-[520px] md:h-[600px] group flex flex-col bg-white rounded-[2rem] md:rounded-[3rem] overflow-hidden border border-slate-100 hover:border-blue-100 transition-all duration-700 hover:shadow-[0_40px_80px_-15px_rgba(0,0,0,0.08)]"
                                  >
-                                    <div className="relative h-48 md:h-60 overflow-hidden">
-                                       <img src={uni.image} alt={uni.name} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-1000" />
-                                       <div className="absolute top-4 left-4 flex flex-col gap-1.5">
+                                    <div className="relative h-48 md:h-60 overflow-hidden bg-slate-100">
+                                       <img src={uni.image} alt={uni.name} className="w-full h-auto object-top origin-top group-hover:scale-110 transition-transform duration-1000" />
+                                       <div className="absolute inset-0 bg-gradient-to-t from-slate-900/80 via-transparent to-transparent pointer-events-none z-10"></div>
+                                       <div className="absolute bottom-4 left-4 flex gap-1.5 z-20">
                                           <span className="bg-white/90 backdrop-blur-md text-slate-900 py-1.5 px-3 rounded-lg text-[8px] md:text-[9px] font-black uppercase tracking-widest shadow-xl border border-white/20">{uni.category}</span>
                                           <span className="bg-blue-600 text-white py-1.5 px-3 rounded-lg text-[8px] md:text-[9px] font-black uppercase tracking-widest shadow-xl">Top Rated</span>
                                        </div>
-                                       <div className="absolute top-4 right-4 bg-slate-900/80 backdrop-blur-md text-white p-1.5 px-3 rounded-xl flex items-center gap-1.5 font-black text-[9px] md:text-xs border border-white/10">
+                                       <div className="absolute bottom-4 right-4 bg-slate-900/80 backdrop-blur-md text-white p-1.5 px-3 rounded-xl flex items-center gap-1.5 font-black text-[9px] md:text-xs border border-white/10 z-20">
                                           <Star className="w-3.5 h-3.5 text-orange-400 fill-current" />
                                           {uni.rating}
                                        </div>
-                                       <div className="absolute inset-0 bg-gradient-to-t from-slate-900/40 via-transparent to-transparent"></div>
                                     </div>
 
                                     <div className="p-6 md:p-8 flex flex-col flex-grow text-left">
@@ -773,17 +773,17 @@ const UniversityPageNew = () => {
                               viewport={{ once: true }}
                               className="group flex flex-col bg-white rounded-[2.5rem] md:rounded-[3.5rem] overflow-hidden border border-slate-100 hover:border-blue-100 transition-all duration-700 hover:shadow-[0_40px_80px_-15px_rgba(0,0,0,0.08)] h-[550px] md:h-[650px]"
                            >
-                              <div className="relative h-60 md:h-72 overflow-hidden">
-                                 <img src={uni.image} alt={uni.name} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-1000" />
-                                 <div className="absolute top-6 left-6 flex flex-col gap-2">
+                              <div className="relative h-60 md:h-72 overflow-hidden bg-slate-100">
+                                 <img src={uni.image} alt={uni.name} className="w-full h-auto object-top origin-top group-hover:scale-110 transition-transform duration-1000" />
+                                 <div className="absolute inset-0 bg-gradient-to-t from-slate-900/80 via-transparent to-transparent pointer-events-none z-10"></div>
+                                 <div className="absolute bottom-6 left-6 flex gap-2 z-20">
                                     <span className="bg-white/90 backdrop-blur-md text-slate-900 py-2 px-4 rounded-xl text-[9px] md:text-[10px] font-black uppercase tracking-widest shadow-xl border border-white/20">{uni.category}</span>
                                     <span className="bg-blue-600 text-white py-2 px-4 rounded-xl text-[9px] md:text-[10px] font-black uppercase tracking-widest shadow-xl">Top Rated</span>
                                  </div>
-                                 <div className="absolute top-6 right-6 bg-slate-900/80 backdrop-blur-md text-white p-2 px-4 rounded-2xl flex items-center gap-2 font-black text-[10px] md:text-xs border border-white/10">
+                                 <div className="absolute bottom-6 right-6 bg-slate-900/80 backdrop-blur-md text-white p-2 px-4 rounded-2xl flex items-center gap-2 font-black text-[10px] md:text-xs border border-white/10 z-20">
                                     <Star className="w-4 h-4 text-orange-400 fill-current" />
                                     {uni.rating}
                                  </div>
-                                 <div className="absolute inset-0 bg-gradient-to-t from-slate-900/40 via-transparent to-transparent"></div>
                               </div>
 
                               <div className="p-8 md:p-10 flex flex-col flex-grow text-left">
