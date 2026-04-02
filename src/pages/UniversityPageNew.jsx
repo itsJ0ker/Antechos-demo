@@ -34,6 +34,7 @@ import {
 import { motion, AnimatePresence, useScroll, useTransform } from 'framer-motion';
 import { universities as staticUniversities } from '../data/universities';
 import { getUniversities } from '../lib/supabase';
+import CountUp from 'react-countup';
 
 /* ─── Inline CSS ─────────────────────────────────────────────────────────── */
 const styles = `
@@ -76,6 +77,14 @@ const styles = `
     display: flex;
     width: max-content;
     animation: marquee 30s linear infinite; 
+  }
+
+  .hide-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  .hide-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
   }
 
   @media (max-width: 768px) {
@@ -236,9 +245,9 @@ const UniversityPageNew = () => {
    const [selectedPrograms, setSelectedPrograms] = useState([]);
    const [heroIndex, setHeroIndex] = useState(0);
    const [finderStream, setFinderStream] = useState('All');
-    const [helpIndex, setHelpIndex] = useState(0);
-    const [windowWidth, setWindowWidth] = useState(typeof window !== 'undefined' ? window.innerWidth : 1200);
-    const strategicIntelligenceRef = useRef(null);
+   const [helpIndex, setHelpIndex] = useState(0);
+   const [windowWidth, setWindowWidth] = useState(typeof window !== 'undefined' ? window.innerWidth : 1200);
+   const strategicIntelligenceRef = useRef(null);
 
    useEffect(() => {
       const handleResize = () => setWindowWidth(window.innerWidth);
@@ -387,10 +396,10 @@ const UniversityPageNew = () => {
             <div className="container mx-auto px-6">
                <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
                   {[
-                     { val: '18k', label: 'Certified Leaders', suffix: '+' },
-                     { val: '95', label: 'Placement Trajectory', suffix: '%' },
-                     { val: '50', label: 'Partner Institutions', suffix: '+' },
-                     { val: '4.9', label: 'Average Evaluation', suffix: '/5' }
+                     { val: 18, label: 'Certified Leaders', suffix: 'k+' },
+                     { val: 95, label: 'Placement Trajectory', suffix: '%' },
+                     { val: 50, label: 'Partner Institutions', suffix: '+' },
+                     { val: 4.9, label: 'Average Evaluation', suffix: '/5', decimals: 1 }
                   ].map((stat, i) => (
                      <motion.div
                         key={i}
@@ -400,7 +409,7 @@ const UniversityPageNew = () => {
                         className="text-center p-8 rounded-[2rem] bg-slate-50 border border-slate-100 hover:border-blue-200 transition-all group"
                      >
                         <div className="text-4xl md:text-5xl font-black text-blue-600 mb-2 group-hover:scale-110 transition-transform">
-                           {stat.val}{stat.suffix}
+                           <CountUp end={stat.val} decimals={stat.decimals || 0} duration={2.5} separator="," enableScrollSpy scrollSpyOnce suffix={stat.suffix} />
                         </div>
                         <div className="text-[10px] font-black text-slate-400 uppercase tracking-widest">{stat.label}</div>
                      </motion.div>
@@ -410,18 +419,18 @@ const UniversityPageNew = () => {
          </section>
 
          {/* 3. LOGO CAROUSEL */}
-         <section className="bg-white py-14 overflow-hidden relative border-b border-slate-100">
+         <section className="bg-gradient-to-b from-white to-slate-50 py-14 overflow-hidden relative border-b border-indigo-50/50">
             <div className="flex items-center gap-10 md:gap-24 whitespace-nowrap animate-marquee">
                {[...UNIVERSITY_LOGOS, ...UNIVERSITY_LOGOS, ...UNIVERSITY_LOGOS].map((logo, idx) => (
-                  <div key={idx} className="flex items-center gap-4 grayscale opacity-40 hover:grayscale-0 hover:opacity-100 transition-all duration-500 cursor-pointer group">
+                  <div key={idx} className="flex items-center gap-4 opacity-90 hover:opacity-100 hover:scale-110 transition-all duration-500 cursor-pointer group">
                      <img
                         src={logo.url}
                         alt={logo.name}
-                        className="h-8 md:h-12 w-auto object-contain"
+                        className="h-8 md:h-12 w-auto object-contain drop-shadow-sm"
                         onError={(e) => { e.target.style.display = 'none'; e.target.nextSibling.style.display = 'block'; }}
                      />
                      <span className="hidden text-slate-400 font-black tracking-widest text-[9px] md:text-xs uppercase group-hover:text-blue-600">{logo.fallback}</span>
-                     <span className="text-slate-900 font-black tracking-tight text-lg md:text-2xl">{logo.name}</span>
+                     <span className="bg-clip-text text-transparent bg-gradient-to-r from-blue-700 to-indigo-500 font-black tracking-tight text-lg md:text-2xl">{logo.name}</span>
                   </div>
                ))}
             </div>
@@ -482,9 +491,9 @@ const UniversityPageNew = () => {
 
                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8 w-full max-w-6xl">
                   {[
-                     { val: '50000', label: 'of Students Guided', suffix: '+' },
-                     { val: '100', label: 'Partner Universities', suffix: '+' },
-                     { val: '1000', label: 'Admission Success', suffix: '+' }
+                     { val: 50000, label: 'of Students Guided', suffix: '+' },
+                     { val: 100, label: 'Partner Universities', suffix: '+' },
+                     { val: 1000, label: 'Admission Success', suffix: '+' }
                   ].map((stat, i) => (
                      <motion.div
                         key={i}
@@ -494,7 +503,7 @@ const UniversityPageNew = () => {
                         className={`p-8 md:p-10 rounded-xl bg-white border border-blue-100/50 shadow-sm hover:shadow-2xl transition-all text-center flex flex-col items-center justify-center group ${i === 2 && 'sm:col-span-2 lg:col-span-1'}`}
                      >
                         <div className="text-4xl md:text-5xl lg:text-6xl font-black text-slate-900 mb-4 font-display group-hover:scale-105 transition-transform">
-                           {stat.val}{stat.suffix}
+                           <CountUp end={stat.val} duration={2.5} separator="," enableScrollSpy scrollSpyOnce suffix={stat.suffix} />
                         </div>
                         <div className="text-[10px] md:text-xs font-bold text-slate-400 uppercase tracking-widest">{stat.label}</div>
                      </motion.div>
@@ -567,18 +576,18 @@ const UniversityPageNew = () => {
                         whileInView={{ scale: 1, opacity: 1 }}
                         viewport={{ once: true }}
                         transition={{ duration: 1, type: "spring", bounce: 0.4 }}
-                        className="relative w-64 h-64 md:w-80 md:h-80 rounded-[3rem] p-6 bg-white shadow-[0_40px_100px_-20px_rgba(56,189,248,0.3)] border border-blue-50 z-10 flex items-center justify-center overflow-hidden group"
+                        className="relative w-80 h-80 md:w-[28rem] md:h-[28rem] lg:w-[32rem] lg:h-[32rem] z-10 flex items-center justify-center group"
                      >
-                        <div className="absolute inset-0 bg-blue-600/5 opacity-0 group-hover:opacity-100 transition-opacity duration-700"></div>
+                        <div className="absolute inset-0 bg-blue-600/10 opacity-0 group-hover:opacity-100 transition-opacity duration-700 rounded-full blur-[40px]"></div>
                         <img
                            src="https://i.ibb.co/dwGTHZ2f/unipageimage.png"
                            alt="center visual"
-                           className="w-full h-full object-contain relative z-10 group-hover:scale-110 transition-transform duration-1000"
+                           className="w-full h-full object-contain relative z-10 group-hover:scale-110 transition-transform duration-1000 mix-blend-multiply"
                         />
 
                         {/* Decorative floating elements */}
-                        <div className="absolute top-8 left-8 w-2 h-2 bg-blue-400 rounded-full animate-pulse"></div>
-                        <div className="absolute bottom-12 right-8 w-3 h-3 bg-orange-400/20 rounded-full blur-[2px]"></div>
+                        <div className="absolute top-8 left-8 w-3 h-3 bg-blue-400 rounded-full animate-pulse"></div>
+                        <div className="absolute bottom-12 right-8 w-4 h-4 bg-orange-400/40 rounded-full blur-[2px]"></div>
                      </motion.div>
 
                      {/* Floating Badge */}
@@ -636,12 +645,12 @@ const UniversityPageNew = () => {
                      <h2 className="text-2xl sm:text-4xl md:text-5xl font-black text-slate-900 mb-0 font-display uppercase tracking-tighter max-w-2xl lg:max-w-3xl">India's <span className="text-blue-600">Trusted & Prestigious</span> Online University.</h2>
                   </div>
 
-                  <div className="flex flex-wrap justify-center gap-2 md:gap-3 bg-white p-2 rounded-[2rem] md:rounded-[2.5rem] border border-slate-100 shadow-sm w-full md:w-auto">
+                  <div className="flex flex-nowrap justify-between md:justify-center gap-1 md:gap-3 bg-white p-1 md:p-2 rounded-[2rem] md:rounded-[2.5rem] border border-slate-100 shadow-sm w-full md:max-w-fit mx-auto">
                      {['All', 'Private', 'Public', 'Deemed'].map(cat => (
                         <button
                            key={cat}
                            onClick={() => setFilterCategory(cat)}
-                           className={`flex-grow md:flex-grow-0 px-6 md:px-10 py-3 md:py-4 rounded-[1.5rem] md:rounded-[2rem] text-[9px] md:text-[10px] font-black uppercase tracking-[0.2em] transition-all ${filterCategory === cat
+                           className={`flex-1 flex items-center justify-center whitespace-nowrap px-1 md:px-10 py-2.5 md:py-4 rounded-[1.5rem] md:rounded-[2rem] text-[2.5vw] sm:text-[10px] md:text-[10px] font-black uppercase tracking-tighter sm:tracking-[0.2em] transition-all ${filterCategory === cat
                               ? "bg-slate-900 text-white shadow-2xl"
                               : "text-slate-400 hover:text-slate-900"
                               }`}
@@ -664,7 +673,7 @@ const UniversityPageNew = () => {
                            </div>
 
                            <motion.div
-                              className="flex gap-8 pb-12 cursor-grab active:cursor-grabbing touch-pan-x"
+                              className="flex gap-8 pb-12 cursor-grab active:cursor-grabbing touch-pan-x items-stretch"
                               animate={{ x: -(currentIndex * (windowWidth < 768 ? 280 + 32 : 380 + 32)) }}
                               transition={{ type: "spring", damping: 25, stiffness: 120 }}
                               drag="x"
@@ -681,7 +690,7 @@ const UniversityPageNew = () => {
                               {filteredUniversities.map((uni) => (
                                  <motion.div
                                     key={uni.id}
-                                    className="flex-shrink-0 w-[280px] md:w-[380px] group flex flex-col bg-white rounded-[2rem] md:rounded-[3rem] overflow-hidden border border-slate-100 hover:border-blue-100 transition-all duration-700 hover:shadow-[0_40px_80px_-15px_rgba(0,0,0,0.08)]"
+                                    className="flex-shrink-0 w-[300px] md:w-[380px] h-[520px] md:h-[600px] group flex flex-col bg-white rounded-[2rem] md:rounded-[3rem] overflow-hidden border border-slate-100 hover:border-blue-100 transition-all duration-700 hover:shadow-[0_40px_80px_-15px_rgba(0,0,0,0.08)]"
                                  >
                                     <div className="relative h-48 md:h-60 overflow-hidden">
                                        <img src={uni.image} alt={uni.name} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-1000" />
@@ -762,7 +771,7 @@ const UniversityPageNew = () => {
                               initial={{ opacity: 0, y: 30 }}
                               whileInView={{ opacity: 1, y: 0 }}
                               viewport={{ once: true }}
-                              className="group flex flex-col bg-white rounded-[2.5rem] md:rounded-[3.5rem] overflow-hidden border border-slate-100 hover:border-blue-100 transition-all duration-700 hover:shadow-[0_40px_80px_-15px_rgba(0,0,0,0.08)]"
+                              className="group flex flex-col bg-white rounded-[2.5rem] md:rounded-[3.5rem] overflow-hidden border border-slate-100 hover:border-blue-100 transition-all duration-700 hover:shadow-[0_40px_80px_-15px_rgba(0,0,0,0.08)] h-[550px] md:h-[650px]"
                            >
                               <div className="relative h-60 md:h-72 overflow-hidden">
                                  <img src={uni.image} alt={uni.name} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-1000" />
@@ -836,69 +845,36 @@ const UniversityPageNew = () => {
                   </p>
                </div>
 
-               <div className="relative">
-                  <div className="overflow-hidden">
-                        <motion.div 
-                           className="flex gap-6 md:gap-8 cursor-grab active:cursor-grabbing pb-12"
-                           animate={{ x: -(helpIndex * (windowWidth < 768 ? 340 + 24 : 480 + 32)) }}
-                           transition={{ type: "spring", damping: 25, stiffness: 120 }}
-                           drag="x"
-                           dragConstraints={{
-                              right: 0,
-                              left: -((HELP_CARDS.length - 1) * (windowWidth < 768 ? 340 + 24 : 480 + 32))
-                           }}
-                           onDragEnd={(e, { offset, velocity }) => {
-                              const swipeThreshold = 50;
-                              if (offset.x < -swipeThreshold) setHelpIndex(prev => Math.min(prev + 1, HELP_CARDS.length - 1));
-                              if (offset.x > swipeThreshold) setHelpIndex(prev => Math.max(prev - 1, 0));
-                           }}
-                        >
-                           {HELP_CARDS.map((card, idx) => (
-                              <motion.div
-                                 key={idx}
-                                 initial={{ opacity: 0, y: 20 }}
-                                 whileInView={{ opacity: 1, y: 0 }}
-                                 viewport={{ once: true }}
-                                 transition={{ delay: idx * 0.1 }}
-                                 className="flex-shrink-0 w-[340px] md:w-[480px] p-8 md:p-10 rounded-xl bg-white border-2 border-slate-100 group hover:border-blue-500 hover:shadow-2xl transition-all duration-700 relative overflow-hidden flex flex-row items-center gap-6 md:gap-10 text-left"
-                              >
-                                 <div className={`absolute inset-0 bg-gradient-to-br ${card.color} opacity-0 group-hover:opacity-10 transition-opacity duration-700`}></div>
-                                 
-                                 <div className="relative z-10 w-16 h-16 md:w-20 md:h-20 shrink-0 bg-slate-50 rounded-lg flex items-center justify-center border border-slate-100 group-hover:scale-110 group-hover:bg-blue-600 group-hover:text-white transition-all duration-500">
-                                    {React.cloneElement(card.icon, { className: "w-8 h-8 md:w-10 md:h-10 transition-colors duration-500" })}
-                                 </div>
-                                 
-                                 <div className="relative z-10 flex-grow">
-                                    <h3 className="text-base md:text-lg font-black mb-2 uppercase tracking-tight font-display leading-tight">{card.title}</h3>
-                                    <p className="text-slate-500 text-[10px] md:text-xs font-medium leading-relaxed group-hover:text-slate-600 transition-colors mb-4 line-clamp-2">
-                                       {card.desc}
-                                    </p>
-                                    
-                                    <div className="flex items-center gap-3 text-[9px] font-black uppercase tracking-[0.2em] text-blue-600 group-hover:translate-x-2 transition-all duration-500">
-                                       Connect <ArrowRight className="w-4 h-4" />
-                                    </div>
-                                 </div>
-                              </motion.div>
-                           ))}
-                        </motion.div>
-                  </div>
+               <div className="relative group/marquee">
+                  <div className="overflow-hidden py-4 -mx-6 px-6">
+                     <div 
+                        className="flex w-max gap-6 md:gap-8 animate-marquee hover:[animation-play-state:paused] pb-4"
+                        style={{ animationDuration: '40s' }}
+                     >
+                        {[...HELP_CARDS, ...HELP_CARDS, ...HELP_CARDS, ...HELP_CARDS].map((card, idx) => (
+                           <div
+                              key={idx}
+                              className="flex-shrink-0 w-[340px] md:w-[480px] p-8 md:p-10 rounded-[2rem] bg-white border border-slate-100 group hover:border-blue-200 hover:shadow-2xl transition-all duration-500 relative overflow-hidden flex flex-row items-center gap-6 md:gap-10 text-left cursor-pointer hover:-translate-y-2"
+                           >
+                              <div className={`absolute inset-0 bg-gradient-to-br ${card.color} opacity-0 group-hover:opacity-10 transition-opacity duration-700`}></div>
 
-                  {/* Navigation Arrows */}
-                  <div className="flex justify-center md:justify-between items-center gap-6 mt-8 md:absolute md:top-1/2 md:-translate-y-1/2 md:-left-12 md:-right-12 md:mt-0 pointer-events-none">
-                     <button
-                        onClick={() => setHelpIndex(prev => Math.max(prev - 1, 0))}
-                        disabled={helpIndex === 0}
-                        className="w-10 h-10 md:w-14 md:h-14 bg-white rounded-full shadow-xl border border-slate-100 flex items-center justify-center text-slate-400 hover:text-blue-600 hover:border-blue-500 transition-all active:scale-90 pointer-events-auto disabled:opacity-20 disabled:cursor-not-allowed group"
-                     >
-                        <ChevronLeft className="w-5 h-5 group-hover:scale-110 transition-transform" />
-                     </button>
-                     <button
-                        onClick={() => setHelpIndex(prev => Math.min(prev + 1, HELP_CARDS.length - 1))}
-                        disabled={helpIndex === HELP_CARDS.length - 1}
-                        className="w-10 h-10 md:w-14 md:h-14 bg-white rounded-full shadow-xl border border-slate-100 flex items-center justify-center text-slate-400 hover:text-blue-600 hover:border-blue-500 transition-all active:scale-90 pointer-events-auto disabled:opacity-20 disabled:cursor-not-allowed group"
-                     >
-                        <ChevronRight className="w-5 h-5 group-hover:scale-110 transition-transform" />
-                     </button>
+                              <div className="relative z-10 w-16 h-16 md:w-20 md:h-20 shrink-0 bg-slate-50 rounded-2xl flex items-center justify-center border border-slate-100 group-hover:scale-110 group-hover:bg-blue-600 group-hover:text-white transition-all duration-500 shadow-sm">
+                                 {React.cloneElement(card.icon, { className: "w-8 h-8 md:w-10 md:h-10 transition-colors duration-500" })}
+                              </div>
+
+                              <div className="relative z-10 flex-grow">
+                                 <h3 className="text-base md:text-lg font-black mb-2 uppercase tracking-tight font-display leading-tight group-hover:text-blue-600 transition-colors">{card.title}</h3>
+                                 <p className="text-slate-500 text-[10px] md:text-xs font-medium leading-relaxed group-hover:text-slate-700 transition-colors mb-4 line-clamp-2">
+                                    {card.desc}
+                                 </p>
+
+                                 <div className="flex items-center gap-3 text-[9px] font-black uppercase tracking-[0.2em] text-blue-600 group-hover:translate-x-2 transition-all duration-500">
+                                    Connect <ArrowRight className="w-4 h-4" />
+                                 </div>
+                              </div>
+                           </div>
+                        ))}
+                     </div>
                   </div>
                </div>
             </div>
@@ -914,12 +890,12 @@ const UniversityPageNew = () => {
                      <SectionLabel icon={Award}>Curriculum Standards 2026</SectionLabel>
                      <h2 className="text-2xl sm:text-4xl md:text-5xl font-black text-slate-900 mb-0 font-display uppercase tracking-tighter">Explore Programs From <span className="text-blue-600">Top Ranked Universities</span></h2>
                   </div>
-                  <div className="flex flex-wrap justify-center md:justify-end gap-2 md:gap-3 bg-slate-50 p-2 rounded-[2rem] md:rounded-[2.5rem] border border-slate-100 w-full md:w-auto">
+                  <div className="flex flex-nowrap justify-between lg:justify-end gap-[1px] md:gap-2 bg-slate-50 p-1 md:p-2 rounded-[2rem] md:rounded-[2.5rem] border border-slate-100 w-full lg:max-w-fit mt-4 md:mt-0">
                      {['All', 'Integrated Program', 'Certification', 'Masters (PG)', "Bachelor's (UG)", 'Special'].map(tab => (
                         <button
                            key={tab}
                            onClick={() => setCourseType(tab)}
-                           className={`flex-grow md:flex-grow-0 px-4 md:px-6 py-3 md:py-4 rounded-[1.5rem] md:rounded-[2rem] text-[9px] md:text-[10px] font-black uppercase tracking-widest transition-all ${courseType === tab ? "bg-slate-900 text-white shadow-xl" : "text-slate-400 hover:text-slate-900"
+                           className={`flex-1 flex items-center justify-center whitespace-nowrap px-1 md:px-6 py-2.5 md:py-4 rounded-[1.2rem] md:rounded-[2rem] text-[1.8vw] lg:text-[10px] font-black uppercase tracking-tighter lg:tracking-widest transition-all ${courseType === tab ? "bg-slate-900 text-white shadow-xl" : "text-slate-400 hover:text-slate-900"
                               }`}
                         >
                            {tab}
@@ -929,63 +905,33 @@ const UniversityPageNew = () => {
                </div>
 
                <div className="relative">
-                  {!showAllPrograms && (
-                     <div className="flex justify-end mb-4 pr-4">
-                        <span className="text-[9px] font-black uppercase tracking-[0.3em] text-slate-300 flex items-center gap-2 animate-pulse">
-                           <ArrowRight className="w-3 h-3" />
-                           Drag to Explore Catalog
-                        </span>
-                     </div>
-                  )}
                   {!showAllPrograms ? (
-                     <div className="overflow-hidden relative">
-                        <motion.div
-                           className="flex gap-6 md:gap-8 pb-12 cursor-grab active:cursor-grabbing touch-pan-x"
-                           animate={{ x: -(programIndex * (windowWidth < 768 ? 300 + 24 : 380 + 32)) }}
-                           transition={{ type: "spring", damping: 25, stiffness: 120 }}
-                           drag="x"
-                           dragConstraints={{
-                              right: 0,
-                              left: -((filteredCourses.length - 1) * (windowWidth < 768 ? 312 + 24 : 380 + 32))
-                           }}
-                           onDragEnd={(e, { offset, velocity }) => {
-                              const swipeThreshold = 50;
-                              if (offset.x < -swipeThreshold) setProgramIndex(prev => Math.min(prev + 1, filteredCourses.length - 1));
-                              if (offset.x > swipeThreshold) setProgramIndex(prev => Math.max(prev - 1, 0));
-                           }}
+                     <div className="overflow-hidden relative group/marquee py-4 -mx-6 px-6">
+                        <div 
+                           className="flex w-max gap-6 md:gap-8 animate-marquee hover:[animation-play-state:paused] pb-4"
+                           style={{ animationDuration: `${Math.max(filteredCourses.length * 10, 40)}s` }}
                         >
-                           {filteredCourses.map((course, idx) => (
-                              <motion.div
+                           {[...filteredCourses, ...filteredCourses, ...filteredCourses, ...filteredCourses].map((course, idx) => (
+                              <div
                                  key={idx}
-                                 className="flex-shrink-0 w-[300px] md:w-[380px] relative bg-slate-50 border border-slate-100 p-8 md:p-10 rounded-[2.5rem] md:rounded-[3rem] hover:border-blue-100 hover:bg-white hover:shadow-2xl transition-all duration-700"
+                                 className="flex-shrink-0 w-[300px] md:w-[380px] h-[400px] md:h-[420px] relative bg-white border border-slate-100 p-8 md:p-10 rounded-[2.5rem] md:rounded-[3rem] hover:border-blue-200 hover:-translate-y-2 hover:shadow-2xl transition-all duration-700 flex flex-col group content-start cursor-pointer"
                               >
-                                 <div className="absolute top-8 right-8 opacity-40 group-hover:opacity-100 group-hover:text-blue-600 text-slate-400 transition-all">
+                                 <div className="absolute top-8 right-8 opacity-40 group-hover:opacity-100 group-hover:text-blue-600 group-hover:scale-110 text-slate-400 transition-all duration-500">
                                     {course.icon}
                                  </div>
-                                 <div className="mb-10">
-                                    <span className="bg-white text-blue-600 px-5 py-2 rounded-full text-[9px] font-black uppercase tracking-widest border border-blue-50 shadow-sm">{course.badge}</span>
+                                 <div className="mb-10 text-left">
+                                    <span className="bg-slate-50 text-blue-600 px-5 py-2 rounded-full text-[9px] font-black uppercase tracking-widest border border-slate-100 shadow-sm transition-all group-hover:bg-blue-600 group-hover:text-white group-hover:border-blue-500">{course.badge}</span>
                                  </div>
-                                 <h3 className="text-2xl md:text-3xl font-black text-slate-900 mb-4 leading-tight uppercase text-left">{course.name}</h3>
-                                 <p className="text-slate-500 text-[10px] md:text-xs font-bold uppercase tracking-widest mb-12 text-left">{course.category} Certification</p>
+                                 <h3 className="text-2xl md:text-3xl font-black text-slate-900 mb-4 leading-tight uppercase text-left group-hover:text-blue-600 transition-colors">{course.name}</h3>
+                                 <p className="text-slate-500 text-[10px] md:text-xs font-bold uppercase tracking-widest mb-12 text-left line-clamp-1">{course.category} Certification</p>
                                  <button
                                     onClick={() => handleUniversityClick(course.link)}
-                                    className="w-full bg-slate-900 hover:bg-blue-600 text-white font-black py-5 md:py-6 rounded-2xl transition-all flex items-center justify-center gap-4 text-[10px] uppercase tracking-[0.2em] group"
+                                    className="mt-auto w-full bg-slate-50 hover:bg-slate-900 border border-slate-200 hover:border-slate-800 text-slate-900 hover:text-white font-black py-4 md:py-5 rounded-2xl transition-all flex items-center justify-center gap-4 text-[9px] md:text-[10px] uppercase tracking-[0.2em] group/btn"
                                  >
                                     <span>Secure Enrollment</span>
-                                    <ExternalLink className="w-4 h-4 group-hover:rotate-45 transition-transform" />
+                                    <ExternalLink className="w-4 h-4 group-hover/btn:rotate-45 transition-transform" />
                                  </button>
-                              </motion.div>
-                           ))}
-                        </motion.div>
-
-                        {/* Navigation Indicators */}
-                        <div className="flex justify-center gap-2 mt-0">
-                           {filteredCourses.map((_, i) => (
-                              <button
-                                 key={i}
-                                 onClick={() => setProgramIndex(i)}
-                                 className={`h-1.5 rounded-full transition-all ${programIndex === i ? "bg-blue-500 w-8" : "bg-slate-200 w-2"}`}
-                              />
+                              </div>
                            ))}
                         </div>
                      </div>
@@ -997,22 +943,22 @@ const UniversityPageNew = () => {
                               initial={{ opacity: 0, y: 30 }}
                               animate={{ opacity: 1, y: 0 }}
                               transition={{ delay: idx * 0.05 }}
-                              className="relative bg-slate-50 border border-slate-100 p-6 md:p-8 rounded-[2rem] md:rounded-[2.5rem] hover:border-blue-100 hover:bg-white hover:shadow-2xl transition-all duration-700"
+                              className="relative bg-slate-50 border border-slate-100 p-6 md:p-8 rounded-[2rem] md:rounded-[2.5rem] hover:border-blue-100 hover:bg-white hover:shadow-2xl transition-all duration-700 flex flex-col h-[400px] md:h-[420px]"
                            >
                               <div className="absolute top-6 right-6 opacity-40 text-slate-400">
                                  {course.icon}
                               </div>
-                              <div className="mb-8 md:mb-10">
+                              <div className="mb-8 md:mb-10 text-left">
                                  <span className="bg-white text-blue-600 px-4 py-1.5 rounded-full text-[8px] md:text-[9px] font-black uppercase tracking-widest border border-blue-100">{course.badge}</span>
                               </div>
                               <h3 className="text-xl md:text-2xl font-black text-slate-900 mb-3 leading-tight uppercase text-left">{course.name}</h3>
                               <p className="text-slate-500 text-[9px] md:text-[10px] font-bold uppercase tracking-widest mb-10 md:mb-12 text-left">{course.category} Certification</p>
                               <button
                                  onClick={() => handleUniversityClick(course.link)}
-                                 className="w-full bg-slate-900 hover:bg-blue-600 text-white font-black py-4 md:py-5 rounded-2xl transition-all flex items-center justify-center gap-4 text-[9px] md:text-[10px] uppercase tracking-[0.2em]"
+                                 className="mt-auto w-full bg-slate-900 hover:bg-blue-600 text-white font-black py-4 md:py-5 rounded-2xl transition-all flex items-center justify-center gap-4 text-[9px] md:text-[10px] uppercase tracking-[0.2em] group"
                               >
                                  <span>Secure Enrollment</span>
-                                 <ExternalLink className="w-4 h-4" />
+                                 <ExternalLink className="w-4 h-4 group-hover:rotate-45 transition-transform" />
                               </button>
                            </motion.div>
                         ))}
@@ -1207,52 +1153,58 @@ const UniversityPageNew = () => {
                   </div>
                </div>
 
-               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                  {[
-                     {
-                        title: "MBA in Project Management",
-                        img: "https://images.unsplash.com/photo-1552664730-d307ca884978?w=800",
-                        salary: "9-14 LPA",
-                        desc: "A 2-year strategic program that helps students and working professionals excel in organizational logistics and leadership."
-                     },
-                     {
-                        title: "Data Science & AI Intelligence",
-                        img: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800",
-                        salary: "12-22 LPA",
-                        desc: "Deep-dive into predictive algorithms, neural networks, and automated intelligence pipelines."
-                     },
-                     {
-                        title: "Cyber Security & Defense",
-                        img: "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?w=800",
-                        salary: "10-18 LPA",
-                        desc: "Master the art of digital perimeter defense, ethical hacking, and real-time threat neutralization."
-                     }
-                  ].map((spec, i) => (
-                     <motion.div
-                        key={i}
-                        whileHover={{ y: -15 }}
-                        className="bg-white rounded-[3rem] overflow-hidden border border-slate-100 shadow-sm hover:shadow-2xl transition-all duration-700"
+               <div className="relative group/marquee">
+                  <div className="overflow-hidden py-4 -mx-6 px-6">
+                     <div 
+                        className="flex w-max gap-6 md:gap-8 animate-marquee hover:[animation-play-state:paused] pb-4"
+                        style={{ animationDuration: '40s' }}
                      >
-                        <div className="h-60 overflow-hidden relative">
-                           <img src={spec.img} alt={spec.title} className="w-full h-full object-cover" />
-                           <div className="absolute top-6 left-6 bg-white/90 backdrop-blur-md px-4 py-1.5 rounded-full text-[9px] font-black uppercase tracking-widest text-slate-900">Specialization</div>
-                        </div>
-                        <div className="p-10">
-                           <h3 className="text-2xl font-black text-slate-900 mb-4 font-display group-hover:text-blue-600 transition-colors uppercase leading-tight text-left">{spec.title}</h3>
-                           <p className="text-slate-500 text-sm font-medium leading-relaxed mb-8 line-clamp-3 text-left">{spec.desc}</p>
+                        {[...Array(6)].flatMap(() => [
+                           {
+                              title: "MBA in Project Management",
+                              img: "https://images.unsplash.com/photo-1552664730-d307ca884978?w=800",
+                              salary: "9-14 LPA",
+                              desc: "A 2-year strategic program that helps students and working professionals excel in organizational logistics and leadership."
+                           },
+                           {
+                              title: "Data Science & AI Intelligence",
+                              img: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800",
+                              salary: "12-22 LPA",
+                              desc: "Deep-dive into predictive algorithms, neural networks, and automated intelligence pipelines."
+                           },
+                           {
+                              title: "Cyber Security & Defense",
+                              img: "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?w=800",
+                              salary: "10-18 LPA",
+                              desc: "Master the art of digital perimeter defense, ethical hacking, and real-time threat neutralization."
+                           }
+                        ]).map((spec, i) => (
+                           <div
+                              key={i}
+                              className="w-[320px] md:w-[400px] flex-shrink-0 bg-white rounded-[3rem] overflow-hidden border border-slate-100 shadow-sm hover:shadow-2xl hover:-translate-y-2 transition-all duration-700 flex flex-col group h-[580px] md:h-[620px]"
+                           >
+                              <div className="h-60 flex-shrink-0 overflow-hidden relative">
+                                 <img src={spec.img} alt={spec.title} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-1000" />
+                                 <div className="absolute top-6 left-6 bg-white/90 backdrop-blur-md px-4 py-1.5 rounded-full text-[9px] font-black uppercase tracking-widest text-slate-900">Specialization</div>
+                              </div>
+                              <div className="p-10 flex flex-col flex-grow">
+                                 <h3 className="text-2xl font-black text-slate-900 mb-4 font-display group-hover:text-blue-600 transition-colors uppercase leading-tight text-left">{spec.title}</h3>
+                                 <p className="text-slate-500 text-sm font-medium leading-relaxed mb-8 line-clamp-3 text-left">{spec.desc}</p>
 
-                           <div className="bg-blue-50/50 p-6 rounded-2xl border border-blue-50 mb-8 text-left">
-                              <p className="text-slate-400 text-[9px] font-black uppercase tracking-widest mb-1">Avg. Salary</p>
-                              <p className="text-blue-600 font-black text-xl">₹ {spec.salary}</p>
+                                 <div className="bg-blue-50/50 p-6 rounded-2xl border border-blue-50 mb-8 text-left mt-auto">
+                                    <p className="text-slate-400 text-[9px] font-black uppercase tracking-widest mb-1">Avg. Salary</p>
+                                    <p className="text-blue-600 font-black text-xl">₹ {spec.salary}</p>
+                                 </div>
+
+                                 <button className="flex items-center gap-2 group/link text-[10px] font-black uppercase tracking-widest text-slate-400 hover:text-blue-600 transition-all text-left">
+                                    <div className="w-1.5 h-1.5 rounded-full bg-blue-600 group-hover/link:animate-ping"></div>
+                                    Explore Intel
+                                 </button>
+                              </div>
                            </div>
-
-                           <button className="flex items-center gap-2 group/link text-[10px] font-black uppercase tracking-widest text-slate-400 hover:text-blue-600 transition-all text-left">
-                              <div className="w-1.5 h-1.5 rounded-full bg-blue-600 group-hover/link:animate-ping"></div>
-                              Explore Intel
-                           </button>
-                        </div>
-                     </motion.div>
-                  ))}
+                        ))}
+                     </div>
+                  </div>
                </div>
             </div>
          </section>
