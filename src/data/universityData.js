@@ -227,12 +227,14 @@ export const universityData = [
     programs: ["BBA", "BCA", "MBA", "B.Com", "M.Com"],
     collaborations: ["Global Industry Partners", "International Universities"],
     rating: 4.4,
+    link: "https://cvadm.com/xBg72Q",
     keyInfo: {
       established: "2005",
       campusSize: "Virtual",
       ranking: "NAAC A+",
       fees: "₹1,20,000 - ₹1,95,000 total program",
     },
+
     approvals: [
       { name: "UGC-DEB", logo: ugcLogo },
       { name: "AICTE (For MBA, MCA)", logo: aicteLogo },
@@ -302,43 +304,80 @@ export const universityData = [
     ],
     feeStructure:
       "Fees vary by program. Example: Online MBA - ₹1,95,000 total; BBA - ₹1,20,000 total (approx).",
+    admission_steps: [
+      { step: 1, title: "Apply Online", description: "Visit the official portal and select your desired program." },
+      { step: 2, title: "Fill Details", description: "Complete your basic, academic, and professional information." },
+      { step: 3, title: "Upload Documents", description: "Submit required identification and academic marksheets digitally." },
+      { step: 4, title: "Pay Fee", description: "Complete the enrollment by paying the admission fee online." }
+    ],
+    placement_details: {
+      description: "Dedicated virtual job fairs and a placement cell with 300+ hiring partners ensuring global career opportunities.",
+      recruiters: ["TCS", "Flipkart", "HDFC Bank", "Accenture", "Cognizant"]
+    },
     faq: [
-      {
-        q: "Is Amity Online degree valid?",
-        a: "Yes, Amity Online is UGC-DEB approved and globally recognized.",
-      },
-      {
-        q: "Does Amity provide placement support?",
-        a: "Yes, Amity offers AI-powered career support, job tools, and internship opportunities.",
-      },
-      {
-        q: "Are there live classes?",
-        a: "Yes, Amity Online provides both live and recorded sessions.",
-      },
+      { q: "Is Amity Online degree valid?", a: "Yes, it is fully entitled by UGC-DEB, AICTE approved, and recognized globally." },
+      { q: "How are exams conducted?", a: "Examinations are 100% online and AI-proctored, allowing exams from the comfort of home." },
+      { q: "Does Amity provide placement support?", a: "Yes, Amity Online has a dedicated virtual job fair and placement assistance." }
     ],
   },
+
   {
     image: cuolImg,
-    name: "Chandigarh University (CUOL)",
-    code: "CUOL",
+    id: "chandigarh-university",
+    name: "Chandigarh University Online Learning",
+    code: "CU-ONLINE",
     location: "Mohali, Punjab",
-    description: "Dynamic university with focus on innovation and placements.",
-    programs: [
-      "Engineering",
-      "Pharmacy",
-      "Management",
-      "Architecture",
-      "Hotel Management",
-    ],
-    collaborations: ["Google", "Microsoft", "IBM"],
-    rating: 4.4,
+    description: "A prestigious institution in India, approved by UGC-DEB and awarded an A+ Grade by NAAC.",
+    about: "Chandigarh University Online Learning is positioned in the top 5% of online universities in India and has been awarded the E-Learning Excellence for Academy Digitization (E-LEAD) certificate. The degrees are widely recognized both in India and globally.",
+    programs: ["MBA", "MCA", "BBA", "BCA", "MA", "M.Sc", "M.Com", "BA JMC"],
+    collaborations: ["900+ Recruiters", "E-LEAD Certification"],
+    rating: 4.8,
+    link: "https://cvadm.com/tWu4Ay",
     keyInfo: {
       established: "2012",
       campusSize: "200 acres",
       ranking: "NAAC A+",
-      fees: "₹1,00,000 - ₹2,50,000 per year",
+      fees: "₹1,00,000 - ₹1,80,000 total program",
     },
+    approvals: [
+      { name: "UGC-DEB", logo: ugcLogo },
+      { name: "NAAC A+", logo: naacLogo },
+      { name: "NIRF #27", logo: nirfLogo },
+      { name: "AIU", logo: aiuLogo },
+    ],
+    courses: [
+      {
+        name: "Online MBA",
+        description: "Specialized business management programs designed for global leadership.",
+        specialization: ["Marketing", "Finance", "HR", "Operations"],
+        fees: "₹1,20,000",
+        duration: "2 years",
+      },
+      {
+        name: "Online MCA",
+        description: "Computer applications program with focus on software engineering and cloud.",
+        specialization: ["Cloud Computing", "AI", "General"],
+        fees: "₹1,10,000",
+        duration: "2 years",
+      }
+    ],
+    admission_steps: [
+      { step: 1, title: "Submit Form", description: "Begin the application through the digital portal with basic details." },
+      { step: 2, title: "Expert Counseling", description: "Receive guidance on eligibility, course selection, and fee payment." },
+      { step: 3, title: "Online Payment", description: "Complete the registration and tuition fee payment securely online." },
+      { step: 4, title: "Confirmation", description: "Enrollment is processed and confirmed digitally for LMS access." }
+    ],
+    placement_details: {
+      description: "Chandigarh University is known for its strong placement record with 900+ recruiters and over 9,500 placement offers.",
+      recruiters: ["Google", "Microsoft", "Amazon", "IBM", "TCS"]
+    },
+    faq: [
+      { q: "Is Chandigarh University Online degree valid?", a: "Absolutely. CU is NAAC A+ accredited and UGC-DEB entitled, making its degrees valid for all jobs." },
+      { q: "Does CU offer placement support?", a: "Yes, CU has a robust placement unit that provides resume building and virtual drives." },
+      { q: "What are the eligibility criteria for MBA?", a: "Bachelor's degree from a recognized university with at least 50% marks." }
+    ]
   },
+
   {
     image: dpuMumbaiImg,
     name: "D Y Patel Mumbai (DPU)",
@@ -556,19 +595,65 @@ export const universityData = [
   },
   {
     image: lpuImg,
-    name: "Lovely Professional University (LPU)",
-    code: "LPU",
+    id: "lovely-professional-university",
+    name: "Lovely Professional University (LPU) Online",
+    code: "LPU-ONLINE",
     location: "Phagwara, Punjab",
-    description: "Largest private university in India with global exposure.",
-    programs: ["Engineering", "Management", "Law", "Design"],
-    collaborations: ["200+ International collaborations"],
-    rating: 4.3,
+    description: "One of India's largest universities with an ultra-modern campus and a strong track record of placements in top companies.",
+    about: "Founded in 2005 in Punjab, LPU Online is a top-tier university approved by UGC and accredited with NAAC A++. It offers a wide range of undergraduate and postgraduate programs with amenities like live online classes, mobile apps, and 24/7 support. LPU is dedicated to educational flexibility and empowering learners globally.",
+    programs: ["MBA", "MCA", "BBA", "BCA", "MA", "M.Sc", "M.Com", "BA", "B.Com"],
+    collaborations: ["200+ International collaborations", "100+ Hiring Partners"],
+    rating: 4.7,
     keyInfo: {
       established: "2005",
       campusSize: "600 acres",
       ranking: "NAAC A++",
       fees: "₹1,20,000 - ₹2,50,000 per year",
     },
+    approvals: [
+      { name: "UGC-DEB", logo: ugcLogo },
+      { name: "NAAC A++", logo: naacLogo },
+      { name: "AICTE", logo: aicteLogo },
+      { name: "WES", logo: wesLogo },
+    ],
+    courses: [
+      {
+        name: "Online MBA",
+        description: "Postgraduate business management program with global recognition.",
+        specialization: ["Finance", "Marketing", "HR", "Operations", "Digital Marketing"],
+        fees: "₹1,60,000",
+        duration: "2 years",
+      },
+      {
+        name: "Online MCA",
+        description: "Advanced computer applications program focusing on modern technologies.",
+        specialization: ["Machine Learning and AI", "Data Science", "Cyber Security", "Full Stack Web Development"],
+        fees: "₹1,40,000",
+        duration: "2 years",
+      },
+      {
+        name: "Online BBA",
+        description: "Foundational business program for aspiring managers.",
+        specialization: ["General", "Retail Management", "E-Commerce"],
+        fees: "₹1,20,000",
+        duration: "3 years",
+      }
+    ],
+    admission_steps: [
+      { step: 1, title: "Expert Counseling", description: "Personalized guidance to understand fee structure and eligibility." },
+      { step: 2, title: "Form Submission", description: "Hassle-free digital enrollment process through the online portal." },
+      { step: 3, title: "Online Payment", description: "Secure payment of fees with EMI options available for flexibility." },
+      { step: 4, title: "Enrollment Confirmation", description: "Smooth onboarding and access to the Learning Management System." }
+    ],
+    placement_details: {
+      description: "LPU Online provides dedicated placement support with 100+ hiring partners, including top MNCs like Amazon, Google, and Microsoft.",
+      recruiters: ["Amazon", "Google", "Microsoft", "TCS", "Cognizant"]
+    },
+    faq: [
+      { q: "Is LPU Online approved by UGC?", a: "Yes, LPU Online programs are fully entitled by UGC-DEB, and the university holds NAAC A++ accreditation." },
+      { q: "Are there live classes in LPU Online?", a: "Yes, LPU provides live online weekend classes conducted by their expert faculty." },
+      { q: "Does LPU Online hold virtual placement drives?", a: "Absolutely. Students participate in Professional Enhancement Programs (PEP) and massive virtual job fairs." }
+    ]
   },
   {
     image: maheImg,
@@ -944,3 +1029,5 @@ export const universityData = [
     },
   },
 ];
+
+

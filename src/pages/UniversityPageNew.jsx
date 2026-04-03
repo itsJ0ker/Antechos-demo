@@ -35,6 +35,8 @@ import { motion, AnimatePresence, useScroll, useTransform } from 'framer-motion'
 import { universities as staticUniversities } from '../data/universities';
 import { getUniversities } from '../lib/supabase';
 import CountUp from 'react-countup';
+import { Link, useNavigate } from 'react-router-dom';
+
 
 /* ─── Inline CSS ─────────────────────────────────────────────────────────── */
 const styles = `
@@ -103,15 +105,20 @@ const SectionLabel = ({ children, icon: Icon }) => (
 
 // --- PREMIUM ASSETS ---
 const HERO_IMAGES = [
-   "https://i.ibb.co/yc5sqVnw/be65068c-9959-4394-9e69-f63f9526271f.jpg",
-   "https://i.ibb.co/nqScDwxV/c687a0ff-9444-4401-a677-dcfa7a83b34c.jpg",
-   "https://i.ibb.co/BVt60Wzb/3f983d9b-5985-42bd-b73c-c5d4985dc100.jpg",
-   "https://i.ibb.co/gZyjnbKS/d593a5d8-3a69-4a69-894d-625df826d339.jpg",
-   "https://i.ibb.co/CKFBqM8k/4827edca-062f-4d88-bee2-94ccad2c0622.jpg",
-   "https://i.ibb.co/rfchMpqt/9c67c950-4b88-4a48-8c99-5e92c1e82ed9.jpg",
-   "https://i.ibb.co/0jG1X0Tn/76f5a1ed-52ee-4bda-a603-cd513c8bdd3c.jpg",
-   "https://i.ibb.co/S4JFQLTn/07e3524e-cf9b-47a7-87fa-712a918b3e75.jpg"
+   "https://i.ibb.co/TMf6Vmjq/Whats-App-Image-2026-04-03-at-1-32-36-AM.jpg",
+   "https://i.ibb.co/R4t0Dtcw/Whats-App-Image-2026-04-03-at-1-32-37-AM-1.jpg",
+   "https://i.ibb.co/GvwRY9Dc/Whats-App-Image-2026-04-03-at-1-32-37-AM.jpg",
+   "https://i.ibb.co/DfFvWb3s/Whats-App-Image-2026-04-03-at-1-32-38-AM-1.jpg",
+   "https://i.ibb.co/84PtrZPT/Whats-App-Image-2026-04-03-at-1-32-38-AM-2.jpg",
+   "https://i.ibb.co/Gv9zWsx1/Whats-App-Image-2026-04-03-at-1-32-38-AM.jpg",
+   "https://i.ibb.co/svLPfcGD/Whats-App-Image-2026-04-03-at-1-34-53-AM.jpg",
+   "https://i.ibb.co/bMgqxHmb/Whats-App-Image-2026-04-03-at-1-35-02-AM.jpg",
+   "https://i.ibb.co/cS2zyYST/Whats-App-Image-2026-04-03-at-1-37-12-AM.jpg",
+   "https://i.ibb.co/G37r9QNr/Whats-App-Image-2026-04-03-at-10-10-19-AM.jpg",
+   "https://i.ibb.co/Kx2DKTGw/Whats-App-Image-2026-04-03-at-10-10-20-AM.jpg",
+   "https://i.ibb.co/Rpgw7dhv/Whats-App-Image-2026-04-03-at-10-10-20-AM1.jpg"
 ];
+
 
 const TRUST_LOGOS = [
    { name: "UGC-DEB", label: "Approved Higher Education", icon: <ShieldCheck className="w-5 h-5" /> },
@@ -335,47 +342,24 @@ const UniversityPageNew = () => {
                   animate={{ opacity: 1, scale: 1 }}
                   exit={{ opacity: 0 }}
                   transition={{ duration: 2, ease: "easeInOut" }}
-                  className="absolute inset-0 z-0"
+                  className="absolute top-20 md:top-24 inset-x-0 bottom-0 z-0"
+
+
                   style={{
                      backgroundImage: `url(${HERO_IMAGES[heroIndex]})`,
                      backgroundSize: 'cover',
-                     backgroundPosition: 'center'
+                     backgroundPosition: 'top'
                   }}
+
                >
                   <div className="absolute inset-0 bg-slate-900/30"></div>
                </motion.div>
             </AnimatePresence>
 
             <div className="container mx-auto px-6 relative z-10 pt-10 sm:pt-20">
-               <div className="max-w-4xl">
-                  <motion.div
-                     initial={{ opacity: 0, scale: 0.8 }}
-                     animate={{ opacity: 1, scale: 1 }}
-                  >
-                     <SectionLabel icon={Activity}>Strategic Academic Intelligence 2026</SectionLabel>
-                  </motion.div>
-
-                  <motion.h1
-                     initial={{ opacity: 0, y: 100 }}
-                     animate={{ opacity: 1, y: 0 }}
-                     transition={{ type: "spring", damping: 20, stiffness: 100 }}
-                     className="text-4xl sm:text-5xl md:text-7xl lg:text-[7.5rem] font-black text-white leading-[0.95] sm:leading-[0.85] mb-8 md:mb-12 tracking-tighter"
-                  >
-                     Academic <br />
-                     <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-indigo-400 to-blue-500">Transcendence.</span>
-                  </motion.h1>
-
-                  <motion.p
-                     initial={{ opacity: 0 }}
-                     animate={{ opacity: 1 }}
-                     transition={{ delay: 0.5, duration: 1 }}
-                     className="text-lg sm:text-xl md:text-3xl text-slate-300 font-medium max-w-2xl mb-12 md:mb-16 leading-relaxed"
-                  >
-                     A higher standard of institutional intelligence. Engineered for leaders, curated for success.
-                  </motion.p>
-
-               </div>
+               {/* Hero content removed as requested */}
             </div>
+
 
             <div className="absolute bottom-0 left-0 w-full bg-slate-900/50 backdrop-blur-md border-t border-white/5 py-3 overflow-hidden">
                <div className="flex items-center gap-12 whitespace-nowrap animate-marquee px-4">
@@ -720,14 +704,15 @@ const UniversityPageNew = () => {
                                        </div>
 
                                        <div className="mt-auto">
-                                          <button
-                                             onClick={() => handleUniversityClick(uni.link)}
+                                          <Link
+                                             to={`/university/${uni.id}`}
                                              className="w-full flex items-center justify-between group/btn bg-slate-900 hover:bg-blue-600 text-white p-4 md:p-5 rounded-[1.2rem] md:rounded-[1.5rem] transition-all duration-500"
                                           >
                                              <span className="text-[8px] md:text-[9px] font-black uppercase tracking-[0.3em]">Full Intel</span>
                                              <ArrowRight className="w-4 h-4 group-hover/btn:translate-x-2 transition-transform" />
-                                          </button>
+                                          </Link>
                                        </div>
+
                                     </div>
                                  </motion.div>
                               ))}
@@ -801,14 +786,15 @@ const UniversityPageNew = () => {
                                  </div>
 
                                  <div className="mt-auto">
-                                    <button
-                                       onClick={() => handleUniversityClick(uni.link)}
+                                    <Link
+                                       to={`/university/${uni.id}`}
                                        className="w-full flex items-center justify-between group/btn bg-slate-900 hover:bg-blue-600 text-white p-5 md:p-6 rounded-[1.5rem] md:rounded-[2rem] transition-all duration-500"
                                     >
                                        <span className="text-[9px] md:text-[10px] font-black uppercase tracking-[0.3em]">Full Institution Intel</span>
                                        <ArrowRight className="w-5 h-5 group-hover/btn:translate-x-2 transition-transform" />
-                                    </button>
+                                    </Link>
                                  </div>
+
                               </div>
                            </motion.div>
                         ))}

@@ -216,5 +216,17 @@ export const universities = [
     programs: ['Arts', 'Science', 'Law', 'Commerce'],
     established: '1956',
     category: 'Public'
+  },
+  {
+    id: 'chandigarh-university',
+    name: 'Chandigarh University',
+    location: 'Mohali, Punjab',
+    description: 'A premier institution known for its research-led curriculum and exceptional placement records with global industry giants.',
+    image: 'https://i.ibb.co/5xMfRDp5/upes.jpg', // Placeholder image similar to other universities
+    rating: 4.8,
+    link: 'https://cvadm.com/tWu4Ay',
+    programs: ['MBA', 'MCA', 'B.Tech', 'Data Science'],
+    established: '2012',
+    category: 'Private'
   }
 ];
