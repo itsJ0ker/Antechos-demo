@@ -35,8 +35,6 @@ import { motion, AnimatePresence, useScroll, useTransform } from 'framer-motion'
 import { universities as staticUniversities } from '../data/universities';
 import { getUniversities } from '../lib/supabase';
 import CountUp from 'react-countup';
-import { Link, useNavigate } from 'react-router-dom';
-
 
 /* ─── Inline CSS ─────────────────────────────────────────────────────────── */
 const styles = `
@@ -118,7 +116,6 @@ const HERO_IMAGES = [
    "https://i.ibb.co/Kx2DKTGw/Whats-App-Image-2026-04-03-at-10-10-20-AM.jpg",
    "https://i.ibb.co/Rpgw7dhv/Whats-App-Image-2026-04-03-at-10-10-20-AM1.jpg"
 ];
-
 
 const TRUST_LOGOS = [
    { name: "UGC-DEB", label: "Approved Higher Education", icon: <ShieldCheck className="w-5 h-5" /> },
@@ -342,26 +339,33 @@ const UniversityPageNew = () => {
                   animate={{ opacity: 1, scale: 1 }}
                   exit={{ opacity: 0 }}
                   transition={{ duration: 2, ease: "easeInOut" }}
-                  className="absolute top-20 md:top-24 inset-x-0 bottom-0 z-0"
-
-
+                  className="absolute inset-0 z-0"
                   style={{
                      backgroundImage: `url(${HERO_IMAGES[heroIndex]})`,
                      backgroundSize: 'cover',
                      backgroundPosition: 'top'
                   }}
-
                >
-                  <div className="absolute inset-0 bg-slate-900/30"></div>
+                  <div className="absolute inset-0 bg-slate-900/10"></div>
                </motion.div>
             </AnimatePresence>
 
             <div className="container mx-auto px-6 relative z-10 pt-10 sm:pt-20">
-               {/* Hero content removed as requested */}
+               {/* Hero text removed to showcase high-quality images as requested */}
             </div>
 
+            {/* Premium Pagination Dots */}
+            <div className="absolute bottom-20 left-1/2 -translate-x-1/2 flex gap-2 z-30">
+               {HERO_IMAGES.map((_, i) => (
+                  <button
+                     key={i}
+                     onClick={() => setHeroIndex(i)}
+                     className={`h-1 rounded-full transition-all duration-500 ${heroIndex === i ? "w-8 bg-blue-400" : "w-1.5 bg-white/20 hover:bg-white/40"}`}
+                  />
+               ))}
+            </div>
 
-            <div className="absolute bottom-0 left-0 w-full bg-slate-900/50 backdrop-blur-md border-t border-white/5 py-3 overflow-hidden">
+            <div className="absolute bottom-0 left-0 w-full bg-black/20 backdrop-blur-md border-t border-white/5 py-3 overflow-hidden">
                <div className="flex items-center gap-12 whitespace-nowrap animate-marquee px-4">
                   {[1, 2, 3, 4, 5].map(i => (
                      <div key={i} className="flex items-center gap-3">
@@ -704,15 +708,14 @@ const UniversityPageNew = () => {
                                        </div>
 
                                        <div className="mt-auto">
-                                          <Link
-                                             to={`/university/${uni.id}`}
+                                          <button
+                                             onClick={() => handleUniversityClick(uni.link)}
                                              className="w-full flex items-center justify-between group/btn bg-slate-900 hover:bg-blue-600 text-white p-4 md:p-5 rounded-[1.2rem] md:rounded-[1.5rem] transition-all duration-500"
                                           >
                                              <span className="text-[8px] md:text-[9px] font-black uppercase tracking-[0.3em]">Full Intel</span>
                                              <ArrowRight className="w-4 h-4 group-hover/btn:translate-x-2 transition-transform" />
-                                          </Link>
+                                          </button>
                                        </div>
-
                                     </div>
                                  </motion.div>
                               ))}
@@ -786,15 +789,14 @@ const UniversityPageNew = () => {
                                  </div>
 
                                  <div className="mt-auto">
-                                    <Link
-                                       to={`/university/${uni.id}`}
+                                    <button
+                                       onClick={() => handleUniversityClick(uni.link)}
                                        className="w-full flex items-center justify-between group/btn bg-slate-900 hover:bg-blue-600 text-white p-5 md:p-6 rounded-[1.5rem] md:rounded-[2rem] transition-all duration-500"
                                     >
                                        <span className="text-[9px] md:text-[10px] font-black uppercase tracking-[0.3em]">Full Institution Intel</span>
                                        <ArrowRight className="w-5 h-5 group-hover/btn:translate-x-2 transition-transform" />
-                                    </Link>
+                                    </button>
                                  </div>
-
                               </div>
                            </motion.div>
                         ))}

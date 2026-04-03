@@ -208,17 +208,6 @@ const UniversityDetails = () => {
   }, [id]);
 
   useEffect(() => {
-    if (university) {
-      document.title = `${university.name} - Detailed Admission Guide & Fees | Antechos`;
-      const metaDesc = document.querySelector('meta[name="description"]');
-      if (metaDesc) {
-        metaDesc.setAttribute("content", `Explore ${university.name} admission process, fee structure, eligibility, and placement records. Get expert counseling for online degrees at Antechos.`);
-      }
-    }
-  }, [university]);
-
-
-  useEffect(() => {
     const handleScroll = () => {
       const sections = [
         "accreditation",
@@ -364,28 +353,19 @@ const UniversityDetails = () => {
 
               {/* Action Buttons */}
               <div className="flex flex-wrap justify-center lg:justify-start gap-4 pt-4">
-                <button 
-                  onClick={() => scrollToSection("faq")}
-                  className="group px-8 py-4 bg-white text-blue-600 rounded-xl hover:bg-blue-50 transition-all duration-300 font-bold text-lg shadow-xl hover:shadow-2xl transform hover:-translate-y-1"
-                >
+                <button className="group px-8 py-4 bg-white text-blue-600 rounded-xl hover:bg-blue-50 transition-all duration-300 font-bold text-lg shadow-xl hover:shadow-2xl transform hover:-translate-y-1">
                   <span className="flex items-center gap-2">
                     <Phone className="w-5 h-5 group-hover:rotate-12 transition-transform" />
                     Get Guidance
                   </span>
                 </button>
-                <a 
-                  href={university.link || "#"} 
-                  target="_blank" 
-                  rel="noopener noreferrer"
-                  className="group px-8 py-4 bg-gradient-to-r from-yellow-400 to-orange-500 text-gray-900 rounded-xl hover:from-yellow-500 hover:to-orange-600 transition-all duration-300 font-bold text-lg shadow-xl hover:shadow-2xl transform hover:-translate-y-1"
-                >
+                <button className="group px-8 py-4 bg-gradient-to-r from-yellow-400 to-orange-500 text-gray-900 rounded-xl hover:from-yellow-500 hover:to-orange-600 transition-all duration-300 font-bold text-lg shadow-xl hover:shadow-2xl transform hover:-translate-y-1">
                   <span className="flex items-center gap-2">
                     <GraduationCap className="w-5 h-5 group-hover:rotate-12 transition-transform" />
                     Apply Now
                   </span>
-                </a>
+                </button>
               </div>
-
 
               {/* Quick Stats */}
               <div className="grid grid-cols-3 gap-3 sm:gap-6 pt-8">
@@ -1043,15 +1023,20 @@ const UniversityDetails = () => {
                       university.university_admission_steps
                         .sort((a, b) => a.display_order - b.display_order)
                         .map((step, i) => (
-                          <React.Fragment key={step.id || i}>
+                          <React.Fragment key={step.step_number}>
                             <div className="flex flex-col items-center group">
                               <div className="w-20 h-20 bg-gradient-to-br from-orange-500 to-red-600 text-white rounded-2xl flex items-center justify-center font-bold text-2xl mb-4 shadow-lg group-hover:scale-110 transition-transform duration-300">
-                                {step.step_number || i + 1}
+                                {step.step_number}
                               </div>
                               <h3 className="font-bold text-gray-900 text-center text-lg mb-2 group-hover:text-orange-600 transition-colors">
                                 {step.title}
                               </h3>
-                              <p className="text-xs text-gray-500 text-center max-w-32">{step.description}</p>
+                              {step.subtitle && (
+                                <p className="text-sm text-gray-600 text-center mb-2">{step.subtitle}</p>
+                              )}
+                              {step.description && (
+                                <p className="text-xs text-gray-500 text-center max-w-32">{step.description}</p>
+                              )}
                             </div>
                             {i < university.university_admission_steps.length - 1 && (
                               <div className="hidden md:block">
@@ -1060,25 +1045,6 @@ const UniversityDetails = () => {
                             )}
                           </React.Fragment>
                         ))
-                    ) : university.admission_steps && university.admission_steps.length > 0 ? (
-                      university.admission_steps.map((step, i) => (
-                        <React.Fragment key={i}>
-                          <div className="flex flex-col items-center group">
-                            <div className="w-20 h-20 bg-gradient-to-br from-orange-500 to-red-600 text-white rounded-2xl flex items-center justify-center font-bold text-2xl mb-4 shadow-lg group-hover:scale-110 transition-transform duration-300">
-                              {step.step || i + 1}
-                            </div>
-                            <h3 className="font-bold text-gray-900 text-center text-lg mb-2 group-hover:text-orange-600 transition-colors">
-                              {step.title}
-                            </h3>
-                            <p className="text-xs text-gray-500 text-center max-w-40">{step.description}</p>
-                          </div>
-                          {i < university.admission_steps.length - 1 && (
-                            <div className="hidden md:block">
-                              <ArrowRight className="w-8 h-8 text-orange-400 animate-pulse" />
-                            </div>
-                          )}
-                        </React.Fragment>
-                      ))
                     ) : (
                       // Fallback admission steps
                       [
@@ -1133,70 +1099,33 @@ const UniversityDetails = () => {
 
             {/* Career & Placement Section */}
             <section id="career" className="scroll-mt-24">
-              <div className="bg-white border border-gray-200 rounded-lg p-4 sm:p-6 shadow-sm">
-                <h2 className="text-2xl font-bold text-gray-900 mb-6 flex items-center gap-3">
-                  <Briefcase className="text-blue-600" />
-                  Career & Placement Support
-                </h2>
-                
-                {university.placement_details ? (
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                    <div className="space-y-4">
-                      <p className="text-gray-700 leading-relaxed">
-                        {university.placement_details.description}
-                      </p>
-                      <div className="flex flex-wrap gap-4">
-                        <div className="bg-blue-50 p-4 rounded-xl border border-blue-100 flex-1 min-w-[150px]">
-                          <p className="text-2xl font-bold text-blue-600">{university.placement_rate || '90%'}+</p>
-                          <p className="text-sm text-gray-600">Placement Rate</p>
+              <div className="bg-white border border-gray-200 rounded-lg p-4 sm:p-6">
+                <h2 className="text-2xl font-bold text-gray-900 mb-6">CAREER & Placement</h2>
+                <div className="space-y-4 mb-6">
+                  {university.university_career_stats && university.university_career_stats.length > 0 ? (
+                    university.university_career_stats
+                      .sort((a, b) => a.display_order - b.display_order)
+                      .map((stat, i) => (
+                        <div key={i} className="border-b border-gray-200 pb-2">
+                          <p className="text-gray-700">• {stat.stat_label}: {stat.stat_value}</p>
                         </div>
-                        <div className="bg-green-50 p-4 rounded-xl border border-green-100 flex-1 min-w-[150px]">
-                          <p className="text-2xl font-bold text-green-600">{university.average_package || '₹8L+'}</p>
-                          <p className="text-sm text-gray-600">Average Package</p>
-                        </div>
+                      ))
+                  ) : (
+                    <>
+                      <div className="border-b border-gray-200 pb-2">
+                        <p className="text-gray-700">• Placement Rate: {university.placement_rate || 90}%+</p>
                       </div>
-                    </div>
-                    {university.placement_details.recruiters && (
-                      <div className="bg-gray-50 p-6 rounded-2xl border border-gray-100">
-                        <h3 className="font-bold text-gray-900 mb-4">Top Recruiters</h3>
-                        <div className="flex flex-wrap gap-3">
-                          {university.placement_details.recruiters.map((rec, i) => (
-                            <span key={i} className="bg-white px-4 py-2 rounded-lg text-sm font-semibold text-gray-700 shadow-sm border border-gray-200">
-                              {rec}
-                            </span>
-                          ))}
-                        </div>
+                      <div className="border-b border-gray-200 pb-2">
+                        <p className="text-gray-700">• Average Package: {university.average_package || '₹8L+'}</p>
                       </div>
-                    )}
-                  </div>
-                ) : (
-                  <div className="space-y-4 mb-6">
-                    {university.university_career_stats && university.university_career_stats.length > 0 ? (
-                      university.university_career_stats
-                        .sort((a, b) => a.display_order - b.display_order)
-                        .map((stat, i) => (
-                          <div key={i} className="border-b border-gray-200 pb-2">
-                            <p className="text-gray-700">• {stat.stat_label}: {stat.stat_value}</p>
-                          </div>
-                        ))
-                    ) : (
-                      <>
-                        <div className="border-b border-gray-200 pb-2">
-                          <p className="text-gray-700">• Placement Rate: {university.placement_rate || 90}%+</p>
-                        </div>
-                        <div className="border-b border-gray-200 pb-2">
-                          <p className="text-gray-700">• Average Package: {university.average_package || '₹8L+'}</p>
-                        </div>
-                        <div className="border-b border-gray-200 pb-2">
-                          <p className="text-gray-700">• Top Recruiters: {university.top_recruiters_count || 500}+ Companies</p>
-                        </div>
-                      </>
-                    )}
-                  </div>
-                )}
+                      <div className="border-b border-gray-200 pb-2">
+                        <p className="text-gray-700">• Top Recruiters: {university.top_recruiters_count || 500}+ Companies</p>
+                      </div>
+                    </>
+                  )}
+                </div>
               </div>
             </section>
-
 
             {/* Hiring Partners Section */}
             <section id="partners" className="scroll-mt-24">
