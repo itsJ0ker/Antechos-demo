@@ -14,7 +14,7 @@ import {
 } from "lucide-react";
 import { submitEnquiry } from "../../lib/supabase";
 
-export default function EnquiryPopup({ onClose, onSubmit }) {
+export default function EnquiryPopup({ onClose, onSubmit, isInline = false }) {
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -63,13 +63,7 @@ export default function EnquiryPopup({ onClose, onSubmit }) {
     }
   };
 
-  return (
-    <div 
-      className="fixed inset-0 bg-slate-900/60 backdrop-blur-xl flex justify-center items-center z-[1000] p-4"
-      onClick={(e) => {
-        if (e.target === e.currentTarget) onClose();
-      }}
-    >
+  const formContent = (
       <AnimatePresence mode="wait">
         {!submitted ? (
           <motion.div
@@ -82,6 +76,7 @@ export default function EnquiryPopup({ onClose, onSubmit }) {
             {/* Background Accent */}
             <div className="absolute -top-24 -right-24 w-64 h-64 bg-indigo-50 rounded-full blur-3xl pointer-events-none opacity-50"></div>
             
+            {!isInline && (
             <button 
               onClick={onClose}
               className="absolute top-4 right-4 md:top-8 md:right-8 text-slate-400 hover:text-slate-900 transition-all bg-slate-100/50 hover:bg-slate-100 p-3 md:p-2 rounded-full z-[110]"
@@ -89,6 +84,7 @@ export default function EnquiryPopup({ onClose, onSubmit }) {
             >
               <X className="w-6 h-6 md:w-5 md:h-5" />
             </button>
+            )}
 
             <div className="relative mb-12">
               <div className="inline-flex items-center gap-2 bg-indigo-50 text-indigo-600 px-4 py-1.5 rounded-full text-[9px] font-black uppercase tracking-[0.2em] mb-6">
@@ -204,6 +200,7 @@ export default function EnquiryPopup({ onClose, onSubmit }) {
             animate={{ scale: 1, opacity: 1 }}
             className="relative bg-white p-12 md:p-20 rounded-[3rem] md:rounded-[4rem] text-center max-w-lg w-full border border-slate-100 shadow-2xl shadow-indigo-500/10"
           >
+            {!isInline && (
             <button 
               onClick={onClose}
               className="absolute top-4 right-4 md:top-8 md:right-8 text-slate-400 hover:text-slate-900 transition-all bg-slate-100/50 hover:bg-slate-100 p-3 md:p-2 rounded-full z-[110]"
@@ -211,6 +208,7 @@ export default function EnquiryPopup({ onClose, onSubmit }) {
             >
               <X className="w-6 h-6 md:w-5 md:h-5" />
             </button>
+            )}
 
             <div className="w-24 h-24 bg-green-50 rounded-full flex items-center justify-center mx-auto mb-10 text-green-500 border border-green-100">
               <CheckCircle2 className="w-12 h-12" />
@@ -219,15 +217,31 @@ export default function EnquiryPopup({ onClose, onSubmit }) {
             <p className="text-slate-500 font-semibold text-lg leading-relaxed mb-10">
               Handshake initialized successfully. An executive admissions partner will penetrate your contact orbit shortly.
             </p>
+            {!isInline && (
             <button 
               onClick={onClose}
               className="px-12 py-5 bg-slate-900 text-white text-[10px] font-black uppercase tracking-[0.3em] rounded-full hover:bg-slate-800 transition-all"
             >
               Monitor Dashboard
             </button>
+            )}
           </motion.div>
         )}
       </AnimatePresence>
+  );
+
+  if (isInline) {
+    return <div className="w-full">{formContent}</div>;
+  }
+
+  return (
+    <div 
+      className="fixed inset-0 bg-slate-900/60 backdrop-blur-xl flex justify-center items-center z-[1000] p-4"
+      onClick={(e) => {
+        if (e.target === e.currentTarget && onClose) onClose();
+      }}
+    >
+      {formContent}
     </div>
   );
 }

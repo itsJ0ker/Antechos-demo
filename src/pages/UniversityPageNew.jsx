@@ -33,7 +33,8 @@ import {
 } from 'lucide-react';
 import { motion, AnimatePresence, useScroll, useTransform } from 'framer-motion';
 import { universities as staticUniversities } from '../data/universities';
-import { getUniversities } from '../lib/supabase';
+import { getUniversities, submitEnquiry } from '../lib/supabase';
+import { Phone } from 'lucide-react';
 import CountUp from 'react-countup';
 
 /* ─── Inline CSS ─────────────────────────────────────────────────────────── */
@@ -103,6 +104,7 @@ const SectionLabel = ({ children, icon: Icon }) => (
 
 // --- PREMIUM ASSETS ---
 const HERO_IMAGES = [
+   "https://i.ibb.co/Rpgw7dhv/Whats-App-Image-2026-04-03-at-10-10-20-AM1.jpg",
    "https://i.ibb.co/TMf6Vmjq/Whats-App-Image-2026-04-03-at-1-32-36-AM.jpg",
    "https://i.ibb.co/R4t0Dtcw/Whats-App-Image-2026-04-03-at-1-32-37-AM-1.jpg",
    "https://i.ibb.co/GvwRY9Dc/Whats-App-Image-2026-04-03-at-1-32-37-AM.jpg",
@@ -114,7 +116,7 @@ const HERO_IMAGES = [
    "https://i.ibb.co/cS2zyYST/Whats-App-Image-2026-04-03-at-1-37-12-AM.jpg",
    "https://i.ibb.co/G37r9QNr/Whats-App-Image-2026-04-03-at-10-10-19-AM.jpg",
    "https://i.ibb.co/Kx2DKTGw/Whats-App-Image-2026-04-03-at-10-10-20-AM.jpg",
-   "https://i.ibb.co/Rpgw7dhv/Whats-App-Image-2026-04-03-at-10-10-20-AM1.jpg"
+
 ];
 
 const TRUST_LOGOS = [
@@ -124,12 +126,23 @@ const TRUST_LOGOS = [
 ];
 
 const UNIVERSITY_LOGOS = [
-   { name: "LPU Online", url: "https://www.lpuonline.com/images/logo.png", fallback: "LPU" },
-   { name: "Sikkim Manipal", url: "https://www.smuniversity.edu.in/assets/logo.png", fallback: "SMU" },
-   { name: "Amrita AHEAD", url: "https://onlineamrita.com/wp-content/uploads/2021/05/logo.png", fallback: "Amrita" },
-   { name: "UPES ON", url: "https://www.upes.ac.in/logos/upes-logo.png", fallback: "UPES" },
-   { name: "Sharda University", url: "https://www.sharda.ac.in/assets/images/logo.png", fallback: "Sharda" },
-   { name: "Jain University", url: "https://www.jainuniversity.ac.in/assets/images/logo.png", fallback: "Jain" },
+   "https://i.ibb.co/PvtBVM1P/Whats-App-Image-2026-04-04-at-8-38-11-PM.jpg",
+   "https://i.ibb.co/Vcg8mfy2/Whats-App-Image-2026-04-04-at-8-38-12-PM-1.jpg",
+   "https://i.ibb.co/4Z6KVFNs/Whats-App-Image-2026-04-04-at-8-38-12-PM.jpg",
+   "https://i.ibb.co/9kdms5S3/Whats-App-Image-2026-04-04-at-8-38-13-PM.jpg",
+   "https://i.ibb.co/RGvF2NjM/Whats-App-Image-2026-04-04-at-8-38-14-PM-1.jpg",
+   "https://i.ibb.co/qM9fXWwY/Whats-App-Image-2026-04-04-at-8-38-14-PM.jpg",
+   "https://i.ibb.co/VcS7bmxZ/Whats-App-Image-2026-04-04-at-8-38-15-PM-1.jpg",
+   "https://i.ibb.co/35G78khZ/Whats-App-Image-2026-04-04-at-8-38-15-PM.jpg",
+   "https://i.ibb.co/0ykRZtKm/Whats-App-Image-2026-04-04-at-8-38-16-PM-1.jpg",
+   "https://i.ibb.co/zHXXVh25/Whats-App-Image-2026-04-04-at-8-38-16-PM.jpg",
+   "https://i.ibb.co/7x8qWdSk/Whats-App-Image-2026-04-04-at-8-38-18-PM-1.jpg",
+   "https://i.ibb.co/kVjbmWdX/Whats-App-Image-2026-04-04-at-8-38-18-PM.jpg",
+   "https://i.ibb.co/Kcr4bqn4/Whats-App-Image-2026-04-04-at-8-38-19-PM.jpg",
+   "https://i.ibb.co/wNjKSM0V/Whats-App-Image-2026-04-04-at-8-38-20-PM.jpg",
+   "https://i.ibb.co/8g1r6psW/Whats-App-Image-2026-04-04-at-8-38-21-PM.jpg",
+   "https://i.ibb.co/JFzFnBCB/Whats-App-Image-2026-04-04-at-8-38-22-PM.jpg",
+   "https://i.ibb.co/RGtT7wGb/Whats-App-Image-2026-04-04-at-8-38-09-PM.jpg"
 ];
 
 const WHY_CHOOSE_DATA = [
@@ -216,6 +229,24 @@ const HELP_CARDS = [
    }
 ];
 
+const FEATURES_DATA = [
+   { img: "https://i.ibb.co/DfBNQfmt/Whats-App-Image-2026-04-04-at-1-00-18-AM.jpg", text: "Boost your degree while keeping your job" },
+   { img: "https://i.ibb.co/pr54yJQR/Whats-App-Image-2026-04-04-at-1-00-52-AM.jpg", text: "Network Anywhere Everywhere" },
+   { img: "https://i.ibb.co/XfK7wCZn/Whats-App-Image-2026-04-04-at-1-02-51-AM.jpg", text: "Brand Value with Real Life Perks" },
+   { img: "https://i.ibb.co/Lhhp99qh/Whats-App-Image-2026-04-04-at-1-04-34-AM.jpg", text: "Top tier faculty and Industry Experts" },
+   { img: "https://i.ibb.co/tPPDQJDG/Whats-App-Image-2026-04-04-at-1-05-51-AM.jpg", text: "Practical Application with Sandbox Environment" },
+   { img: "https://i.ibb.co/qFyBxPrf/Whats-App-Image-2026-04-04-at-1-08-37-AM.jpg", text: "Capstone Projects, Stimulations and Real life Case Studies" },
+   { img: "https://i.ibb.co/cXktscqj/Whats-App-Image-2026-04-04-at-1-09-02-AM.jpg", text: "Campus Visit, Personalised Experience and Real Exposure" },
+   { img: "https://i.ibb.co/xK7ZJ5ts/Whats-App-Image-2026-04-04-at-1-11-01-AM.jpg", text: "Scholarships and Easy EMI Options" },
+   { img: "https://i.ibb.co/67DHpZ8B/Whats-App-Image-2026-04-04-at-1-12-42-AM.jpg", text: "Career services from Resume to Opportunities" },
+   { img: "https://i.ibb.co/1G227gzF/Whats-App-Image-2026-04-04-at-1-13-32-AM.jpg", text: "Growth - Salary, Promotions & Switch" },
+   { img: "https://i.ibb.co/nspK9xt5/Whats-App-Image-2026-04-04-at-1-14-26-AM.jpg", text: "Placement Opportunity with Virtual Hiring Drives" },
+   { img: "https://i.ibb.co/3yKxXmjc/Whats-App-Image-2026-04-04-at-1-16-12-AM.jpg", text: "100% Online, Zero Travel Required" },
+   { img: "https://i.ibb.co/VWHND6fQ/Whats-App-Image-2026-04-04-at-1-17-05-AM.jpg", text: "Live & Recorded Lectures, Fully Flexible Curriculum" },
+   { img: "https://i.ibb.co/QvdrfLjd/Whats-App-Image-2026-04-04-at-1-19-08-AM.jpg", text: "Smart spend, World Class Degrees" },
+   { img: "https://i.ibb.co/HDM7Hm9j/Whats-App-Image-2026-04-04-at-12-58-07-AM.jpg", text: "Access to Top Global Universities" }
+];
+
 const TESTIMONIALS = [
    {
       name: "Aditi Rao",
@@ -250,14 +281,47 @@ const UniversityPageNew = () => {
    const [heroIndex, setHeroIndex] = useState(0);
    const [finderStream, setFinderStream] = useState('All');
    const [helpIndex, setHelpIndex] = useState(0);
+   const [featuresIndex, setFeaturesIndex] = useState(0);
+   const [isFeaturesPlaying, setIsFeaturesPlaying] = useState(true);
    const [windowWidth, setWindowWidth] = useState(typeof window !== 'undefined' ? window.innerWidth : 1200);
    const strategicIntelligenceRef = useRef(null);
+
+   const getVisibleFeatures = () => {
+      if (typeof window === 'undefined') return 4;
+      if (window.innerWidth < 640) return 1;
+      if (window.innerWidth < 768) return 2;
+      if (window.innerWidth < 1024) return 3;
+      return 4;
+   };
 
    useEffect(() => {
       const handleResize = () => setWindowWidth(window.innerWidth);
       window.addEventListener('resize', handleResize);
       return () => window.removeEventListener('resize', handleResize);
    }, []);
+
+   useEffect(() => {
+      let interval;
+      if (isFeaturesPlaying) {
+         interval = setInterval(() => {
+            setFeaturesIndex((prev) => {
+               const max = Math.max(0, FEATURES_DATA.length - getVisibleFeatures());
+               return prev >= max ? 0 : prev + 1;
+            });
+         }, 3000);
+      }
+      return () => clearInterval(interval);
+   }, [isFeaturesPlaying]);
+
+   const handlePrevFeature = () => {
+      const max = Math.max(0, FEATURES_DATA.length - getVisibleFeatures());
+      setFeaturesIndex(prev => prev <= 0 ? max : prev - 1);
+   };
+
+   const handleNextFeature = () => {
+      const max = Math.max(0, FEATURES_DATA.length - getVisibleFeatures());
+      setFeaturesIndex(prev => prev >= max ? 0 : prev + 1);
+   };
 
    useEffect(() => {
       setCurrentIndex(0);
@@ -325,34 +389,46 @@ const UniversityPageNew = () => {
          <style>{styles}</style>
 
          {/* 1. HERO SECTION */}
-         <section className="relative h-[650px] sm:h-[700px] md:h-[850px] overflow-hidden flex items-center bg-slate-900">
-            <div className="grid-pattern"></div>
+         <section className="relative w-full h-[500px] sm:h-[600px] md:h-[700px] overflow-hidden bg-slate-950 group">
 
-            {/* Decorative Blobs */}
-            <div className="absolute top-[-10%] right-[-5%] w-[400px] md:w-[600px] h-[400px] md:h-[600px] rounded-full bg-radial-gradient(circle, rgba(56,189,248,0.1) 0%, transparent 70%) pointer-events-none"></div>
-            <div className="absolute bottom-[-15%] left-[-5%] w-[300px] md:w-[500px] h-[300px] md:h-[500px] rounded-full bg-radial-gradient(circle, rgba(56,189,248,0.05) 0%, transparent 70%) pointer-events-none"></div>
-
-            <AnimatePresence mode="wait">
-               <motion.div
-                  key={heroIndex}
-                  initial={{ opacity: 0, scale: 1.1 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  exit={{ opacity: 0 }}
-                  transition={{ duration: 2, ease: "easeInOut" }}
-                  className="absolute inset-0 z-0"
-                  style={{
-                     backgroundImage: `url(${HERO_IMAGES[heroIndex]})`,
-                     backgroundSize: 'cover',
-                     backgroundPosition: 'top'
-                  }}
-               >
-                  <div className="absolute inset-0 bg-slate-900/10"></div>
-               </motion.div>
-            </AnimatePresence>
-
-            <div className="container mx-auto px-6 relative z-10 pt-10 sm:pt-20">
-               {/* Hero text removed to showcase high-quality images as requested */}
+            {/* Cinematic Blurred Background to prevent "blank spaces" */}
+            <div className="absolute inset-0 z-0 overflow-hidden">
+               <AnimatePresence>
+                  <motion.div
+                     key={`bg-${heroIndex}`}
+                     initial={{ opacity: 0 }}
+                     animate={{ opacity: 0.5 }}
+                     exit={{ opacity: 0 }}
+                     transition={{ duration: 1.2 }}
+                     className="absolute inset-0 bg-cover bg-center pointer-events-none"
+                     style={{ backgroundImage: `url(${HERO_IMAGES[heroIndex]})`, filter: 'blur(50px) scale(1.2)' }}
+                  />
+               </AnimatePresence>
+               <div className="absolute inset-0 bg-slate-950/60 z-10 pointer-events-none"></div>
             </div>
+
+            <div className="grid-pattern z-0 opacity-20 pointer-events-none"></div>
+
+            {/* Foreground image wrapper for exact un-cropped bounding */}
+            <div className="relative z-10 w-full h-full max-w-[1400px] mx-auto px-4 md:px-8 lg:px-12 pt-10 pb-28 sm:pb-32 flex justify-center items-center">
+               <div className="relative w-full h-full">
+                  <AnimatePresence>
+                     <motion.img
+                        key={`img-${heroIndex}`}
+                        src={HERO_IMAGES[heroIndex]}
+                        alt="University Spotlight"
+                        initial={{ opacity: 0, scale: 0.95 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        exit={{ opacity: 0, scale: 1.05 }}
+                        transition={{ duration: 1, ease: "easeOut" }}
+                        className="absolute inset-0 w-full h-full object-contain drop-shadow-[0_20px_50px_rgba(0,0,0,0.5)] rounded-2xl md:rounded-[2rem]"
+                     />
+                  </AnimatePresence>
+               </div>
+            </div>
+
+            {/* Dark overlay specifically matching ticker gradient */}
+            <div className="absolute bottom-0 left-0 w-full h-48 bg-gradient-to-t from-slate-950/90 via-slate-950/40 to-transparent z-20 pointer-events-none"></div>
 
             {/* Premium Pagination Dots */}
             <div className="absolute bottom-20 left-1/2 -translate-x-1/2 flex gap-2 z-30">
@@ -360,22 +436,24 @@ const UniversityPageNew = () => {
                   <button
                      key={i}
                      onClick={() => setHeroIndex(i)}
-                     className={`h-1 rounded-full transition-all duration-500 ${heroIndex === i ? "w-8 bg-blue-400" : "w-1.5 bg-white/20 hover:bg-white/40"}`}
+                     className={`h-1.5 rounded-full transition-all duration-500 shadow-sm ${heroIndex === i ? "w-8 bg-blue-500" : "w-2 bg-white/30 hover:bg-white/50"}`}
                   />
                ))}
             </div>
 
-            <div className="absolute bottom-0 left-0 w-full bg-black/20 backdrop-blur-md border-t border-white/5 py-3 overflow-hidden">
+            {/* Bottom Ticker */}
+            <div className="absolute bottom-0 left-0 w-full bg-black/40 backdrop-blur-md border-t border-white/10 py-3 overflow-hidden z-30">
                <div className="flex items-center gap-12 whitespace-nowrap animate-marquee px-4">
                   {[1, 2, 3, 4, 5].map(i => (
                      <div key={i} className="flex items-center gap-3">
                         <div className="w-2 h-2 rounded-full bg-blue-500 animate-ping"></div>
-                        <span className="text-white/60 text-[10px] font-black uppercase tracking-widest">UPES Dehradun Application Deadline: April 15th</span>
+                        <span className="text-white/80 text-[10px] font-black uppercase tracking-widest">UPES Dehradun Application Deadline: April 15th</span>
                         <span className="text-white/20 mx-4">|</span>
-                        <span className="text-white/60 text-[10px] font-black uppercase tracking-widest">Sikkim Manipal Admission: 50% Scholarship Available</span>
+                        <span className="text-white/80 text-[10px] font-black uppercase tracking-widest">Sikkim Manipal Admission: 50% Scholarship Available</span>
                      </div>
                   ))}
                </div>
+
             </div>
          </section>
 
@@ -409,16 +487,13 @@ const UniversityPageNew = () => {
          {/* 3. LOGO CAROUSEL */}
          <section className="bg-gradient-to-b from-white to-slate-50 py-14 overflow-hidden relative border-b border-indigo-50/50">
             <div className="flex items-center gap-10 md:gap-24 whitespace-nowrap animate-marquee">
-               {[...UNIVERSITY_LOGOS, ...UNIVERSITY_LOGOS, ...UNIVERSITY_LOGOS].map((logo, idx) => (
-                  <div key={idx} className="flex items-center gap-4 opacity-90 hover:opacity-100 hover:scale-110 transition-all duration-500 cursor-pointer group">
+               {[...UNIVERSITY_LOGOS, ...UNIVERSITY_LOGOS, ...UNIVERSITY_LOGOS].map((logoURL, idx) => (
+                  <div key={idx} className="flex items-center opacity-80 hover:opacity-100 hover:scale-105 transition-all duration-500 cursor-pointer group">
                      <img
-                        src={logo.url}
-                        alt={logo.name}
-                        className="h-8 md:h-12 w-auto object-contain drop-shadow-sm"
-                        onError={(e) => { e.target.style.display = 'none'; e.target.nextSibling.style.display = 'block'; }}
+                        src={logoURL}
+                        alt="University Partner Logo"
+                        className="h-10 md:h-14 lg:h-16 w-auto object-contain mix-blend-multiply drop-shadow-sm pointer-events-none"
                      />
-                     <span className="hidden text-slate-400 font-black tracking-widest text-[9px] md:text-xs uppercase group-hover:text-blue-600">{logo.fallback}</span>
-                     <span className="bg-clip-text text-transparent bg-gradient-to-r from-blue-700 to-indigo-500 font-black tracking-tight text-lg md:text-2xl">{logo.name}</span>
                   </div>
                ))}
             </div>
@@ -678,11 +753,11 @@ const UniversityPageNew = () => {
                               {filteredUniversities.map((uni) => (
                                  <motion.div
                                     key={uni.id}
-                                    className="flex-shrink-0 w-[300px] md:w-[380px] h-[520px] md:h-[600px] group flex flex-col bg-white rounded-[2rem] md:rounded-[3rem] overflow-hidden border border-slate-100 hover:border-blue-100 transition-all duration-700 hover:shadow-[0_40px_80px_-15px_rgba(0,0,0,0.08)]"
+                                    className="flex-shrink-0 w-[300px] md:w-[380px] h-auto min-h-[600px] group flex flex-col bg-white rounded-[2rem] md:rounded-[3rem] overflow-hidden border border-slate-100 hover:border-blue-100 transition-all duration-700 hover:shadow-[0_40px_80px_-15px_rgba(0,0,0,0.08)]"
                                  >
-                                    <div className="relative h-48 md:h-60 overflow-hidden bg-slate-100">
-                                       <img src={uni.image} alt={uni.name} className="w-full h-auto object-top origin-top group-hover:scale-110 transition-transform duration-1000" />
-                                       <div className="absolute inset-0 bg-gradient-to-t from-slate-900/80 via-transparent to-transparent pointer-events-none z-10"></div>
+                                    <div className="relative w-full aspect-square overflow-hidden bg-slate-100 flex-shrink-0">
+                                       <img src={uni.image} alt={uni.name} className="absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition-transform duration-1000" />
+                                       <div className="absolute inset-0 bg-gradient-to-t from-slate-900/80 via-slate-900/10 to-transparent pointer-events-none z-10"></div>
                                        <div className="absolute bottom-4 left-4 flex gap-1.5 z-20">
                                           <span className="bg-white/90 backdrop-blur-md text-slate-900 py-1.5 px-3 rounded-lg text-[8px] md:text-[9px] font-black uppercase tracking-widest shadow-xl border border-white/20">{uni.category}</span>
                                           <span className="bg-blue-600 text-white py-1.5 px-3 rounded-lg text-[8px] md:text-[9px] font-black uppercase tracking-widest shadow-xl">Top Rated</span>
@@ -759,11 +834,11 @@ const UniversityPageNew = () => {
                               initial={{ opacity: 0, y: 30 }}
                               whileInView={{ opacity: 1, y: 0 }}
                               viewport={{ once: true }}
-                              className="group flex flex-col bg-white rounded-[2.5rem] md:rounded-[3.5rem] overflow-hidden border border-slate-100 hover:border-blue-100 transition-all duration-700 hover:shadow-[0_40px_80px_-15px_rgba(0,0,0,0.08)] h-[550px] md:h-[650px]"
+                              className="group flex flex-col bg-white rounded-[2.5rem] md:rounded-[3.5rem] overflow-hidden border border-slate-100 hover:border-blue-100 transition-all duration-700 hover:shadow-[0_40px_80px_-15px_rgba(0,0,0,0.08)] h-auto min-h-[650px]"
                            >
-                              <div className="relative h-60 md:h-72 overflow-hidden bg-slate-100">
-                                 <img src={uni.image} alt={uni.name} className="w-full h-auto object-top origin-top group-hover:scale-110 transition-transform duration-1000" />
-                                 <div className="absolute inset-0 bg-gradient-to-t from-slate-900/80 via-transparent to-transparent pointer-events-none z-10"></div>
+                              <div className="relative w-full aspect-square overflow-hidden bg-slate-100 flex-shrink-0">
+                                 <img src={uni.image} alt={uni.name} className="absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition-transform duration-1000" />
+                                 <div className="absolute inset-0 bg-gradient-to-t from-slate-900/80 via-slate-900/10 to-transparent pointer-events-none z-10"></div>
                                  <div className="absolute bottom-6 left-6 flex gap-2 z-20">
                                     <span className="bg-white/90 backdrop-blur-md text-slate-900 py-2 px-4 rounded-xl text-[9px] md:text-[10px] font-black uppercase tracking-widest shadow-xl border border-white/20">{uni.category}</span>
                                     <span className="bg-blue-600 text-white py-2 px-4 rounded-xl text-[9px] md:text-[10px] font-black uppercase tracking-widest shadow-xl">Top Rated</span>
@@ -821,11 +896,11 @@ const UniversityPageNew = () => {
             </div>
          </section>
 
-         {/* 10. QUESTIONS? WE CAN HELP */}
-         <section className="py-16 md:py-24 bg-white text-slate-900 relative overflow-hidden ring-1 ring-slate-100">
-            <div className="container mx-auto px-6 relative z-10">
+         {/* CAROUSEL FEATURES SECTION */}
+         <section className="py-16 md:py-24 bg-white border-y border-slate-100 relative overflow-hidden">
+            <div className="container mx-auto px-4 md:px-6 relative z-10 w-full max-w-7xl mx-auto">
                {/* Heading */}
-               <div className="flex flex-col items-center text-center mb-16 md:mb-20">
+               <div className="flex flex-col items-center text-center mb-12 md:mb-16">
                   <SectionLabel icon={Mail}>Institutional Support</SectionLabel>
                   <h2 className="text-2xl sm:text-3xl md:text-4xl font-black mb-4 uppercase tracking-tighter font-display">Questions? <span className="text-blue-600">We can help.</span></h2>
                   <p className="text-slate-500 text-xs md:text-sm max-w-2xl font-medium">
@@ -833,37 +908,41 @@ const UniversityPageNew = () => {
                   </p>
                </div>
 
-               <div className="relative group/marquee">
-                  <div className="overflow-hidden py-4 -mx-6 px-6">
-                     <div 
-                        className="flex w-max gap-6 md:gap-8 animate-marquee hover:[animation-play-state:paused] pb-4"
-                        style={{ animationDuration: '40s' }}
+               <div
+                  className="relative group/features px-6 md:px-12"
+                  onMouseEnter={() => setIsFeaturesPlaying(false)}
+                  onMouseLeave={() => setIsFeaturesPlaying(true)}
+               >
+                  <div className="overflow-hidden py-4 -mx-4 px-4 m-auto">
+                     <motion.div
+                        className="flex items-stretch cursor-grab active:cursor-grabbing touch-pan-x"
+                        animate={{ x: `-${featuresIndex * (windowWidth < 640 ? 100 : windowWidth < 768 ? 50 : windowWidth < 1024 ? 33.333 : 25)}%` }}
+                        transition={{ type: "tween", ease: "easeInOut", duration: 0.5 }}
                      >
-                        {[...HELP_CARDS, ...HELP_CARDS, ...HELP_CARDS, ...HELP_CARDS].map((card, idx) => (
-                           <div
-                              key={idx}
-                              className="flex-shrink-0 w-[340px] md:w-[480px] p-8 md:p-10 rounded-[2rem] bg-white border border-slate-100 group hover:border-blue-200 hover:shadow-2xl transition-all duration-500 relative overflow-hidden flex flex-row items-center gap-6 md:gap-10 text-left cursor-pointer hover:-translate-y-2"
-                           >
-                              <div className={`absolute inset-0 bg-gradient-to-br ${card.color} opacity-0 group-hover:opacity-10 transition-opacity duration-700`}></div>
-
-                              <div className="relative z-10 w-16 h-16 md:w-20 md:h-20 shrink-0 bg-slate-50 rounded-2xl flex items-center justify-center border border-slate-100 group-hover:scale-110 group-hover:bg-blue-600 group-hover:text-white transition-all duration-500 shadow-sm">
-                                 {React.cloneElement(card.icon, { className: "w-8 h-8 md:w-10 md:h-10 transition-colors duration-500" })}
+                        {FEATURES_DATA.map((feature, idx) => (
+                           <div key={idx} className="flex-shrink-0 w-full sm:w-1/2 md:w-1/3 lg:w-1/4 flex flex-col items-center text-center px-4 md:px-6 py-6 group cursor-pointer">
+                              <div className="h-16 md:h-20 mb-6 flex items-center justify-center">
+                                 <img src={feature.img} alt="Feature icon" className="h-full object-contain mix-blend-multiply drop-shadow-[0_15px_15px_rgba(0,0,0,0.05)] group-hover:scale-110 transition-transform duration-500" />
                               </div>
-
-                              <div className="relative z-10 flex-grow">
-                                 <h3 className="text-base md:text-lg font-black mb-2 uppercase tracking-tight font-display leading-tight group-hover:text-blue-600 transition-colors">{card.title}</h3>
-                                 <p className="text-slate-500 text-[10px] md:text-xs font-medium leading-relaxed group-hover:text-slate-700 transition-colors mb-4 line-clamp-2">
-                                    {card.desc}
-                                 </p>
-
-                                 <div className="flex items-center gap-3 text-[9px] font-black uppercase tracking-[0.2em] text-blue-600 group-hover:translate-x-2 transition-all duration-500">
-                                    Connect <ArrowRight className="w-4 h-4" />
-                                 </div>
-                              </div>
+                              <h3 className="text-sm md:text-base font-semibold text-slate-800 leading-snug group-hover:text-blue-600 transition-colors">{feature.text}</h3>
                            </div>
                         ))}
-                     </div>
+                     </motion.div>
                   </div>
+
+                  {/* Navigation Arrows */}
+                  <button
+                     onClick={handlePrevFeature}
+                     className="absolute top-1/2 -translate-y-1/2 left-0 md:left-2 w-10 h-10 md:w-14 md:h-14 bg-white rounded-full shadow-[0_8px_30px_rgba(0,0,0,0.12)] border border-slate-100 flex items-center justify-center text-slate-800 hover:text-blue-600 hover:bg-slate-50 transition-all active:scale-95 z-20"
+                  >
+                     <ChevronLeft className="w-5 h-5 md:w-6 md:h-6" />
+                  </button>
+                  <button
+                     onClick={handleNextFeature}
+                     className="absolute top-1/2 -translate-y-1/2 right-0 md:right-2 w-10 h-10 md:w-14 md:h-14 bg-white rounded-full shadow-[0_8px_30px_rgba(0,0,0,0.12)] border border-slate-100 flex items-center justify-center text-slate-800 hover:text-blue-600 hover:bg-slate-50 transition-all active:scale-95 z-20"
+                  >
+                     <ChevronRight className="w-5 h-5 md:w-6 md:h-6" />
+                  </button>
                </div>
             </div>
          </section>
@@ -895,7 +974,7 @@ const UniversityPageNew = () => {
                <div className="relative">
                   {!showAllPrograms ? (
                      <div className="overflow-hidden relative group/marquee py-4 -mx-6 px-6">
-                        <div 
+                        <div
                            className="flex w-max gap-6 md:gap-8 animate-marquee hover:[animation-play-state:paused] pb-4"
                            style={{ animationDuration: `${Math.max(filteredCourses.length * 10, 40)}s` }}
                         >
@@ -1143,7 +1222,7 @@ const UniversityPageNew = () => {
 
                <div className="relative group/marquee">
                   <div className="overflow-hidden py-4 -mx-6 px-6">
-                     <div 
+                     <div
                         className="flex w-max gap-6 md:gap-8 animate-marquee hover:[animation-play-state:paused] pb-4"
                         style={{ animationDuration: '40s' }}
                      >
@@ -1199,23 +1278,45 @@ const UniversityPageNew = () => {
 
 
 
-         {/* 11. ADVISORY PANEL */}
-         <section className="py-12 md:py-24 bg-white relative overflow-hidden">
-            <div className="container mx-auto px-6">
-               <div className="bg-slate-900 rounded-[3rem] md:rounded-[5rem] p-12 md:p-32 relative overflow-hidden flex flex-col items-center text-center text-white shadow-2xl">
-                  <div className="absolute inset-0 opacity-10 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')]"></div>
-                  <div className="grid-pattern opacity-10"></div>
+         {/* 11. ADVISORY PANEL - REDESIGNED HOMEPAGE INLINE FORM */}
+         <section className="py-12 md:py-16 bg-gradient-to-r from-blue-50 to-slate-50 relative overflow-hidden mt-12 md:mt-24">
+            {/* Background elements */}
+            <div className="absolute top-0 right-0 w-full h-full bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-[0.03]"></div>
 
-                  <div className="relative z-10 max-w-4xl">
-                     <SectionLabel icon={Rocket}>Direct Counsel Available</SectionLabel>
-                     <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-[6rem] font-black mb-10 md:mb-12 tracking-tighter uppercase leading-[1] md:leading-[0.9]">Transform your <br className="hidden md:block" /> Academic <span className="text-blue-500">Trajectory.</span></h2>
-                     <button
-                        onClick={() => setShowEnquiry(true)}
-                        className="w-full md:w-auto bg-blue-600 text-white font-black px-10 md:px-16 py-6 md:py-8 rounded-2xl md:rounded-[2rem] text-lg md:text-2xl shadow-2xl transition-all hover:scale-105 active:scale-95 hover:bg-blue-700"
-                     >
-                        Book Free Strategic Counsel
-                     </button>
+            <div className="container mx-auto px-6 relative z-10">
+               <div className="max-w-6xl mx-auto flex flex-col md:flex-row items-center gap-10 md:gap-16">
+
+                  {/* Left Column: Text and Image */}
+                  <div className="w-full md:w-1/2 flex flex-col items-center md:items-start text-center md:text-left">
+                     <div className="mb-6 flex flex-col items-center md:items-start">
+                        <h2 className="text-4xl sm:text-5xl lg:text-6xl font-black text-slate-900 mb-4 tracking-tighter font-display leading-[1.1]">
+                           Still <span className="text-blue-600">Confused?</span>
+                        </h2>
+                        <p className="text-slate-600 font-medium text-lg md:text-xl flex items-center justify-center md:justify-start gap-3">
+                           Get 1:1 free counselling Now
+                           <span className="p-2 bg-green-100 text-green-600 rounded-full animate-bounce shadow-sm">
+                              <Phone className="w-5 h-5 fill-current" />
+                           </span>
+                        </p>
+                     </div>
+
+                     <div className="w-full max-w-sm mt-4 md:mt-8 relative hidden md:block">
+                        <div className="absolute inset-0 bg-blue-200 rounded-[3rem] blur-[80px] opacity-40"></div>
+                        <img
+                           src="https://static.vecteezy.com/system/resources/thumbnails/010/869/741/small/faq-concept-illustration-people-looking-through-magnifying-glass-at-interrogation-point-searching-solutions-useful-information-customer-support-solving-problem-free-png.png"
+                           alt="Free Counselling Support"
+                           className="w-full h-auto relative z-10 mix-blend-multiply drop-shadow-xl scale-110 -translate-y-4"
+                        />
+                     </div>
                   </div>
+
+                  {/* Right Column: Form */}
+                  <div className="w-full md:w-1/2 flex justify-center md:justify-end">
+                     <div className="w-full max-w-lg relative">
+                        <EnquiryPopup isInline={true} />
+                     </div>
+                  </div>
+
                </div>
             </div>
          </section>
