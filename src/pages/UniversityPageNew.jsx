@@ -290,6 +290,7 @@ const UniversityPageNew = () => {
    const [testimonialIndex, setTestimonialIndex] = useState(0);
    const [currentIndex, setCurrentIndex] = useState(0);
    const [programIndex, setProgramIndex] = useState(0);
+   const [skipProgramAnimation, setSkipProgramAnimation] = useState(false);
    const [programScroll, setProgramScroll] = useState(0);
    const [showAllPrograms, setShowAllPrograms] = useState(false);
    const [searchTerm, setSearchTerm] = useState('');
@@ -347,9 +348,6 @@ const UniversityPageNew = () => {
       setFeaturesIndex(prev => prev >= max ? 0 : prev + 1);
    };
 
-   useEffect(() => {
-      setCurrentIndex(0);
-   }, [filterCategory, filterStream, searchTerm, finderStream]);
 
    const scrollToStrategicIntelligence = (e) => {
       e.preventDefault();
@@ -386,13 +384,32 @@ const UniversityPageNew = () => {
          : OFFICIAL_COURSES.filter(c => c.category === courseType);
    }, [courseType]);
 
+   useEffect(() => {
+      setCurrentIndex(0);
+      if (filteredCourses.length > 0) {
+         setProgramIndex(filteredCourses.length);
+      }
+   }, [filterCategory, filterStream, searchTerm, finderStream, courseType, filteredCourses.length]);
+
+   useEffect(() => {
+      if (filteredCourses.length === 0) return;
+      if (programIndex >= filteredCourses.length * 2) {
+         setSkipProgramAnimation(true);
+         setProgramIndex(prev => prev - filteredCourses.length);
+         setTimeout(() => setSkipProgramAnimation(false), 50);
+      } else if (programIndex < filteredCourses.length) {
+         setSkipProgramAnimation(true);
+         setProgramIndex(prev => prev + filteredCourses.length);
+         setTimeout(() => setSkipProgramAnimation(false), 50);
+      }
+   }, [programIndex, filteredCourses.length]);
+
    // Auto-play for Program Portfolio
    useEffect(() => {
       if (showAllPrograms) return;
       const interval = setInterval(() => {
          setProgramIndex((prev) => {
-            const next = prev + 1;
-            return next >= filteredCourses.length ? 0 : next;
+            return prev + 1;
          });
       }, 4000);
       return () => clearInterval(interval);
@@ -407,6 +424,14 @@ const UniversityPageNew = () => {
    }, []);
 
    const handleUniversityClick = (link) => window.open(link, '_blank', 'noopener,noreferrer');
+
+   const handlePrevProgram = () => {
+      setProgramIndex(prev => prev - 1);
+   };
+
+   const handleNextProgram = () => {
+      setProgramIndex(prev => prev + 1);
+   };
 
    return (
       <div className="uni-page-new min-h-screen overflow-x-clip max-w-[100vw] relative">
@@ -1002,7 +1027,7 @@ const UniversityPageNew = () => {
                      >
                         {FEATURES_DATA.map((feature, idx) => (
                            <div key={idx} className="flex-shrink-0 w-full sm:w-1/2 md:w-1/3 lg:w-1/4 flex flex-col items-center text-center px-4 md:px-6 py-6 group cursor-pointer">
-                              <div className="h-16 md:h-20 mb-6 flex items-center justify-center">
+                              <div className="h-22 md:h-30 mb-6 flex items-center justify-center">
                                  <img src={feature.img} alt="Feature icon" className="h-full object-contain mix-blend-multiply drop-shadow-[0_15px_15px_rgba(0,0,0,0.05)] group-hover:scale-110 transition-transform duration-500" />
                               </div>
                               <h3 className="text-sm md:text-base font-semibold text-slate-800 leading-snug group-hover:text-blue-600 transition-colors">{feature.text}</h3>
@@ -1054,33 +1079,63 @@ const UniversityPageNew = () => {
 
                <div className="relative">
                   {!showAllPrograms ? (
-                     <div className="marquee-container group/marquee py-4">
-                        <div
-                           className="flex w-max gap-6 md:gap-8 animate-marquee hover:[animation-play-state:paused] pb-4"
-                           style={{ animationDuration: `${Math.max(filteredCourses.length * 10, 40)}s` }}
-                        >
-                           {[...filteredCourses, ...filteredCourses].map((course, idx) => (
-                              <div
-                                 key={idx}
-                                 className="flex-shrink-0 w-[300px] md:w-[380px] h-[400px] md:h-[420px] relative bg-white border border-slate-100 p-8 md:p-10 rounded-[2.5rem] md:rounded-[3rem] hover:border-blue-200 hover:-translate-y-2 hover:shadow-2xl transition-all duration-700 flex flex-col group content-start cursor-pointer"
-                              >
-                                 <div className="absolute top-8 right-8 opacity-40 group-hover:opacity-100 group-hover:text-blue-600 group-hover:scale-110 text-slate-400 transition-all duration-500">
-                                    {course.icon}
-                                 </div>
-                                 <div className="mb-10 text-left">
-                                    <span className="bg-slate-50 text-blue-600 px-5 py-2 rounded-full text-[9px] font-black uppercase tracking-widest border border-slate-100 shadow-sm transition-all group-hover:bg-blue-600 group-hover:text-white group-hover:border-blue-500">{course.badge}</span>
-                                 </div>
-                                 <h3 className="text-2xl md:text-3xl font-black text-slate-900 mb-4 leading-tight uppercase text-left group-hover:text-blue-600 transition-colors">{course.name}</h3>
-                                 <p className="text-slate-500 text-[10px] md:text-xs font-bold uppercase tracking-widest mb-12 text-left line-clamp-1">{course.category} Certification</p>
-                                 <button
-                                    onClick={() => handleUniversityClick(course.link)}
-                                    className="mt-auto w-full bg-slate-50 hover:bg-slate-900 border border-slate-200 hover:border-slate-800 text-slate-900 hover:text-white font-black py-4 md:py-5 rounded-2xl transition-all flex items-center justify-center gap-4 text-[9px] md:text-[10px] uppercase tracking-[0.2em] group/btn"
+                     <div className="relative group/programs-carousel">
+                        <div className="overflow-hidden py-4 m-auto">
+                           <motion.div
+                              className="flex w-max gap-6 md:gap-8 pb-12 cursor-grab active:cursor-grabbing touch-pan-x items-stretch"
+                              animate={{ x: -(programIndex * (windowWidth < 768 ? 300 + 24 : 380 + 32)) }}
+                              transition={skipProgramAnimation ? { duration: 0 } : { type: "spring", damping: 25, stiffness: 120 }}
+                              drag="x"
+                              onDragStart={() => setSkipProgramAnimation(false)}
+                              dragConstraints={{
+                                 right: 1000,
+                                 left: -5000
+                              }}
+                              onDragEnd={(e, { offset, velocity }) => {
+                                 const swipeThreshold = 50;
+                                 if (offset.x < -swipeThreshold) setProgramIndex(prev => prev + 1);
+                                 if (offset.x > swipeThreshold) setProgramIndex(prev => prev - 1);
+                              }}
+                           >
+                              {[...filteredCourses, ...filteredCourses, ...filteredCourses].map((course, idx) => (
+                                 <div
+                                    key={idx}
+                                    className="flex-shrink-0 w-[300px] md:w-[380px] h-[400px] md:h-[420px] relative bg-white border border-slate-100 p-8 md:p-10 rounded-[2.5rem] md:rounded-[3rem] hover:border-blue-200 hover:-translate-y-2 hover:shadow-2xl transition-all duration-700 flex flex-col group content-start cursor-pointer"
                                  >
-                                    <span>Secure Enrollment</span>
-                                    <ExternalLink className="w-4 h-4 group-hover/btn:rotate-45 transition-transform" />
-                                 </button>
-                              </div>
-                           ))}
+                                    <div className="absolute top-8 right-8 opacity-40 group-hover:opacity-100 group-hover:text-blue-600 group-hover:scale-110 text-slate-400 transition-all duration-500">
+                                       {course.icon}
+                                    </div>
+                                    <div className="mb-10 text-left">
+                                       <span className="bg-slate-50 text-blue-600 px-5 py-2 rounded-full text-[9px] font-black uppercase tracking-widest border border-slate-100 shadow-sm transition-all group-hover:bg-blue-600 group-hover:text-white group-hover:border-blue-500">{course.badge}</span>
+                                    </div>
+                                    <h3 className="text-2xl md:text-3xl font-black text-slate-900 mb-4 leading-tight uppercase text-left group-hover:text-blue-600 transition-colors">{course.name}</h3>
+                                    <p className="text-slate-500 text-[10px] md:text-xs font-bold uppercase tracking-widest mb-12 text-left line-clamp-1">{course.category} Certification</p>
+                                    <button
+                                       onClick={() => handleUniversityClick(course.link)}
+                                       className="mt-auto w-full bg-slate-50 hover:bg-slate-900 border border-slate-200 hover:border-slate-800 text-slate-900 hover:text-white font-black py-4 md:py-5 rounded-2xl transition-all flex items-center justify-center gap-4 text-[9px] md:text-[10px] uppercase tracking-[0.2em] group/btn"
+                                    >
+                                       <span>Secure Enrollment</span>
+                                       <ExternalLink className="w-4 h-4 group-hover/btn:rotate-45 transition-transform" />
+                                    </button>
+                                 </div>
+                              ))}
+                           </motion.div>
+                        </div>
+
+                        {/* Navigation Arrows */}
+                        <div className="absolute top-1/2 -translate-y-1/2 left-0 md:left-0 right-0 md:right-0 flex justify-between pointer-events-none z-20 px-1 md:px-2">
+                           <button
+                              onClick={handlePrevProgram}
+                              className={`w-10 h-10 md:w-14 md:h-14 bg-white rounded-full shadow-2xl border border-slate-100 flex items-center justify-center text-slate-400 hover:text-blue-600 transition-all active:scale-90 pointer-events-auto opacity-0 group-hover/programs-carousel:opacity-100 translate-x-4 group-hover/programs-carousel:translate-x-0 cursor-pointer`}
+                           >
+                              <ChevronLeft className="w-5 h-5 md:w-6 md:h-6" />
+                           </button>
+                           <button
+                              onClick={handleNextProgram}
+                              className={`w-10 h-10 md:w-14 md:h-14 bg-white rounded-full shadow-2xl border border-slate-100 flex items-center justify-center text-slate-400 hover:text-blue-600 transition-all active:scale-90 pointer-events-auto opacity-0 group-hover/programs-carousel:opacity-100 -translate-x-4 group-hover/programs-carousel:translate-x-0 cursor-pointer`}
+                           >
+                              <ChevronRight className="w-5 h-5 md:w-6 md:h-6" />
+                           </button>
                         </div>
                      </div>
                   ) : (
@@ -1302,57 +1357,57 @@ const UniversityPageNew = () => {
                </div>
 
                <div className="relative group/marquee marquee-container py-4">
-                     <div
-                        className="flex w-max gap-6 md:gap-8 animate-marquee hover:[animation-play-state:paused] pb-4"
-                        style={{ animationDuration: '40s' }}
-                     >
-                        {[...Array(2)].flatMap(() => [
-                           {
-                              title: "MBA in Project Management",
-                              img: "https://images.unsplash.com/photo-1552664730-d307ca884978?w=800",
-                              salary: "9-14 LPA",
-                              desc: "A 2-year strategic program that helps students and working professionals excel in organizational logistics and leadership."
-                           },
-                           {
-                              title: "Data Science & AI Intelligence",
-                              img: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800",
-                              salary: "12-22 LPA",
-                              desc: "Deep-dive into predictive algorithms, neural networks, and automated intelligence pipelines."
-                           },
-                           {
-                              title: "Cyber Security & Defense",
-                              img: "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?w=800",
-                              salary: "10-18 LPA",
-                              desc: "Master the art of digital perimeter defense, ethical hacking, and real-time threat neutralization."
-                           }
-                        ]).map((spec, i) => (
-                           <div
-                              key={i}
-                              className="w-[320px] md:w-[400px] flex-shrink-0 bg-white rounded-[3rem] overflow-hidden border border-slate-100 shadow-sm hover:shadow-2xl hover:-translate-y-2 transition-all duration-700 flex flex-col group h-[580px] md:h-[620px]"
-                           >
-                              <div className="h-60 flex-shrink-0 overflow-hidden relative">
-                                 <img src={spec.img} alt={spec.title} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-1000" />
-                                 <div className="absolute top-6 left-6 bg-white/90 backdrop-blur-md px-4 py-1.5 rounded-full text-[9px] font-black uppercase tracking-widest text-slate-900">Specialization</div>
-                              </div>
-                              <div className="p-10 flex flex-col flex-grow">
-                                 <h3 className="text-2xl font-black text-slate-900 mb-4 font-display group-hover:text-blue-600 transition-colors uppercase leading-tight text-left">{spec.title}</h3>
-                                 <p className="text-slate-500 text-sm font-medium leading-relaxed mb-8 line-clamp-3 text-left">{spec.desc}</p>
-
-                                 <div className="bg-blue-50/50 p-6 rounded-2xl border border-blue-50 mb-8 text-left mt-auto">
-                                    <p className="text-slate-400 text-[9px] font-black uppercase tracking-widest mb-1">Avg. Salary</p>
-                                    <p className="text-blue-600 font-black text-xl">₹ {spec.salary}</p>
-                                 </div>
-
-                                 <button className="flex items-center gap-2 group/link text-[10px] font-black uppercase tracking-widest text-slate-400 hover:text-blue-600 transition-all text-left">
-                                    <div className="w-1.5 h-1.5 rounded-full bg-blue-600 group-hover/link:animate-ping"></div>
-                                    Explore Intel
-                                 </button>
-                              </div>
+                  <div
+                     className="flex w-max gap-6 md:gap-8 animate-marquee hover:[animation-play-state:paused] pb-4"
+                     style={{ animationDuration: '40s' }}
+                  >
+                     {[...Array(2)].flatMap(() => [
+                        {
+                           title: "MBA in Project Management",
+                           img: "https://images.unsplash.com/photo-1552664730-d307ca884978?w=800",
+                           salary: "9-14 LPA",
+                           desc: "A 2-year strategic program that helps students and working professionals excel in organizational logistics and leadership."
+                        },
+                        {
+                           title: "Data Science & AI Intelligence",
+                           img: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800",
+                           salary: "12-22 LPA",
+                           desc: "Deep-dive into predictive algorithms, neural networks, and automated intelligence pipelines."
+                        },
+                        {
+                           title: "Cyber Security & Defense",
+                           img: "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?w=800",
+                           salary: "10-18 LPA",
+                           desc: "Master the art of digital perimeter defense, ethical hacking, and real-time threat neutralization."
+                        }
+                     ]).map((spec, i) => (
+                        <div
+                           key={i}
+                           className="w-[320px] md:w-[400px] flex-shrink-0 bg-white rounded-[3rem] overflow-hidden border border-slate-100 shadow-sm hover:shadow-2xl hover:-translate-y-2 transition-all duration-700 flex flex-col group h-[580px] md:h-[620px]"
+                        >
+                           <div className="h-60 flex-shrink-0 overflow-hidden relative">
+                              <img src={spec.img} alt={spec.title} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-1000" />
+                              <div className="absolute top-6 left-6 bg-white/90 backdrop-blur-md px-4 py-1.5 rounded-full text-[9px] font-black uppercase tracking-widest text-slate-900">Specialization</div>
                            </div>
-                        ))}
-                     </div>
+                           <div className="p-10 flex flex-col flex-grow">
+                              <h3 className="text-2xl font-black text-slate-900 mb-4 font-display group-hover:text-blue-600 transition-colors uppercase leading-tight text-left">{spec.title}</h3>
+                              <p className="text-slate-500 text-sm font-medium leading-relaxed mb-8 line-clamp-3 text-left">{spec.desc}</p>
+
+                              <div className="bg-blue-50/50 p-6 rounded-2xl border border-blue-50 mb-8 text-left mt-auto">
+                                 <p className="text-slate-400 text-[9px] font-black uppercase tracking-widest mb-1">Avg. Salary</p>
+                                 <p className="text-blue-600 font-black text-xl">₹ {spec.salary}</p>
+                              </div>
+
+                              <button className="flex items-center gap-2 group/link text-[10px] font-black uppercase tracking-widest text-slate-400 hover:text-blue-600 transition-all text-left">
+                                 <div className="w-1.5 h-1.5 rounded-full bg-blue-600 group-hover/link:animate-ping"></div>
+                                 Explore Intel
+                              </button>
+                           </div>
+                        </div>
+                     ))}
                   </div>
                </div>
+            </div>
          </section>
 
 
