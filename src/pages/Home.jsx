@@ -12,7 +12,6 @@ import { useDrag } from "@use-gesture/react";
 import { motion, useAnimation } from "framer-motion";
 import RoadmapSection from "../components/sections/Roadmap";
 import Blog from "../components/sections/blog";
-import Contact from "../components/sections/contact";
 import Platform from "../components/sections/platform";
 import RotatingText from "../components/UI/RotatingText";
 import TrainerCard from "../components/Cards/TrainerCard";
@@ -187,9 +186,9 @@ const Home = () => {
   const [isHovered, setIsHovered] = useState(false);
   const controls = useAnimation();
 
-  
 
-  
+
+
 
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -248,7 +247,7 @@ const Home = () => {
     <div className="relative overflow-x-hidden">
       {/* Banner Carousel */}
       <BannerCarousel />
-      
+
       {/* Hero Section */}
       <div className="relative w-full h-screen overflow-hidden">
         {/* Background Image with Parallax Effect */}
@@ -612,11 +611,10 @@ const Home = () => {
             <li key="All">
               <button
                 onClick={() => setSelectedCategory("All")}
-                className={`px-3 sm:px-5 py-2 rounded-full text-xs sm:text-base font-medium transition-all duration-300 whitespace-nowrap ${
-                  selectedCategory === "All"
-                    ? "bg-blue-100 text-blue-800 shadow-md shadow-blue-300"
-                    : "text-gray-600 hover:text-blue-600 hover:bg-blue-50"
-                }`}
+                className={`px-3 sm:px-5 py-2 rounded-full text-xs sm:text-base font-medium transition-all duration-300 whitespace-nowrap ${selectedCategory === "All"
+                  ? "bg-blue-100 text-blue-800 shadow-md shadow-blue-300"
+                  : "text-gray-600 hover:text-blue-600 hover:bg-blue-50"
+                  }`}
               >
                 All
               </button>
@@ -626,11 +624,10 @@ const Home = () => {
               <li key={category}>
                 <button
                   onClick={() => setSelectedCategory(category)}
-                  className={`px-3 sm:px-5 py-2 rounded-full text-xs sm:text-base font-medium transition-all duration-300 whitespace-nowrap ${
-                    selectedCategory === category
-                      ? "bg-blue-100 text-blue-800 shadow-md shadow-blue-300"
-                      : "text-gray-600 hover:text-blue-600 hover:bg-blue-50"
-                  }`}
+                  className={`px-3 sm:px-5 py-2 rounded-full text-xs sm:text-base font-medium transition-all duration-300 whitespace-nowrap ${selectedCategory === category
+                    ? "bg-blue-100 text-blue-800 shadow-md shadow-blue-300"
+                    : "text-gray-600 hover:text-blue-600 hover:bg-blue-50"
+                    }`}
                 >
                   {category}
                 </button>
@@ -686,10 +683,10 @@ const Home = () => {
                 ? courses
                 : coursesData[selectedCategory]
               )?.map((course, index) => (
-              <div key={index} className="p-2 sm:p-4">
-                <CourseCard course={course} />
-              </div>
-            )))}
+                <div key={index} className="p-2 sm:p-4">
+                  <CourseCard course={course} />
+                </div>
+              )))}
           </Slider>
         </motion.div>
       </div>
@@ -834,6 +831,24 @@ const Home = () => {
         </div>
       </section>
 
+
+
+      {/* Testimonials Section */}
+      <div className="text-center bg-gradient-to-r from-blue-900 via-blue-500 to-blue-900 p-6 sm:p-10 max-w-full overflow-hidden">
+        <h2 className="text-3xl sm:text-4xl lg:text-6xl pb-4 sm:pb-8 font-bold text-white">
+          What Our <span className="text-orange-500">Students</span> Say
+        </h2>
+        <DeckTestimonials />
+      </div>
+
+      {/* Dynamic Home Sections */}
+      {/*<DynamicHomeSection />*/}
+
+      {/* Blog Section */}
+      <div className="max-w-full overflow-hidden">
+        <Blog />
+      </div>
+
       {/* Banner Section */}
       <motion.div
         initial={{ opacity: 0, y: 40 }}
@@ -882,26 +897,38 @@ const Home = () => {
         </motion.div>
       </motion.div>
 
-      {/* Testimonials Section */}
-      <div className="text-center bg-gradient-to-r from-blue-900 via-blue-500 to-blue-900 p-6 sm:p-10 max-w-full overflow-hidden">
-        <h2 className="text-3xl sm:text-4xl lg:text-6xl pb-4 sm:pb-8 font-bold text-white">
-          What Our <span className="text-orange-500">Students</span> Say
-        </h2>
-        <DeckTestimonials />
-      </div>
-
-      {/* Dynamic Home Sections */}
-      <DynamicHomeSection />
-
-      {/* Blog Section */}
-      <div className="max-w-full overflow-hidden">
-        <Blog />
-      </div>
-
-      {/* Contact Section */}
-      <div className="max-w-full overflow-hidden">
-        <Contact />
-      </div>
+      {/* Contact / Enquiry Section */}
+      <section className="py-12 sm:py-20 px-4 bg-gradient-to-b from-white to-blue-50 max-w-full overflow-hidden">
+        <div className="max-w-2xl mx-auto text-center mb-8 sm:mb-12">
+          <motion.h2
+            className="text-2xl sm:text-4xl lg:text-5xl font-bold bg-gradient-to-r from-blue-900 to-blue-500 bg-clip-text text-transparent mb-3 sm:mb-4"
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+            viewport={{ once: true }}
+          >
+            Get in <span className="bg-gradient-to-r from-orange-500 to-orange-300 bg-clip-text text-transparent">Touch</span>
+          </motion.h2>
+          <motion.p
+            className="text-gray-600 text-sm sm:text-lg"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.2 }}
+            viewport={{ once: true }}
+          >
+            Have questions? Fill in the form below and our team will reach out to you shortly.
+          </motion.p>
+        </div>
+        <motion.div
+          className="max-w-xl mx-auto"
+          initial={{ opacity: 0, y: 40 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.7, delay: 0.3 }}
+          viewport={{ once: true }}
+        >
+          <EnquiryPopup isInline={true} onClose={() => {}} />
+        </motion.div>
+      </section>
     </div>
   );
 };

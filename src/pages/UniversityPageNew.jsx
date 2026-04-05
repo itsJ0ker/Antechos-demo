@@ -102,21 +102,20 @@ const SectionLabel = ({ children, icon: Icon }) => (
    </div>
 );
 
-// --- PREMIUM ASSETS ---
-const HERO_IMAGES = [
-   "https://i.ibb.co/Rpgw7dhv/Whats-App-Image-2026-04-03-at-10-10-20-AM1.jpg",
-   "https://i.ibb.co/TMf6Vmjq/Whats-App-Image-2026-04-03-at-1-32-36-AM.jpg",
-   "https://i.ibb.co/R4t0Dtcw/Whats-App-Image-2026-04-03-at-1-32-37-AM-1.jpg",
-   "https://i.ibb.co/GvwRY9Dc/Whats-App-Image-2026-04-03-at-1-32-37-AM.jpg",
-   "https://i.ibb.co/DfFvWb3s/Whats-App-Image-2026-04-03-at-1-32-38-AM-1.jpg",
-   "https://i.ibb.co/84PtrZPT/Whats-App-Image-2026-04-03-at-1-32-38-AM-2.jpg",
-   "https://i.ibb.co/Gv9zWsx1/Whats-App-Image-2026-04-03-at-1-32-38-AM.jpg",
-   "https://i.ibb.co/svLPfcGD/Whats-App-Image-2026-04-03-at-1-34-53-AM.jpg",
-   "https://i.ibb.co/bMgqxHmb/Whats-App-Image-2026-04-03-at-1-35-02-AM.jpg",
-   "https://i.ibb.co/cS2zyYST/Whats-App-Image-2026-04-03-at-1-37-12-AM.jpg",
-   "https://i.ibb.co/G37r9QNr/Whats-App-Image-2026-04-03-at-10-10-19-AM.jpg",
-   "https://i.ibb.co/Kx2DKTGw/Whats-App-Image-2026-04-03-at-10-10-20-AM.jpg",
+// --- PREMIUM ASSETS (Cloudinary Powered) ---
+const CLOUDINARY_BASE = "https://res.cloudinary.com/dsflodf9l/image/upload"; // Replace with your cloud name
 
+const getHeroUrl = (id) => ({
+   desktop: `${CLOUDINARY_BASE}/w_1920,h_1080,c_fill,g_center,q_auto,f_auto/${id}`,
+   mobile: `${CLOUDINARY_BASE}/w_900,h_1350,c_fill,g_center,q_auto,f_auto/${id}`,
+});
+
+const HERO_IMAGES = [
+   getHeroUrl("amity_university_online_courses_and_admission_2025_image_li8tuk"), // Replace with your actual public IDs
+   getHeroUrl("manipal-uni_isqpno"),
+   getHeroUrl("lpu-campus_lj84zd"),
+   getHeroUrl("f2071aedbd3de17ed6243f18e12c42b0_dadr6b"),
+   getHeroUrl("amity_university_online_courses_and_admission_2025_image_li8tuk"),
 ];
 
 const TRUST_LOGOS = [
@@ -284,6 +283,7 @@ const UniversityPageNew = () => {
    const [featuresIndex, setFeaturesIndex] = useState(0);
    const [isFeaturesPlaying, setIsFeaturesPlaying] = useState(true);
    const [windowWidth, setWindowWidth] = useState(typeof window !== 'undefined' ? window.innerWidth : 1200);
+   const [isMobile, setIsMobile] = useState(false);
    const strategicIntelligenceRef = useRef(null);
 
    const getVisibleFeatures = () => {
@@ -295,7 +295,11 @@ const UniversityPageNew = () => {
    };
 
    useEffect(() => {
-      const handleResize = () => setWindowWidth(window.innerWidth);
+      const handleResize = () => {
+         setWindowWidth(window.innerWidth);
+         setIsMobile(window.innerWidth < 768);
+      };
+      handleResize();
       window.addEventListener('resize', handleResize);
       return () => window.removeEventListener('resize', handleResize);
    }, []);
@@ -378,7 +382,7 @@ const UniversityPageNew = () => {
    useEffect(() => {
       const interval = setInterval(() => {
          setHeroIndex((prev) => (prev + 1) % HERO_IMAGES.length);
-      }, 6000);
+      }, 5000);
       return () => clearInterval(interval);
    }, []);
 
@@ -389,72 +393,127 @@ const UniversityPageNew = () => {
          <style>{styles}</style>
 
          {/* 1. HERO SECTION */}
-         <section className="relative w-full h-[500px] sm:h-[600px] md:h-[700px] overflow-hidden bg-slate-950 group">
+         <section className="relative w-full bg-slate-950 overflow-hidden mt-5 md:mt-15">
 
-            {/* Cinematic Blurred Background to prevent "blank spaces" */}
-            <div className="absolute inset-0 z-0 overflow-hidden">
-               <AnimatePresence>
-                  <motion.div
-                     key={`bg-${heroIndex}`}
-                     initial={{ opacity: 0 }}
-                     animate={{ opacity: 0.5 }}
-                     exit={{ opacity: 0 }}
-                     transition={{ duration: 1.2 }}
-                     className="absolute inset-0 bg-cover bg-center pointer-events-none"
-                     style={{ backgroundImage: `url(${HERO_IMAGES[heroIndex]})`, filter: 'blur(50px) scale(1.2)' }}
+            {/* IMAGE FRAME — drives height on mobile, fixed viewport height on desktop */}
+            <div className="relative w-full h-[100svh] md:h-[80vh] md:max-h-[820px]">
+               <AnimatePresence mode="wait">
+                  <motion.img
+                     key={`hero-${heroIndex}-${isMobile ? "m" : "d"}`}
+                     src={isMobile ? HERO_IMAGES[heroIndex].mobile : HERO_IMAGES[heroIndex].desktop}
+                     alt="University Spotlight"
+                     initial={{ opacity: 0, scale: 1.05 }}
+                     animate={{ opacity: 1, scale: 1 }}
+                     exit={{ opacity: 0, scale: 1.05 }}
+                     transition={{ duration: 1, ease: "easeOut" }}
+                     className="absolute inset-0 w-full h-full object-cover object-center"
                   />
                </AnimatePresence>
-               <div className="absolute inset-0 bg-slate-950/60 z-10 pointer-events-none"></div>
-            </div>
 
-            <div className="grid-pattern z-0 opacity-20 pointer-events-none"></div>
+               {/* Dark gradient overlay */}
+               <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/30 to-transparent z-10" />
 
-            {/* Foreground image wrapper for exact un-cropped bounding */}
-            <div className="relative z-10 w-full h-full max-w-[1400px] mx-auto px-4 md:px-8 lg:px-12 pt-10 pb-28 sm:pb-32 flex justify-center items-center">
-               <div className="relative w-full h-full">
-                  <AnimatePresence>
-                     <motion.img
-                        key={`img-${heroIndex}`}
-                        src={HERO_IMAGES[heroIndex]}
-                        alt="University Spotlight"
-                        initial={{ opacity: 0, scale: 0.95 }}
-                        animate={{ opacity: 1, scale: 1 }}
-                        exit={{ opacity: 0, scale: 1.05 }}
-                        transition={{ duration: 1, ease: "easeOut" }}
-                        className="absolute inset-0 w-full h-full object-contain drop-shadow-[0_20px_50px_rgba(0,0,0,0.5)] rounded-2xl md:rounded-[2rem]"
-                     />
-                  </AnimatePresence>
+               {/* Grid pattern overlay */}
+               <div className="grid-pattern absolute inset-0 opacity-20 pointer-events-none z-10" />
+
+               {/* ── HERO TEXT ─────────────── */}
+               <div className="absolute bottom-24 sm:bottom-28 md:bottom-24 left-0 right-0 px-5 sm:px-8 md:px-16 z-20">
+                  <motion.p
+                     key={`label-${heroIndex}`}
+                     initial={{ opacity: 0, y: 10 }}
+                     animate={{ opacity: 1, y: 0 }}
+                     transition={{ delay: 0.4, duration: 0.6 }}
+                     className="text-blue-400 text-[10px] sm:text-xs font-black uppercase tracking-[0.2em] mb-2"
+                  >
+                     Featured University
+                  </motion.p>
+                  <motion.h1
+                     key={`title-${heroIndex}`}
+                     initial={{ opacity: 0, y: 14 }}
+                     animate={{ opacity: 1, y: 0 }}
+                     transition={{ delay: 0.55, duration: 0.6 }}
+                     className="text-white text-2xl sm:text-3xl md:text-5xl font-black leading-tight max-w-2xl"
+                  >
+                     Find Your Perfect University
+                  </motion.h1>
                </div>
-            </div>
 
-            {/* Dark overlay specifically matching ticker gradient */}
-            <div className="absolute bottom-0 left-0 w-full h-48 bg-gradient-to-t from-slate-950/90 via-slate-950/40 to-transparent z-20 pointer-events-none"></div>
-
-            {/* Premium Pagination Dots */}
-            <div className="absolute bottom-20 left-1/2 -translate-x-1/2 flex gap-2 z-30">
-               {HERO_IMAGES.map((_, i) => (
-                  <button
-                     key={i}
-                     onClick={() => setHeroIndex(i)}
-                     className={`h-1.5 rounded-full transition-all duration-500 shadow-sm ${heroIndex === i ? "w-8 bg-blue-500" : "w-2 bg-white/30 hover:bg-white/50"}`}
-                  />
-               ))}
-            </div>
-
-            {/* Bottom Ticker */}
-            <div className="absolute bottom-0 left-0 w-full bg-black/40 backdrop-blur-md border-t border-white/10 py-3 overflow-hidden z-30">
-               <div className="flex items-center gap-12 whitespace-nowrap animate-marquee px-4">
-                  {[1, 2, 3, 4, 5].map(i => (
-                     <div key={i} className="flex items-center gap-3">
-                        <div className="w-2 h-2 rounded-full bg-blue-500 animate-ping"></div>
-                        <span className="text-white/80 text-[10px] font-black uppercase tracking-widest">UPES Dehradun Application Deadline: April 15th</span>
-                        <span className="text-white/20 mx-4">|</span>
-                        <span className="text-white/80 text-[10px] font-black uppercase tracking-widest">Sikkim Manipal Admission: 50% Scholarship Available</span>
-                     </div>
+               {/* ── PAGINATION DOTS ──────────────────────────────────────────── */}
+               <div className="absolute bottom-10 sm:bottom-12 md:bottom-10 left-1/2 -translate-x-1/2 flex gap-2 z-20">
+                  {HERO_IMAGES.map((_, i) => (
+                     <button
+                        key={i}
+                        onClick={() => setHeroIndex(i)}
+                        aria-label={`Go to slide ${i + 1}`}
+                        className={`h-1.5 rounded-full transition-all duration-500 ${heroIndex === i
+                           ? "w-6 sm:w-8 bg-blue-500"
+                           : "w-2 bg-white/30 hover:bg-white/50"
+                           }`}
+                     />
                   ))}
                </div>
 
+               {/* ── PREV / NEXT ARROWS (desktop only) ───────────────────────── */}
+               <button
+                  onClick={() =>
+                     setHeroIndex((prev) => (prev - 1 + HERO_IMAGES.length) % HERO_IMAGES.length)
+                  }
+                  className="hidden md:flex absolute left-5 top-1/2 -translate-y-1/2 z-20
+                     w-10 h-10 rounded-full bg-white/10 hover:bg-white/20
+                     backdrop-blur-sm border border-white/20 items-center justify-center
+                     transition-all duration-300"
+                  aria-label="Previous slide"
+               >
+                  <ChevronLeft className="w-6 h-6 text-white" />
+               </button>
+
+               <button
+                  onClick={() => setHeroIndex((prev) => (prev + 1) % HERO_IMAGES.length)}
+                  className="hidden md:flex absolute right-5 top-1/2 -translate-y-1/2 z-20
+                     w-10 h-10 rounded-full bg-white/10 hover:bg-white/20
+                     backdrop-blur-sm border border-white/20 items-center justify-center
+                     transition-all duration-300"
+                  aria-label="Next slide"
+               >
+                  <ChevronRight className="w-6 h-6 text-white" />
+               </button>
+
+               {/* ── PROGRESS BAR (auto-advance indicator) ───────────────────── */}
+               <div className="absolute bottom-0 left-0 w-full h-0.5 bg-white/10 z-20">
+                  <motion.div
+                     key={`progress-${heroIndex}`}
+                     className="h-full bg-blue-500"
+                     initial={{ width: "0%" }}
+                     animate={{ width: "100%" }}
+                     transition={{ duration: 5, ease: "linear" }}
+                  />
+               </div>
             </div>
+
+            {/* BOTTOM TICKER — outside the image container so it never overlaps on small screens */}
+            <div className="w-full bg-black/40 backdrop-blur-md border-t border-white/10 py-2.5 sm:py-3 overflow-hidden">
+               <div className="flex items-center gap-8 sm:gap-12 whitespace-nowrap animate-marquee px-4">
+                  {[1, 2].map((repeat) => (
+                     <React.Fragment key={repeat}>
+                        <div className="flex items-center gap-2 sm:gap-3 shrink-0 px-6 sm:px-8">
+                           <div className="w-1.5 h-1.5 sm:w-2 sm:h-2 rounded-full bg-blue-500 animate-ping shrink-0" />
+                           <span className="text-white/80 text-[9px] sm:text-[10px] font-black uppercase tracking-widest">
+                              UPES Dehradun Application Deadline: April 15th
+                           </span>
+                           <span className="text-white/20 ml-4 sm:ml-6 shrink-0">|</span>
+                        </div>
+                        <div className="flex items-center gap-2 sm:gap-3 shrink-0 px-6 sm:px-8">
+                           <div className="w-1.5 h-1.5 sm:w-2 sm:h-2 rounded-full bg-blue-500 animate-ping shrink-0" />
+                           <span className="text-white/80 text-[9px] sm:text-[10px] font-black uppercase tracking-widest">
+                              Sikkim Manipal Admission: 50% Scholarship Available
+                           </span>
+                           <span className="text-white/20 ml-4 sm:ml-6 shrink-0">|</span>
+                        </div>
+                     </React.Fragment>
+                  ))}
+               </div>
+            </div>
+
          </section>
 
          {/* 2. IMPACT STATS (From About Page) */}
