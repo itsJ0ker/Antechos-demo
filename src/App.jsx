@@ -104,7 +104,7 @@ const AppContent = () => {
   };
 
   return (
-    <div>
+    <div className="overflow-x-clip max-w-full">
       {!hideLayout && <Navbar />}
       <div className={!hideLayout ? "pt-16" : ""}>
         <ScrollToTop />

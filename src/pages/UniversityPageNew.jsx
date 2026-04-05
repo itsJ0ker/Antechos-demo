@@ -51,7 +51,16 @@ const styles = `
     --border: rgba(56,189,248,0.1);
   }
 
-  .uni-page-new { font-family: 'DM Sans', sans-serif; background: #FFF; color: var(--dark); }
+  .uni-page-new { 
+    font-family: 'DM Sans', sans-serif; 
+    background: #FFF; 
+    color: var(--dark); 
+    width: 100%; 
+    max-width: 100vw; 
+    overflow-x: clip; 
+    contain: paint;
+    position: relative;
+  }
   .uni-page-new h1, .uni-page-new h2, .uni-page-new h3, .uni-page-new h4 { font-family: 'Sora', sans-serif; }
   
   .section-label {
@@ -78,6 +87,17 @@ const styles = `
     display: flex;
     width: max-content;
     animation: marquee 30s linear infinite; 
+    will-change: transform;
+  }
+
+  .marquee-container {
+    width: 100%;
+    max-width: 100vw;
+    overflow: hidden !important;
+    overflow-x: clip !important;
+    contain: layout paint;
+    position: relative;
+    pointer-events: auto;
   }
 
   .hide-scrollbar::-webkit-scrollbar {
@@ -389,7 +409,7 @@ const UniversityPageNew = () => {
    const handleUniversityClick = (link) => window.open(link, '_blank', 'noopener,noreferrer');
 
    return (
-      <div className="uni-page-new min-h-screen">
+      <div className="uni-page-new min-h-screen overflow-x-clip max-w-[100vw] relative">
          <style>{styles}</style>
 
          {/* 1. HERO SECTION */}
@@ -491,7 +511,7 @@ const UniversityPageNew = () => {
             </div>
 
             {/* BOTTOM TICKER — outside the image container so it never overlaps on small screens */}
-            <div className="w-full bg-black/40 backdrop-blur-md border-t border-white/10 py-2.5 sm:py-3 overflow-hidden">
+            <div className="w-full bg-black/40 backdrop-blur-md border-t border-white/10 py-2.5 sm:py-3 marquee-container">
                <div className="flex items-center gap-8 sm:gap-12 whitespace-nowrap animate-marquee px-4">
                   {[1, 2].map((repeat) => (
                      <React.Fragment key={repeat}>
@@ -544,17 +564,19 @@ const UniversityPageNew = () => {
          </section>
 
          {/* 3. LOGO CAROUSEL */}
-         <section className="bg-gradient-to-b from-white to-slate-50 py-14 overflow-hidden relative border-b border-indigo-50/50">
-            <div className="flex items-center gap-10 md:gap-24 whitespace-nowrap animate-marquee">
-               {[...UNIVERSITY_LOGOS, ...UNIVERSITY_LOGOS, ...UNIVERSITY_LOGOS].map((logoURL, idx) => (
-                  <div key={idx} className="flex items-center opacity-80 hover:opacity-100 hover:scale-105 transition-all duration-500 cursor-pointer group">
-                     <img
-                        src={logoURL}
-                        alt="University Partner Logo"
-                        className="h-10 md:h-14 lg:h-16 w-auto object-contain mix-blend-multiply drop-shadow-sm pointer-events-none"
-                     />
-                  </div>
-               ))}
+         <section className="bg-gradient-to-b from-white to-slate-50 py-14 overflow-hidden relative border-b border-indigo-50/50 contain-paint">
+            <div className="marquee-container">
+               <div className="flex items-center gap-10 md:gap-24 whitespace-nowrap animate-marquee">
+                  {[...UNIVERSITY_LOGOS, ...UNIVERSITY_LOGOS].map((logoURL, idx) => (
+                     <div key={idx} className="flex items-center opacity-80 hover:opacity-100 hover:scale-105 transition-all duration-500 cursor-pointer group">
+                        <img
+                           src={logoURL}
+                           alt="University Partner Logo"
+                           className="h-10 md:h-14 lg:h-16 w-auto object-contain mix-blend-multiply drop-shadow-sm pointer-events-none"
+                        />
+                     </div>
+                  ))}
+               </div>
             </div>
          </section>
 
@@ -637,7 +659,7 @@ const UniversityPageNew = () => {
          {/* 7. WHY CHOOSE: "Executive Feature Set" */}
          <section className="py-24 bg-white relative overflow-hidden">
             {/* Background Decor */}
-            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-blue-50/50 rounded-full blur-[120px] pointer-events-none opacity-60"></div>
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[min(800px,100vw)] h-[min(800px,100vw)] bg-blue-50/50 rounded-full blur-[120px] pointer-events-none opacity-60"></div>
 
             <div className="container mx-auto px-6 relative z-10">
                <div className="flex flex-col items-center mb-16 md:mb-24">
@@ -868,7 +890,7 @@ const UniversityPageNew = () => {
                         </div>
 
                         {/* Navigation Arrows */}
-                        <div className="absolute top-1/2 -translate-y-1/2 -left-4 md:-left-8 -right-4 md:-right-8 flex justify-between pointer-events-none z-20">
+                        <div className="absolute top-1/2 -translate-y-1/2 left-0 md:left-0 right-0 md:right-0 flex justify-between pointer-events-none z-20 px-1 md:px-2">
                            <button
                               onClick={() => setCurrentIndex(prev => Math.max(prev - 1, 0))}
                               disabled={currentIndex === 0}
@@ -972,7 +994,7 @@ const UniversityPageNew = () => {
                   onMouseEnter={() => setIsFeaturesPlaying(false)}
                   onMouseLeave={() => setIsFeaturesPlaying(true)}
                >
-                  <div className="overflow-hidden py-4 -mx-4 px-4 m-auto">
+                  <div className="overflow-hidden py-4 m-auto">
                      <motion.div
                         className="flex items-stretch cursor-grab active:cursor-grabbing touch-pan-x"
                         animate={{ x: `-${featuresIndex * (windowWidth < 640 ? 100 : windowWidth < 768 ? 50 : windowWidth < 1024 ? 33.333 : 25)}%` }}
@@ -1032,12 +1054,12 @@ const UniversityPageNew = () => {
 
                <div className="relative">
                   {!showAllPrograms ? (
-                     <div className="overflow-hidden relative group/marquee py-4 -mx-6 px-6">
+                     <div className="marquee-container group/marquee py-4">
                         <div
                            className="flex w-max gap-6 md:gap-8 animate-marquee hover:[animation-play-state:paused] pb-4"
                            style={{ animationDuration: `${Math.max(filteredCourses.length * 10, 40)}s` }}
                         >
-                           {[...filteredCourses, ...filteredCourses, ...filteredCourses, ...filteredCourses].map((course, idx) => (
+                           {[...filteredCourses, ...filteredCourses].map((course, idx) => (
                               <div
                                  key={idx}
                                  className="flex-shrink-0 w-[300px] md:w-[380px] h-[400px] md:h-[420px] relative bg-white border border-slate-100 p-8 md:p-10 rounded-[2.5rem] md:rounded-[3rem] hover:border-blue-200 hover:-translate-y-2 hover:shadow-2xl transition-all duration-700 flex flex-col group content-start cursor-pointer"
@@ -1112,7 +1134,7 @@ const UniversityPageNew = () => {
             </div>
 
             {/* Subtle background ornamentation */}
-            <div className="absolute -bottom-24 -left-24 w-96 h-96 bg-blue-50/50 rounded-full blur-3xl pointer-events-none"></div>
+            <div className="absolute -bottom-24 left-0 w-72 md:w-96 h-72 md:h-96 bg-blue-50/50 rounded-full blur-3xl pointer-events-none"></div>
          </section>
 
 
@@ -1231,7 +1253,7 @@ const UniversityPageNew = () => {
                   </AnimatePresence>
 
                   {/* Navigation */}
-                  <div className="absolute top-1/2 -translate-y-1/2 -left-2 sm:-left-8 -right-2 sm:-right-8 flex justify-between pointer-events-none px-2 sm:px-0">
+                  <div className="absolute top-1/2 -translate-y-1/2 left-0 sm:left-0 right-0 sm:right-0 flex justify-between pointer-events-none px-1 sm:px-2">
                      <button
                         onClick={() => setTestimonialIndex((prev) => (prev === 0 ? TESTIMONIALS.length - 1 : prev - 1))}
                         className="w-10 h-10 sm:w-16 sm:h-16 bg-white rounded-full shadow-2xl border border-slate-100 flex items-center justify-center text-slate-400 hover:text-blue-600 transition-all active:scale-90 pointer-events-auto"
@@ -1279,13 +1301,12 @@ const UniversityPageNew = () => {
                   </div>
                </div>
 
-               <div className="relative group/marquee">
-                  <div className="overflow-hidden py-4 -mx-6 px-6">
+               <div className="relative group/marquee marquee-container py-4">
                      <div
                         className="flex w-max gap-6 md:gap-8 animate-marquee hover:[animation-play-state:paused] pb-4"
                         style={{ animationDuration: '40s' }}
                      >
-                        {[...Array(6)].flatMap(() => [
+                        {[...Array(2)].flatMap(() => [
                            {
                               title: "MBA in Project Management",
                               img: "https://images.unsplash.com/photo-1552664730-d307ca884978?w=800",
@@ -1332,7 +1353,6 @@ const UniversityPageNew = () => {
                      </div>
                   </div>
                </div>
-            </div>
          </section>
 
 

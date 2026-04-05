@@ -244,7 +244,7 @@ const Home = () => {
   const pauseAnimation = () => controls.stop();
 
   return (
-    <div className="relative overflow-x-hidden">
+    <div className="relative overflow-x-clip max-w-full">
       {/* Banner Carousel */}
       <BannerCarousel />
 
@@ -638,7 +638,7 @@ const Home = () => {
 
         {/* Course Cards Carousel */}
         <motion.div
-          className="max-w-[1440px] mx-auto overflow-hidden"
+           className="max-w-[1440px] mx-auto overflow-hidden relative contain-paint"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
