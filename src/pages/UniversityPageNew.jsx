@@ -281,6 +281,37 @@ const TESTIMONIALS = [
    }
 ];
 
+const FAQ_DATA = [
+   {
+      question: "What is Antechos?",
+      answer: "Antechos is a platform where individuals can compare 100+ online universities and find the best online program with the help of expert counsellors."
+   },
+   {
+      question: "Does Antechos charge for counselling?",
+      answer: "No, Antechos provides free expert guidance and counselling to students and professionals."
+   },
+   {
+      question: "How can Antechos help me to apply to the best university?",
+      answer: "Antechos's experts offer one-on-one counselling to guide you in selecting the best university that matches your priorities and budget."
+   },
+   {
+      question: "What is ClikPick, and how does it help?",
+      answer: "ClikPick is a smart comparison tool designed to simplify decision-making related to online programs and universities."
+   },
+   {
+      question: "Can I get personalized advice from Antechos?",
+      answer: "Yes, the counsellors analyse your priorities and goals to help you find the best program and university within your budget."
+   },
+   {
+      question: "Is online education worth it?",
+      answer: "Yes, online education is worth it for learners seeking flexibility, affordability, and recognized degrees while balancing work, family, or other commitments."
+   },
+   {
+      question: "What is the difference between a regular MBA and an online MBA?",
+      answer: "A regular MBA requires on-campus attendance, whereas an online MBA offers flexible digital learning with the same curriculum, ideal for working professionals."
+   }
+];
+
 import EnquiryPopup from '../components/sections/PopupForm';
 
 const UniversityPageNew = () => {
@@ -305,6 +336,7 @@ const UniversityPageNew = () => {
    const [isFeaturesPlaying, setIsFeaturesPlaying] = useState(true);
    const [windowWidth, setWindowWidth] = useState(typeof window !== 'undefined' ? window.innerWidth : 1200);
    const [isMobile, setIsMobile] = useState(false);
+   const [openFaqIndex, setOpenFaqIndex] = useState(null);
    const strategicIntelligenceRef = useRef(null);
 
    const getVisibleFeatures = () => {
@@ -808,18 +840,18 @@ const UniversityPageNew = () => {
          <section className="py-12 md:py-24 bg-white" id="directory">
             <div className="container mx-auto px-6">
                {/* SECTION HEADER */}
-               <div className="flex flex-col md:flex-row justify-between items-center gap-12 mb-16 md:mb-24">
-                  <div className="text-center md:text-left">
+               <div className="flex flex-col justify-start items-start gap-8 mb-16 md:mb-24">
+                  <div className="text-left w-full">
                      <SectionLabel icon={Building2}>Institution Archive 2026</SectionLabel>
-                     <h2 className="text-2xl sm:text-4xl md:text-5xl font-black text-slate-900 mb-0 font-display uppercase tracking-tighter max-w-2xl lg:max-w-3xl">India's <span className="text-blue-600">Trusted & Prestigious</span> Online University.</h2>
+                     <h2 className="text-2xl sm:text-4xl md:text-5xl font-black text-slate-900 mb-0 font-display uppercase tracking-tighter w-full max-w-4xl">India's <span className="text-blue-600">Trusted & Prestigious</span> Online University.</h2>
                   </div>
 
-                  <div className="flex flex-nowrap justify-between md:justify-center gap-1 md:gap-3 bg-white p-1 md:p-2 rounded-[2rem] md:rounded-[2.5rem] border border-slate-100 shadow-sm w-full md:max-w-fit mx-auto">
+                  <div className="flex overflow-x-auto hide-scrollbar justify-start gap-2 md:gap-3 bg-white p-2 rounded-[2rem] md:rounded-[2.5rem] border border-slate-100 shadow-sm w-full md:max-w-max">
                      {['All', 'Private', 'Public', 'Deemed'].map(cat => (
                         <button
                            key={cat}
                            onClick={() => setFilterCategory(cat)}
-                           className={`flex-1 flex items-center justify-center whitespace-nowrap px-1 md:px-10 py-2.5 md:py-4 rounded-[1.5rem] md:rounded-[2rem] text-[2.5vw] sm:text-[10px] md:text-[10px] font-black uppercase tracking-tighter sm:tracking-[0.2em] transition-all ${filterCategory === cat
+                           className={`flex-shrink-0 flex items-center justify-center whitespace-nowrap px-8 md:px-10 py-3 md:py-4 rounded-[1.5rem] md:rounded-[2rem] text-[10px] font-black uppercase tracking-[0.2em] transition-all ${filterCategory === cat
                               ? "bg-slate-900 text-white shadow-2xl"
                               : "text-slate-400 hover:text-slate-900"
                               }`}
@@ -1058,17 +1090,17 @@ const UniversityPageNew = () => {
          {/* 6. OFFICIAL PROGRAM PORTFOLIOS */}
          <section ref={strategicIntelligenceRef} className="py-12 md:py-24 bg-white relative overflow-hidden" id="strategic-intelligence">
             <div className="container mx-auto px-6">
-               <div className="flex flex-col md:flex-row justify-between items-center gap-12 mb-16 md:mb-20">
-                  <div className="text-center md:text-left max-w-2xl">
+               <div className="flex flex-col justify-start items-start gap-8 mb-16 md:mb-20">
+                  <div className="text-left w-full">
                      <SectionLabel icon={Award}>Curriculum Standards 2026</SectionLabel>
-                     <h2 className="text-2xl sm:text-4xl md:text-5xl font-black text-slate-900 mb-0 font-display uppercase tracking-tighter">Explore Programs From <span className="text-blue-600">Top Ranked Universities</span></h2>
+                     <h2 className="text-2xl sm:text-4xl md:text-5xl font-black text-slate-900 mb-0 font-display uppercase tracking-tighter w-full max-w-4xl">Explore Programs From <span className="text-blue-600">Top Ranked Universities</span></h2>
                   </div>
-                  <div className="flex flex-nowrap justify-between lg:justify-end gap-[1px] md:gap-2 bg-slate-50 p-1 md:p-2 rounded-[2rem] md:rounded-[2.5rem] border border-slate-100 w-full lg:max-w-fit mt-4 md:mt-0">
+                  <div className="flex overflow-x-auto hide-scrollbar justify-start gap-2 bg-slate-50 p-2 rounded-[2rem] md:rounded-[2.5rem] border border-slate-100 w-full md:max-w-max mt-4 md:mt-0">
                      {['All', 'Integrated Program', 'Certification', 'Masters (PG)', "Bachelor's (UG)", 'Special'].map(tab => (
                         <button
                            key={tab}
                            onClick={() => setCourseType(tab)}
-                           className={`flex-1 flex items-center justify-center whitespace-nowrap px-1 md:px-6 py-2.5 md:py-4 rounded-[1.2rem] md:rounded-[2rem] text-[1.8vw] lg:text-[10px] font-black uppercase tracking-tighter lg:tracking-widest transition-all ${courseType === tab ? "bg-slate-900 text-white shadow-xl" : "text-slate-400 hover:text-slate-900"
+                           className={`flex-shrink-0 flex items-center justify-center whitespace-nowrap px-6 md:px-8 py-3 md:py-4 rounded-[1.2rem] md:rounded-[2rem] text-[10px] font-black uppercase tracking-widest transition-all ${courseType === tab ? "bg-slate-900 text-white shadow-xl" : "text-slate-400 hover:text-slate-900"
                               }`}
                         >
                            {tab}
@@ -1411,6 +1443,51 @@ const UniversityPageNew = () => {
          </section>
 
 
+
+         {/* 10. FAQ SECTION */}
+         <section className="py-16 md:py-24 bg-white border-t border-slate-100 relative overflow-hidden text-left">
+            <div className="container mx-auto px-6 max-w-4xl">
+               <div className="flex flex-col items-center text-center mb-12 md:mb-16">
+                   <SectionLabel icon={Info}>FAQs</SectionLabel>
+                   <h2 className="text-3xl sm:text-4xl md:text-5xl font-black text-slate-900 mb-4 tracking-tighter font-display uppercase">
+                       You've likely got a <span className="text-blue-600">few questions</span>
+                   </h2>
+               </div>
+               
+               <div className="space-y-4">
+                  {FAQ_DATA.map((faq, index) => (
+                     <div 
+                        key={index} 
+                        className={`border rounded-[1.5rem] md:rounded-[2rem] overflow-hidden transition-all duration-300 ${openFaqIndex === index ? 'border-blue-200 bg-blue-50/50 shadow-xl' : 'border-slate-100 bg-white hover:border-slate-200 hover:shadow-md'}`}
+                     >
+                        <button
+                           onClick={() => setOpenFaqIndex(openFaqIndex === index ? null : index)}
+                           className="w-full flex items-center justify-between p-6 md:p-8 text-left focus:outline-none"
+                        >
+                           <span className="font-black text-slate-900 text-base md:text-xl pr-8">{faq.question}</span>
+                           <div className={`w-10 h-10 md:w-12 md:h-12 rounded-full flex-shrink-0 flex items-center justify-center transition-all duration-300 border ${openFaqIndex === index ? 'bg-blue-600 text-white border-blue-600 rotate-180' : 'bg-slate-50 text-slate-400 border-slate-100 group-hover:bg-blue-50 hover:text-blue-600'}`}>
+                              <ChevronDown className="w-5 h-5" />
+                           </div>
+                        </button>
+                        <AnimatePresence>
+                           {openFaqIndex === index && (
+                              <motion.div
+                                 initial={{ height: 0, opacity: 0 }}
+                                 animate={{ height: "auto", opacity: 1 }}
+                                 exit={{ height: 0, opacity: 0 }}
+                                 transition={{ duration: 0.3, ease: "easeInOut" }}
+                              >
+                                 <div className="p-6 md:p-8 pt-0 text-slate-500 font-medium text-sm md:text-base leading-relaxed">
+                                    {faq.answer}
+                                 </div>
+                              </motion.div>
+                           )}
+                        </AnimatePresence>
+                     </div>
+                  ))}
+               </div>
+            </div>
+         </section>
 
          {/* 11. ADVISORY PANEL - REDESIGNED HOMEPAGE INLINE FORM */}
          <section className="py-12 md:py-16 bg-gradient-to-r from-blue-50 to-slate-50 relative overflow-hidden mt-12 md:mt-24">
