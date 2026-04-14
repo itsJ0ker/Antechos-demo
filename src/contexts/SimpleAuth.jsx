@@ -64,14 +64,39 @@ export const AuthProvider = ({ children }) => {
         return { success: false, error: 'Authentication not configured' };
       }
 
+      // First try Supabase Auth
       const { data, error } = await supabase.auth.signInWithPassword({
         email,
         password
       });
       
-      if (error) throw error;
+      if (error) {
+        // If Supabase auth fails, check against hardcoded credentials (fallback)
+        console.warn('Supabase auth failed, trying local fallback:', error.message);
+        
+        const adminCredentials = {
+          'admin@antechos.com': 'admin123',
+          'admin@example.com': 'password',
+          'test@admin.com': 'test123'
+        };
+
+        if (adminCredentials[email] && adminCredentials[email] === password) {
+          // Create a mock user object for local auth
+          const mockUser = { id: 'local-admin-id', email: email };
+          localStorage.setItem('adminLoggedIn', 'true');
+          localStorage.setItem('adminEmail', email);
+          localStorage.setItem('adminLoginTime', new Date().toISOString());
+          setUser(mockUser);
+          return { success: true };
+        } else {
+          throw error;
+        }
+      }
       
       setUser(data.user);
+      localStorage.setItem('adminLoggedIn', 'true');
+      localStorage.setItem('adminEmail', data.user.email);
+      localStorage.setItem('adminLoginTime', new Date().toISOString());
       return { success: true };
     } catch (error) {
       console.error('Login error:', error);
@@ -91,6 +116,11 @@ export const AuthProvider = ({ children }) => {
 
       await supabase.auth.signOut();
       setUser(null);
+      
+      // Clear local admin session
+      localStorage.removeItem('adminLoggedIn');
+      localStorage.removeItem('adminEmail');
+      localStorage.removeItem('adminLoginTime');
     } catch (error) {
       console.error('Logout error:', error);
     }

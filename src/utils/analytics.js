@@ -3,6 +3,8 @@ import { supabase } from '../lib/supabase';
 // Track page visit with comprehensive data
 export const trackPageVisit = async (pagePath) => {
   try {
+    if (!supabase) return null;
+
     // Get visitor information
     const visitorData = await getVisitorInfo(pagePath);
     
@@ -14,6 +16,10 @@ export const trackPageVisit = async (pagePath) => {
       .single();
 
     if (error) {
+      // Silently ignore RLS policy errors - these are expected for anonymous users
+      if (error.code === '42501' || error.message?.includes('row-level security')) {
+        return null;
+      }
       console.error('Analytics tracking error:', error);
       return null;
     }
@@ -26,7 +32,7 @@ export const trackPageVisit = async (pagePath) => {
 
     return data;
   } catch (error) {
-    console.error('Error tracking page visit:', error);
+    // Silently fail - analytics should never break the user experience
     return null;
   }
 };
@@ -34,6 +40,8 @@ export const trackPageVisit = async (pagePath) => {
 // Update session duration when user leaves
 export const updateSessionDuration = async () => {
   try {
+    if (!supabase) return;
+
     const sessionId = sessionStorage.getItem('analytics_session_id');
     const startTime = sessionStorage.getItem('analytics_start_time');
 
@@ -50,7 +58,7 @@ export const updateSessionDuration = async () => {
     sessionStorage.removeItem('analytics_session_id');
     sessionStorage.removeItem('analytics_start_time');
   } catch (error) {
-    console.error('Error updating session duration:', error);
+    // Silently fail - analytics should never break the user experience
   }
 };
 
@@ -131,6 +139,8 @@ const getOperatingSystem = (userAgent) => {
 // Track custom events
 export const trackEvent = async (eventName, eventData = {}) => {
   try {
+    if (!supabase) return null;
+
     const { data, error } = await supabase
       .from('analytics_events')
       .insert([{
@@ -140,10 +150,16 @@ export const trackEvent = async (eventName, eventData = {}) => {
         created_at: new Date().toISOString(),
       }]);
 
-    if (error) throw error;
+    if (error) {
+      // Silently ignore RLS policy errors
+      if (error.code === '42501' || error.message?.includes('row-level security')) {
+        return null;
+      }
+      throw error;
+    }
     return data;
   } catch (error) {
-    console.error('Error tracking event:', error);
+    // Silently fail - analytics should never break the user experience
     return null;
   }
 };

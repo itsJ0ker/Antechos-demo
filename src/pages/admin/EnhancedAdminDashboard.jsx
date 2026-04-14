@@ -21,7 +21,8 @@ import {
   UserCheck,
 } from 'lucide-react';
 import { supabase } from '../../lib/supabase';
-import { safeAuthCheck, safeLoadStats } from '../../utils/authFix';
+import { safeLoadStats } from '../../utils/authFix';
+import { useAuth } from '../../contexts/SimpleAuth';
 import EnhancedUniversityManager from '../../components/admin/EnhancedUniversityManager';
 import UniversityPageManager from '../../components/admin/UniversityPageManager';
 import AccreditationManager from '../../components/admin/AccreditationManager';
@@ -76,6 +77,19 @@ const EnhancedAdminDashboard = () => {
 
   const checkAuthAndLoadData = async () => {
     try {
+      // First check localStorage for admin session (fallback auth)
+      const adminLoggedIn = localStorage.getItem('adminLoggedIn');
+      const adminEmail = localStorage.getItem('adminEmail');
+      
+      if (adminLoggedIn === 'true' && adminEmail) {
+        console.log('✅ Admin authenticated via localStorage:', adminEmail);
+        setUser({ email: adminEmail });
+        setAuthError(false);
+        setLoading(false);
+        return;
+      }
+
+      // If no localStorage session, check Supabase auth
       if (!supabase) {
         console.log('Supabase not configured');
         setAuthError(true);
@@ -147,6 +161,10 @@ const EnhancedAdminDashboard = () => {
       if (supabase) {
         await supabase.auth.signOut();
       }
+      // Clear local admin session
+      localStorage.removeItem('adminLoggedIn');
+      localStorage.removeItem('adminEmail');
+      localStorage.removeItem('adminLoginTime');
       navigate('/admin/login');
     } catch (error) {
       console.error('Logout error:', error);

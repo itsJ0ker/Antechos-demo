@@ -2,6 +2,114 @@
 
 export const universities = [
   {
+    id: 'amity-university',
+    name: 'Amity University',
+    location: 'Noida, Uttar Pradesh',
+    description: 'A research-led leading private university in India with global campuses and NAAC A+ accreditation.',
+    image: 'https://i.ibb.co/7xV9wsxz/Whats-App-Image-2026-04-02-at-2-27-22-PM.jpg',
+    rating: 4.8,
+    link: 'https://cvadm.com/xBg72Q',
+    programs: ['BBA', 'BCA', 'MBA', 'Engineering', 'Biotech'],
+    established: '2005',
+    category: 'Private'
+  },
+  {
+    id: 'manipal-university-jaipur',
+    name: 'Manipal University Jaipur',
+    location: 'Jaipur, Rajasthan',
+    description: 'Combines academic rigor with campus life, offering UGC-entitled programs and excellent industry exposure.',
+    image: 'https://i.ibb.co/XMZXH3D/manipaljaipur.jpg',
+    rating: 4.8,
+    link: 'https://cvadm.com/7QTNnF',
+    programs: ['B.Tech', 'MBA', 'BCA', 'B.Com', 'Arts'],
+    established: '2011',
+    category: 'Private'
+  },
+  {
+    id: 'sikkim-manipal-university',
+    name: 'Sikkim Manipal University',
+    location: 'Gangtok, Sikkim',
+    description: 'A pioneer in healthcare and technical education in the North-East, offering quality programs amidst natural beauty.',
+    image: 'https://i.ibb.co/x0hydzd/sikkimmanipal.jpg',
+    rating: 4.3,
+    link: 'https://cvadm.com/64dA1p',
+    programs: ['IT', 'Medical', 'Management', 'Science'],
+    established: '1995',
+    category: 'Private'
+  },
+  {
+    id: 'mahe-manipal',
+    name: 'MAHE Manipal',
+    location: 'Manipal, Karnataka',
+    description: 'An Institute of Eminence known for its world-class medical and engineering programs and a diverse international student community.',
+    image: 'https://i.ibb.co/W4WmVhY1/manipal.jpg',
+    rating: 4.9,
+    link: 'https://cvadm.com/ek32fs',
+    programs: ['Medical', 'Engineering', 'Pharmacy', 'Allied Health'],
+    established: '1953',
+    category: 'Deemed'
+  },
+  {
+    id: 'parul-university',
+    name: 'Parul University',
+    location: 'Vadodara, Gujarat',
+    description: 'A vibrant multidisciplinary university with a strong focus on innovation, entrepreneurship, and global placements.',
+    image: 'https://i.ibb.co/wNHsHxqW/Whats-App-Image-2026-04-02-at-2-35-06-PM.jpg',
+    rating: 4.7,
+    link: 'https://cvadm.com/OSjCO2',
+    programs: ['Engineering', 'Design', 'Fine Arts', 'Management'],
+    established: '2015',
+    category: 'Private'
+  },
+  {
+    id: 'jain-university',
+    name: 'Jain University',
+    location: 'Bengaluru, Karnataka',
+    description: 'A leading university with a strong focus on research, entrepreneurship, and comprehensive academic programs.',
+    image: 'https://images.unsplash.com/photo-1541339907198-e08756dedf3f?q=80&w=1000&auto=format&fit=crop',
+    rating: 4.5,
+    link: '#',
+    programs: ['BBA', 'BCA', 'MBA', 'MCA', 'Commerce'],
+    established: '1990',
+    category: 'Deemed'
+  },
+  {
+    id: 'sharda-university',
+    name: 'Sharda University',
+    location: 'Greater Noida, Uttar Pradesh',
+    description: 'Multidisciplinary private university with global exposure and highly regarded academic programs.',
+    image: 'https://images.unsplash.com/photo-1562774053-701939374585?q=80&w=1000&auto=format&fit=crop',
+    rating: 4.1,
+    link: '#',
+    programs: ['Engineering', 'Medical', 'Law', 'MBA'],
+    established: '2009',
+    category: 'Private'
+  },
+  {
+    id: 'uttaranchal-university',
+    name: 'Uttaranchal University',
+    location: 'Dehradun, Uttarakhand',
+    description: 'Offers high-quality education in Law, Engineering, and Management with NAAC A+ accreditation.',
+    image: 'https://i.ibb.co/M5GZbYc4/uttaranchal.jpg',
+    rating: 4.5,
+    link: 'https://cvadm.com/buT2Ip',
+    programs: ['Law', 'Engineering', 'Management', 'Agriculture'],
+    established: '2013',
+    category: 'Private'
+  },
+  {
+    id: 'vgu-jaipur',
+    name: 'Vivekananda Global University',
+    location: 'Jaipur, Rajasthan',
+    description: 'Focuses on holistic development and research-driven learning, preparing students for global challenges.',
+    image: 'https://images.unsplash.com/photo-1571260899304-425eee4c7efc?q=80&w=1000&auto=format&fit=crop',
+    rating: 4.4,
+    link: 'https://cvadm.com/jSAJxr',
+    programs: ['Design', 'Management', 'Law', 'Engineering'],
+    established: '2012',
+    category: 'Private'
+  },
+  {
     id: 'galgotias-university',
     name: 'Galgotias University',
     location: 'Greater Noida, Uttar Pradesh',
@@ -74,78 +182,6 @@ export const universities = [
     category: 'Private'
   },
   {
-    id: 'vgu-jaipur',
-    name: 'Vivekananda Global University',
-    location: 'Jaipur, Rajasthan',
-    description: 'Focuses on holistic development and research-driven learning, preparing students for global challenges.',
-    image: 'https://images.unsplash.com/photo-1571260899304-425eee4c7efc?q=80&w=1000&auto=format&fit=crop',
-    rating: 4.4,
-    link: 'https://cvadm.com/jSAJxr',
-    programs: ['Design', 'Management', 'Law', 'Engineering'],
-    established: '2012',
-    category: 'Private'
-  },
-  {
-    id: 'manipal-university-jaipur',
-    name: 'Manipal University Jaipur',
-    location: 'Jaipur, Rajasthan',
-    description: 'Combines academic rigor with campus life, offering UGC-entitled programs and excellent industry exposure.',
-    image: 'https://i.ibb.co/XMZXH3D/manipaljaipur.jpg',
-    rating: 4.8,
-    link: 'https://cvadm.com/7QTNnF',
-    programs: ['B.Tech', 'MBA', 'BCA', 'B.Com', 'Arts'],
-    established: '2011',
-    category: 'Private'
-  },
-  {
-    id: 'mahe-manipal',
-    name: 'MAHE Manipal',
-    location: 'Manipal, Karnataka',
-    description: 'An Institute of Eminence known for its world-class medical and engineering programs and a diverse international student community.',
-    image: 'https://i.ibb.co/W4WmVhY1/manipal.jpg',
-    rating: 4.9,
-    link: 'https://cvadm.com/ek32fs',
-    programs: ['Medical', 'Engineering', 'Pharmacy', 'Allied Health'],
-    established: '1953',
-    category: 'Deemed'
-  },
-  {
-    id: 'sikkim-manipal-university',
-    name: 'Sikkim Manipal University',
-    location: 'Gangtok, Sikkim',
-    description: 'A pioneer in healthcare and technical education in the North-East, offering quality programs amidst natural beauty.',
-    image: 'https://i.ibb.co/x0hydzd/sikkimmanipal.jpg',
-    rating: 4.3,
-    link: 'https://cvadm.com/64dA1p',
-    programs: ['IT', 'Medical', 'Management', 'Science'],
-    established: '1995',
-    category: 'Private'
-  },
-  {
-    id: 'parul-university',
-    name: 'Parul University',
-    location: 'Vadodara, Gujarat',
-    description: 'A vibrant multidisciplinary university with a strong focus on innovation, entrepreneurship, and global placements.',
-    image: 'https://i.ibb.co/wNHsHxqW/Whats-App-Image-2026-04-02-at-2-35-06-PM.jpg',
-    rating: 4.7,
-    link: 'https://cvadm.com/OSjCO2',
-    programs: ['Engineering', 'Design', 'Fine Arts', 'Management'],
-    established: '2015',
-    category: 'Private'
-  },
-  {
-    id: 'amity-university',
-    name: 'Amity University',
-    location: 'Noida, Uttar Pradesh',
-    description: 'A research-led leading private university in India with global campuses and NAAC A+ accreditation.',
-    image: 'https://i.ibb.co/7xV9wsxz/Whats-App-Image-2026-04-02-at-2-27-22-PM.jpg',
-    rating: 4.8,
-    link: 'https://cvadm.com/xBg72Q',
-    programs: ['BBA', 'BCA', 'MBA', 'Engineering', 'Biotech'],
-    established: '2005',
-    category: 'Private'
-  },
-  {
     id: 'amrita-vishwa-vidyapeetham',
     name: 'Amrita Vishwa Vidyapeetham',
     location: 'Coimbatore, Tamil Nadu',
@@ -167,18 +203,6 @@ export const universities = [
     link: 'https://cvadm.com/TZ4e3j',
     programs: ['Engineering', 'Architecture', 'Agriculture', 'Management'],
     established: '2005',
-    category: 'Private'
-  },
-  {
-    id: 'uttaranchal-university',
-    name: 'Uttaranchal University',
-    location: 'Dehradun, Uttarakhand',
-    description: 'Offers high-quality education in Law, Engineering, and Management with NAAC A+ accreditation.',
-    image: 'https://i.ibb.co/M5GZbYc4/uttaranchal.jpg',
-    rating: 4.5,
-    link: 'https://cvadm.com/buT2Ip',
-    programs: ['Law', 'Engineering', 'Management', 'Agriculture'],
-    established: '2013',
     category: 'Private'
   },
   {

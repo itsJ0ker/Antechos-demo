@@ -336,7 +336,7 @@ const UniversityPageNew = () => {
    const [isFeaturesPlaying, setIsFeaturesPlaying] = useState(true);
    const [windowWidth, setWindowWidth] = useState(typeof window !== 'undefined' ? window.innerWidth : 1200);
    const [isMobile, setIsMobile] = useState(false);
-   const [openFaqIndex, setOpenFaqIndex] = useState(null);
+   const [isFaqOpen, setIsFaqOpen] = useState(false);
    const strategicIntelligenceRef = useRef(null);
 
    const getVisibleFeatures = () => {
@@ -1447,45 +1447,44 @@ const UniversityPageNew = () => {
          {/* 10. FAQ SECTION */}
          <section className="py-16 md:py-24 bg-white border-t border-slate-100 relative overflow-hidden text-left">
             <div className="container mx-auto px-6 max-w-4xl">
-               <div className="flex flex-col items-center text-center mb-12 md:mb-16">
-                   <SectionLabel icon={Info}>FAQs</SectionLabel>
-                   <h2 className="text-3xl sm:text-4xl md:text-5xl font-black text-slate-900 mb-4 tracking-tighter font-display uppercase">
+               <button 
+                  onClick={() => setIsFaqOpen(!isFaqOpen)}
+                  className="w-full flex flex-col items-center text-center group cursor-pointer focus:outline-none"
+               >
+                   <div className="flex items-center justify-center gap-2 mb-2 group-hover:opacity-80 transition-opacity">
+                      <div className="section-label !mb-0 flex items-center gap-2 cursor-pointer transition-all duration-300 hover:scale-105">
+                          <Info className="w-3 h-3 md:w-3.5 md:h-3.5" />
+                          <span className="tracking-[0.15em] font-black uppercase text-[9px] md:text-[10px] flex items-center gap-2">
+                             FAQs
+                             <ChevronDown className={`w-3 h-3 md:w-4 md:h-4 text-blue-500 transition-transform duration-300 ${isFaqOpen ? 'rotate-180' : ''}`} />
+                          </span>
+                      </div>
+                   </div>
+                   <h2 className="text-3xl sm:text-4xl md:text-5xl font-black text-slate-900 tracking-tighter font-display uppercase mt-4">
                        You've likely got a <span className="text-blue-600">few questions</span>
                    </h2>
-               </div>
+               </button>
                
-               <div className="space-y-4">
-                  {FAQ_DATA.map((faq, index) => (
-                     <div 
-                        key={index} 
-                        className={`border rounded-[1.5rem] md:rounded-[2rem] overflow-hidden transition-all duration-300 ${openFaqIndex === index ? 'border-blue-200 bg-blue-50/50 shadow-xl' : 'border-slate-100 bg-white hover:border-slate-200 hover:shadow-md'}`}
-                     >
-                        <button
-                           onClick={() => setOpenFaqIndex(openFaqIndex === index ? null : index)}
-                           className="w-full flex items-center justify-between p-6 md:p-8 text-left focus:outline-none"
-                        >
-                           <span className="font-black text-slate-900 text-base md:text-xl pr-8">{faq.question}</span>
-                           <div className={`w-10 h-10 md:w-12 md:h-12 rounded-full flex-shrink-0 flex items-center justify-center transition-all duration-300 border ${openFaqIndex === index ? 'bg-blue-600 text-white border-blue-600 rotate-180' : 'bg-slate-50 text-slate-400 border-slate-100 group-hover:bg-blue-50 hover:text-blue-600'}`}>
-                              <ChevronDown className="w-5 h-5" />
-                           </div>
-                        </button>
-                        <AnimatePresence>
-                           {openFaqIndex === index && (
-                              <motion.div
-                                 initial={{ height: 0, opacity: 0 }}
-                                 animate={{ height: "auto", opacity: 1 }}
-                                 exit={{ height: 0, opacity: 0 }}
-                                 transition={{ duration: 0.3, ease: "easeInOut" }}
-                              >
-                                 <div className="p-6 md:p-8 pt-0 text-slate-500 font-medium text-sm md:text-base leading-relaxed">
-                                    {faq.answer}
-                                 </div>
-                              </motion.div>
-                           )}
-                        </AnimatePresence>
-                     </div>
-                  ))}
-               </div>
+               <AnimatePresence>
+                   {isFaqOpen && (
+                      <motion.div
+                          initial={{ height: 0, opacity: 0 }}
+                          animate={{ height: "auto", opacity: 1 }}
+                          exit={{ height: 0, opacity: 0 }}
+                          transition={{ duration: 0.4, ease: "easeInOut" }}
+                          className="overflow-hidden"
+                      >
+                         <div className="space-y-8 mt-12 bg-slate-50/50 p-6 md:p-12 rounded-[2rem] border border-slate-100 shadow-sm">
+                            {FAQ_DATA.map((faq, index) => (
+                               <div key={index} className="border-b border-slate-200 pb-8 last:border-0 last:pb-0 text-left">
+                                  <h3 className="font-black text-slate-900 text-lg md:text-xl mb-3">{faq.question}</h3>
+                                  <p className="text-slate-600 font-medium text-sm md:text-base leading-relaxed">{faq.answer}</p>
+                               </div>
+                            ))}
+                         </div>
+                      </motion.div>
+                   )}
+               </AnimatePresence>
             </div>
          </section>
 

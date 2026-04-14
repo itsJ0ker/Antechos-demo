@@ -90,7 +90,7 @@ const QuickDiagnostic = () => {
         is_active: true,
         instructor_name: 'Test Instructor',
         rating: 4.5,
-        image_url: 'https://via.placeholder.com/400x300'
+        image_url: 'https://placehold.co/400x300/f3f4f6/9ca3af?text=Test+Course'
       };
 
       const { data, error } = await supabase

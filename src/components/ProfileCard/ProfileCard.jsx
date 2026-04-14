@@ -17,7 +17,7 @@ const round = (v, precision = 3) => parseFloat(v.toFixed(precision));
 const adjust = (v, fMin, fMax, tMin, tMax) => round(tMin + ((tMax - tMin) * (v - fMin)) / (fMax - fMin));
 
 const ProfileCardComponent = ({
-  avatarUrl = 'https://via.placeholder.com/400x600',
+  avatarUrl = 'https://placehold.co/400x600/8B5CF6/ffffff?text=Professional',
   iconUrl = '',
   grainUrl = '',
   innerGradient,
@@ -315,7 +315,7 @@ const ProfileCardComponent = ({
                 onError={e => {
                   const t = e.target;
                   // Set a fallback image instead of hiding
-                  t.src = 'https://via.placeholder.com/400x600/8B5CF6/ffffff?text=Professional';
+                  t.src = 'https://placehold.co/400x600/8B5CF6/ffffff?text=Professional';
                   t.style.display = 'block';
                 }}
                 onLoad={e => {
@@ -338,7 +338,7 @@ const ProfileCardComponent = ({
                         loading="lazy"
                         onError={e => {
                           const t = e.target;
-                          t.src = 'https://via.placeholder.com/48x48/8B5CF6/ffffff?text=👤';
+                          t.src = 'https://placehold.co/48x48/8B5CF6/ffffff?text=User';
                           t.style.opacity = '0.8';
                         }}
                         style={{ display: 'block' }}

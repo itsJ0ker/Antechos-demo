@@ -1067,7 +1067,7 @@ const MarketplaceRedesign = () => {
                             <div className="w-[280px] h-[400px] flex items-center justify-center">
                               <div className="w-full h-full">
                                 <ProfileCard
-                                  avatarUrl={prof.image_url || 'https://via.placeholder.com/400x600/8B5CF6/ffffff?text=Professional'}
+                                  avatarUrl={prof.image_url || 'https://placehold.co/400x600/8B5CF6/ffffff?text=Professional'}
                                   name={prof.name}
                                   title={prof.role}
                                   handle={prof.name.toLowerCase().replace(/\s+/g, '')}
@@ -1132,7 +1132,7 @@ const MarketplaceRedesign = () => {
                   {data.professionals.map((prof) => (
                     <div key={prof.id} className="w-full h-[400px] flex items-center justify-center">
                       <ProfileCard
-                        avatarUrl={prof.image_url || 'https://via.placeholder.com/400x600/8B5CF6/ffffff?text=Professional'}
+                        avatarUrl={prof.image_url || 'https://placehold.co/400x600/8B5CF6/ffffff?text=Professional'}
                         name={prof.name}
                         title={prof.role}
                         handle={prof.name.toLowerCase().replace(/\s+/g, '')}

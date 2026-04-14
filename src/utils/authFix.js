@@ -18,12 +18,16 @@ export const safeAuthCheck = async () => {
       return { data: { user: null }, error: 'Supabase not configured' };
     }
 
-    const result = await withTimeout(
-      supabase.auth.getUser(),
-      5000 // 5 second timeout
-    );
-
-    return result;
+    // Use getSession instead of getUser (faster, doesn't require network for cached session)
+    const { data, error } = await supabase.auth.getSession();
+    
+    if (error) {
+      console.warn('Auth session error:', error.message);
+      return { data: { user: null }, error: error.message };
+    }
+    
+    // Return the user from the session
+    return { data: { user: data?.session?.user || null }, error: null };
   } catch (error) {
     console.error('Auth check failed:', error);
     return { data: { user: null }, error: error.message };
@@ -46,26 +50,34 @@ export const safeLoadStats = async () => {
       return defaultStats;
     }
 
-    // Load each stat individually with timeout
+    // Load each stat individually with timeout - use Promise.allSettled for resilience
     const results = await Promise.allSettled([
-      withTimeout(supabase.from('courses').select('id', { count: 'exact', head: true }), 3000),
-      withTimeout(supabase.from('universities').select('id', { count: 'exact', head: true }), 3000),
-      withTimeout(supabase.from('trainers').select('id', { count: 'exact', head: true }), 3000),
-      withTimeout(supabase.from('enquiries').select('id', { count: 'exact', head: true }), 3000),
-      withTimeout(supabase.from('testimonials').select('id', { count: 'exact', head: true }), 3000),
-      withTimeout(supabase.from('profiles').select('id', { count: 'exact', head: true }), 3000),
+      withTimeout(supabase.from('courses').select('id', { count: 'exact', head: true }), 5000),
+      withTimeout(supabase.from('universities').select('id', { count: 'exact', head: true }), 5000),
+      withTimeout(supabase.from('trainers').select('id', { count: 'exact', head: true }), 5000),
+      withTimeout(supabase.from('enquiries').select('id', { count: 'exact', head: true }), 5000),
+      withTimeout(supabase.from('testimonials').select('id', { count: 'exact', head: true }), 5000),
+      withTimeout(supabase.from('profiles').select('id', { count: 'exact', head: true }), 5000),
     ]);
 
+    // Extract counts from results, using 0 for failed queries
+    const counts = results.map(r => {
+      if (r.status === 'fulfilled' && r.value?.count !== undefined) {
+        return r.value.count;
+      }
+      return 0;
+    });
+
     return {
-      courses: results[0].status === 'fulfilled' ? (results[0].value.count || 0) : 0,
-      universities: results[1].status === 'fulfilled' ? (results[1].value.count || 0) : 0,
-      trainers: results[2].status === 'fulfilled' ? (results[2].value.count || 0) : 0,
-      enquiries: results[3].status === 'fulfilled' ? (results[3].value.count || 0) : 0,
-      testimonials: results[4].status === 'fulfilled' ? (results[4].value.count || 0) : 0,
-      users: results[5].status === 'fulfilled' ? (results[5].value.count || 0) : 0,
+      courses: counts[0],
+      universities: counts[1],
+      trainers: counts[2],
+      enquiries: counts[3],
+      testimonials: counts[4],
+      users: counts[5],
     };
   } catch (error) {
-    console.error('Stats loading failed:', error);
+    console.warn('Stats loading failed (using defaults):', error.message);
     return defaultStats;
   }
 };

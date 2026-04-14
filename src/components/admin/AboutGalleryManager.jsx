@@ -208,7 +208,7 @@ const AboutGalleryManager = () => {
                 alt="Preview"
                 className="w-full h-full object-cover"
                 onError={(e) => {
-                  e.target.src = 'https://via.placeholder.com/800x600?text=Invalid+Image+URL';
+                  e.target.src = 'https://placehold.co/800x600/f3f4f6/9ca3af?text=Invalid+Image+URL';
                 }}
               />
               {form.caption && (
@@ -262,7 +262,7 @@ const AboutGalleryManager = () => {
                   alt={item.caption || 'Gallery image'}
                   className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
                   onError={(e) => {
-                    e.target.src = 'https://via.placeholder.com/400?text=Image+Not+Found';
+                    e.target.src = 'https://placehold.co/400x400/f3f4f6/9ca3af?text=Image+Not+Found';
                   }}
                 />
               </div>
