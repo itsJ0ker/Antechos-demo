@@ -270,13 +270,13 @@ const TESTIMONIALS = [
    {
       name: "Aditi Rao",
       details: "MBA Student • Online Batch 2024",
-      img: "https://i.pravatar.cc/150?u=aditi",
+      img: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=400&h=400&fit=crop",
       text: "I was confused between multiple online MBA programs. The comparison tool and expert career advice from Antechos made my decision crystal clear. Highly recommend their guidance!"
    },
    {
       name: "Rohan Khanna",
       details: "MCA Professional • Batch 2024",
-      img: "https://i.pravatar.cc/150?u=rohan",
+      img: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=400&fit=crop",
       text: "The technical specialization counseling helped me identify exactly which Cloud program would boost my salary. Antechos isn't just counseling; it's career engineering."
    }
 ];
@@ -1291,82 +1291,130 @@ const UniversityPageNew = () => {
 
 
 
-         {/* 9. SUCCESS STORIES */}
-         <section className="py-12 md:py-24 bg-slate-50 relative overflow-hidden">
-            <div className="container mx-auto px-6 text-center">
-               <SectionLabel icon={Users}>Student Impact Reports</SectionLabel>
-               <h2 className="text-xl sm:text-3xl md:text-4xl font-black text-slate-900 mb-6 md:mb-8 leading-tight tracking-tighter uppercase font-display max-w-4xl mx-auto">Pathways to <span className="text-blue-600">Institutional Excellence</span></h2>
-               <p className="text-slate-500 font-medium text-xs md:text-base mb-12 md:mb-16 max-w-2xl mx-auto">Hear from graduates who transformed their professional trajectories through our strategic guidance.</p>
+          {/* 9. SUCCESS STORIES - Redesigned */}
+          <section className="py-16 md:py-24 bg-gradient-to-b from-slate-50 to-white relative overflow-hidden">
+            {/* Background decoration */}
+            <div className="absolute inset-0 overflow-hidden pointer-events-none">
+              <div className="absolute -top-40 -right-40 w-80 h-80 bg-blue-100 rounded-full opacity-50 blur-3xl"></div>
+              <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-orange-100 rounded-full opacity-50 blur-3xl"></div>
+            </div>
+            
+            <div className="container mx-auto px-4 md:px-6 relative z-10">
+              {/* Section Header */}
+              <div className="text-center mb-12 md:mb-16">
+                <div className="inline-flex items-center gap-2 px-4 py-2 bg-blue-50 rounded-full mb-4">
+                  <Users className="w-4 h-4 text-blue-600" />
+                  <span className="text-xs md:text-sm font-semibold text-blue-600 uppercase tracking-wider">Student Impact Reports</span>
+                </div>
+                <h2 className="text-2xl sm:text-4xl md:text-5xl font-black text-slate-900 mb-4 md:mb-6 leading-tight tracking-tight font-display">
+                  Pathways to <span className="text-blue-600">Institutional Excellence</span>
+                </h2>
+                <p className="text-slate-500 font-medium text-sm md:text-base max-w-2xl mx-auto">
+                  Hear from graduates who transformed their professional trajectories through our strategic guidance.
+                </p>
+              </div>
 
-               <div className="relative max-w-6xl mx-auto px-4 sm:px-12">
-                  <AnimatePresence mode="wait">
-                     <motion.div
-                        key={testimonialIndex}
-                        initial={{ opacity: 0, scale: 0.95 }}
-                        animate={{ opacity: 1, scale: 1 }}
-                        exit={{ opacity: 0, scale: 1.05 }}
-                        className="bg-white rounded-[2rem] md:rounded-[3rem] p-6 sm:p-10 md:p-12 lg:p-14 shadow-2xl border border-slate-100 flex flex-col md:flex-row items-center gap-8 md:gap-14 text-left relative overflow-hidden"
-                     >
-                        <div className="absolute top-12 right-12 opacity-[0.05] hidden md:block">
-                           <span className="text-[10rem] font-serif leading-none select-none">“</span>
+              {/* Testimonial Carousel */}
+              <div className="relative max-w-5xl mx-auto">
+                <AnimatePresence mode="wait">
+                  <motion.div
+                    key={testimonialIndex}
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -20 }}
+                    transition={{ duration: 0.4 }}
+                    className="bg-white rounded-3xl shadow-xl border border-slate-100 overflow-hidden"
+                  >
+                    <div className="flex flex-col lg:flex-row">
+                      {/* Image Side */}
+                      <div className="lg:w-2/5 relative flex items-center justify-center p-6 lg:p-8">
+                        <div className="w-32 h-32 sm:w-40 sm:h-40 md:w-48 md:h-48 lg:w-56 lg:h-56 rounded-full overflow-hidden border-4 md:border-6 border-white shadow-xl">
+                          <img
+                            src={TESTIMONIALS[testimonialIndex].img}
+                            className="w-full h-full object-cover"
+                            alt={TESTIMONIALS[testimonialIndex].name}
+                            onError={(e) => {
+                              e.target.src = 'https://placehold.co/200x200/f1f5f9/94a3b8?text=Student';
+                            }}
+                          />
+                        </div>
+                        {/* Overlay badge */}
+                        <div className="absolute bottom-4 left-4 bg-white/90 backdrop-blur-sm px-4 py-2 rounded-full">
+                          <div className="flex items-center gap-2">
+                            <div className="flex gap-0.5">
+                              {[1, 2, 3, 4, 5].map(i => (
+                                <Star key={i} className="w-3 h-3 text-orange-400 fill-current" />
+                              ))}
+                            </div>
+                            <span className="text-xs font-bold text-slate-700">5.0</span>
+                          </div>
+                        </div>
+                      </div>
+
+                      {/* Content Side */}
+                      <div className="lg:w-3/5 p-6 md:p-8 lg:p-10 flex flex-col justify-center">
+                        {/* Quote icon */}
+                        <div className="text-blue-100 mb-4">
+                          <svg className="w-12 h-12" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-3.996 3.638-3.996 5.849h3.983v10h-9.983z"/>
+                          </svg>
                         </div>
 
-                        <div className="w-24 h-24 sm:w-32 md:w-36 lg:w-40 flex-shrink-0 rounded-full border-4 md:border-8 border-slate-50 overflow-hidden shadow-2xl">
-                           <img
-                              src={TESTIMONIALS[testimonialIndex].img}
-                              className="w-full h-full object-cover"
-                              alt="Student"
-                           />
+                        {/* Quote text */}
+                        <blockquote className="text-base md:text-xl text-slate-700 leading-relaxed mb-6 md:mb-8 font-medium">
+                          "{TESTIMONIALS[testimonialIndex].text}"
+                        </blockquote>
+
+                        {/* Author info */}
+                        <div className="flex items-center gap-4">
+                          <div className="flex-1">
+                            <p className="text-lg md:text-xl font-bold text-slate-900">
+                              {TESTIMONIALS[testimonialIndex].name}
+                            </p>
+                            <p className="text-sm text-slate-500 font-medium uppercase tracking-wide">
+                              {TESTIMONIALS[testimonialIndex].details}
+                            </p>
+                          </div>
                         </div>
+                      </div>
+                    </div>
+                  </motion.div>
+                </AnimatePresence>
 
-                        <div className="flex-grow">
-                           <div className="text-slate-400 mb-6 md:mb-8 hidden md:block">
-                              <span className="text-5xl font-serif">“</span>
-                           </div>
-                           <p className="text-base sm:text-lg md:text-xl font-bold text-slate-900 mb-8 md:mb-10 leading-relaxed italic">
-                              {TESTIMONIALS[testimonialIndex].text}
-                           </p>
-
-                           <div className="mb-6">
-                              <p className="text-xl md:text-2xl font-black text-slate-900 font-display">{TESTIMONIALS[testimonialIndex].name}</p>
-                              <p className="text-slate-400 text-[9px] md:text-[10px] font-black uppercase tracking-widest">{TESTIMONIALS[testimonialIndex].details}</p>
-                           </div>
-
-                           <div className="flex gap-1 text-orange-400">
-                              {[1, 2, 3, 4, 5].map(i => <Star key={i} className="w-4 md:w-5 h-4 md:h-5 fill-current" />)}
-                           </div>
-                        </div>
-                     </motion.div>
-                  </AnimatePresence>
-
-                  {/* Navigation */}
-                  <div className="absolute top-1/2 -translate-y-1/2 left-0 sm:left-0 right-0 sm:right-0 flex justify-between pointer-events-none px-1 sm:px-2">
-                     <button
-                        onClick={() => setTestimonialIndex((prev) => (prev === 0 ? TESTIMONIALS.length - 1 : prev - 1))}
-                        className="w-10 h-10 sm:w-16 sm:h-16 bg-white rounded-full shadow-2xl border border-slate-100 flex items-center justify-center text-slate-400 hover:text-blue-600 transition-all active:scale-90 pointer-events-auto"
-                     >
-                        <ChevronLeft className="w-4 h-4 sm:w-6 sm:h-6" />
-                     </button>
-                     <button
-                        onClick={() => setTestimonialIndex((prev) => (prev === TESTIMONIALS.length - 1 ? 0 : prev + 1))}
-                        className="w-10 h-10 sm:w-16 sm:h-16 bg-white rounded-full shadow-2xl border border-slate-100 flex items-center justify-center text-slate-400 hover:text-blue-600 transition-all active:scale-90 pointer-events-auto"
-                     >
-                        <ChevronRight className="w-4 h-4 sm:w-6 sm:h-6" />
-                     </button>
-                  </div>
-               </div>
-
-               <div className="flex justify-center gap-2 md:gap-3 mt-8 md:mt-12">
-                  {TESTIMONIALS.map((_, i) => (
-                     <button
+                {/* Navigation Buttons */}
+                <div className="flex justify-center gap-3 mt-8 md:mt-10">
+                  <button
+                    onClick={() => setTestimonialIndex((prev) => (prev === 0 ? TESTIMONIALS.length - 1 : prev - 1))}
+                    className="w-12 h-12 bg-white rounded-full shadow-lg border border-slate-200 flex items-center justify-center text-slate-600 hover:text-blue-600 hover:border-blue-300 hover:shadow-xl transition-all duration-300"
+                  >
+                    <ChevronLeft className="w-5 h-5" />
+                  </button>
+                  
+                  {/* Dots */}
+                  <div className="flex items-center gap-2 px-4">
+                    {TESTIMONIALS.map((_, i) => (
+                      <button
                         key={i}
                         onClick={() => setTestimonialIndex(i)}
-                        className={`w-2 h-2 md:w-3 md:h-3 rounded-full transition-all ${testimonialIndex === i ? "bg-blue-600 w-6 md:w-8" : "bg-slate-200"}`}
-                     />
-                  ))}
-               </div>
+                        className={`h-2 rounded-full transition-all duration-300 ${
+                          testimonialIndex === i 
+                            ? "w-8 bg-blue-600" 
+                            : "w-2 bg-slate-300 hover:bg-slate-400"
+                        }`}
+                      />
+                    ))}
+                  </div>
+                  
+                  <button
+                    onClick={() => setTestimonialIndex((prev) => (prev === TESTIMONIALS.length - 1 ? 0 : prev + 1))}
+                    className="w-12 h-12 bg-white rounded-full shadow-lg border border-slate-200 flex items-center justify-center text-slate-600 hover:text-blue-600 hover:border-blue-300 hover:shadow-xl transition-all duration-300"
+                  >
+                    <ChevronRight className="w-5 h-5" />
+                  </button>
+                </div>
+              </div>
             </div>
-         </section>
+          </section>
 
          {/* 2026 TRENDING SPECIALIZATIONS */}
          <section className="py-12 md:py-24 bg-slate-50 relative overflow-hidden">
