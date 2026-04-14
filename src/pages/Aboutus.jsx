@@ -53,7 +53,7 @@ const styles = `
   }
 
   .about-page * { box-sizing: border-box; }
-  .about-page { font-family: 'DM Sans', sans-serif; background: var(--dark); color: #fff; }
+  .about-page { font-family: 'DM Sans', sans-serif; background: var(--dark); color: #fff; overflow-x: hidden; }
   .about-page h1, .about-page h2, .about-page h3, .about-page h4 { font-family: 'Sora', sans-serif; }
 
   /* ── Fade-up ── */
@@ -118,6 +118,34 @@ const styles = `
   ::-webkit-scrollbar { width: 4px; }
   ::-webkit-scrollbar-track { background: var(--dark); }
   ::-webkit-scrollbar-thumb { background: var(--orange); border-radius: 2px; }
+
+  /* ── Responsive Utilities ── */
+  .responsive-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 64px;
+    align-items: center;
+  }
+
+  @media (max-width: 992px) {
+    .responsive-grid {
+      grid-template-columns: 1fr;
+      gap: 40px;
+    }
+  }
+
+  @media (max-width: 768px) {
+    section {
+      padding: 60px 20px !important;
+    }
+    .hero-section {
+      padding-top: 100px !important;
+    }
+    .stat-card-row {
+      gap: 16px !important;
+    }
+  }
+
 `;
 
 /* ─── Helpers ─────────────────────────────────────────────────────────────── */
@@ -126,9 +154,11 @@ const SectionLabel = ({ children }) => (
     display: 'inline-flex', alignItems: 'center', gap: 8,
     padding: '6px 16px', background: 'rgba(56,189,248,0.12)',
     border: '1px solid rgba(56,189,248,0.3)', borderRadius: 100,
-    fontSize: 13, fontWeight: 600, color: 'var(--orange)',
-    letterSpacing: '0.05em', textTransform: 'uppercase', marginBottom: 16
+    fontSize: 12, fontWeight: 700, color: '#38bdf8',
+    letterSpacing: '0.05em', textTransform: 'uppercase', marginBottom: 12
   }}>{children}</div>
+
+
 );
 
 /* ─── Main Component ─────────────────────────────────────────────────────── */
@@ -136,10 +166,40 @@ const Aboutus = () => {
   const [team, setTeam] = useState([]);
   const [stats, setStats] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [diffIndex, setDiffIndex] = useState(0);
+  const [diffIndex, setDiffIndex] = useState(4);
+  const [isDiffTransitioning, setIsDiffTransitioning] = useState(true);
   const [teamIndex, setTeamIndex] = useState(0);
+
   const [statsIndex, setStatsIndex] = useState(0);
   const [videoIndex, setVideoIndex] = useState(0);
+  const [valuesIndex, setValuesIndex] = useState(1);
+  const [isValuesTransitioning, setIsValuesTransitioning] = useState(true);
+  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+
+
+  // Responsive items per view
+  const [itemsPerView, setItemsPerView] = useState({ stats: 4, diff: 4, team: 3, values: 4 });
+
+
+  useEffect(() => {
+    const handleResize = () => {
+      const width = window.innerWidth;
+      setWindowWidth(width);
+
+      let newItems = { stats: 4, diff: 4, team: 3, values: 4 };
+      if (width < 640) {
+        newItems = { stats: 1, diff: 1, team: 1, values: 1 };
+      } else if (width < 1024) {
+        newItems = { stats: 2, diff: 2, team: 2, values: 2 };
+      }
+
+      setItemsPerView(newItems);
+    };
+
+    window.addEventListener('resize', handleResize);
+    handleResize(); // Initial check
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   // Form state
   const [formData, setFormData] = useState({
@@ -264,34 +324,77 @@ const Aboutus = () => {
 
   const testimonials = [];
 
-  // Auto carousel logic for stats
+  // Auto carousel logic for stats (Scrolling by view)
   useEffect(() => {
     const statsCount = displayStats.length;
-    if (statsCount <= 4) return; // Only rotate if more than 4
-
+    if (statsCount <= 4) return;
     const interval = setInterval(() => {
       setStatsIndex(prev => (prev + 1) % Math.ceil(statsCount / 4));
     }, 4000);
-
     return () => clearInterval(interval);
   }, [displayStats.length]);
-  // Carousel logic for "What Makes Us Different"
-  const diffPerView = 4;
-  const maxDiffIndex = Math.max(0, differentiators.length - diffPerView);
 
+  const diffPerView = itemsPerView.diff;
+
+  // Auto carousel logic for "What Makes Us Different" (Step size: 2 items)
   useEffect(() => {
     if (differentiators.length <= diffPerView) return;
     const interval = setInterval(() => {
-      setDiffIndex(prev => (prev >= maxDiffIndex ? 0 : prev + 1));
-    }, 4500);
+      handleDiffNext();
+    }, 5000);
     return () => clearInterval(interval);
-  }, [differentiators.length, maxDiffIndex]);
+  }, [differentiators.length, diffPerView]);
 
-  const handleDiffPrev = () => setDiffIndex(prev => Math.max(0, prev - 1));
-  const handleDiffNext = () => setDiffIndex(prev => Math.min(maxDiffIndex, prev + 1));
+  // Handle infinite loop jump for diff carousel (Step size: 2 items)
+  useEffect(() => {
+    const totalItemsCount = differentiators.length;
+    const itemsToShow = itemsPerView.diff;
+
+    const step = windowWidth < 640 ? 1 : 2;
+
+    // Jump from end to start
+    if (diffIndex >= itemsToShow + totalItemsCount) {
+      const timer = setTimeout(() => {
+        setIsDiffTransitioning(false);
+        setDiffIndex(prev => prev - totalItemsCount);
+      }, 600);
+      return () => clearTimeout(timer);
+    }
+
+    // Jump from start to end
+    if (diffIndex <= itemsToShow - step) {
+      const timer = setTimeout(() => {
+        setIsDiffTransitioning(false);
+        setDiffIndex(prev => prev + totalItemsCount);
+      }, 600);
+      return () => clearTimeout(timer);
+    }
+
+
+    if (!isDiffTransitioning) {
+      const timer = setTimeout(() => {
+        setIsDiffTransitioning(true);
+      }, 50);
+      return () => clearTimeout(timer);
+    }
+  }, [diffIndex, differentiators.length, itemsPerView.diff, isDiffTransitioning]);
+
+  const handleDiffPrev = () => {
+    const step = windowWidth < 640 ? 1 : 2;
+    setIsDiffTransitioning(true);
+    setDiffIndex(prev => prev - step);
+  };
+  const handleDiffNext = () => {
+    const step = windowWidth < 640 ? 1 : 2;
+    setIsDiffTransitioning(true);
+    setDiffIndex(prev => prev + step);
+  };
+
+
+
 
   // Team carousel logic
-  const teamCardsPerView = 3;
+  const teamCardsPerView = itemsPerView.team;
   const maxTeamIndex = Math.max(0, displayTeam.length - teamCardsPerView);
 
   const handleTeamPrev = () => setTeamIndex(prev => Math.max(0, prev - 1));
@@ -312,7 +415,51 @@ const Aboutus = () => {
   const handleVideoPrev = () => setVideoIndex(prev => (prev === 0 ? videoCount - 1 : prev - 1));
   const handleVideoNext = () => setVideoIndex(prev => (prev + 1) % videoCount);
 
+  // Values carousel auto-play (mobile only)
+  useEffect(() => {
+    if (windowWidth >= 640 || displayValues.length <= 1) return;
+    const interval = setInterval(() => {
+      setValuesIndex(prev => prev + 1);
+    }, 5000);
+    return () => clearInterval(interval);
+  }, [windowWidth, displayValues.length]);
+
+  // Handle infinite loop jump for values carousel
+  useEffect(() => {
+    if (windowWidth >= 640) return;
+    const totalItems = displayValues.length + 2;
+
+    if (valuesIndex === totalItems - 1) {
+      const timer = setTimeout(() => {
+        setIsValuesTransitioning(false);
+        setValuesIndex(1);
+      }, 600);
+      return () => clearTimeout(timer);
+    }
+
+    if (valuesIndex === 0) {
+      const timer = setTimeout(() => {
+        setIsValuesTransitioning(false);
+        setValuesIndex(totalItems - 2);
+      }, 600);
+      return () => clearTimeout(timer);
+    }
+
+    // Slight delay before re-enabling transition to ensure jump is rendered
+    if (!isValuesTransitioning) {
+      const timer = setTimeout(() => {
+        setIsValuesTransitioning(true);
+      }, 50);
+      return () => clearTimeout(timer);
+    }
+  }, [valuesIndex, displayValues.length, windowWidth, isValuesTransitioning]);
+
+
+
+
+
   if (loading) {
+
     return (
       <div style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', background: '#0A0A0A' }}>
         <div style={{ textAlign: 'center' }}>
@@ -333,7 +480,7 @@ const Aboutus = () => {
             1. HERO SECTION
             "Creating Careers, Not Just Courses" + subtitle + Team Image
         ════════════════════════════════════════════════════════════════════ */}
-        <section style={{
+        <section className="hero-section" style={{
           minHeight: '90vh', display: 'flex', alignItems: 'center', justifyContent: 'center',
           background: 'linear-gradient(135deg, #0A0A0A 0%, #111111 60%, #150E08 100%)',
           position: 'relative', overflow: 'hidden', padding: '120px 24px 80px'
@@ -346,7 +493,7 @@ const Aboutus = () => {
 
           <div style={{ position: 'relative', maxWidth: 900, textAlign: 'center', zIndex: 1 }}>
             <h1 style={{
-              fontSize: 'clamp(36px, 6vw, 72px)', fontWeight: 800, lineHeight: 1.1,
+              fontSize: 'clamp(32px, 6vw, 72px)', fontWeight: 800, lineHeight: 1.1,
               margin: '0 0 24px', letterSpacing: '-0.03em'
             }}>
               Creating Careers,{' '}
@@ -362,55 +509,55 @@ const Aboutus = () => {
               <img
                 src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=1200&q=80"
                 alt="Team collaboration"
-                style={{ width: '100%', height: 'clamp(220px, 32vw, 400px)', objectFit: 'cover', display: 'block' }}
+                style={{ width: '100%', height: 'auto', minHeight: 'clamp(200px, 40vw, 400px)', objectFit: 'cover', display: 'block' }}
               />
               <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to top, rgba(10,10,10,0.5) 0%, transparent 50%)' }} />
-              <div style={{ position: 'absolute', bottom: 20, left: 0, right: 0, textAlign: 'center', color: '#fff', fontSize: 18, fontWeight: 600, fontFamily: 'Sora, sans-serif', letterSpacing: '0.02em' }}>
-                {/*Team Image*/}
-              </div>
             </div>
           </div>
         </section>
 
+
         {/* ── IMPACT STATS ───────────────────────────────────────────────── */}
-        <section id="impact" style={{ padding: '100px 24px', background: 'var(--dark-2)', borderTop: '1px solid var(--border)', borderBottom: '1px solid var(--border)' }}>
+        <section id="impact" style={{ padding: '100px 24px', background: 'var(--dark-2)', borderTop: '1px solid var(--border)', borderBottom: '1px solid var(--border)', overflow: 'hidden' }}>
           <div style={{ maxWidth: 1100, margin: '0 auto' }}>
             <div style={{ textAlign: 'center', marginBottom: 56 }}>
               <SectionLabel>Our Impact</SectionLabel>
               <h2 style={{ fontSize: 'clamp(28px, 4vw, 44px)', fontWeight: 800, margin: '12px 0 12px', letterSpacing: '-0.02em', lineHeight: 1.2 }}>
-                Through dedication and performance, we create opportunities<br style={{ display: 'none' }} />{' '}
+                Through dedication and performance, we create opportunities<br className="desktop-only" style={{ display: windowWidth < 768 ? 'none' : 'block' }} />{' '}
                 that drive <span style={{ color: 'var(--orange)' }}>real-world success.</span>
               </h2>
             </div>
 
-            <div style={{ position: 'relative', overflow: 'hidden' }}>
-              <div style={{
-                display: 'flex',
-                gap: 24,
-                transition: 'transform 0.6s cubic-bezier(0.4, 0, 0.2, 1)',
-                transform: `translateX(-${statsIndex * (100 / (displayStats.length > 4 ? 4 : displayStats.length))}%)`
-              }}>
-                {displayStats.map((stat) => (
-                  <div key={stat.id} className="stat-card" style={{
-                    flex: '0 0 calc(25% - 18px)', // Exactly 4 in a row (accounting for gaps)
-                    minWidth: '240px',
-                    background: 'var(--card-bg)', border: '1px solid var(--border)', borderRadius: 20,
-                    padding: '36px 24px', textAlign: 'center',
-                    position: 'relative', overflow: 'hidden'
-                  }}>
-                    <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: 3, background: 'linear-gradient(90deg, var(--orange), var(--orange-light))' }} />
-                    <div style={{ fontSize: 'clamp(32px, 4vw, 48px)', fontWeight: 800, color: 'var(--orange)', fontFamily: 'Sora, sans-serif', letterSpacing: '-0.02em', lineHeight: 1 }}>
-                      {stat.value}{stat.suffix}
+            <div style={{ position: 'relative' }}>
+              <div style={{ width: '100%', overflow: 'hidden', padding: '10px 0' }}>
+                <div style={{
+                  display: 'flex',
+                  gap: 24,
+                  position: 'relative',
+                  transition: 'left 0.6s cubic-bezier(0.4, 0, 0.2, 1)',
+                  left: `calc(-${statsIndex} * (100% + 24px))`
+                }} className="stat-card-row">
+                  {displayStats.map((stat) => (
+                    <div key={stat.id} className="stat-card" style={{
+                      flex: `0 0 calc(${100 / itemsPerView.stats}% - ${(itemsPerView.stats - 1) * 24 / itemsPerView.stats}px)`,
+                      background: 'var(--card-bg)', border: '1px solid var(--border)', borderRadius: 20,
+                      padding: '36px 24px', textAlign: 'center',
+                      position: 'relative', overflow: 'hidden'
+                    }}>
+                      <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: 3, background: 'linear-gradient(90deg, var(--orange), var(--orange-light))' }} />
+                      <div style={{ fontSize: 'clamp(32px, 4vw, 48px)', fontWeight: 800, color: 'var(--orange)', fontFamily: 'Sora, sans-serif', letterSpacing: '-0.02em', lineHeight: 1 }}>
+                        {stat.value}{stat.suffix}
+                      </div>
+                      <div style={{ marginTop: 10, fontSize: 16, fontWeight: 500, color: 'var(--text-secondary)' }}>{stat.label}</div>
                     </div>
-                    <div style={{ marginTop: 10, fontSize: 16, fontWeight: 500, color: 'var(--text-secondary)' }}>{stat.label}</div>
-                  </div>
-                ))}
+                  ))}
+                </div>
               </div>
 
-              {/* Dots indicator - only if more than 4 */}
-              {displayStats.length > 4 && (
+              {/* Dots indicator - only if more than itemsPerView */}
+              {displayStats.length > itemsPerView.stats && (
                 <div style={{ display: 'flex', justifyContent: 'center', gap: 10, marginTop: 40 }}>
-                  {Array.from({ length: Math.ceil(displayStats.length / 4) }).map((_, idx) => (
+                  {Array.from({ length: Math.ceil(displayStats.length / itemsPerView.stats) }).map((_, idx) => (
                     <button
                       key={idx}
                       onClick={() => setStatsIndex(idx)}
@@ -428,14 +575,16 @@ const Aboutus = () => {
                 </div>
               )}
             </div>
+
           </div>
         </section>
+
 
         {/* ════════════════════════════════════════════════════════════════════
             3. WHO WE ARE - Left: heading + text, Right: 2 rows of [Img | Context]
         ════════════════════════════════════════════════════════════════════ */}
-        <section style={{ padding: '100px 24px', background: 'var(--dark)' }}>
-          <div style={{ maxWidth: 1100, margin: '0 auto', display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 64, alignItems: 'start' }}>
+        <section id="who-we-are" style={{ padding: '100px 24px', background: 'var(--dark)' }}>
+          <div className="responsive-grid" style={{ maxWidth: 1100, margin: '0 auto' }}>
             {/* Left - Text */}
             <div>
               <SectionLabel>Who We Are?</SectionLabel>
@@ -454,7 +603,7 @@ const Aboutus = () => {
             {/* Right - 2 rows of [Image | Context] */}
             <div style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
               {/* Row 1 */}
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16, border: '1px solid var(--border)', borderRadius: 16, overflow: 'hidden', background: 'var(--card-bg)' }}>
+              <div style={{ display: 'grid', gridTemplateColumns: windowWidth < 480 ? '1fr' : '1fr 1fr', gap: 16, border: '1px solid var(--border)', borderRadius: 16, overflow: 'hidden', background: 'var(--card-bg)' }}>
                 <img src="https://images.unsplash.com/photo-1531482615713-2afd69097998?w=600&q=80" alt="Education" style={{ width: '100%', height: 180, objectFit: 'cover' }} />
                 <div style={{ padding: '20px 16px', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
                   <h4 style={{ fontSize: 16, fontWeight: 700, marginBottom: 8 }}>Practical Learning</h4>
@@ -465,7 +614,7 @@ const Aboutus = () => {
               </div>
 
               {/* Row 2 */}
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16, border: '1px solid var(--border)', borderRadius: 16, overflow: 'hidden', background: 'var(--card-bg)' }}>
+              <div style={{ display: 'grid', gridTemplateColumns: windowWidth < 480 ? '1fr' : '1fr 1fr', gap: 16, border: '1px solid var(--border)', borderRadius: 16, overflow: 'hidden', background: 'var(--card-bg)' }}>
                 <img src="https://images.unsplash.com/photo-1552664730-d307ca884978?w=600&q=80" alt="Mentorship" style={{ width: '100%', height: 180, objectFit: 'cover' }} />
                 <div style={{ padding: '20px 16px', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
                   <h4 style={{ fontSize: 16, fontWeight: 700, marginBottom: 8 }}>Industry Mentorship</h4>
@@ -478,11 +627,12 @@ const Aboutus = () => {
           </div>
         </section>
 
+
         {/* ════════════════════════════════════════════════════════════════════
             4. OUR MISSION - Left: bullet points, Right: Image
         ════════════════════════════════════════════════════════════════════ */}
-        <section style={{ padding: '100px 24px', background: 'var(--dark-2)' }}>
-          <div style={{ maxWidth: 1100, margin: '0 auto', display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 64, alignItems: 'center' }}>
+        <section id="mission" style={{ padding: '100px 24px', background: 'var(--dark-2)' }}>
+          <div className="responsive-grid" style={{ maxWidth: 1100, margin: '0 auto' }}>
             {/* Left - Mission content */}
             <div>
               <SectionLabel>Our Mission</SectionLabel>
@@ -514,28 +664,29 @@ const Aboutus = () => {
               <img
                 src="https://images.unsplash.com/photo-1531482615713-2afd69097998?w=800&q=80"
                 alt="Our Mission"
-                style={{ width: '100%', height: 'clamp(280px, 28vw, 400px)', objectFit: 'cover', display: 'block' }}
+                style={{ width: '100%', height: 'auto', minHeight: 'clamp(240px, 30vw, 400px)', objectFit: 'cover', display: 'block' }}
               />
             </div>
           </div>
         </section>
 
+
         {/* ════════════════════════════════════════════════════════════════════
             5. OUR VISION - Left: Image, Right: text
         ════════════════════════════════════════════════════════════════════ */}
-        <section style={{ padding: '100px 24px', background: 'var(--dark)' }}>
-          <div style={{ maxWidth: 1100, margin: '0 auto', display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 64, alignItems: 'center' }}>
+        <section id="vision" style={{ padding: '100px 24px', background: 'var(--dark)' }}>
+          <div className="responsive-grid" style={{ maxWidth: 1100, margin: '0 auto' }}>
             {/* Left - Image */}
-            <div style={{ borderRadius: 20, overflow: 'hidden', border: '1px solid var(--border)' }}>
+            <div style={{ borderRadius: 20, overflow: 'hidden', border: '1px solid var(--border)', order: windowWidth < 992 ? 2 : 1 }}>
               <img
                 src="https://images.unsplash.com/photo-1552664730-d307ca884978?w=800&q=80"
                 alt="Our Vision"
-                style={{ width: '100%', height: 'clamp(280px, 28vw, 400px)', objectFit: 'cover', display: 'block' }}
+                style={{ width: '100%', height: 'auto', minHeight: 'clamp(240px, 30vw, 400px)', objectFit: 'cover', display: 'block' }}
               />
             </div>
 
             {/* Right - Vision content */}
-            <div>
+            <div style={{ order: windowWidth < 992 ? 1 : 2 }}>
               <SectionLabel>Our Vision</SectionLabel>
               <h2 style={{ fontSize: 'clamp(24px, 3vw, 36px)', fontWeight: 800, letterSpacing: '-0.02em', margin: '12px 0 20px' }}>
                 A future where <span style={{ color: 'var(--orange)' }}>skills matter more</span> than degrees
@@ -550,8 +701,9 @@ const Aboutus = () => {
           </div>
         </section>
 
+
         {/* ── WHY CHOOSE US - Controlled Carousel ───────────────────────── */}
-        <section id="why-choose" style={{ padding: '100px 24px', background: 'var(--dark-2)' }}>
+        <section id="why-choose" style={{ padding: '100px 24px', background: 'var(--dark-2)', overflow: 'hidden' }}>
           <div style={{ maxWidth: 1100, margin: '0 auto' }}>
             <div style={{ textAlign: 'center', marginBottom: 56 }}>
               <SectionLabel>Why Choose Us</SectionLabel>
@@ -562,51 +714,55 @@ const Aboutus = () => {
 
             <div style={{ position: 'relative' }}>
               {/* Prev Button */}
-              {differentiators.length > diffPerView && (
-                <button
-                  onClick={handleDiffPrev}
-                  disabled={diffIndex === 0}
-                  style={{
-                    position: 'absolute', left: -20, top: '50%', transform: 'translateY(-50%)', zIndex: 10,
-                    width: 44, height: 44, borderRadius: '50%', border: '1px solid var(--border)',
-                    background: 'var(--card-bg)', color: '#fff', cursor: diffIndex === 0 ? 'default' : 'pointer',
-                    display: 'flex', alignItems: 'center', justifyContent: 'center',
-                    opacity: diffIndex === 0 ? 0 : 1, transition: 'all 0.3s ease',
-                    boxShadow: '0 4px 12px rgba(0,0,0,0.5)'
-                  }}
-                >
-                  <ChevronLeft size={20} />
-                </button>
-              )}
+              <button
+                onClick={handleDiffPrev}
+                style={{
+                  position: 'absolute', left: windowWidth < 768 ? 10 : -20, top: '50%', transform: 'translateY(-50%)', zIndex: 10,
+                  width: 44, height: 44, borderRadius: '50%', border: '1px solid var(--border)',
+                  background: 'var(--card-bg)', color: '#fff', cursor: 'pointer',
+                  display: 'flex', alignItems: 'center', justifyContent: 'center',
+                  transition: 'all 0.3s ease',
+                  boxShadow: '0 4px 12px rgba(0,0,0,0.5)'
+                }}
+              >
+                <ChevronLeft size={20} />
+              </button>
 
               {/* Next Button */}
-              {differentiators.length > diffPerView && (
-                <button
-                  onClick={handleDiffNext}
-                  disabled={diffIndex >= maxDiffIndex}
-                  style={{
-                    position: 'absolute', right: -20, top: '50%', transform: 'translateY(-50%)', zIndex: 10,
-                    width: 44, height: 44, borderRadius: '50%', border: '1px solid var(--border)',
-                    background: 'var(--card-bg)', color: '#fff', cursor: diffIndex >= maxDiffIndex ? 'default' : 'pointer',
-                    display: 'flex', alignItems: 'center', justifyContent: 'center',
-                    opacity: diffIndex >= maxDiffIndex ? 0 : 1, transition: 'all 0.3s ease',
-                    boxShadow: '0 4px 12px rgba(0,0,0,0.5)'
-                  }}
-                >
-                  <ChevronRight size={20} />
-                </button>
-              )}
+              <button
+                onClick={handleDiffNext}
+                style={{
+                  position: 'absolute', right: windowWidth < 768 ? 10 : -20, top: '50%', transform: 'translateY(-50%)', zIndex: 10,
+                  width: 44, height: 44, borderRadius: '50%', border: '1px solid var(--border)',
+                  background: 'var(--card-bg)', color: '#fff', cursor: 'pointer',
+                  display: 'flex', alignItems: 'center', justifyContent: 'center',
+                  transition: 'all 0.3s ease',
+                  boxShadow: '0 4px 12px rgba(0,0,0,0.5)'
+                }}
+              >
+                <ChevronRight size={20} />
+              </button>
 
-              <div style={{ overflow: 'hidden', padding: '10px 0' }}>
+              <div style={{ width: '100%', overflow: 'hidden', padding: '15px 0' }}>
+
                 <div style={{
                   display: 'flex',
                   gap: 24,
-                  transition: 'transform 0.6s cubic-bezier(0.4, 0, 0.2, 1)',
-                  transform: `translateX(-${diffIndex * (100 / diffPerView + 0.55)}%)` // 0.55 is gap adjustment
+                  position: 'relative',
+                  transition: isDiffTransitioning ? 'left 0.6s cubic-bezier(0.4, 0, 0.2, 1)' : 'none',
+                  left: `calc(-${diffIndex} * (100% + 24px) / ${itemsPerView.diff})`
                 }}>
-                  {differentiators.map((d, i) => (
-                    <div key={i} className="diff-card" style={{
-                      flex: '0 0 calc(25% - 18px)',
+
+
+
+                  {/* Clones: Last set of n items, Real items, First set of n items */}
+                  {[
+                    ...differentiators.slice(-itemsPerView.diff),
+                    ...differentiators,
+                    ...differentiators.slice(0, itemsPerView.diff)
+                  ].map((d, i) => (
+                    <div key={`${d.num}-${i}`} className="diff-card" style={{
+                      flex: `0 0 calc(${100 / itemsPerView.diff}% - ${(itemsPerView.diff - 1) * 24 / itemsPerView.diff}px)`,
                       background: 'var(--card-bg)', border: '1px solid var(--border)', borderRadius: 24, padding: '36px 32px',
                       position: 'relative', overflow: 'hidden',
                       minHeight: '220px'
@@ -623,28 +779,45 @@ const Aboutus = () => {
               </div>
 
               {/* Pagination Dots */}
-              {differentiators.length > diffPerView && (
-                <div style={{ display: 'flex', justifyContent: 'center', gap: 10, marginTop: 40 }}>
-                  {Array.from({ length: maxDiffIndex + 1 }).map((_, idx) => (
+              <div style={{ display: 'flex', justifyContent: 'center', gap: 10, marginTop: 40 }}>
+                {(windowWidth < 640 ? differentiators : [0, 1, 2]).map((_, idx) => {
+                  const itemsToShow = itemsPerView.diff;
+                  const step = windowWidth < 640 ? 1 : 2;
+
+                  let currentStep;
+                  if (windowWidth < 640) {
+                    currentStep = (diffIndex - itemsToShow + differentiators.length) % differentiators.length;
+                  } else {
+                    currentStep = Math.floor((diffIndex - itemsToShow + (differentiators.length * 2)) / 2) % 3;
+                  }
+
+                  return (
                     <button
                       key={idx}
-                      onClick={() => setDiffIndex(idx)}
+                      onClick={() => {
+                        setIsDiffTransitioning(true);
+                        setDiffIndex(itemsToShow + idx * step);
+                      }}
                       style={{
-                        width: idx === diffIndex ? 24 : 8,
+                        width: idx === currentStep ? 24 : 8,
                         height: 8,
                         borderRadius: 4,
-                        background: idx === diffIndex ? 'var(--orange)' : 'rgba(255,255,255,0.2)',
+                        background: idx === currentStep ? 'var(--orange)' : 'rgba(255,255,255,0.2)',
                         border: 'none',
                         cursor: 'pointer',
                         transition: 'all 0.3s ease'
                       }}
                     />
-                  ))}
-                </div>
-              )}
+                  );
+                })}
+              </div>
+
+
             </div>
           </div>
         </section>
+
+
 
         {/* ════════════════════════════════════════════════════════════════════
             7. OUR STORY - heading text + long image with context alongside
@@ -660,13 +833,13 @@ const Aboutus = () => {
             </div>
 
             {/* Story layout: Long image left + context text right */}
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1.5fr', gap: 48, alignItems: 'start' }}>
+            <div className="responsive-grid" style={{ gridTemplateColumns: windowWidth < 992 ? '1fr' : '1fr 1.5fr', maxWidth: 1100, margin: '0 auto' }}>
               {/* Left - tall/long image */}
               <div style={{ borderRadius: 20, overflow: 'hidden', border: '1px solid var(--border)' }}>
                 <img
                   src="https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?w=800&q=80"
                   alt="Antechos India story"
-                  style={{ width: '100%', height: 'clamp(400px, 50vw, 600px)', objectFit: 'cover', display: 'block' }}
+                  style={{ width: '100%', height: 'auto', minHeight: 'clamp(300px, 40vw, 500px)', objectFit: 'cover', display: 'block' }}
                 />
               </div>
 
@@ -695,10 +868,11 @@ const Aboutus = () => {
           </div>
         </section>
 
+
         {/* ════════════════════════════════════════════════════════════════════
             8. THE MINDS BEHIND INNOVATION - Team carousel with arrows
         ════════════════════════════════════════════════════════════════════ */}
-        <section id="team" style={{ padding: '100px 24px', background: 'var(--dark-2)' }}>
+        <section id="team" style={{ padding: '100px 24px', background: 'var(--dark-2)', overflow: 'hidden' }}>
           <div style={{ maxWidth: 1100, margin: '0 auto' }}>
             <div style={{ textAlign: 'center', marginBottom: 56 }}>
               <h2 style={{ fontSize: 'clamp(24px, 3.5vw, 40px)', fontWeight: 800, letterSpacing: '-0.02em', margin: '0 0 8px' }}>
@@ -712,45 +886,54 @@ const Aboutus = () => {
             {/* Carousel with arrows */}
             <div style={{ position: 'relative' }}>
               {/* Left Arrow */}
-              <button
-                onClick={handleTeamPrev}
-                disabled={teamIndex === 0}
-                style={{
-                  position: 'absolute', left: -20, top: '50%', transform: 'translateY(-50%)', zIndex: 3,
-                  width: 48, height: 48, borderRadius: '50%', border: '1px solid var(--border)',
-                  background: 'var(--card-bg)', color: '#fff', cursor: teamIndex === 0 ? 'default' : 'pointer',
-                  display: 'flex', alignItems: 'center', justifyContent: 'center',
-                  opacity: teamIndex === 0 ? 0.3 : 1, transition: 'opacity 0.3s'
-                }}
-              >
-                <ChevronLeft size={24} />
-              </button>
+              {displayTeam.length > teamCardsPerView && (
+                <button
+                  onClick={handleTeamPrev}
+                  disabled={teamIndex === 0}
+                  style={{
+                    position: 'absolute', left: windowWidth < 768 ? 10 : -20, top: '50%', transform: 'translateY(-50%)', zIndex: 10,
+                    width: 48, height: 48, borderRadius: '50%', border: '1px solid var(--border)',
+                    background: 'var(--card-bg)', color: '#fff', cursor: teamIndex === 0 ? 'default' : 'pointer',
+                    display: 'flex', alignItems: 'center', justifyContent: 'center',
+                    opacity: teamIndex === 0 ? 0.3 : 1, transition: 'opacity 0.3s',
+                    boxShadow: '0 4px 12px rgba(0,0,0,0.5)'
+                  }}
+                >
+                  <ChevronLeft size={24} />
+                </button>
+
+              )}
 
               {/* Right Arrow */}
-              <button
-                onClick={handleTeamNext}
-                disabled={teamIndex >= maxTeamIndex}
-                style={{
-                  position: 'absolute', right: -20, top: '50%', transform: 'translateY(-50%)', zIndex: 3,
-                  width: 48, height: 48, borderRadius: '50%', border: '1px solid var(--border)',
-                  background: 'var(--card-bg)', color: '#fff', cursor: teamIndex >= maxTeamIndex ? 'default' : 'pointer',
-                  display: 'flex', alignItems: 'center', justifyContent: 'center',
-                  opacity: teamIndex >= maxTeamIndex ? 0.3 : 1, transition: 'opacity 0.3s'
-                }}
-              >
-                <ChevronRight size={24} />
-              </button>
+              {displayTeam.length > teamCardsPerView && (
+                <button
+                  onClick={handleTeamNext}
+                  disabled={teamIndex >= maxTeamIndex}
+                  style={{
+                    position: 'absolute', right: windowWidth < 768 ? 10 : -20, top: '50%', transform: 'translateY(-50%)', zIndex: 10,
+                    width: 48, height: 48, borderRadius: '50%', border: '1px solid var(--border)',
+                    background: 'var(--card-bg)', color: '#fff', cursor: teamIndex >= maxTeamIndex ? 'default' : 'pointer',
+                    display: 'flex', alignItems: 'center', justifyContent: 'center',
+                    opacity: teamIndex >= maxTeamIndex ? 0.3 : 1, transition: 'opacity 0.3s',
+                    boxShadow: '0 4px 12px rgba(0,0,0,0.5)'
+                  }}
+                >
+                  <ChevronRight size={24} />
+                </button>
+              )}
 
               {/* Cards track */}
-              <div style={{ overflow: 'hidden', borderRadius: 20 }}>
+              <div style={{ width: '100%', overflow: 'hidden', padding: '10px 0' }}>
                 <div
                   ref={teamTrackRef}
                   style={{
                     display: 'flex', gap: 24,
-                    transform: `translateX(-${teamIndex * (100 / teamCardsPerView + 2.3)}%)`,
-                    transition: 'transform 0.4s ease'
+                    position: 'relative',
+                    left: `calc(-${teamIndex} * (100% + 24px) / ${itemsPerView.team})`,
+                    transition: 'left 0.4s ease'
                   }}
                 >
+
                   {displayTeam.map(member => (
                     <div key={member.id} style={{
                       flex: `0 0 calc(${100 / teamCardsPerView}% - ${(teamCardsPerView - 1) * 24 / teamCardsPerView}px)`,
@@ -794,6 +977,7 @@ const Aboutus = () => {
           </div>
         </section>
 
+
         {/* ── CORE VALUES ────────────────────────────────────────────────── */}
         <section style={{ padding: '100px 24px', background: 'var(--dark)' }}>
           <div style={{ maxWidth: 1100, margin: '0 auto' }}>
@@ -806,38 +990,83 @@ const Aboutus = () => {
                 Driven by purpose and powered by principles, our values inspire us to create meaningful impact every day.
               </p>
             </div>
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: 24 }}>
-              {displayValues.map((val, i) => (
-                <div key={val.id} className="value-card" style={{
-                  background: 'var(--card-bg)', border: '1px solid var(--border)', borderRadius: 20, overflow: 'hidden'
+
+            <div style={{ position: 'relative' }}>
+              <div style={{ width: '100%', overflow: 'hidden', padding: '10px 0' }}>
+                <div style={{
+                  gap: 24,
+                  position: 'relative',
+                  transition: isValuesTransitioning ? 'left 0.6s cubic-bezier(0.4, 0, 0.2, 1)' : 'none',
+                  left: windowWidth < 640
+                    ? `calc(-${valuesIndex} * (100% + 24px))`
+                    : '0',
+                  gridTemplateColumns: windowWidth >= 640 ? 'repeat(auto-fit, minmax(240px, 1fr))' : 'none',
+                  display: windowWidth >= 640 ? 'grid' : 'flex'
                 }}>
-                  <div style={{ height: 180, overflow: 'hidden', position: 'relative' }}>
-                    <img
-                      src={[
-                        'https://images.unsplash.com/photo-1552664730-d307ca884978?w=500',
-                        'https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=500',
-                        'https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=500',
-                        'https://images.unsplash.com/photo-1600880292203-757bb62b4baf?w=500',
-                      ][i % 4]}
-                      alt={val.title}
-                      style={{ width: '100%', height: '100%', objectFit: 'cover' }}
-                    />
-                    <div style={{ position: 'absolute', inset: 0, background: 'rgba(0,0,0,0.4)' }} />
-                    <div style={{ position: 'absolute', top: 16, left: 16, background: 'var(--card-bg)', padding: 10, borderRadius: 12, border: '1px solid var(--border)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                      {React.isValidElement(val.icon) ? val.icon : <span>{val.icon || '⭐'}</span>}
+
+                  {(windowWidth < 640 ? [displayValues[displayValues.length - 1], ...displayValues, displayValues[0]] : displayValues).map((val, i) => (
+                    <div key={`${val.id}-${i}`} className="value-card" style={{
+                      background: 'var(--card-bg)', border: '1px solid var(--border)', borderRadius: 20, overflow: 'hidden',
+                      flex: windowWidth < 640 ? '0 0 100%' : 'auto',
+                      transition: 'transform 0.3s ease'
+                    }}>
+                      <div style={{ height: 180, overflow: 'hidden', position: 'relative' }}>
+                        <img
+                          src={[
+                            'https://images.unsplash.com/photo-1552664730-d307ca884978?w=500',
+                            'https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=500',
+                            'https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=500',
+                            'https://images.unsplash.com/photo-1600880292203-757bb62b4baf?w=500',
+                          ][(val.id - 1) % 4]}
+                          alt={val.title}
+                          style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                        />
+                        <div style={{ position: 'absolute', inset: 0, background: 'rgba(0,0,0,0.4)' }} />
+                        <div style={{ position: 'absolute', top: 16, left: 16, background: 'var(--card-bg)', padding: 10, borderRadius: 12, border: '1px solid var(--border)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                          {React.isValidElement(val.icon) ? val.icon : <span>{val.icon || '⭐'}</span>}
+                        </div>
+                      </div>
+                      <div style={{ padding: '24px 24px' }}>
+                        <h4 style={{ fontSize: 20, fontWeight: 700, marginBottom: 12 }}>{val.title}</h4>
+                        <p style={{ color: 'var(--text-secondary)', fontSize: 14, lineHeight: 1.8 }}>{val.description}</p>
+                      </div>
                     </div>
-                  </div>
-                  <div style={{ padding: '24px 24px' }}>
-                    <h4 style={{ fontSize: 20, fontWeight: 700, marginBottom: 12 }}>{val.title}</h4>
-                    <p style={{ color: 'var(--text-secondary)', fontSize: 14, lineHeight: 1.8 }}>{val.description}</p>
-                  </div>
+                  ))}
                 </div>
-              ))}
+              </div>
+
+              {/* Mobile pagination dots */}
+              {windowWidth < 640 && (
+                <div style={{ display: 'flex', justifyContent: 'center', gap: 8, marginTop: 32 }}>
+                  {displayValues.map((_, idx) => {
+                    const activeIndex = valuesIndex === 0 ? displayValues.length - 1 : (valuesIndex > displayValues.length ? 0 : valuesIndex - 1);
+                    return (
+                      <button
+                        key={idx}
+                        onClick={() => {
+                          setIsValuesTransitioning(true);
+                          setValuesIndex(idx + 1);
+                        }}
+                        style={{
+                          width: idx === activeIndex ? 24 : 8,
+                          height: 8,
+                          borderRadius: 4,
+                          background: idx === activeIndex ? 'var(--orange)' : 'rgba(255,255,255,0.2)',
+                          border: 'none',
+                          cursor: 'pointer',
+                          transition: 'all 0.3s ease'
+                        }}
+                      />
+                    );
+                  })}
+                </div>
+              )}
             </div>
           </div>
         </section>
 
         {/* ── OUR JOURNEY / TIMELINE ─────────────────────────────────────── */}
+
         <section style={{ padding: '100px 24px', background: 'var(--dark-2)' }}>
           <div style={{ maxWidth: 1100, margin: '0 auto' }}>
             <div style={{ textAlign: 'center', marginBottom: 64 }}>
@@ -847,7 +1076,8 @@ const Aboutus = () => {
               </h2>
             </div>
 
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: 48, alignItems: 'start' }}>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: windowWidth < 768 ? 32 : 48, alignItems: 'start' }}>
+
               {/* Timeline */}
               <div style={{ position: 'relative', paddingLeft: 32 }}>
                 {[
@@ -899,10 +1129,11 @@ const Aboutus = () => {
           <div style={{ maxWidth: 1100, margin: '0 auto' }}>
             <div style={{ textAlign: 'center', marginBottom: 56 }}>
               <SectionLabel>Alumni Stories</SectionLabel>
-              <h2 style={{ fontSize: 'clamp(28px, 4vw, 44px)', fontWeight: 800, letterSpacing: '-0.02em', margin: '12px 0 12px' }}>
+              <h2 style={{ fontSize: 'clamp(24px, 4vw, 44px)', fontWeight: 800, letterSpacing: '-0.02em', margin: '12px 0 12px' }}>
                 Hear from Antechos India's Alumni at{' '}
                 <span style={{ color: 'var(--orange)' }}>Top Companies</span>
               </h2>
+
               <p style={{ color: 'var(--text-muted)', fontSize: 17, maxWidth: 800, margin: '0 auto' }}>
                 Real stories from real learners who transformed their careers with Antechos India.
               </p>
@@ -913,7 +1144,7 @@ const Aboutus = () => {
               <button
                 onClick={handleVideoPrev}
                 style={{
-                  position: 'absolute', left: -64, top: '50%', transform: 'translateY(-50%)', zIndex: 10,
+                  position: 'absolute', left: windowWidth < 480 ? 10 : -64, top: '50%', transform: 'translateY(-50%)', zIndex: 10,
                   width: 44, height: 44, borderRadius: '50%', border: '1px solid var(--border)',
                   background: 'var(--card-bg)', color: '#fff', cursor: 'pointer',
                   display: 'flex', alignItems: 'center', justifyContent: 'center',
@@ -929,7 +1160,7 @@ const Aboutus = () => {
               <button
                 onClick={handleVideoNext}
                 style={{
-                  position: 'absolute', right: -64, top: '50%', transform: 'translateY(-50%)', zIndex: 10,
+                  position: 'absolute', right: windowWidth < 480 ? 10 : -64, top: '50%', transform: 'translateY(-50%)', zIndex: 10,
                   width: 44, height: 44, borderRadius: '50%', border: '1px solid var(--border)',
                   background: 'var(--card-bg)', color: '#fff', cursor: 'pointer',
                   display: 'flex', alignItems: 'center', justifyContent: 'center',
@@ -941,9 +1172,10 @@ const Aboutus = () => {
                 <ChevronRight size={20} />
               </button>
 
+
               <div style={{ overflow: 'hidden', borderRadius: 32, boxShadow: '0 20px 50px rgba(0,0,0,0.5)' }}>
-                <div style={{ 
-                  display: 'flex', 
+                <div style={{
+                  display: 'flex',
                   transition: 'transform 0.7s cubic-bezier(0.4, 0, 0.2, 1)',
                   transform: `translateX(-${videoIndex * 100}%)`
                 }}>
@@ -1005,14 +1237,15 @@ const Aboutus = () => {
           <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: 3, background: 'linear-gradient(90deg, var(--orange), var(--orange-light), var(--orange))' }} />
           <div style={{ position: 'absolute', top: '10%', right: '-5%', width: 500, height: 500, borderRadius: '50%', background: 'radial-gradient(circle, rgba(56,189,248,0.07) 0%, transparent 70%)', pointerEvents: 'none' }} />
 
-          <div style={{ maxWidth: 1100, margin: '0 auto', display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: 64, alignItems: 'start' }}>
+          <div className="responsive-grid" style={{ maxWidth: 1100, margin: '0 auto' }}>
             {/* Left CTA */}
             <div>
               <SectionLabel>Join Our Mission</SectionLabel>
-              <h2 style={{ fontSize: 'clamp(32px, 4.5vw, 52px)', fontWeight: 800, letterSpacing: '-0.03em', lineHeight: 1.15, margin: '16px 0 20px' }}>
+              <h2 style={{ fontSize: 'clamp(28px, 5vw, 52px)', fontWeight: 800, letterSpacing: '-0.03em', lineHeight: 1.15, margin: '16px 0 20px' }}>
                 We don't just teach skills — we help you{' '}
                 <span style={{ color: 'var(--orange)' }}>build your future</span>
               </h2>
+
               <p style={{ color: 'var(--text-secondary)', fontSize: 17, lineHeight: 1.8, marginBottom: 36 }}>
                 Ready to transform your career? Join 18,000+ learners who've already made the move.
               </p>
@@ -1041,6 +1274,7 @@ const Aboutus = () => {
                 ))}
               </div>
             </div>
+
 
             {/* Lead form */}
             <div style={{ background: 'var(--card-bg)', border: '1px solid var(--border)', borderRadius: 24, padding: '36px 32px' }}>
