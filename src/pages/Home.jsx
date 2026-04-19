@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 import CountUp from "react-countup";
 import heroBg from "../assets/herobg.jpg";
-import { Play, Sparkles, ArrowRight } from "lucide-react";
+import { Play, Sparkles, ArrowRight, Phone } from "lucide-react";
 import Slider from "react-slick";
 import { FaUserFriends, FaDesktop, FaAward } from "react-icons/fa";
 import { MdEmail } from "react-icons/md";
@@ -898,36 +898,46 @@ const Home = () => {
       </motion.div>
 
       {/* Contact / Enquiry Section */}
-      <section className="py-12 sm:py-20 px-4 bg-gradient-to-b from-white to-blue-50 max-w-full overflow-hidden">
-        <div className="max-w-2xl mx-auto text-center mb-8 sm:mb-12">
-          <motion.h2
-            className="text-2xl sm:text-4xl lg:text-5xl font-bold bg-gradient-to-r from-blue-900 to-blue-500 bg-clip-text text-transparent mb-3 sm:mb-4"
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            viewport={{ once: true }}
-          >
-            Get in <span className="bg-gradient-to-r from-orange-500 to-orange-300 bg-clip-text text-transparent">Touch</span>
-          </motion.h2>
-          <motion.p
-            className="text-gray-600 text-sm sm:text-lg"
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.2 }}
-            viewport={{ once: true }}
-          >
-            Have questions? Fill in the form below and our team will reach out to you shortly.
-          </motion.p>
-        </div>
-        <motion.div
-          className="max-w-xl mx-auto"
-          initial={{ opacity: 0, y: 40 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.7, delay: 0.3 }}
-          viewport={{ once: true }}
-        >
-          <EnquiryPopup isInline={true} onClose={() => {}} />
-        </motion.div>
+      <section className="py-12 md:py-16 bg-gradient-to-r from-blue-50 to-slate-50 relative overflow-hidden mt-12 md:mt-24 max-w-full">
+         {/* Background elements */}
+         <div className="absolute top-0 right-0 w-full h-full bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-[0.03]"></div>
+
+         <div className="container mx-auto px-6 relative z-10">
+            <div className="max-w-6xl mx-auto flex flex-col md:flex-row items-center gap-10 md:gap-16">
+
+               {/* Left Column: Text and Image */}
+               <div className="w-full md:w-1/2 flex flex-col items-center md:items-start text-center md:text-left">
+                  <div className="mb-6 flex flex-col items-center md:items-start">
+                     <h2 className="text-4xl sm:text-5xl lg:text-6xl font-black text-slate-900 mb-4 tracking-tighter font-display leading-[1.1]">
+                        Still <span className="text-blue-600">Confused?</span>
+                     </h2>
+                     <p className="text-slate-600 font-medium text-lg md:text-xl flex items-center justify-center md:justify-start gap-3">
+                        Get 1:1 free counselling Now
+                        <span className="p-2 bg-green-100 text-green-600 rounded-full animate-bounce shadow-sm">
+                           <Phone className="w-5 h-5 fill-current" />
+                        </span>
+                     </p>
+                  </div>
+
+                  <div className="w-full max-w-sm mt-4 md:mt-8 relative hidden md:block">
+                     <div className="absolute inset-0 bg-blue-200 rounded-[3rem] blur-[80px] opacity-40"></div>
+                     <img
+                        src="https://static.vecteezy.com/system/resources/thumbnails/010/869/741/small/faq-concept-illustration-people-looking-through-magnifying-glass-at-interrogation-point-searching-solutions-useful-information-customer-support-solving-problem-free-png.png"
+                        alt="Free Counselling Support"
+                        className="w-full h-auto relative z-10 mix-blend-multiply drop-shadow-xl scale-110 -translate-y-4"
+                     />
+                  </div>
+               </div>
+
+               {/* Right Column: Form */}
+               <div className="w-full md:w-1/2 flex justify-center md:justify-end">
+                  <div className="w-full max-w-lg relative">
+                     <EnquiryPopup isInline={true} onClose={() => {}} />
+                  </div>
+               </div>
+
+            </div>
+         </div>
       </section>
     </div>
   );

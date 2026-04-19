@@ -71,76 +71,91 @@ export default function EnquiryPopup({ onClose, onSubmit, isInline = false }) {
           initial={{ y: 50, opacity: 0, scale: 0.95 }}
           animate={{ y: 0, opacity: 1, scale: 1 }}
           exit={{ y: -50, opacity: 0, scale: 0.95 }}
-          className="relative bg-white shadow-[0_40px_100px_-20px_rgba(0,0,0,0.3)] rounded-[2rem] md:rounded-[3rem] p-5 md:p-12 max-w-xl w-full border border-slate-100 max-h-[95dvh] overflow-x-hidden overflow-y-auto hide-scrollbar"
+          className="relative bg-white shadow-[0_20px_60px_-15px_rgba(0,0,0,0.1)] rounded-[2rem] p-6 md:p-8 max-w-2xl w-full border border-slate-100 max-h-[95dvh] overflow-x-hidden overflow-y-auto hide-scrollbar"
         >
           {/* Background Accent */}
-          <div className="absolute -top-24 -right-24 w-64 h-64 bg-indigo-50 rounded-full blur-3xl pointer-events-none opacity-50"></div>
+          <div className="absolute -top-32 -right-32 w-80 h-80 bg-blue-50 rounded-full blur-3xl pointer-events-none opacity-60"></div>
 
           {!isInline && (
             <button
               onClick={onClose}
-              className="absolute top-4 right-4 md:top-8 md:right-8 text-slate-400 hover:text-slate-900 transition-all bg-slate-100 hover:bg-slate-200 p-2 md:p-2 rounded-full z-[110]"
+              className="absolute top-4 right-4 md:top-6 md:right-6 text-slate-400 hover:text-slate-900 transition-all bg-slate-50 hover:bg-slate-100 p-2 rounded-full z-[110]"
               aria-label="Close popup"
             >
-              <X className="w-5 h-5 md:w-5 md:h-5" />
+              <X className="w-5 h-5" />
             </button>
           )}
 
-          <div className="relative mb-6 md:mb-12 mt-2 md:mt-0 pr-4 md:pr-0">
-            <div className="inline-flex items-center gap-2 bg-indigo-50 text-indigo-600 px-3 md:px-4 py-1.5 rounded-full text-[8px] md:text-[9px] font-black uppercase tracking-[0.2em] mb-4 md:mb-6">
-              <ShieldCheck className="w-3 md:w-3.5 h-3 md:h-3.5" />
-              <span>Secure Intelligence Portal</span>
+          <div className="relative mb-6 pr-4 md:pr-0">
+            <div className="inline-flex items-center gap-1.5 bg-blue-50 text-blue-600 px-3 py-1.5 rounded-full text-[9px] font-black uppercase tracking-[0.2em] mb-4">
+              <ShieldCheck className="w-3 h-3" />
+              <span>Secure Portal</span>
             </div>
-            <h2 className="text-3xl md:text-4xl font-black text-slate-900 mb-2 md:mb-4 font-display leading-[1.1]">
-              Executive Academic <span className="text-indigo-600">Consultation</span>
+            <h2 className="text-2xl md:text-3xl font-black text-slate-900 mb-2 font-display leading-tight">
+              Executive <span className="text-blue-600">Consultation</span>
             </h2>
             <p className="text-slate-500 font-medium text-xs md:text-sm leading-relaxed">
-              Connect with our senior architects to design your optimized educational trajectory.
+              Connect with our experts to map your educational trajectory.
             </p>
           </div>
 
-          <form onSubmit={handleSubmit} className="space-y-3 md:space-y-5 w-full">
-            <div className="group relative w-full">
-              <User className="absolute left-5 md:left-6 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 group-focus-within:text-indigo-600 transition-colors z-10" />
-              <input
-                type="text"
-                name="name"
-                placeholder="FULL NAME"
-                required
-                value={formData.name}
-                onChange={handleChange}
-                className="w-full text-ellipsis overflow-hidden whitespace-nowrap bg-slate-50 border border-slate-100 rounded-2xl md:rounded-3xl py-4 md:py-5 pl-12 md:pl-14 pr-4 md:pr-6 text-[10px] md:text-xs font-black text-slate-900 outline-none focus:ring-2 focus:ring-indigo-600/20 focus:border-indigo-600 transition-all placeholder:text-slate-300 placeholder:uppercase"
-              />
+          <form onSubmit={handleSubmit} className="w-full flex flex-col gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="group relative w-full">
+                <User className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 group-focus-within:text-blue-600 transition-colors z-10" />
+                <input
+                  type="text"
+                  name="name"
+                  placeholder="FULL NAME"
+                  required
+                  value={formData.name}
+                  onChange={handleChange}
+                  className="w-full text-ellipsis overflow-hidden whitespace-nowrap bg-slate-50 border border-slate-200 rounded-2xl py-3.5 pl-11 pr-4 text-xs font-bold text-slate-900 outline-none focus:ring-4 focus:ring-blue-600/10 focus:bg-white focus:border-blue-500 transition-all placeholder:text-slate-400 placeholder:uppercase"
+                />
+              </div>
+
+              <div className="group relative w-full">
+                <Mail className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 group-focus-within:text-blue-600 transition-colors z-10" />
+                <input
+                  type="email"
+                  name="email"
+                  placeholder="EMAIL ADDRESS"
+                  required
+                  value={formData.email}
+                  onChange={handleChange}
+                  className="w-full text-ellipsis overflow-hidden whitespace-nowrap bg-slate-50 border border-slate-200 rounded-2xl py-3.5 pl-11 pr-4 text-xs font-bold text-slate-900 outline-none focus:ring-4 focus:ring-blue-600/10 focus:bg-white focus:border-blue-500 transition-all placeholder:text-slate-400 placeholder:uppercase"
+                />
+              </div>
+
+              <div className="group relative w-full">
+                <Phone className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 group-focus-within:text-blue-600 transition-colors z-10" />
+                <input
+                  type="tel"
+                  name="phone"
+                  placeholder="PHONE NUMBER"
+                  required
+                  value={formData.phone}
+                  onChange={handleChange}
+                  className="w-full text-ellipsis overflow-hidden whitespace-nowrap bg-slate-50 border border-slate-200 rounded-2xl py-3.5 pl-11 pr-4 text-xs font-bold text-slate-900 outline-none focus:ring-4 focus:ring-blue-600/10 focus:bg-white focus:border-blue-500 transition-all placeholder:text-slate-400 placeholder:uppercase"
+                />
+              </div>
+
+              <div className="group relative w-full">
+                <Globe className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 group-focus-within:text-blue-600 transition-colors z-10" />
+                <input
+                  type="text"
+                  name="country"
+                  placeholder="COUNTRY / LOCATION"
+                  required
+                  value={formData.country}
+                  onChange={handleChange}
+                  className="w-full text-ellipsis overflow-hidden whitespace-nowrap bg-slate-50 border border-slate-200 rounded-2xl py-3.5 pl-11 pr-4 text-xs font-bold text-slate-900 outline-none focus:ring-4 focus:ring-blue-600/10 focus:bg-white focus:border-blue-500 transition-all placeholder:text-slate-400 placeholder:uppercase"
+                />
+              </div>
             </div>
 
             <div className="group relative w-full">
-              <Mail className="absolute left-5 md:left-6 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 group-focus-within:text-indigo-600 transition-colors z-10" />
-              <input
-                type="email"
-                name="email"
-                placeholder="EMAIL ADDRESS"
-                required
-                value={formData.email}
-                onChange={handleChange}
-                className="w-full text-ellipsis overflow-hidden whitespace-nowrap bg-slate-50 border border-slate-100 rounded-2xl md:rounded-3xl py-4 md:py-5 pl-12 md:pl-14 pr-4 md:pr-6 text-[10px] md:text-xs font-black text-slate-900 outline-none focus:ring-2 focus:ring-indigo-600/20 focus:border-indigo-600 transition-all placeholder:text-slate-300 placeholder:uppercase"
-              />
-            </div>
-
-            <div className="group relative w-full">
-              <Phone className="absolute left-5 md:left-6 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 group-focus-within:text-indigo-600 transition-colors z-10" />
-              <input
-                type="tel"
-                name="phone"
-                placeholder="TELEPHONE CONTACT"
-                required
-                value={formData.phone}
-                onChange={handleChange}
-                className="w-full text-ellipsis overflow-hidden whitespace-nowrap bg-slate-50 border border-slate-100 rounded-2xl md:rounded-3xl py-4 md:py-5 pl-12 md:pl-14 pr-4 md:pr-6 text-[10px] md:text-xs font-black text-slate-900 outline-none focus:ring-2 focus:ring-indigo-600/20 focus:border-indigo-600 transition-all placeholder:text-slate-300 placeholder:uppercase"
-              />
-            </div>
-
-            <div className="group relative w-full">
-              <BookOpen className="absolute left-5 md:left-6 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 group-focus-within:text-indigo-600 transition-colors z-10" />
+              <BookOpen className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 group-focus-within:text-blue-600 transition-colors z-10" />
               <input
                 type="text"
                 name="course"
@@ -148,46 +163,29 @@ export default function EnquiryPopup({ onClose, onSubmit, isInline = false }) {
                 required
                 value={formData.course}
                 onChange={handleChange}
-                className="w-full text-ellipsis overflow-hidden whitespace-nowrap bg-slate-50 border border-slate-100 rounded-2xl md:rounded-3xl py-4 md:py-5 pl-12 md:pl-14 pr-4 md:pr-6 text-[10px] md:text-xs font-black text-slate-900 outline-none focus:ring-2 focus:ring-indigo-600/20 focus:border-indigo-600 transition-all placeholder:text-slate-300 placeholder:uppercase"
-              />
-            </div>
-
-            <div className="group relative w-full">
-              <Globe className="absolute left-5 md:left-6 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 group-focus-within:text-indigo-600 transition-colors z-10" />
-              <input
-                type="text"
-                name="country"
-                placeholder="GEOGRAPHIC LOCATION"
-                required
-                value={formData.country}
-                onChange={handleChange}
-                className="w-full text-ellipsis overflow-hidden whitespace-nowrap bg-slate-50 border border-slate-100 rounded-2xl md:rounded-3xl py-4 md:py-5 pl-12 md:pl-14 pr-4 md:pr-6 text-[10px] md:text-xs font-black text-slate-900 outline-none focus:ring-2 focus:ring-indigo-600/20 focus:border-indigo-600 transition-all placeholder:text-slate-300 placeholder:uppercase"
+                className="w-full text-ellipsis overflow-hidden whitespace-nowrap bg-slate-50 border border-slate-200 rounded-2xl py-3.5 pl-11 pr-4 text-xs font-bold text-slate-900 outline-none focus:ring-4 focus:ring-blue-600/10 focus:bg-white focus:border-blue-500 transition-all placeholder:text-slate-400 placeholder:uppercase"
               />
             </div>
 
             <button
               type="submit"
               disabled={loading}
-              className="w-full bg-slate-900 hover:bg-slate-800 text-white font-black py-4 md:py-6 rounded-2xl md:rounded-[2rem] transition-all flex items-center justify-center gap-4 text-[10px] md:text-xs tracking-[0.3em] uppercase group"
+              className="w-full mt-2 bg-slate-900 hover:bg-blue-600 text-white font-black py-4 rounded-2xl shadow-lg hover:shadow-blue-600/20 transition-all flex items-center justify-center gap-3 text-[10px] tracking-widest uppercase group"
             >
               {loading ? (
                 <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
               ) : (
                 <>
-                  <span>Submit</span>
-                  <ArrowRight className="w-4 h-4 group-hover:translate-x-2 transition-transform" />
+                  <span>Submit Request</span>
+                  <ArrowRight className="w-4 h-4 group-hover:translate-x-1.5 transition-transform" />
                 </>
               )}
             </button>
 
-            <div className="flex items-center justify-center gap-6 pt-6 opacity-30">
-              <div className="flex items-center gap-2">
-                <ShieldCheck className="w-3 h-3" />
-                <span className="text-[8px] font-black uppercase tracking-widest">256-Bit SSL</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <CheckCircle2 className="w-3 h-3" />
-                <span className="text-[8px] font-black uppercase tracking-widest">UGC Compliant</span>
+            <div className="flex items-center justify-center gap-4 pt-2 opacity-50">
+              <div className="flex items-center gap-1.5">
+                <ShieldCheck className="w-3 h-3 text-slate-500" />
+                <span className="text-[8px] font-black uppercase tracking-widest text-slate-500">256-Bit SSL</span>
               </div>
             </div>
           </form>

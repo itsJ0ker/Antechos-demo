@@ -268,15 +268,15 @@ const FEATURES_DATA = [
 
 const TESTIMONIALS = [
    {
-      name: "Aditi Rao",
+      name: "Pawan Kumar",
       details: "MBA Student • Online Batch 2024",
-      img: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=400&h=400&fit=crop",
+      img: "https://i.ibb.co/BHjmfn0W/image.png",
       text: "I was confused between multiple online MBA programs. The comparison tool and expert career advice from Antechos made my decision crystal clear. Highly recommend their guidance!"
    },
    {
-      name: "Rohan Khanna",
+      name: "Shivam Jha",
       details: "MCA Professional • Batch 2024",
-      img: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=400&fit=crop",
+      img: "https://i.ibb.co/S7s5ncHK/image.png",
       text: "The technical specialization counseling helped me identify exactly which Cloud program would boost my salary. Antechos isn't just counseling; it's career engineering."
    }
 ];
@@ -846,12 +846,12 @@ const UniversityPageNew = () => {
                      <h2 className="text-2xl sm:text-4xl md:text-5xl font-black text-slate-900 mb-0 font-display uppercase tracking-tighter w-full max-w-4xl">India's <span className="text-blue-600">Trusted & Prestigious</span> Online University.</h2>
                   </div>
 
-                  <div className="flex overflow-x-auto hide-scrollbar justify-start gap-2 md:gap-3 bg-white p-2 rounded-[2rem] md:rounded-[2.5rem] border border-slate-100 shadow-sm w-full md:max-w-max">
+                  <div className="self-center flex overflow-x-auto hide-scrollbar justify-center gap-2 md:gap-3 bg-white p-2 md:p-3 rounded-[2rem] md:rounded-[2.5rem] border border-slate-100 shadow-sm w-full mx-auto max-w-2xl">
                      {['All', 'Private', 'Public', 'Deemed'].map(cat => (
                         <button
                            key={cat}
                            onClick={() => setFilterCategory(cat)}
-                           className={`flex-shrink-0 flex items-center justify-center whitespace-nowrap px-8 md:px-10 py-3 md:py-4 rounded-[1.5rem] md:rounded-[2rem] text-[10px] font-black uppercase tracking-[0.2em] transition-all ${filterCategory === cat
+                           className={`flex-1 flex items-center justify-center whitespace-nowrap px-4 md:px-6 py-3 md:py-4 rounded-[1.5rem] md:rounded-[2rem] text-[10px] font-black uppercase tracking-[0.2em] transition-all ${filterCategory === cat
                               ? "bg-slate-900 text-white shadow-2xl"
                               : "text-slate-400 hover:text-slate-900"
                               }`}
@@ -1095,12 +1095,12 @@ const UniversityPageNew = () => {
                      <SectionLabel icon={Award}>Curriculum Standards 2026</SectionLabel>
                      <h2 className="text-2xl sm:text-4xl md:text-5xl font-black text-slate-900 mb-0 font-display uppercase tracking-tighter w-full max-w-4xl">Explore Programs From <span className="text-blue-600">Top Ranked Universities</span></h2>
                   </div>
-                  <div className="flex overflow-x-auto hide-scrollbar justify-start gap-2 bg-slate-50 p-2 rounded-[2rem] md:rounded-[2.5rem] border border-slate-100 w-full md:max-w-max mt-4 md:mt-0">
+                  <div className="self-center flex overflow-x-auto hide-scrollbar justify-start md:justify-center gap-2 bg-slate-50 p-2 md:p-3 rounded-[2rem] md:rounded-[2.5rem] border border-slate-100 w-full mx-auto max-w-5xl mt-4 md:mt-0">
                      {['All', 'Integrated Program', 'Certification', 'Masters (PG)', "Bachelor's (UG)", 'Special'].map(tab => (
                         <button
                            key={tab}
                            onClick={() => setCourseType(tab)}
-                           className={`flex-shrink-0 flex items-center justify-center whitespace-nowrap px-6 md:px-8 py-3 md:py-4 rounded-[1.2rem] md:rounded-[2rem] text-[10px] font-black uppercase tracking-widest transition-all ${courseType === tab ? "bg-slate-900 text-white shadow-xl" : "text-slate-400 hover:text-slate-900"
+                           className={`flex-1 min-w-fit flex items-center justify-center whitespace-nowrap px-4 md:px-6 py-3 md:py-4 rounded-[1.2rem] md:rounded-[2rem] text-[10px] font-black uppercase tracking-widest transition-all ${courseType === tab ? "bg-slate-900 text-white shadow-xl" : "text-slate-400 hover:text-slate-900"
                               }`}
                         >
                            {tab}
@@ -1291,130 +1291,129 @@ const UniversityPageNew = () => {
 
 
 
-          {/* 9. SUCCESS STORIES - Redesigned */}
-          <section className="py-16 md:py-24 bg-gradient-to-b from-slate-50 to-white relative overflow-hidden">
+         {/* 9. SUCCESS STORIES - Redesigned */}
+         <section className="py-16 md:py-24 bg-gradient-to-b from-slate-50 to-white relative overflow-hidden">
             {/* Background decoration */}
             <div className="absolute inset-0 overflow-hidden pointer-events-none">
-              <div className="absolute -top-40 -right-40 w-80 h-80 bg-blue-100 rounded-full opacity-50 blur-3xl"></div>
-              <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-orange-100 rounded-full opacity-50 blur-3xl"></div>
+               <div className="absolute -top-40 -right-40 w-80 h-80 bg-blue-100 rounded-full opacity-50 blur-3xl"></div>
+               <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-orange-100 rounded-full opacity-50 blur-3xl"></div>
             </div>
-            
+
             <div className="container mx-auto px-4 md:px-6 relative z-10">
-              {/* Section Header */}
-              <div className="text-center mb-12 md:mb-16">
-                <div className="inline-flex items-center gap-2 px-4 py-2 bg-blue-50 rounded-full mb-4">
-                  <Users className="w-4 h-4 text-blue-600" />
-                  <span className="text-xs md:text-sm font-semibold text-blue-600 uppercase tracking-wider">Student Impact Reports</span>
-                </div>
-                <h2 className="text-2xl sm:text-4xl md:text-5xl font-black text-slate-900 mb-4 md:mb-6 leading-tight tracking-tight font-display">
-                  Pathways to <span className="text-blue-600">Institutional Excellence</span>
-                </h2>
-                <p className="text-slate-500 font-medium text-sm md:text-base max-w-2xl mx-auto">
-                  Hear from graduates who transformed their professional trajectories through our strategic guidance.
-                </p>
-              </div>
-
-              {/* Testimonial Carousel */}
-              <div className="relative max-w-5xl mx-auto">
-                <AnimatePresence mode="wait">
-                  <motion.div
-                    key={testimonialIndex}
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: -20 }}
-                    transition={{ duration: 0.4 }}
-                    className="bg-white rounded-3xl shadow-xl border border-slate-100 overflow-hidden"
-                  >
-                    <div className="flex flex-col lg:flex-row">
-                      {/* Image Side */}
-                      <div className="lg:w-2/5 relative flex items-center justify-center p-6 lg:p-8">
-                        <div className="w-32 h-32 sm:w-40 sm:h-40 md:w-48 md:h-48 lg:w-56 lg:h-56 rounded-full overflow-hidden border-4 md:border-6 border-white shadow-xl">
-                          <img
-                            src={TESTIMONIALS[testimonialIndex].img}
-                            className="w-full h-full object-cover"
-                            alt={TESTIMONIALS[testimonialIndex].name}
-                            onError={(e) => {
-                              e.target.src = 'https://placehold.co/200x200/f1f5f9/94a3b8?text=Student';
-                            }}
-                          />
-                        </div>
-                        {/* Overlay badge */}
-                        <div className="absolute bottom-4 left-4 bg-white/90 backdrop-blur-sm px-4 py-2 rounded-full">
-                          <div className="flex items-center gap-2">
-                            <div className="flex gap-0.5">
-                              {[1, 2, 3, 4, 5].map(i => (
-                                <Star key={i} className="w-3 h-3 text-orange-400 fill-current" />
-                              ))}
-                            </div>
-                            <span className="text-xs font-bold text-slate-700">5.0</span>
-                          </div>
-                        </div>
-                      </div>
-
-                      {/* Content Side */}
-                      <div className="lg:w-3/5 p-6 md:p-8 lg:p-10 flex flex-col justify-center">
-                        {/* Quote icon */}
-                        <div className="text-blue-100 mb-4">
-                          <svg className="w-12 h-12" fill="currentColor" viewBox="0 0 24 24">
-                            <path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-3.996 3.638-3.996 5.849h3.983v10h-9.983z"/>
-                          </svg>
-                        </div>
-
-                        {/* Quote text */}
-                        <blockquote className="text-base md:text-xl text-slate-700 leading-relaxed mb-6 md:mb-8 font-medium">
-                          "{TESTIMONIALS[testimonialIndex].text}"
-                        </blockquote>
-
-                        {/* Author info */}
-                        <div className="flex items-center gap-4">
-                          <div className="flex-1">
-                            <p className="text-lg md:text-xl font-bold text-slate-900">
-                              {TESTIMONIALS[testimonialIndex].name}
-                            </p>
-                            <p className="text-sm text-slate-500 font-medium uppercase tracking-wide">
-                              {TESTIMONIALS[testimonialIndex].details}
-                            </p>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </motion.div>
-                </AnimatePresence>
-
-                {/* Navigation Buttons */}
-                <div className="flex justify-center gap-3 mt-8 md:mt-10">
-                  <button
-                    onClick={() => setTestimonialIndex((prev) => (prev === 0 ? TESTIMONIALS.length - 1 : prev - 1))}
-                    className="w-12 h-12 bg-white rounded-full shadow-lg border border-slate-200 flex items-center justify-center text-slate-600 hover:text-blue-600 hover:border-blue-300 hover:shadow-xl transition-all duration-300"
-                  >
-                    <ChevronLeft className="w-5 h-5" />
-                  </button>
-                  
-                  {/* Dots */}
-                  <div className="flex items-center gap-2 px-4">
-                    {TESTIMONIALS.map((_, i) => (
-                      <button
-                        key={i}
-                        onClick={() => setTestimonialIndex(i)}
-                        className={`h-2 rounded-full transition-all duration-300 ${
-                          testimonialIndex === i 
-                            ? "w-8 bg-blue-600" 
-                            : "w-2 bg-slate-300 hover:bg-slate-400"
-                        }`}
-                      />
-                    ))}
+               {/* Section Header */}
+               <div className="text-center mb-12 md:mb-16">
+                  <div className="inline-flex items-center gap-2 px-4 py-2 bg-blue-50 rounded-full mb-4">
+                     <Users className="w-4 h-4 text-blue-600" />
+                     <span className="text-xs md:text-sm font-semibold text-blue-600 uppercase tracking-wider">Student Impact Reports</span>
                   </div>
-                  
-                  <button
-                    onClick={() => setTestimonialIndex((prev) => (prev === TESTIMONIALS.length - 1 ? 0 : prev + 1))}
-                    className="w-12 h-12 bg-white rounded-full shadow-lg border border-slate-200 flex items-center justify-center text-slate-600 hover:text-blue-600 hover:border-blue-300 hover:shadow-xl transition-all duration-300"
-                  >
-                    <ChevronRight className="w-5 h-5" />
-                  </button>
-                </div>
-              </div>
+                  <h2 className="text-2xl sm:text-4xl md:text-5xl font-black text-slate-900 mb-4 md:mb-6 leading-tight tracking-tight font-display">
+                     Pathways to <span className="text-blue-600">Institutional Excellence</span>
+                  </h2>
+                  <p className="text-slate-500 font-medium text-sm md:text-base max-w-2xl mx-auto">
+                     Hear from graduates who transformed their professional trajectories through our strategic guidance.
+                  </p>
+               </div>
+
+               {/* Testimonial Carousel */}
+               <div className="relative max-w-5xl mx-auto">
+                  <AnimatePresence mode="wait">
+                     <motion.div
+                        key={testimonialIndex}
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: -20 }}
+                        transition={{ duration: 0.4 }}
+                        className="bg-white rounded-3xl shadow-xl border border-slate-100 overflow-hidden"
+                     >
+                        <div className="flex flex-col lg:flex-row">
+                           {/* Image Side */}
+                           <div className="lg:w-2/5 relative flex items-center justify-center p-6 lg:p-8">
+                              <div className="w-32 h-32 sm:w-40 sm:h-40 md:w-48 md:h-48 lg:w-56 lg:h-56 rounded-full overflow-hidden border-4 md:border-6 border-white shadow-xl">
+                                 <img
+                                    src={TESTIMONIALS[testimonialIndex].img}
+                                    className="w-full h-full object-cover"
+                                    alt={TESTIMONIALS[testimonialIndex].name}
+                                    onError={(e) => {
+                                       e.target.src = 'https://placehold.co/200x200/f1f5f9/94a3b8?text=Student';
+                                    }}
+                                 />
+                              </div>
+                              {/* Overlay badge */}
+                              <div className="absolute bottom-4 left-4 bg-white/90 backdrop-blur-sm px-4 py-2 rounded-full">
+                                 <div className="flex items-center gap-2">
+                                    <div className="flex gap-0.5">
+                                       {[1, 2, 3, 4, 5].map(i => (
+                                          <Star key={i} className="w-3 h-3 text-orange-400 fill-current" />
+                                       ))}
+                                    </div>
+                                    <span className="text-xs font-bold text-slate-700">5.0</span>
+                                 </div>
+                              </div>
+                           </div>
+
+                           {/* Content Side */}
+                           <div className="lg:w-3/5 p-6 md:p-8 lg:p-10 flex flex-col justify-center">
+                              {/* Quote icon */}
+                              <div className="text-blue-100 mb-4">
+                                 <svg className="w-12 h-12" fill="currentColor" viewBox="0 0 24 24">
+                                    <path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-3.996 3.638-3.996 5.849h3.983v10h-9.983z" />
+                                 </svg>
+                              </div>
+
+                              {/* Quote text */}
+                              <blockquote className="text-base md:text-xl text-slate-700 leading-relaxed mb-6 md:mb-8 font-medium">
+                                 "{TESTIMONIALS[testimonialIndex].text}"
+                              </blockquote>
+
+                              {/* Author info */}
+                              <div className="flex items-center gap-4">
+                                 <div className="flex-1">
+                                    <p className="text-lg md:text-xl font-bold text-slate-900">
+                                       {TESTIMONIALS[testimonialIndex].name}
+                                    </p>
+                                    <p className="text-sm text-slate-500 font-medium uppercase tracking-wide">
+                                       {TESTIMONIALS[testimonialIndex].details}
+                                    </p>
+                                 </div>
+                              </div>
+                           </div>
+                        </div>
+                     </motion.div>
+                  </AnimatePresence>
+
+                  {/* Navigation Buttons */}
+                  <div className="flex justify-center gap-3 mt-8 md:mt-10">
+                     <button
+                        onClick={() => setTestimonialIndex((prev) => (prev === 0 ? TESTIMONIALS.length - 1 : prev - 1))}
+                        className="w-12 h-12 bg-white rounded-full shadow-lg border border-slate-200 flex items-center justify-center text-slate-600 hover:text-blue-600 hover:border-blue-300 hover:shadow-xl transition-all duration-300"
+                     >
+                        <ChevronLeft className="w-5 h-5" />
+                     </button>
+
+                     {/* Dots */}
+                     <div className="flex items-center gap-2 px-4">
+                        {TESTIMONIALS.map((_, i) => (
+                           <button
+                              key={i}
+                              onClick={() => setTestimonialIndex(i)}
+                              className={`h-2 rounded-full transition-all duration-300 ${testimonialIndex === i
+                                    ? "w-8 bg-blue-600"
+                                    : "w-2 bg-slate-300 hover:bg-slate-400"
+                                 }`}
+                           />
+                        ))}
+                     </div>
+
+                     <button
+                        onClick={() => setTestimonialIndex((prev) => (prev === TESTIMONIALS.length - 1 ? 0 : prev + 1))}
+                        className="w-12 h-12 bg-white rounded-full shadow-lg border border-slate-200 flex items-center justify-center text-slate-600 hover:text-blue-600 hover:border-blue-300 hover:shadow-xl transition-all duration-300"
+                     >
+                        <ChevronRight className="w-5 h-5" />
+                     </button>
+                  </div>
+               </div>
             </div>
-          </section>
+         </section>
 
          {/* 2026 TRENDING SPECIALIZATIONS */}
          <section className="py-12 md:py-24 bg-slate-50 relative overflow-hidden">
@@ -1495,43 +1494,43 @@ const UniversityPageNew = () => {
          {/* 10. FAQ SECTION */}
          <section className="py-16 md:py-24 bg-white border-t border-slate-100 relative overflow-hidden text-left">
             <div className="container mx-auto px-6 max-w-4xl">
-               <button 
+               <button
                   onClick={() => setIsFaqOpen(!isFaqOpen)}
                   className="w-full flex flex-col items-center text-center group cursor-pointer focus:outline-none"
                >
-                   <div className="flex items-center justify-center gap-2 mb-2 group-hover:opacity-80 transition-opacity">
-                      <div className="section-label !mb-0 flex items-center gap-2 cursor-pointer transition-all duration-300 hover:scale-105">
-                          <Info className="w-3 h-3 md:w-3.5 md:h-3.5" />
-                          <span className="tracking-[0.15em] font-black uppercase text-[9px] md:text-[10px] flex items-center gap-2">
-                             FAQs
-                             <ChevronDown className={`w-3 h-3 md:w-4 md:h-4 text-blue-500 transition-transform duration-300 ${isFaqOpen ? 'rotate-180' : ''}`} />
-                          </span>
-                      </div>
-                   </div>
-                   <h2 className="text-3xl sm:text-4xl md:text-5xl font-black text-slate-900 tracking-tighter font-display uppercase mt-4">
-                       You've likely got a <span className="text-blue-600">few questions</span>
-                   </h2>
+                  <div className="flex items-center justify-center gap-2 mb-2 group-hover:opacity-80 transition-opacity">
+                     <div className="section-label !mb-0 flex items-center gap-2 cursor-pointer transition-all duration-300 hover:scale-105 bg-blue-50 text-blue-600 border px-6 py-3 rounded-full border-blue-200 shadow-md ring-4 ring-blue-50/50">
+                        <Info className="w-4 h-4 md:w-5 md:h-5 text-blue-600" />
+                        <span className="tracking-[0.15em] font-black uppercase text-[10px] md:text-[11px] flex items-center gap-2">
+                           FAQs
+                           <ChevronDown className={`w-3 h-3 md:w-4 md:h-4 text-blue-600 transition-transform duration-300 ${isFaqOpen ? 'rotate-180' : ''}`} />
+                        </span>
+                     </div>
+                  </div>
+                  <h2 className="text-3xl sm:text-4xl md:text-5xl font-black text-slate-900 tracking-tighter font-display uppercase mt-6">
+                     You've likely got a <span className="text-blue-600">few questions</span>
+                  </h2>
                </button>
-               
+
                <AnimatePresence>
-                   {isFaqOpen && (
-                      <motion.div
-                          initial={{ height: 0, opacity: 0 }}
-                          animate={{ height: "auto", opacity: 1 }}
-                          exit={{ height: 0, opacity: 0 }}
-                          transition={{ duration: 0.4, ease: "easeInOut" }}
-                          className="overflow-hidden"
-                      >
-                         <div className="space-y-8 mt-12 bg-slate-50/50 p-6 md:p-12 rounded-[2rem] border border-slate-100 shadow-sm">
-                            {FAQ_DATA.map((faq, index) => (
-                               <div key={index} className="border-b border-slate-200 pb-8 last:border-0 last:pb-0 text-left">
-                                  <h3 className="font-black text-slate-900 text-lg md:text-xl mb-3">{faq.question}</h3>
-                                  <p className="text-slate-600 font-medium text-sm md:text-base leading-relaxed">{faq.answer}</p>
-                               </div>
-                            ))}
-                         </div>
-                      </motion.div>
-                   )}
+                  {isFaqOpen && (
+                     <motion.div
+                        initial={{ height: 0, opacity: 0 }}
+                        animate={{ height: "auto", opacity: 1 }}
+                        exit={{ height: 0, opacity: 0 }}
+                        transition={{ duration: 0.4, ease: "easeInOut" }}
+                        className="overflow-hidden"
+                     >
+                        <div className="space-y-8 mt-12 bg-slate-50/50 p-6 md:p-12 rounded-[2rem] border border-slate-100 shadow-sm">
+                           {FAQ_DATA.map((faq, index) => (
+                              <div key={index} className="border-b border-slate-200 pb-8 last:border-0 last:pb-0 text-left">
+                                 <h3 className="font-black text-slate-900 text-lg md:text-xl mb-3">{faq.question}</h3>
+                                 <p className="text-slate-600 font-medium text-sm md:text-base leading-relaxed">{faq.answer}</p>
+                              </div>
+                           ))}
+                        </div>
+                     </motion.div>
+                  )}
                </AnimatePresence>
             </div>
          </section>
