@@ -60,8 +60,8 @@ const UserManager = () => {
     try {
       setLoading(true);
       
-      // Get users from user_profiles with related data
-      const { data: profiles, error: profilesError } = await supabase
+      // Get users from user_profiles with related data (with timeout)
+      const queryPromise = supabase
         .from('user_profiles')
         .select(`
           *,
@@ -85,8 +85,20 @@ const UserManager = () => {
         `)
         .order('created_at', { ascending: false });
 
+      // Race against a 8s timeout to prevent infinite loading
+      const result = await Promise.race([
+        queryPromise,
+        new Promise((resolve) =>
+          setTimeout(() => resolve({ data: null, error: { message: 'Query timed out after 8s' } }), 8000)
+        ),
+      ]);
+
+      const { data: profiles, error: profilesError } = result;
+
       if (profilesError) {
         console.error('Error loading user profiles:', profilesError);
+        setUsers([]);
+        setLoading(false);
         return;
       }
 
@@ -121,6 +133,7 @@ const UserManager = () => {
       setUsers(mergedUsers);
     } catch (error) {
       console.error('Error loading users:', error);
+      setUsers([]);
     } finally {
       setLoading(false);
     }

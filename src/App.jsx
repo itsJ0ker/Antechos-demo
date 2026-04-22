@@ -35,25 +35,12 @@ import { UserAuthProvider } from "./contexts/UserAuthContext";
 import ProtectedUserRoute from "./components/auth/ProtectedUserRoute";
 import DatabaseTest from "./pages/DatabaseTest";
 
-// Admin components
+// Admin Panel — unified auth
+import { AdminAuthProvider } from "./contexts/AdminAuth";
+import AdminProtectedRoute from "./components/admin/AdminProtectedRoute";
 import AdminLogin from "./pages/admin/AdminLogin";
-import AdminDashboard from "./pages/admin/AdminDashboard";
-import SimpleAdminDashboard from "./pages/admin/SimpleAdminDashboard";
-import EnhancedAdminDashboard from "./pages/admin/EnhancedAdminDashboard";
-import SimpleAdminBypass from "./pages/admin/SimpleAdminBypass";
-import WorkingAdminLogin from "./pages/admin/WorkingAdminLogin";
-import ProtectedAdminDashboard from "./pages/admin/ProtectedAdminDashboard";
 import AdminIndex from "./pages/admin/AdminIndex";
-import CourseSpecializationsPage from "./pages/admin/CourseSpecializationsPage";
-
-// Simple Auth components
-import SimpleLogin from "./pages/SimpleLogin";
-import SimpleDashboard from "./pages/SimpleDashboard";
-import { AuthProvider } from "./contexts/SimpleAuth";
-
-// Mock Auth components (CORS workaround)
-import MockAdminLogin from "./pages/admin/MockAdminLogin";
-import { MockAuthProvider } from "./contexts/MockAuth";
+import EnhancedAdminDashboard from "./pages/admin/EnhancedAdminDashboard";
 
 // Analytics tracking
 import { trackPageVisit, updateSessionDuration } from "./utils/analytics";
@@ -62,7 +49,7 @@ const AppContent = () => {
   const [showPopup, setShowPopup] = useState(false);
   const location = useLocation();
 
-  const hideLayout = ["/AuthPage", "/admin/login", "/admin/dashboard", "/admin/old-dashboard", "/simple-login", "/simple-dashboard", "/user-dashboard"].includes(location.pathname);
+  const hideLayout = ["/AuthPage", "/admin/login", "/admin/dashboard", "/user-dashboard"].includes(location.pathname);
 
   // check login & form submission
   const isLoggedIn = localStorage.getItem("isLoggedIn") === "true";
@@ -112,7 +99,6 @@ const AppContent = () => {
           <Route path="/" element={<Home />} />
           <Route path="/AuthPage" element={<AuthPage />} />
           <Route path="/About" element={<About />} />
-          {/*<Route path="/Marketplace" element={<MarketplaceImarticus />} />*/}
           <Route path="/Marketplace" element={<MarketplaceRedesign />} />
           <Route path="/marketplace-new" element={<MarketplaceImarticus />} />
           <Route path="/marketplace-redesign" element={<MarketplaceRedesign />} />
@@ -142,21 +128,19 @@ const AppContent = () => {
           {/* Database Test */}
           <Route path="/database-test" element={<DatabaseTest />} />
           
-          {/* Admin routes */}
+          {/* ========= Admin Routes ========= */}
+          {/* /admin → auto-redirect to login or dashboard */}
           <Route path="/admin" element={<AdminIndex />} />
-          <Route path="/admin/login" element={<AdminLogin />} />
-          <Route path="/admin/working-login" element={<WorkingAdminLogin />} />
-          <Route path="/admin/mock-login" element={<MockAdminLogin />} />
-          <Route path="/admin/dashboard" element={<EnhancedAdminDashboard />} />
-          <Route path="/admin/working" element={<ProtectedAdminDashboard />} />
-          <Route path="/admin/bypass" element={<SimpleAdminBypass />} />
-          <Route path="/admin/simple-dashboard" element={<SimpleAdminDashboard />} />
-          <Route path="/admin/old-dashboard" element={<AdminDashboard />} />
-          <Route path="/admin/course-specializations" element={<CourseSpecializationsPage />} />
           
-          {/* Simple Auth routes */}
-          <Route path="/simple-login" element={<SimpleLogin />} />
-          <Route path="/simple-dashboard" element={<SimpleDashboard />} />
+          {/* /admin/login → login page */}
+          <Route path="/admin/login" element={<AdminLogin />} />
+          
+          {/* /admin/dashboard → protected dashboard */}
+          <Route path="/admin/dashboard" element={
+            <AdminProtectedRoute>
+              <EnhancedAdminDashboard />
+            </AdminProtectedRoute>
+          } />
         </Routes>
       </div>
 
@@ -249,11 +233,9 @@ const CourseDetailWrapper = () => {
 const App = () => (
   <HashRouter>
     <UserAuthProvider>
-      <AuthProvider>
-        <MockAuthProvider>
-          <AppContent />
-        </MockAuthProvider>
-      </AuthProvider>
+      <AdminAuthProvider>
+        <AppContent />
+      </AdminAuthProvider>
     </UserAuthProvider>
   </HashRouter>
 );

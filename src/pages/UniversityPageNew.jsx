@@ -321,8 +321,6 @@ const UniversityPageNew = () => {
    const [testimonialIndex, setTestimonialIndex] = useState(0);
    const [currentIndex, setCurrentIndex] = useState(0);
    const [programIndex, setProgramIndex] = useState(0);
-   const [skipProgramAnimation, setSkipProgramAnimation] = useState(false);
-   const [programScroll, setProgramScroll] = useState(0);
    const [showAllPrograms, setShowAllPrograms] = useState(false);
    const [searchTerm, setSearchTerm] = useState('');
    const [filterCategory, setFilterCategory] = useState('All');
@@ -416,36 +414,24 @@ const UniversityPageNew = () => {
          : OFFICIAL_COURSES.filter(c => c.category === courseType);
    }, [courseType]);
 
-   useEffect(() => {
-      setCurrentIndex(0);
-      if (filteredCourses.length > 0) {
-         setProgramIndex(filteredCourses.length);
-      }
-   }, [filterCategory, filterStream, searchTerm, finderStream, courseType, filteredCourses.length]);
+   const [programAutoplayPaused, setProgramAutoplayPaused] = useState(false);
+   const programAutoplayTimeout = useRef(null);
 
    useEffect(() => {
-      if (filteredCourses.length === 0) return;
-      if (programIndex >= filteredCourses.length * 2) {
-         setSkipProgramAnimation(true);
-         setProgramIndex(prev => prev - filteredCourses.length);
-         setTimeout(() => setSkipProgramAnimation(false), 50);
-      } else if (programIndex < filteredCourses.length) {
-         setSkipProgramAnimation(true);
-         setProgramIndex(prev => prev + filteredCourses.length);
-         setTimeout(() => setSkipProgramAnimation(false), 50);
-      }
-   }, [programIndex, filteredCourses.length]);
+      setCurrentIndex(0);
+      setProgramIndex(0);
+   }, [filterCategory, filterStream, searchTerm, finderStream, courseType, filteredCourses.length]);
 
    // Auto-play for Program Portfolio
    useEffect(() => {
-      if (showAllPrograms) return;
+      if (showAllPrograms || programAutoplayPaused || filteredCourses.length === 0) return;
       const interval = setInterval(() => {
          setProgramIndex((prev) => {
-            return prev + 1;
+            return prev >= filteredCourses.length - 1 ? 0 : prev + 1;
          });
       }, 4000);
       return () => clearInterval(interval);
-   }, [showAllPrograms, filteredCourses.length]);
+   }, [showAllPrograms, filteredCourses.length, programAutoplayPaused]);
 
    // Auto-play for Hero
    useEffect(() => {
@@ -457,12 +443,21 @@ const UniversityPageNew = () => {
 
    const handleUniversityClick = (link) => window.open(link, '_blank', 'noopener,noreferrer');
 
+   // Pause auto-play briefly after manual interaction to avoid fighting the user
+   const pauseAutoplay = () => {
+      setProgramAutoplayPaused(true);
+      if (programAutoplayTimeout.current) clearTimeout(programAutoplayTimeout.current);
+      programAutoplayTimeout.current = setTimeout(() => setProgramAutoplayPaused(false), 8000);
+   };
+
    const handlePrevProgram = () => {
-      setProgramIndex(prev => prev - 1);
+      pauseAutoplay();
+      setProgramIndex(prev => prev <= 0 ? filteredCourses.length - 1 : prev - 1);
    };
 
    const handleNextProgram = () => {
-      setProgramIndex(prev => prev + 1);
+      pauseAutoplay();
+      setProgramIndex(prev => prev >= filteredCourses.length - 1 ? 0 : prev + 1);
    };
 
    return (
@@ -875,12 +870,12 @@ const UniversityPageNew = () => {
 
                            <motion.div
                               className="flex gap-8 pb-12 cursor-grab active:cursor-grabbing touch-pan-x items-stretch"
-                              animate={{ x: -(currentIndex * (windowWidth < 768 ? 280 + 32 : 380 + 32)) }}
+                              animate={{ x: -(currentIndex * (windowWidth < 768 ? 270 + 32 : 340 + 32)) }}
                               transition={{ type: "spring", damping: 25, stiffness: 120 }}
                               drag="x"
                               dragConstraints={{
                                  right: 0,
-                                 left: -((filteredUniversities.length - 1) * (windowWidth < 768 ? 280 + 32 : 380 + 32))
+                                 left: -((filteredUniversities.length - 1) * (windowWidth < 768 ? 270 + 32 : 340 + 32))
                               }}
                               onDragEnd={(e, { offset, velocity }) => {
                                  const swipeThreshold = 50;
@@ -891,7 +886,7 @@ const UniversityPageNew = () => {
                               {filteredUniversities.map((uni) => (
                                  <motion.div
                                     key={uni.id}
-                                    className="flex-shrink-0 w-[300px] md:w-[380px] h-auto min-h-[600px] group flex flex-col bg-white rounded-[2rem] md:rounded-[3rem] overflow-hidden border border-slate-100 hover:border-blue-100 transition-all duration-700 hover:shadow-[0_40px_80px_-15px_rgba(0,0,0,0.08)]"
+                                    className="flex-shrink-0 w-[270px] md:w-[340px] h-auto min-h-[520px] group flex flex-col bg-white rounded-[2rem] md:rounded-[2.5rem] overflow-hidden border border-slate-100 hover:border-blue-100 transition-all duration-700 hover:shadow-[0_40px_80px_-15px_rgba(0,0,0,0.08)]"
                                  >
                                     <div className="relative w-full aspect-square overflow-hidden bg-slate-100 flex-shrink-0">
                                        <img src={uni.image} alt={uni.name} className="absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition-transform duration-1000" />
@@ -906,7 +901,7 @@ const UniversityPageNew = () => {
                                        </div>
                                     </div>
 
-                                    <div className="p-6 md:p-8 flex flex-col flex-grow text-left">
+                                    <div className="p-5 md:p-6 flex flex-col flex-grow text-left">
                                        <div className="flex items-center gap-2 mb-4">
                                           <MapPin className="w-3.5 h-3.5 text-blue-600" />
                                           <span className="text-[9px] font-black text-slate-400 uppercase tracking-widest">{uni.location}</span>
@@ -972,7 +967,7 @@ const UniversityPageNew = () => {
                               initial={{ opacity: 0, y: 30 }}
                               whileInView={{ opacity: 1, y: 0 }}
                               viewport={{ once: true }}
-                              className="group flex flex-col bg-white rounded-[2.5rem] md:rounded-[3.5rem] overflow-hidden border border-slate-100 hover:border-blue-100 transition-all duration-700 hover:shadow-[0_40px_80px_-15px_rgba(0,0,0,0.08)] h-auto min-h-[650px]"
+                              className="group flex flex-col bg-white rounded-[2rem] md:rounded-[2.5rem] overflow-hidden border border-slate-100 hover:border-blue-100 transition-all duration-700 hover:shadow-[0_40px_80px_-15px_rgba(0,0,0,0.08)] h-auto min-h-[580px]"
                            >
                               <div className="relative w-full aspect-square overflow-hidden bg-slate-100 flex-shrink-0">
                                  <img src={uni.image} alt={uni.name} className="absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition-transform duration-1000" />
@@ -987,7 +982,7 @@ const UniversityPageNew = () => {
                                  </div>
                               </div>
 
-                              <div className="p-8 md:p-10 flex flex-col flex-grow text-left">
+                              <div className="p-6 md:p-8 flex flex-col flex-grow text-left">
                                  <div className="flex items-center gap-3 mb-6">
                                     <MapPin className="w-4 h-4 text-blue-600" />
                                     <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest">{uni.location}</span>
@@ -1116,20 +1111,20 @@ const UniversityPageNew = () => {
                            <motion.div
                               className="flex w-max gap-6 md:gap-8 pb-12 cursor-grab active:cursor-grabbing touch-pan-x items-stretch"
                               animate={{ x: -(programIndex * (windowWidth < 768 ? 300 + 24 : 380 + 32)) }}
-                              transition={skipProgramAnimation ? { duration: 0 } : { type: "spring", damping: 25, stiffness: 120 }}
+                              transition={{ type: "spring", damping: 25, stiffness: 120 }}
                               drag="x"
-                              onDragStart={() => setSkipProgramAnimation(false)}
                               dragConstraints={{
-                                 right: 1000,
-                                 left: -5000
+                                 right: 0,
+                                 left: -((filteredCourses.length - 1) * (windowWidth < 768 ? 300 + 24 : 380 + 32))
                               }}
-                              onDragEnd={(e, { offset, velocity }) => {
+                              onDragEnd={(e, { offset }) => {
+                                 pauseAutoplay();
                                  const swipeThreshold = 50;
-                                 if (offset.x < -swipeThreshold) setProgramIndex(prev => prev + 1);
-                                 if (offset.x > swipeThreshold) setProgramIndex(prev => prev - 1);
+                                 if (offset.x < -swipeThreshold) setProgramIndex(prev => Math.min(prev + 1, filteredCourses.length - 1));
+                                 if (offset.x > swipeThreshold) setProgramIndex(prev => Math.max(prev - 1, 0));
                               }}
                            >
-                              {[...filteredCourses, ...filteredCourses, ...filteredCourses].map((course, idx) => (
+                              {filteredCourses.map((course, idx) => (
                                  <div
                                     key={idx}
                                     className="flex-shrink-0 w-[300px] md:w-[380px] h-[400px] md:h-[420px] relative bg-white border border-slate-100 p-8 md:p-10 rounded-[2.5rem] md:rounded-[3rem] hover:border-blue-200 hover:-translate-y-2 hover:shadow-2xl transition-all duration-700 flex flex-col group content-start cursor-pointer"
@@ -1315,7 +1310,7 @@ const UniversityPageNew = () => {
                </div>
 
                {/* Testimonial Carousel */}
-               <div className="relative max-w-5xl mx-auto">
+               <div className="relative max-w-7xl mx-auto">
                   <AnimatePresence mode="wait">
                      <motion.div
                         key={testimonialIndex}
@@ -1327,8 +1322,8 @@ const UniversityPageNew = () => {
                      >
                         <div className="flex flex-col lg:flex-row">
                            {/* Image Side */}
-                           <div className="lg:w-2/5 relative flex items-center justify-center p-6 lg:p-8">
-                              <div className="w-32 h-32 sm:w-40 sm:h-40 md:w-48 md:h-48 lg:w-56 lg:h-56 rounded-full overflow-hidden border-4 md:border-6 border-white shadow-xl">
+                           <div className="lg:w-2/5 relative flex items-center justify-center p-8 lg:p-12">
+                              <div className="w-40 h-40 sm:w-52 sm:h-52 md:w-60 md:h-60 lg:w-72 lg:h-72 rounded-full overflow-hidden border-4 md:border-[6px] border-white shadow-xl">
                                  <img
                                     src={TESTIMONIALS[testimonialIndex].img}
                                     className="w-full h-full object-cover"

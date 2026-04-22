@@ -123,10 +123,13 @@ const Card = ({ trainer }) => {
           }}
         >
           <img
-            src={trainer.photo}
+            src={trainer.photo_url || trainer.photo}
             alt="avatar"
             className="w-full h-auto max-h-[80%] object-contain"
             style={{ transform: "translateZ(20px)" }}
+            onError={(e) => {
+              e.target.style.display = 'none';
+            }}
           />
         </div>
 
@@ -143,9 +146,12 @@ const Card = ({ trainer }) => {
           <div className="flex items-center gap-3">
             <div className="h-10 w-10 flex-shrink-0 overflow-hidden rounded-full border border-white/10">
               <img
-                src={trainer.photo}
+                src={trainer.photo_url || trainer.photo}
                 alt="mini avatar"
                 className="h-full w-full object-cover"
+                onError={(e) => {
+                  e.target.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(trainer.name)}&background=6366f1&color=fff&size=40`;
+                }}
               />
             </div>
             <div className="flex flex-col gap-1">
@@ -168,16 +174,35 @@ const Card = ({ trainer }) => {
 };
 
 const TrainerCard = ({ trainers }) => {
+  if (!trainers || trainers.length === 0) {
+    return (
+      <div className="max-w-7xl mx-auto px-4 py-10 text-center text-white/60">
+        <p>No trainers available yet.</p>
+      </div>
+    );
+  }
+
+  // Duplicate trainers so there are always enough for infinite scroll
+  const minItems = 6;
+  let slides = [...trainers];
+  let copyIndex = 0;
+  while (slides.length < minItems) {
+    slides.push({ ...trainers[copyIndex % trainers.length], _clone: copyIndex });
+    copyIndex++;
+  }
+
   const settings = {
-    dots: true,
+    dots: false,
     infinite: true,
     centerMode: false,
     slidesToShow: 3,
     slidesToScroll: 1,
-    speed: 500,
+    speed: 600,
     arrows: true,
     autoplay: true,
-    autoplaySpeed: 2000,
+    autoplaySpeed: 2500,
+    pauseOnHover: true,
+    cssEase: 'cubic-bezier(0.45, 0, 0.55, 1)',
     responsive: [
       {
         breakpoint: 1024,
@@ -193,8 +218,8 @@ const TrainerCard = ({ trainers }) => {
   return (
     <div className="max-w-7xl mx-auto px-4 py-10">
       <Slider {...settings}>
-        {trainers.map((trainer) => (
-          <div key={trainer.id} className="px-3">
+        {slides.map((trainer, idx) => (
+          <div key={`${trainer.id}-${trainer._clone ?? idx}`} className="px-3">
             <Card trainer={trainer} />
           </div>
         ))}

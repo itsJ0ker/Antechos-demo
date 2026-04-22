@@ -146,6 +146,22 @@ const styles = `
     }
   }
 
+  /* Shorts card hover effects */
+  .shorts-card:hover img {
+    transform: scale(1.06);
+  }
+  .shorts-card:hover .shorts-hover-overlay {
+    background: rgba(0,0,0,0.35) !important;
+  }
+  .shorts-card:hover .shorts-play-btn {
+    opacity: 1 !important;
+    transform: scale(1) !important;
+  }
+  .shorts-play-btn:hover {
+    transform: scale(1.08) !important;
+    box-shadow: 0 8px 35px rgba(0,0,0,0.35) !important;
+  }
+
 `;
 
 /* ─── Helpers ─────────────────────────────────────────────────────────────── */
@@ -175,6 +191,7 @@ const Aboutus = () => {
   const [valuesIndex, setValuesIndex] = useState(1);
   const [isValuesTransitioning, setIsValuesTransitioning] = useState(true);
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+  const [playingShortId, setPlayingShortId] = useState(null);
 
 
   // Responsive items per view
@@ -314,13 +331,20 @@ const Aboutus = () => {
   const displayValues = defaultValues;
   const displayTeam = team.length > 0 ? team : defaultTeam;
 
-  const defaultVideoTestimonials = [
-    { id: 1, name: 'Success Story 1', role: 'Cyber Security', videoId: 'dQw4w9WgXcQ' }, // Replace with real Shorts IDs
-    { id: 2, name: 'Success Story 2', role: 'Software Dev', videoId: 'dQw4w9WgXcQ' },
-    { id: 3, name: 'Success Story 3', role: 'Data Science', videoId: 'dQw4w9WgXcQ' },
-    { id: 4, name: 'Success Story 4', role: 'Business AI', videoId: 'dQw4w9WgXcQ' },
+  const shortsData = [
+    { id: 1, img: 'https://media.collegesathi.com/images/1775130642398-1red.webp', text: 'Regular, Distance or Online Education–which one is the best for you? Let\'s find out.', videoUrl: 'https://www.youtube.com/shorts/dQw4w9WgXcQ' },
+    { id: 2, img: 'https://media.collegesathi.com/images/1775130642785-2red.webp', text: 'University name or skills - what actually gets you hired?', videoUrl: 'https://www.youtube.com/shorts/dQw4w9WgXcQ' },
+    { id: 3, img: 'https://media.collegesathi.com/images/1775130643141-3red.webp', text: 'Are Online Degrees accepted for government and private jobs? Let\'s find out.', videoUrl: 'https://www.youtube.com/shorts/dQw4w9WgXcQ' },
+    { id: 4, img: 'https://media.collegesathi.com/images/1775130643564-4red.webp', text: 'HIDDEN costs of Online Courses no one tells you about!', videoUrl: 'https://www.youtube.com/shorts/dQw4w9WgXcQ' },
+    { id: 5, img: 'https://media.collegesathi.com/images/1775130643931-6red.webp', text: 'Your goals are unique. Your course should be too. Choose smarter with Antechos India.', videoUrl: 'https://www.youtube.com/shorts/dQw4w9WgXcQ' },
+    { id: 6, img: 'https://media.collegesathi.com/images/1775130644298-6white.webp', text: 'Avoid these 5 mistakes while choosing an Online Degree.', videoUrl: 'https://www.youtube.com/shorts/dQw4w9WgXcQ' },
+    { id: 7, img: 'https://media.collegesathi.com/images/1775130644671-7white.webp', text: 'Top 7 reasons why Online Education is a smart choice.', videoUrl: 'https://www.youtube.com/shorts/dQw4w9WgXcQ' },
+    { id: 8, img: 'https://media.collegesathi.com/images/1775130645080-8white.webp', text: 'Eligibility criteria for enrolling in online courses.', videoUrl: 'https://www.youtube.com/shorts/dQw4w9WgXcQ' },
+    { id: 9, img: 'https://media.collegesathi.com/images/1775130645858-10black.webp', text: 'How to avail Scholarships and Discounts for Online Courses?', videoUrl: 'https://www.youtube.com/shorts/dQw4w9WgXcQ' },
+    { id: 10, img: 'https://media.collegesathi.com/images/1775130646220-11black.webp', text: 'Top 5 Trending in-demand courses of 2026.', videoUrl: 'https://www.youtube.com/shorts/dQw4w9WgXcQ' },
+    { id: 11, img: 'https://media.collegesathi.com/images/1775130646220-11black.webp', text: 'Check these important factors before choosing an online university.', videoUrl: 'https://www.youtube.com/shorts/dQw4w9WgXcQ' },
   ];
-  const videoTestimonials = defaultVideoTestimonials;
+  const videoTestimonials = shortsData; // kept for compatibility
 
   const testimonials = [];
 
@@ -400,20 +424,20 @@ const Aboutus = () => {
   const handleTeamPrev = () => setTeamIndex(prev => Math.max(0, prev - 1));
   const handleTeamNext = () => setTeamIndex(prev => Math.min(maxTeamIndex, prev + 1));
 
-  // Video carousel logic
-  const vidsPerView = 1;
-  const videoCount = videoTestimonials.length;
+  // Shorts carousel logic
+  const shortsPerView = windowWidth < 640 ? 1 : windowWidth < 1024 ? 2 : 3;
+  const maxShortsIndex = Math.max(0, shortsData.length - shortsPerView);
 
   useEffect(() => {
-    if (videoCount <= 1) return;
+    if (shortsData.length <= shortsPerView) return;
     const interval = setInterval(() => {
-      setVideoIndex(prev => (prev + 1) % videoCount);
-    }, 8000);
+      setVideoIndex(prev => prev >= maxShortsIndex ? 0 : prev + 1);
+    }, 4000);
     return () => clearInterval(interval);
-  }, [videoCount]);
+  }, [shortsData.length, shortsPerView, maxShortsIndex]);
 
-  const handleVideoPrev = () => setVideoIndex(prev => (prev === 0 ? videoCount - 1 : prev - 1));
-  const handleVideoNext = () => setVideoIndex(prev => (prev + 1) % videoCount);
+  const handleVideoPrev = () => setVideoIndex(prev => Math.max(0, prev - 1));
+  const handleVideoNext = () => setVideoIndex(prev => Math.min(maxShortsIndex, prev + 1));
 
   // Values carousel auto-play (mobile only)
   useEffect(() => {
@@ -1124,97 +1148,198 @@ const Aboutus = () => {
           </div>
         </section>
 
-        {/* ── ALUMNI TESTIMONIALS - Video Shorts Carousel ──────────────── */}
-        <section id="testimonials" style={{ padding: '100px 24px', background: 'var(--dark)', overflow: 'hidden' }}>
-          <div style={{ maxWidth: 1100, margin: '0 auto' }}>
+        {/* ── ALUMNI TESTIMONIALS - Shorts Image Carousel ──────────────── */}
+        <section id="testimonials" style={{ padding: '80px 0', background: 'var(--dark)', overflow: 'hidden' }}>
+          <div style={{ maxWidth: 1280, margin: '0 auto', padding: '0 24px' }}>
             <div style={{ textAlign: 'center', marginBottom: 56 }}>
               <SectionLabel>Alumni Stories</SectionLabel>
               <h2 style={{ fontSize: 'clamp(24px, 4vw, 44px)', fontWeight: 800, letterSpacing: '-0.02em', margin: '12px 0 12px' }}>
                 Hear from Antechos India's Alumni at{' '}
                 <span style={{ color: 'var(--orange)' }}>Top Companies</span>
               </h2>
-
               <p style={{ color: 'var(--text-muted)', fontSize: 17, maxWidth: 800, margin: '0 auto' }}>
                 Real stories from real learners who transformed their careers with Antechos India.
               </p>
             </div>
 
-            <div style={{ position: 'relative', maxWidth: 340, margin: '0 auto' }}>
+            {/* Shorts Carousel */}
+            <div style={{ position: 'relative' }}>
               {/* Prev Button */}
               <button
                 onClick={handleVideoPrev}
+                disabled={videoIndex === 0}
                 style={{
-                  position: 'absolute', left: windowWidth < 480 ? 10 : -64, top: '50%', transform: 'translateY(-50%)', zIndex: 10,
-                  width: 44, height: 44, borderRadius: '50%', border: '1px solid var(--border)',
-                  background: 'var(--card-bg)', color: '#fff', cursor: 'pointer',
+                  position: 'absolute', left: 5, top: '60%', transform: 'translateY(-50%)', zIndex: 50,
+                  width: windowWidth < 768 ? 40 : 48, height: windowWidth < 768 ? 40 : 48,
+                  borderRadius: '50%', border: '1px solid rgba(255,255,255,0.1)',
+                  background: 'rgba(255,255,255,0.95)', color: '#4b5563', cursor: 'pointer',
                   display: 'flex', alignItems: 'center', justifyContent: 'center',
-                  boxShadow: '0 4px 20px rgba(0,0,0,0.4)', transition: 'all 0.3s'
+                  boxShadow: '0 4px 15px rgba(0,0,0,0.1)', transition: 'all 0.3s',
+                  opacity: videoIndex === 0 ? 0.4 : 1
                 }}
-                onMouseEnter={e => e.currentTarget.style.background = 'var(--orange)'}
-                onMouseLeave={e => e.currentTarget.style.background = 'var(--card-bg)'}
+                onMouseEnter={e => { e.currentTarget.style.transform = 'translateY(-50%) scale(1.05)'; e.currentTarget.style.color = '#000'; }}
+                onMouseLeave={e => { e.currentTarget.style.transform = 'translateY(-50%) scale(1)'; e.currentTarget.style.color = '#4b5563'; }}
               >
-                <ChevronLeft size={20} />
+                <ChevronLeft size={24} />
               </button>
 
               {/* Next Button */}
               <button
                 onClick={handleVideoNext}
+                disabled={videoIndex >= maxShortsIndex}
                 style={{
-                  position: 'absolute', right: windowWidth < 480 ? 10 : -64, top: '50%', transform: 'translateY(-50%)', zIndex: 10,
-                  width: 44, height: 44, borderRadius: '50%', border: '1px solid var(--border)',
-                  background: 'var(--card-bg)', color: '#fff', cursor: 'pointer',
+                  position: 'absolute', right: 5, top: '60%', transform: 'translateY(-50%)', zIndex: 50,
+                  width: windowWidth < 768 ? 40 : 48, height: windowWidth < 768 ? 40 : 48,
+                  borderRadius: '50%', border: '1px solid rgba(255,255,255,0.1)',
+                  background: 'rgba(255,255,255,0.95)', color: '#4b5563', cursor: 'pointer',
                   display: 'flex', alignItems: 'center', justifyContent: 'center',
-                  boxShadow: '0 4px 20px rgba(0,0,0,0.4)', transition: 'all 0.3s'
+                  boxShadow: '0 4px 15px rgba(0,0,0,0.1)', transition: 'all 0.3s',
+                  opacity: videoIndex >= maxShortsIndex ? 0.4 : 1
                 }}
-                onMouseEnter={e => e.currentTarget.style.background = 'var(--orange)'}
-                onMouseLeave={e => e.currentTarget.style.background = 'var(--card-bg)'}
+                onMouseEnter={e => { e.currentTarget.style.transform = 'translateY(-50%) scale(1.05)'; e.currentTarget.style.color = '#000'; }}
+                onMouseLeave={e => { e.currentTarget.style.transform = 'translateY(-50%) scale(1)'; e.currentTarget.style.color = '#4b5563'; }}
               >
-                <ChevronRight size={20} />
+                <ChevronRight size={24} />
               </button>
 
-
-              <div style={{ overflow: 'hidden', borderRadius: 32, boxShadow: '0 20px 50px rgba(0,0,0,0.5)' }}>
+              {/* Cards Track */}
+              <div style={{ overflow: 'hidden', padding: '0 4px' }}>
                 <div style={{
                   display: 'flex',
-                  transition: 'transform 0.7s cubic-bezier(0.4, 0, 0.2, 1)',
-                  transform: `translateX(-${videoIndex * 100}%)`
+                  gap: windowWidth < 768 ? 12 : 16,
+                  transition: 'transform 0.6s cubic-bezier(0.4, 0, 0.2, 1)',
+                  transform: `translateX(-${videoIndex * (100 / shortsPerView)}%)`
                 }}>
-                  {videoTestimonials.map((v) => (
-                    <div key={v.id} style={{
-                      flex: '0 0 100%',
-                      aspectRatio: '9/16',
-                      background: '#000',
-                      position: 'relative'
-                    }}>
-                      <iframe
-                        width="100%"
-                        height="100%"
-                        src={`https://www.youtube.com/embed/${v.videoId}?autoplay=1&mute=1&loop=1&playlist=${v.videoId}&modestbranding=1&rel=0&controls=0`}
-                        title={v.name}
-                        frameBorder="0"
-                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                        allowFullScreen
-                        style={{ display: 'block' }}
-                      ></iframe>
-                      <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, padding: '32px 24px', background: 'linear-gradient(to top, rgba(0,0,0,0.9) 0%, transparent 100%)', pointerEvents: 'none' }}>
-                        <h4 style={{ fontSize: 20, fontWeight: 800, margin: 0, color: '#fff', letterSpacing: '-0.01em' }}>{v.name}</h4>
-                        <p style={{ fontSize: 14, color: 'var(--orange)', margin: '6px 0 0', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.05em' }}>{v.role}</p>
+                  {shortsData.map((short) => {
+                    const cardWidth = `calc(${100 / shortsPerView}% - ${((shortsPerView - 1) * (windowWidth < 768 ? 12 : 16)) / shortsPerView}px)`;
+                    const isPlaying = playingShortId === short.id;
+                    const videoId = short.videoUrl.split('/').pop().split('?')[0];
+                    return (
+                      <div
+                        key={short.id}
+                        className="shorts-card"
+                        style={{
+                          flex: `0 0 ${cardWidth}`,
+                          width: cardWidth,
+                          position: 'relative',
+                          aspectRatio: '4/5',
+                          borderRadius: '1.2rem',
+                          overflow: 'hidden',
+                          cursor: 'pointer',
+                          boxShadow: '0 8px 30px rgba(0,0,0,0.3)',
+                          background: '#000'
+                        }}
+                      >
+                        {/* Thumbnail image - hidden when playing */}
+                        {!isPlaying && (
+                          <img
+                            src={short.img}
+                            alt="Antechos Shorts"
+                            loading="lazy"
+                            style={{
+                              width: '100%', height: '100%', objectFit: 'cover',
+                              transition: 'transform 0.5s ease',
+                              display: 'block'
+                            }}
+                          />
+                        )}
+
+                        {/* Inline video player - shown when playing */}
+                        {isPlaying && (
+                          <iframe
+                            width="100%"
+                            height="100%"
+                            src={`https://www.youtube.com/embed/${videoId}?autoplay=1&mute=0&loop=1&playlist=${videoId}&modestbranding=1&rel=0&playsinline=1`}
+                            title={short.text}
+                            frameBorder="0"
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                            allowFullScreen
+                            style={{ display: 'block', position: 'absolute', inset: 0, border: 'none' }}
+                          />
+                        )}
+
+                        {/* Hover overlay + Play button (only when not playing) */}
+                        {!isPlaying && (
+                          <div
+                            className="shorts-hover-overlay"
+                            onClick={() => setPlayingShortId(short.id)}
+                            style={{
+                              position: 'absolute', inset: 0, zIndex: 5,
+                              display: 'flex', alignItems: 'center', justifyContent: 'center',
+                              background: 'rgba(0,0,0,0)',
+                              transition: 'background 0.35s ease'
+                            }}
+                          >
+                            {/* Play button pill */}
+                            <div className="shorts-play-btn" style={{
+                              display: 'flex', alignItems: 'center', gap: 8,
+                              background: 'rgba(255,255,255,0.95)', backdropFilter: 'blur(8px)',
+                              padding: '12px 24px', borderRadius: 50,
+                              boxShadow: '0 4px 25px rgba(0,0,0,0.25)',
+                              opacity: 0, transform: 'scale(0.85)',
+                              transition: 'opacity 0.3s ease, transform 0.3s ease'
+                            }}>
+                              <Play size={16} style={{ fill: '#000', color: '#000' }} />
+                              <span style={{ fontSize: 13, fontWeight: 700, color: '#000', letterSpacing: '0.03em' }}>Play</span>
+                            </div>
+                          </div>
+                        )}
+
+                        {/* Stop button (only when playing) */}
+                        {isPlaying && (
+                          <button
+                            onClick={() => setPlayingShortId(null)}
+                            style={{
+                              position: 'absolute', top: 12, right: 12, zIndex: 20,
+                              width: 36, height: 36, borderRadius: '50%',
+                              background: 'rgba(0,0,0,0.6)', border: '1px solid rgba(255,255,255,0.2)',
+                              color: '#fff', fontSize: 16, cursor: 'pointer',
+                              display: 'flex', alignItems: 'center', justifyContent: 'center',
+                              backdropFilter: 'blur(4px)', transition: 'background 0.3s'
+                            }}
+                            onMouseEnter={e => e.currentTarget.style.background = 'rgba(255,0,0,0.7)'}
+                            onMouseLeave={e => e.currentTarget.style.background = 'rgba(0,0,0,0.6)'}
+                          >
+                            ✕
+                          </button>
+                        )}
+
+                        {/* Bottom text overlay (only when not playing) */}
+                        {!isPlaying && (
+                          <div style={{
+                            position: 'absolute', bottom: 0, left: 0, right: 0, zIndex: 4,
+                            padding: windowWidth < 768 ? '16px 12px' : '20px 24px',
+                            background: 'linear-gradient(to top, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.3) 60%, transparent 100%)',
+                            backdropFilter: 'blur(3px)',
+                            pointerEvents: 'none'
+                          }}>
+                            <p style={{
+                              color: '#fff',
+                              fontSize: windowWidth < 768 ? 13 : 15,
+                              fontWeight: 500,
+                              lineHeight: '22px',
+                              margin: 0
+                            }}>
+                              {short.text}
+                            </p>
+                          </div>
+                        )}
                       </div>
-                    </div>
-                  ))}
+                    );
+                  })}
                 </div>
               </div>
 
               {/* Pagination Dots */}
-              <div style={{ display: 'flex', justifyContent: 'center', gap: 10, marginTop: 32 }}>
-                {videoTestimonials.map((_, idx) => (
+              <div style={{ display: 'flex', justifyContent: 'center', gap: 8, marginTop: 32 }}>
+                {Array.from({ length: maxShortsIndex + 1 }).map((_, idx) => (
                   <button
                     key={idx}
                     onClick={() => setVideoIndex(idx)}
                     style={{
-                      width: idx === videoIndex ? 32 : 10,
-                      height: 10,
-                      borderRadius: 5,
+                      width: idx === videoIndex ? 28 : 8,
+                      height: 8,
+                      borderRadius: 4,
                       background: idx === videoIndex ? 'var(--orange)' : 'rgba(255,255,255,0.15)',
                       border: 'none',
                       cursor: 'pointer',
@@ -1226,11 +1351,12 @@ const Aboutus = () => {
             </div>
 
             {/* Trusted by marquee */}
-            <div style={{ marginTop: 100 }}>
+            <div style={{ marginTop: 80 }}>
               <MarqueeBand label="Trusted by" />
             </div>
           </div>
         </section>
+
 
         {/* ── CTA + LEAD FORM ────────────────────────────────────────────── */}
         <section style={{ padding: '100px 24px', background: 'linear-gradient(135deg, #0A0A0A 0%, #150E08 100%)', position: 'relative', overflow: 'hidden' }}>

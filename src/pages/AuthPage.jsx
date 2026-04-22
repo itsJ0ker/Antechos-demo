@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useNavigate } from "react-router-dom";
-import { useAuth } from "../contexts/SimpleAuth";
+import { useUserAuth } from "../contexts/UserAuthContext";
 import loginImg from "../assets/illustrations/IL.jpg";
 import signupImg from "../assets/illustrations/IL.jpg";
 import { FcGoogle } from "react-icons/fc";
@@ -15,7 +15,7 @@ const AuthPage = () => {
   const [fullName, setFullName] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [error, setError] = useState("");
-  const { login, loading } = useAuth();
+  const { login, loading } = useUserAuth();
   const navigate = useNavigate();
 
   const handleLogin = async (e) => {

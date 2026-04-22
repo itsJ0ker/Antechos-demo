@@ -4,7 +4,6 @@ import { useNavigate } from "react-router-dom";
 import { FcGoogle } from "react-icons/fc";
 import { MdPhoneIphone, MdEmail, MdLock, MdVisibility, MdVisibilityOff, MdPerson } from "react-icons/md";
 import { FaFacebook, FaLinkedin, FaGithub } from "react-icons/fa";
-import { useAuth } from "../../contexts/SimpleAuth";
 import { signUp, signIn } from "../../lib/supabase";
 
 const UserLogin = ({ onClose }) => {
@@ -24,7 +23,7 @@ const UserLogin = ({ onClose }) => {
     agreeToTerms: false
   });
 
-  const { login } = useAuth();
+
   const navigate = useNavigate();
 
   const handleInputChange = (e) => {

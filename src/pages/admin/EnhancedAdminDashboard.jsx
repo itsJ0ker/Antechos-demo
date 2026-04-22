@@ -22,7 +22,7 @@ import {
 } from 'lucide-react';
 import { supabase } from '../../lib/supabase';
 import { safeLoadStats } from '../../utils/authFix';
-import { useAuth } from '../../contexts/SimpleAuth';
+import { useAdminAuth } from '../../contexts/AdminAuth';
 import EnhancedUniversityManager from '../../components/admin/EnhancedUniversityManager';
 import UniversityPageManager from '../../components/admin/UniversityPageManager';
 import AccreditationManager from '../../components/admin/AccreditationManager';
@@ -51,14 +51,9 @@ import DatabaseTest from '../../components/admin/DatabaseTest';
 import QuickDiagnostic from '../../components/admin/QuickDiagnostic';
 import UserManager from '../../components/admin/UserManager';
 import UserManagerTest from '../../components/admin/UserManagerTest';
-import AdminDashboardDebug from '../../components/debug/AdminDashboardDebug';
-import AuthStateDebug from '../../components/debug/AuthStateDebug';
-import EmergencyAdminAccess from '../../components/admin/EmergencyAdminAccess';
 
 const EnhancedAdminDashboard = () => {
-  const [user, setUser] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const [authError, setAuthError] = useState(false);
+  const { user, logout: adminLogout } = useAdminAuth();
   const [sidebarOpen, setSidebarOpen] = useState(true);
   const [activeTab, setActiveTab] = useState('overview');
   const [stats, setStats] = useState({
@@ -69,82 +64,23 @@ const EnhancedAdminDashboard = () => {
     testimonials: 0,
     users: 0,
   });
+  const [statsLoading, setStatsLoading] = useState(false);
   const navigate = useNavigate();
 
+  // Load stats on mount
   useEffect(() => {
-    checkAuthAndLoadData();
+    loadStats();
   }, []);
-
-  const checkAuthAndLoadData = async () => {
-    try {
-      // First check localStorage for admin session (fallback auth)
-      const adminLoggedIn = localStorage.getItem('adminLoggedIn');
-      const adminEmail = localStorage.getItem('adminEmail');
-      
-      if (adminLoggedIn === 'true' && adminEmail) {
-        console.log('✅ Admin authenticated via localStorage:', adminEmail);
-        setUser({ email: adminEmail });
-        setAuthError(false);
-        setLoading(false);
-        return;
-      }
-
-      // If no localStorage session, check Supabase auth
-      if (!supabase) {
-        console.log('Supabase not configured');
-        setAuthError(true);
-        setLoading(false);
-        return;
-      }
-
-      console.log('🔍 Checking authentication...');
-      
-      // Add a 10-second timeout for the entire auth process
-      const authTimeout = setTimeout(() => {
-        console.log('⏰ Auth timeout - showing emergency access');
-        setAuthError(true);
-        setLoading(false);
-      }, 10000);
-
-      const result = await safeAuthCheck();
-      clearTimeout(authTimeout);
-      
-      if (result.error) {
-        console.log('❌ Auth error:', result.error);
-        setAuthError(true);
-        setLoading(false);
-        return;
-      }
-      
-      const currentUser = result.data?.user;
-      if (!currentUser) {
-        console.log('❌ No user found, showing emergency access');
-        setAuthError(true);
-        setLoading(false);
-        return;
-      }
-
-      console.log('✅ User authenticated:', currentUser.email);
-      setUser(currentUser);
-      setAuthError(false);
-      
-    } catch (error) {
-      console.error('❌ Auth check error:', error);
-      setAuthError(true);
-    } finally {
-      setLoading(false);
-    }
-  };
 
   const loadStats = async () => {
     try {
+      setStatsLoading(true);
       console.log('🔄 Loading dashboard stats...');
       const newStats = await safeLoadStats();
       setStats(newStats);
       console.log('✅ Stats loaded successfully:', newStats);
     } catch (error) {
       console.error('❌ Error loading stats:', error);
-      // Set default stats on error
       setStats({
         courses: 0,
         universities: 0,
@@ -153,49 +89,28 @@ const EnhancedAdminDashboard = () => {
         testimonials: 0,
         users: 0,
       });
+    } finally {
+      setStatsLoading(false);
     }
   };
 
   const handleLogout = async () => {
-    try {
-      if (supabase) {
-        await supabase.auth.signOut();
-      }
-      // Clear local admin session
-      localStorage.removeItem('adminLoggedIn');
-      localStorage.removeItem('adminEmail');
-      localStorage.removeItem('adminLoginTime');
-      navigate('/admin/login');
-    } catch (error) {
-      console.error('Logout error:', error);
-    }
+    await adminLogout();
+    navigate('/admin/login', { replace: true });
   };
 
   const menuItems = [
     { id: 'overview', label: 'Dashboard', icon: Home, color: 'blue' },
     { id: 'analytics', label: 'Analytics', icon: TrendingUp, color: 'cyan' },
-    { id: 'debug', label: 'Debug Dashboard', icon: Settings, color: 'red' },
-    { id: 'auth-debug', label: 'Auth Debug', icon: UserCheck, color: 'orange' },
     { id: 'users', label: 'User Management', icon: Users, color: 'indigo' },
-    { id: 'user-test', label: 'User Test', icon: Settings, color: 'gray' },
     { id: 'banners', label: 'Banners', icon: ImageIcon, color: 'orange' },
     { id: 'homepage', label: 'Home Page', icon: Home, color: 'purple' },
     { id: 'aboutus', label: 'About Us', icon: Users, color: 'green' },
     { id: 'about-gallery', label: 'About Gallery', icon: ImageIcon, color: 'teal' },
-    //{ id: 'marketplace', label: 'Marketplace', icon: DollarSign, color: 'blue' },
-    //{ id: 'marketplacenew', label: 'Marketplace (New)', icon: DollarSign, color: 'purple' },
     { id: 'marketplaceredesign', label: 'Marketplace Redesign', icon: DollarSign, color: 'rose' },
     { id: 'courseshero', label: 'Courses Hero', icon: FileText, color: 'cyan' },
-    //{ id: 'universities', label: 'Universities', icon: Building, color: 'purple' },
     { id: 'university-page', label: 'University Page', icon: GraduationCap, color: 'blue' },
-    //{ id: 'courses', label: 'Courses & Fees', icon: BookOpen, color: 'green' },
     { id: 'course-details', label: 'Course Management', icon: FileText, color: 'indigo' },
-    //{ id: 'course-test', label: 'Course Test', icon: FileText, color: 'red' },
-    //{ id: 'course-simple', label: 'Course Simple', icon: BookOpen, color: 'green' },
-    //{ id: 'db-test', label: 'DB Test', icon: Settings, color: 'gray' },
-    //{ id: 'diagnostic', label: 'Quick Fix', icon: TrendingUp, color: 'orange' },
-    //{ id: 'specializations', label: 'Course Specializations', icon: GraduationCap, color: 'teal' },
-    //{ id: 'specializations-enhanced', label: 'Specializations (Enhanced)', icon: GraduationCap, color: 'violet' },
     { id: 'unified-manager', label: 'University & Specializations', icon: Building, color: 'emerald' },
     { id: 'accreditations', label: 'Accreditations', icon: Award, color: 'yellow' },
     { id: 'hiring-partners', label: 'Hiring Partners', icon: Briefcase, color: 'emerald' },
@@ -204,22 +119,6 @@ const EnhancedAdminDashboard = () => {
     { id: 'testimonials', label: 'Testimonials', icon: Star, color: 'orange' },
     { id: 'enquiries', label: 'Enquiries', icon: MessageSquare, color: 'red' },
   ];
-
-  if (loading) {
-    return (
-      <div className="min-h-screen bg-gray-100 flex items-center justify-center">
-        <div className="text-center">
-          <div className="animate-spin rounded-full h-16 w-16 border-b-2 border-blue-600 mx-auto mb-4"></div>
-          <p className="text-gray-600">Loading admin dashboard...</p>
-          <p className="text-sm text-gray-500 mt-2">If this takes too long, there might be an authentication issue</p>
-        </div>
-      </div>
-    );
-  }
-
-  if (authError) {
-    return <EmergencyAdminAccess />;
-  }
 
   return (
     <div className="min-h-screen bg-gray-50 flex">
@@ -328,22 +227,6 @@ const EnhancedAdminDashboard = () => {
         <div className="p-6">
           {activeTab === 'overview' && (
             <div className="space-y-6">
-              {/* Manual Stats Loading */}
-              <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
-                <div className="flex items-center justify-between mb-4">
-                  <h3 className="text-lg font-bold text-gray-900">Dashboard Statistics</h3>
-                  <button
-                    onClick={loadStats}
-                    className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
-                  >
-                    Load Stats
-                  </button>
-                </div>
-                <p className="text-sm text-gray-600">
-                  Click "Load Stats" to fetch dashboard statistics. This helps identify which query might be causing issues.
-                </p>
-              </div>
-
               {/* Stats Grid */}
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6">
                 <StatCard
@@ -351,36 +234,47 @@ const EnhancedAdminDashboard = () => {
                   value={stats.users}
                   icon={Users}
                   color="indigo"
-                  trend="+15%"
+                  loading={statsLoading}
                 />
                 <StatCard
                   title="Total Courses"
                   value={stats.courses}
                   icon={BookOpen}
                   color="blue"
-                  trend="+12%"
+                  loading={statsLoading}
                 />
                 <StatCard
                   title="Universities"
                   value={stats.universities}
                   icon={Building}
                   color="purple"
-                  trend="+5%"
+                  loading={statsLoading}
                 />
                 <StatCard
                   title="Trainers"
                   value={stats.trainers}
                   icon={Users}
                   color="green"
-                  trend="+8%"
+                  loading={statsLoading}
                 />
                 <StatCard
                   title="Enquiries"
                   value={stats.enquiries}
                   icon={MessageSquare}
                   color="red"
-                  trend="+23%"
+                  loading={statsLoading}
                 />
+              </div>
+
+              {/* Refresh Stats */}
+              <div className="flex justify-end">
+                <button
+                  onClick={loadStats}
+                  disabled={statsLoading}
+                  className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors disabled:opacity-50 text-sm font-medium"
+                >
+                  {statsLoading ? 'Loading...' : '🔄 Refresh Stats'}
+                </button>
               </div>
 
               {/* Quick Actions */}
@@ -433,8 +327,6 @@ const EnhancedAdminDashboard = () => {
           )}
 
           {activeTab === 'analytics' && <AnalyticsDashboard />}
-          {activeTab === 'debug' && <AdminDashboardDebug />}
-          {activeTab === 'auth-debug' && <AuthStateDebug />}
           {activeTab === 'users' && <UserManager />}
           {activeTab === 'user-test' && <UserManagerTest />}
           {activeTab === 'banners' && <BannerManager />}
@@ -468,7 +360,7 @@ const EnhancedAdminDashboard = () => {
   );
 };
 
-const StatCard = ({ title, value, icon: Icon, color, trend }) => {
+const StatCard = ({ title, value, icon: Icon, color, loading }) => {
   const colors = {
     blue: 'from-blue-500 to-blue-600',
     cyan: 'from-cyan-500 to-cyan-600',
@@ -487,15 +379,13 @@ const StatCard = ({ title, value, icon: Icon, color, trend }) => {
         <div className={`w-12 h-12 bg-gradient-to-br ${colors[color]} rounded-xl flex items-center justify-center`}>
           <Icon className="w-6 h-6 text-white" />
         </div>
-        {trend && (
-          <span className="text-sm font-medium text-green-600 flex items-center">
-            <TrendingUp className="w-4 h-4 mr-1" />
-            {trend}
-          </span>
-        )}
       </div>
       <h3 className="text-gray-600 text-sm font-medium mb-1">{title}</h3>
-      <p className="text-3xl font-bold text-gray-900">{value}</p>
+      {loading ? (
+        <div className="h-9 w-16 bg-gray-200 rounded animate-pulse" />
+      ) : (
+        <p className="text-3xl font-bold text-gray-900">{value}</p>
+      )}
     </div>
   );
 };

@@ -26,10 +26,19 @@ export const UserAuthProvider = ({ children }) => {
           return;
         }
 
-        const { data: { session } } = await supabase.auth.getSession();
+        // Race getSession against a timeout to prevent hanging on stale tokens
+        const result = await Promise.race([
+          supabase.auth.getSession(),
+          new Promise((resolve) =>
+            setTimeout(() => resolve({ data: { session: null } }), 5000)
+          ),
+        ]);
+
+        const session = result?.data?.session;
         if (session?.user) {
           setUser(session.user);
-          await fetchUserProfile(session.user.id);
+          // Don't let profile fetch block the loading state
+          fetchUserProfile(session.user.id).catch(() => {});
         }
       } catch (error) {
         console.error('Session check error:', error);
@@ -37,6 +46,7 @@ export const UserAuthProvider = ({ children }) => {
         setLoading(false);
       }
     };
+
 
     getSession();
 
