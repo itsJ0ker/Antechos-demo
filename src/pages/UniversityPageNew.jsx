@@ -1410,6 +1410,49 @@ const UniversityPageNew = () => {
             </div>
          </section>
 
+         {/* INSTITUTIONAL PARTNERS / BRANDING SECTION */}
+         <section className="py-12 md:py-16 bg-white relative overflow-hidden border-t border-slate-100">
+            <div className="flex flex-col gap-6 md:gap-8 relative group">
+               {/* Fade overlays */}
+               <div className="absolute top-0 bottom-0 left-0 w-24 md:w-40 bg-gradient-to-r from-white to-transparent z-10 pointer-events-none"></div>
+               <div className="absolute top-0 bottom-0 right-0 w-24 md:w-40 bg-gradient-to-l from-white to-transparent z-10 pointer-events-none"></div>
+
+               {/* Row 1 - Moving Left */}
+               <div className="flex overflow-hidden">
+                  <div className="flex gap-8 md:gap-12 w-max animate-marquee hover:[animation-play-state:paused]" style={{ animationDuration: '40s' }}>
+                     {[...Array(4)].flatMap(() => [
+                        "https://i.ibb.co/VWRNmCzv/image.jpg",
+                        "https://i.ibb.co/s9FvdGcm/image1.jpg",
+                        "https://i.ibb.co/XxGfDznH/image2.jpg",
+                        "https://i.ibb.co/KxMTvQZ0/image3.jpg",
+                        "https://i.ibb.co/4gYDC3Wr/image4.jpg",
+                     ]).map((src, idx) => (
+                        <div key={`row1-${idx}`} className="w-[220px] md:w-[320px] h-[140px] md:h-[180px] flex items-center justify-center flex-shrink-0 transition-colors">
+                           <img src={src} alt="Partner" className="max-w-full max-h-full object-contain transition-all duration-500 hover:scale-110" />
+                        </div>
+                     ))}
+                  </div>
+               </div>
+
+               {/* Row 2 - Moving Right */}
+               <div className="flex overflow-hidden">
+                  <div className="flex gap-8 md:gap-12 w-max animate-marquee-reverse hover:[animation-play-state:paused]" style={{ animationDuration: '45s' }}>
+                     {[...Array(4)].flatMap(() => [
+                        "https://i.ibb.co/qYV5NwJk/image5.jpg",
+                        "https://i.ibb.co/XrPYPpk0/image6.jpg",
+                        "https://i.ibb.co/V40jV4g/image7.jpg",
+                        "https://i.ibb.co/vCxWdVgv/image8.jpg",
+                        "https://i.ibb.co/cXh3tWmv/image9.jpg",
+                     ]).map((src, idx) => (
+                        <div key={`row2-${idx}`} className="w-[220px] md:w-[320px] h-[140px] md:h-[180px] flex items-center justify-center flex-shrink-0 transition-colors">
+                           <img src={src} alt="Partner" className="max-w-full max-h-full object-contain transition-all duration-500 hover:scale-110" />
+                        </div>
+                     ))}
+                  </div>
+               </div>
+            </div>
+         </section>
+
          {/* 2026 TRENDING SPECIALIZATIONS */}
          <section className="py-12 md:py-24 bg-slate-50 relative overflow-hidden">
             <div className="container mx-auto px-6">

@@ -1350,11 +1350,46 @@ const Aboutus = () => {
               </div>
             </div>
 
-            {/* Trusted by marquee */}
-            <div style={{ marginTop: 80 }}>
-              <MarqueeBand label="Trusted by" />
-            </div>
           </div>
+        </section>
+
+        {/* ── PARTNERS MARQUEE (Bent & Full Screen) ────────────────────── */}
+        <section style={{ padding: '60px 0', overflow: 'hidden', position: 'relative' }}>
+           <div style={{ transform: 'rotate(-6deg) scale(1.15)', display: 'flex', flexDirection: 'column', gap: 32, position: 'relative' }}>
+              {/* Row 1 - Moving Left */}
+              <div style={{ display: 'flex', overflow: 'hidden' }}>
+                 <div className="animate-marquee hover:[animation-play-state:paused]" style={{ display: 'flex', gap: 40, width: 'max-content', animationDuration: '40s' }}>
+                    {[...Array(6)].flatMap(() => [
+                       "https://i.ibb.co/VWRNmCzv/image.jpg",
+                       "https://i.ibb.co/s9FvdGcm/image1.jpg",
+                       "https://i.ibb.co/XxGfDznH/image2.jpg",
+                       "https://i.ibb.co/KxMTvQZ0/image3.jpg",
+                       "https://i.ibb.co/4gYDC3Wr/image4.jpg",
+                    ]).map((src, idx) => (
+                       <div key={`row1-${idx}`} className="w-[220px] md:w-[320px] h-[140px] md:h-[180px] flex items-center justify-center flex-shrink-0">
+                          <img src={src} alt="Partner" className="max-w-full max-h-full object-contain transition-all duration-500 hover:scale-110" />
+                       </div>
+                    ))}
+                 </div>
+              </div>
+
+              {/* Row 2 - Moving Right */}
+              <div style={{ display: 'flex', overflow: 'hidden' }}>
+                 <div className="animate-marquee-reverse hover:[animation-play-state:paused]" style={{ display: 'flex', gap: 40, width: 'max-content', animationDuration: '45s' }}>
+                    {[...Array(6)].flatMap(() => [
+                       "https://i.ibb.co/qYV5NwJk/image5.jpg",
+                       "https://i.ibb.co/XrPYPpk0/image6.jpg",
+                       "https://i.ibb.co/V40jV4g/image7.jpg",
+                       "https://i.ibb.co/vCxWdVgv/image8.jpg",
+                       "https://i.ibb.co/cXh3tWmv/image9.jpg",
+                    ]).map((src, idx) => (
+                       <div key={`row2-${idx}`} className="w-[220px] md:w-[320px] h-[140px] md:h-[180px] flex items-center justify-center flex-shrink-0">
+                          <img src={src} alt="Partner" className="max-w-full max-h-full object-contain transition-all duration-500 hover:scale-110" />
+                       </div>
+                    ))}
+                 </div>
+              </div>
+           </div>
         </section>
 
 
