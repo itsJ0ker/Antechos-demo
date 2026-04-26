@@ -1355,19 +1355,47 @@ const Aboutus = () => {
 
         {/* ── PARTNERS MARQUEE (Bent & Full Screen) ────────────────────── */}
         <section style={{ padding: '60px 0', overflow: 'hidden', position: 'relative' }}>
-           <div style={{ transform: 'rotate(-6deg) scale(1.15)', display: 'flex', flexDirection: 'column', gap: 32, position: 'relative' }}>
+           <div style={{ transform: 'rotate(-6deg) scale(1.15)', display: 'flex', flexDirection: 'column', gap: 16, position: 'relative' }}>
               {/* Row 1 - Moving Left */}
               <div style={{ display: 'flex', overflow: 'hidden' }}>
-                 <div className="animate-marquee hover:[animation-play-state:paused]" style={{ display: 'flex', gap: 40, width: 'max-content', animationDuration: '40s' }}>
-                    {[...Array(6)].flatMap(() => [
-                       "https://i.ibb.co/VWRNmCzv/image.jpg",
-                       "https://i.ibb.co/s9FvdGcm/image1.jpg",
-                       "https://i.ibb.co/XxGfDznH/image2.jpg",
-                       "https://i.ibb.co/KxMTvQZ0/image3.jpg",
-                       "https://i.ibb.co/4gYDC3Wr/image4.jpg",
+                 <div className="animate-marquee hover:[animation-play-state:paused]" style={{ display: 'flex', gap: 16, width: 'max-content', animationDuration: '40s' }}>
+                    {[...Array(4)].flatMap(() => [
+                       "https://i.ibb.co/XZfFZzhM/PHOTO-2026-04-10-00-55-11.jpg",
+                       "https://i.ibb.co/rKc1fffG/PHOTO-2026-04-10-00-55-12.jpg",
+                       "https://i.ibb.co/pB0Mpmjx/PHOTO-2026-04-10-01-00-51-1.jpg",
+                       "https://i.ibb.co/3m1gcCp7/PHOTO-2026-04-10-01-00-51.jpg",
+                       "https://i.ibb.co/WNtsqTY8/PHOTO-2026-04-10-01-00-52-1.jpg",
+                       "https://i.ibb.co/HDDL9NFh/PHOTO-2026-04-10-01-00-52.jpg",
+                       "https://i.ibb.co/LzyR44Fr/PHOTO-2026-04-10-01-01-05.jpg",
+                       "https://i.ibb.co/GG1FKVj/PHOTO-2026-04-10-01-01-06.jpg",
+                       "https://i.ibb.co/TxSPY34N/PHOTO-2026-04-10-01-15-29.jpg",
+                       "https://i.ibb.co/FpqxdLV/PHOTO-2026-04-10-01-15-30.jpg",
                     ]).map((src, idx) => (
-                       <div key={`row1-${idx}`} className="w-[220px] md:w-[320px] h-[140px] md:h-[180px] flex items-center justify-center flex-shrink-0">
-                          <img src={src} alt="Partner" className="max-w-full max-h-full object-contain transition-all duration-500 hover:scale-110" />
+                       <div key={`row1-${idx}`} className="w-[160px] md:w-[200px] bg-white rounded-[12px] shadow-lg flex flex-col overflow-hidden flex-shrink-0" style={{ boxShadow: '0 4px 16px -4px rgba(0,0,0,0.1)' }}>
+                          <div className="flex items-center px-2.5 py-2 gap-1.5 border-b border-gray-100 bg-white">
+                             <div className="w-5 h-5 rounded-full bg-gradient-to-tr from-yellow-400 via-pink-500 to-purple-600 p-[1px]">
+                                <div className="w-full h-full bg-white rounded-full p-[1px]">
+                                   <div className="w-full h-full bg-gray-200 rounded-full overflow-hidden">
+                                      <img src="/logo.png" alt="avatar" className="w-full h-full object-cover" onError={(e) => { e.target.style.display = 'none'; }} />
+                                   </div>
+                                </div>
+                             </div>
+                             <span className="text-[10px] font-bold text-gray-900 tracking-tight">antechos.india</span>
+                             <div className="ml-auto flex gap-0.5">
+                                <div className="w-0.5 h-0.5 bg-gray-400 rounded-full"></div>
+                                <div className="w-0.5 h-0.5 bg-gray-400 rounded-full"></div>
+                                <div className="w-0.5 h-0.5 bg-gray-400 rounded-full"></div>
+                             </div>
+                          </div>
+                          <div className="w-full h-[160px] md:h-[200px] bg-gray-100 overflow-hidden relative">
+                             <img src={src} alt="Post" className="w-full h-full object-cover transition-transform duration-700 hover:scale-105" />
+                          </div>
+                          <div className="px-2.5 py-2 bg-white flex items-center gap-2 text-gray-800">
+                             <svg aria-label="Like" fill="currentColor" height="16" role="img" viewBox="0 0 24 24" width="16"><path d="M16.792 3.904A4.989 4.989 0 0 1 21.5 9.122c0 3.072-2.652 4.959-5.197 7.222-2.512 2.243-3.865 3.469-4.303 3.752-.477-.297-2.163-1.565-4.663-3.746C4.78 14.023 2.5 12.012 2.5 9.122a4.989 4.989 0 0 1 4.708-5.218 4.21 4.21 0 0 1 3.675 1.941c.84 1.175 1.575 1.175 2.434 0a4.213 4.213 0 0 1 3.475-1.941" fill="none" stroke="currentColor" strokeLinejoin="round" strokeWidth="2"></path></svg>
+                             <svg aria-label="Comment" fill="currentColor" height="16" role="img" viewBox="0 0 24 24" width="16"><path d="M20.656 17.008a9.993 9.993 0 1 0-3.59 3.615L22 22Z" fill="none" stroke="currentColor" strokeLinejoin="round" strokeWidth="2"></path></svg>
+                             <svg aria-label="Share" fill="currentColor" height="16" role="img" viewBox="0 0 24 24" width="16"><line fill="none" stroke="currentColor" strokeLinejoin="round" strokeWidth="2" x1="22" x2="9.218" y1="3" y2="10.083"></line><polygon fill="none" points="11.698 20.334 22 3.001 2 3.001 9.218 10.084 11.698 20.334" stroke="currentColor" strokeLinejoin="round" strokeWidth="2"></polygon></svg>
+                             <svg className="ml-auto" aria-label="Save" fill="currentColor" height="16" role="img" viewBox="0 0 24 24" width="16"><polygon fill="none" points="20 21 12 13.44 4 21 4 3 20 3 20 21" stroke="currentColor" strokeLinejoin="round" strokeWidth="2"></polygon></svg>
+                          </div>
                        </div>
                     ))}
                  </div>
@@ -1375,16 +1403,90 @@ const Aboutus = () => {
 
               {/* Row 2 - Moving Right */}
               <div style={{ display: 'flex', overflow: 'hidden' }}>
-                 <div className="animate-marquee-reverse hover:[animation-play-state:paused]" style={{ display: 'flex', gap: 40, width: 'max-content', animationDuration: '45s' }}>
-                    {[...Array(6)].flatMap(() => [
-                       "https://i.ibb.co/qYV5NwJk/image5.jpg",
-                       "https://i.ibb.co/XrPYPpk0/image6.jpg",
-                       "https://i.ibb.co/V40jV4g/image7.jpg",
-                       "https://i.ibb.co/vCxWdVgv/image8.jpg",
-                       "https://i.ibb.co/cXh3tWmv/image9.jpg",
+                 <div className="animate-marquee-reverse hover:[animation-play-state:paused]" style={{ display: 'flex', gap: 16, width: 'max-content', animationDuration: '45s' }}>
+                    {[...Array(4)].flatMap(() => [
+                       "https://i.ibb.co/N6mgpzs2/PHOTO-2026-04-18-14-37-03-1.jpg",
+                       "https://i.ibb.co/wrYm5GL4/PHOTO-2026-04-18-14-37-03-2.jpg",
+                       "https://i.ibb.co/7tPP1JjY/PHOTO-2026-04-18-14-37-03-4.jpg",
+                       "https://i.ibb.co/9mfyszrG/PHOTO-2026-04-18-14-37-03-6.jpg",
+                       "https://i.ibb.co/BKF4sXkf/PHOTO-2026-04-18-14-37-03.jpg",
+                       "https://i.ibb.co/hJDWPKPN/PHOTO-2026-04-18-22-02-43-2.jpg",
+                       "https://i.ibb.co/gMM0Dz6h/PHOTO-2026-04-21-15-34-21.jpg",
+                       "https://i.ibb.co/6SdDg9t/PHOTO-2026-04-21-15-34-22.jpg",
+                       "https://i.ibb.co/fYnTMCRf/PHOTO-2026-04-21-15-34-24.jpg",
+                       "https://i.ibb.co/20JNfG4L/PHOTO-2026-04-21-15-34-26-1.jpg",
                     ]).map((src, idx) => (
-                       <div key={`row2-${idx}`} className="w-[220px] md:w-[320px] h-[140px] md:h-[180px] flex items-center justify-center flex-shrink-0">
-                          <img src={src} alt="Partner" className="max-w-full max-h-full object-contain transition-all duration-500 hover:scale-110" />
+                       <div key={`row2-${idx}`} className="w-[160px] md:w-[200px] bg-white rounded-[12px] shadow-lg flex flex-col overflow-hidden flex-shrink-0" style={{ boxShadow: '0 4px 16px -4px rgba(0,0,0,0.1)' }}>
+                          <div className="flex items-center px-2.5 py-2 gap-1.5 border-b border-gray-100 bg-white">
+                             <div className="w-5 h-5 rounded-full bg-gradient-to-tr from-yellow-400 via-pink-500 to-purple-600 p-[1px]">
+                                <div className="w-full h-full bg-white rounded-full p-[1px]">
+                                   <div className="w-full h-full bg-gray-200 rounded-full overflow-hidden">
+                                      <img src="/logo.png" alt="avatar" className="w-full h-full object-cover" onError={(e) => { e.target.style.display = 'none'; }} />
+                                   </div>
+                                </div>
+                             </div>
+                             <span className="text-[10px] font-bold text-gray-900 tracking-tight">antechos.india</span>
+                             <div className="ml-auto flex gap-0.5">
+                                <div className="w-0.5 h-0.5 bg-gray-400 rounded-full"></div>
+                                <div className="w-0.5 h-0.5 bg-gray-400 rounded-full"></div>
+                                <div className="w-0.5 h-0.5 bg-gray-400 rounded-full"></div>
+                             </div>
+                          </div>
+                          <div className="w-full h-[160px] md:h-[200px] bg-gray-100 overflow-hidden relative">
+                             <img src={src} alt="Post" className="w-full h-full object-cover transition-transform duration-700 hover:scale-105" />
+                          </div>
+                          <div className="px-2.5 py-2 bg-white flex items-center gap-2 text-gray-800">
+                             <svg aria-label="Like" fill="currentColor" height="16" role="img" viewBox="0 0 24 24" width="16"><path d="M16.792 3.904A4.989 4.989 0 0 1 21.5 9.122c0 3.072-2.652 4.959-5.197 7.222-2.512 2.243-3.865 3.469-4.303 3.752-.477-.297-2.163-1.565-4.663-3.746C4.78 14.023 2.5 12.012 2.5 9.122a4.989 4.989 0 0 1 4.708-5.218 4.21 4.21 0 0 1 3.675 1.941c.84 1.175 1.575 1.175 2.434 0a4.213 4.213 0 0 1 3.475-1.941" fill="none" stroke="currentColor" strokeLinejoin="round" strokeWidth="2"></path></svg>
+                             <svg aria-label="Comment" fill="currentColor" height="16" role="img" viewBox="0 0 24 24" width="16"><path d="M20.656 17.008a9.993 9.993 0 1 0-3.59 3.615L22 22Z" fill="none" stroke="currentColor" strokeLinejoin="round" strokeWidth="2"></path></svg>
+                             <svg aria-label="Share" fill="currentColor" height="16" role="img" viewBox="0 0 24 24" width="16"><line fill="none" stroke="currentColor" strokeLinejoin="round" strokeWidth="2" x1="22" x2="9.218" y1="3" y2="10.083"></line><polygon fill="none" points="11.698 20.334 22 3.001 2 3.001 9.218 10.084 11.698 20.334" stroke="currentColor" strokeLinejoin="round" strokeWidth="2"></polygon></svg>
+                             <svg className="ml-auto" aria-label="Save" fill="currentColor" height="16" role="img" viewBox="0 0 24 24" width="16"><polygon fill="none" points="20 21 12 13.44 4 21 4 3 20 3 20 21" stroke="currentColor" strokeLinejoin="round" strokeWidth="2"></polygon></svg>
+                          </div>
+                       </div>
+                    ))}
+                 </div>
+              </div>
+
+              {/* Row 3 - Moving Left */}
+              <div style={{ display: 'flex', overflow: 'hidden' }}>
+                 <div className="animate-marquee hover:[animation-play-state:paused]" style={{ display: 'flex', gap: 16, width: 'max-content', animationDuration: '35s' }}>
+                    {[...Array(4)].flatMap(() => [
+                       "https://i.ibb.co/DPT52Z1s/PHOTO-2026-04-21-15-34-26.jpg",
+                       "https://i.ibb.co/XxtKVhyP/PHOTO-2026-04-21-15-34-27-1.jpg",
+                       "https://i.ibb.co/93nL4Kns/PHOTO-2026-04-21-15-34-27-2.jpg",
+                       "https://i.ibb.co/jPndkhMV/PHOTO-2026-04-21-15-34-27-3.jpg",
+                       "https://i.ibb.co/LzbRvs3H/PHOTO-2026-04-21-15-34-27-4.jpg",
+                       "https://i.ibb.co/4wvmFQRm/PHOTO-2026-04-21-15-34-27-5.jpg",
+                       "https://i.ibb.co/Z6m24HVx/PHOTO-2026-04-21-15-34-27-6.jpg",
+                       "https://i.ibb.co/zVCdLg12/PHOTO-2026-04-21-15-34-27-7.jpg",
+                       "https://i.ibb.co/C5hgXmcN/PHOTO-2026-04-21-15-34-27.jpg",
+                       "https://i.ibb.co/7JsXWYtS/PHOTO-2026-04-10-00-55-09-1.jpg",
+                       "https://i.ibb.co/R4zyF0M1/PHOTO-2026-04-10-00-55-09.jpg",
+                    ]).map((src, idx) => (
+                       <div key={`row3-${idx}`} className="w-[160px] md:w-[200px] bg-white rounded-[12px] shadow-lg flex flex-col overflow-hidden flex-shrink-0" style={{ boxShadow: '0 4px 16px -4px rgba(0,0,0,0.1)' }}>
+                          <div className="flex items-center px-2.5 py-2 gap-1.5 border-b border-gray-100 bg-white">
+                             <div className="w-5 h-5 rounded-full bg-gradient-to-tr from-yellow-400 via-pink-500 to-purple-600 p-[1px]">
+                                <div className="w-full h-full bg-white rounded-full p-[1px]">
+                                   <div className="w-full h-full bg-gray-200 rounded-full overflow-hidden">
+                                      <img src="/logo.png" alt="avatar" className="w-full h-full object-cover" onError={(e) => { e.target.style.display = 'none'; }} />
+                                   </div>
+                                </div>
+                             </div>
+                             <span className="text-[10px] font-bold text-gray-900 tracking-tight">antechos.india</span>
+                             <div className="ml-auto flex gap-0.5">
+                                <div className="w-0.5 h-0.5 bg-gray-400 rounded-full"></div>
+                                <div className="w-0.5 h-0.5 bg-gray-400 rounded-full"></div>
+                                <div className="w-0.5 h-0.5 bg-gray-400 rounded-full"></div>
+                             </div>
+                          </div>
+                          <div className="w-full h-[160px] md:h-[200px] bg-gray-100 overflow-hidden relative">
+                             <img src={src} alt="Post" className="w-full h-full object-cover transition-transform duration-700 hover:scale-105" />
+                          </div>
+                          <div className="px-2.5 py-2 bg-white flex items-center gap-2 text-gray-800">
+                             <svg aria-label="Like" fill="currentColor" height="16" role="img" viewBox="0 0 24 24" width="16"><path d="M16.792 3.904A4.989 4.989 0 0 1 21.5 9.122c0 3.072-2.652 4.959-5.197 7.222-2.512 2.243-3.865 3.469-4.303 3.752-.477-.297-2.163-1.565-4.663-3.746C4.78 14.023 2.5 12.012 2.5 9.122a4.989 4.989 0 0 1 4.708-5.218 4.21 4.21 0 0 1 3.675 1.941c.84 1.175 1.575 1.175 2.434 0a4.213 4.213 0 0 1 3.475-1.941" fill="none" stroke="currentColor" strokeLinejoin="round" strokeWidth="2"></path></svg>
+                             <svg aria-label="Comment" fill="currentColor" height="16" role="img" viewBox="0 0 24 24" width="16"><path d="M20.656 17.008a9.993 9.993 0 1 0-3.59 3.615L22 22Z" fill="none" stroke="currentColor" strokeLinejoin="round" strokeWidth="2"></path></svg>
+                             <svg aria-label="Share" fill="currentColor" height="16" role="img" viewBox="0 0 24 24" width="16"><line fill="none" stroke="currentColor" strokeLinejoin="round" strokeWidth="2" x1="22" x2="9.218" y1="3" y2="10.083"></line><polygon fill="none" points="11.698 20.334 22 3.001 2 3.001 9.218 10.084 11.698 20.334" stroke="currentColor" strokeLinejoin="round" strokeWidth="2"></polygon></svg>
+                             <svg className="ml-auto" aria-label="Save" fill="currentColor" height="16" role="img" viewBox="0 0 24 24" width="16"><polygon fill="none" points="20 21 12 13.44 4 21 4 3 20 3 20 21" stroke="currentColor" strokeLinejoin="round" strokeWidth="2"></polygon></svg>
+                          </div>
                        </div>
                     ))}
                  </div>

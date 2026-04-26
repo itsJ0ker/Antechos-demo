@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useMemo, useRef } from 'react';
+import { createPortal } from 'react-dom';
 import {
    Building2,
    Search,
@@ -192,14 +193,14 @@ const WHY_CHOOSE_DATA = [
 ];
 
 const OFFICIAL_COURSES = [
-   { name: "Online MBA", category: "Masters (PG)", link: "https://courses.universityadmission.co.in/online-mba?source_campaign=LAM%20Influencer&campaign_name=4711&ad_group_name=General&ads_name=MBAonine", icon: <Briefcase className="w-5 h-5" />, badge: "UGC Approved" },
-   { name: "Online BBA", category: "Bachelor's (UG)", link: "https://courses.universityadmission.co.in/online-bba?source_campaign=LAM%20Influencer&campaign_name=4711&ad_group_name=General&ads_name=onlineBBA", icon: <TrendingUp className="w-5 h-5" />, badge: "Industry Lead" },
-   { name: "Online MCA", category: "Masters (PG)", link: "https://courses.universityadmission.co.in/online-mca?source_campaign=LAM%20Influencer&campaign_name=4711&ad_group_name=General&ads_name=onlineMCA", icon: <Zap className="w-5 h-5" />, badge: "Tech Accredited" },
-   { name: "Online BCA", category: "Bachelor's (UG)", link: "https://courses.universityadmission.co.in/online-bca?source_campaign=LAM%20Influencer&campaign_name=4711&ad_group_name=General&ads_name=onlineBCA", icon: <Rocket className="w-5 h-5" />, badge: "Skill Based" },
-   { name: "Online MA", category: "Masters (PG)", link: "https://courses.universityadmission.co.in/online-ma?source_campaign=LAM%20Influencer&campaign_name=4711&ad_group_name=General&ads_name=onlineMA", icon: <GraduationCap className="w-5 h-5" />, badge: "Research Led" },
-   { name: "Online BA", category: "Bachelor's (UG)", link: "https://courses.universityadmission.co.in/online-ba?source_campaign=LAM%20Influencer&campaign_name=4711&ad_group_name=General&ads_name=onlineBA", icon: <Globe className="w-5 h-5" />, badge: "Diverse Curriculum" },
-   { name: "Online M.Com", category: "Masters (PG)", link: "https://courses.universityadmission.co.in/online-mcom?source_campaign=LAM%20Influencer&campaign_name=4711&ad_group_name=General&ads_name=onlineMCom", icon: <CreditCard className="w-5 h-5" />, badge: "Finance Focused" },
-   { name: "Online B.Com", category: "Bachelor's (UG)", link: "https://courses.universityadmission.co.in/online-bcom?source_campaign=LAM%20Influencer&campaign_name=4711&ad_group_name=General&ads_name=onlineBCom", icon: <Activity className="w-5 h-5" />, badge: "Business Foundation" },
+   { name: "Online MBA", category: "Masters (PG)", link: "https://i.ibb.co/HDTJ7jHt/mba.jpg", icon: <Briefcase className="w-5 h-5" />, badge: "UGC Approved" },
+   { name: "Online BBA", category: "Bachelor's (UG)", link: "https://i.ibb.co/Y4CnR6PZ/bba.jpg", icon: <TrendingUp className="w-5 h-5" />, badge: "Industry Lead" },
+   { name: "Online MCA", category: "Masters (PG)", link: "https://i.ibb.co/Zk7RHXV/mca.jpg", icon: <Zap className="w-5 h-5" />, badge: "Tech Accredited" },
+   { name: "Online BCA", category: "Bachelor's (UG)", link: "https://i.ibb.co/x87fDS4F/bca.jpg", icon: <Rocket className="w-5 h-5" />, badge: "Skill Based" },
+   { name: "Online MA", category: "Masters (PG)", link: "https://i.ibb.co/cdq0cy7/ma.jpg", icon: <GraduationCap className="w-5 h-5" />, badge: "Research Led" },
+   { name: "Online BA", category: "Bachelor's (UG)", link: "https://i.ibb.co/j9hn9pwJ/ba.jpg", icon: <Globe className="w-5 h-5" />, badge: "Diverse Curriculum" },
+   { name: "Online M.Com", category: "Masters (PG)", link: "https://i.ibb.co/8Lrjf2Xf/mcom.jpg", icon: <CreditCard className="w-5 h-5" />, badge: "Finance Focused" },
+   { name: "Online B.Com", category: "Bachelor's (UG)", link: "https://i.ibb.co/GQw4bbKJ/bcom.jpg", icon: <Activity className="w-5 h-5" />, badge: "Business Foundation" },
    // PROFESSIONAL & TECH SERIES
    { name: "Block Chain (EPGP)", category: "Certification", link: "https://courses.universityadmission.co.in/online-executive-pg-diploma-certificate-blockchain?source_campaign=LAM%20Influencer&campaign_name=4711&ad_group_name=General&ads_name=courseBlockchain", icon: <ShieldCheck className="w-5 h-5" />, badge: "Web3 Mastery" },
    { name: "Cyber Security (EPGP)", category: "Certification", link: "https://courses.universityadmission.co.in/online-executive-pg-diploma-certificate-cyber-security?source_campaign=LAM%20Influencer&campaign_name=4711&ad_group_name=General&ads_name=courseCyberSecurity", icon: <ShieldCheck className="w-5 h-5" />, badge: "Security Vetting" },
@@ -210,8 +211,8 @@ const OFFICIAL_COURSES = [
    { name: "Data Science & Analytics", category: "Certification", link: "https://courses.universityadmission.co.in/online-epg-diploma-certificate-data-science-analytics?source_campaign=LAM%20Influencer&campaign_name=4711&ad_group_name=General&ads_name=CourseDSA", icon: <TrendingUp className="w-5 h-5" />, badge: "Big Data Elite" },
    { name: "Gen AI & Agentic AI", category: "Certification", link: "https://courses.universityadmission.co.in/generative-ai-and-agentic-ai-programs-online?source_campaign=LAM%20Influencer&campaign_name=4711&ad_group_name=General&ads_name=courseGenAI", icon: <Activity className="w-5 h-5" />, badge: "Advanced Agents" },
 
-   { name: "Online M.Sc", category: "Masters (PG)", link: "https://courses.universityadmission.co.in/online-msc?source_campaign=LAM%20Influencer&campaign_name=4711&ad_group_name=General&ads_name=onlineMSc", icon: <Info className="w-5 h-5" />, badge: "Advanced Science" },
-   { name: "Online B.Sc", category: "Bachelor's (UG)", link: "https://courses.universityadmission.co.in/online-bsc?source_campaign=LAM%20Influencer&campaign_name=4711&ad_group_name=General&ads_name=onlineBSc", icon: <Star className="w-5 h-5" />, badge: "Foundational Science" },
+   { name: "Online M.Sc", category: "Masters (PG)", link: "https://i.ibb.co/FLKQ4V2Z/msc.jpg", icon: <Info className="w-5 h-5" />, badge: "Advanced Science" },
+   { name: "Online B.Sc", category: "Bachelor's (UG)", link: "https://i.ibb.co/kLHjBXP/bcs.jpg", icon: <Star className="w-5 h-5" />, badge: "Foundational Science" },
    { name: "Online Dual MBA", category: "Special", link: "https://courses.universityadmission.co.in/online-mba-dual-specialization?source_campaign=LAM%20Influencer&campaign_name=4711&ad_group_name=General&ads_name=DualMBA", icon: <Briefcase className="w-5 h-5" />, badge: "Expert Specialization" },
    { name: "Integrated BBA + MBA", category: "Integrated Program", link: "https://courses.universityadmission.co.in/online-integrated-bba-mba?source_campaign=LAM%20Influencer&campaign_name=4711&ad_group_name=General&ads_name=onlineBBAMBA", icon: <TrendingUp className="w-5 h-5" />, badge: "Fast Track" },
    { name: "Integrated BCA + MCA", category: "Integrated Program", link: "https://courses.universityadmission.co.in/online-integrated-bca-mca?source_campaign=LAM%20Influencer&campaign_name=4711&ad_group_name=General&ads_name=onlineBCAMCA", icon: <Zap className="w-5 h-5" />, badge: "Technical Mastery" },
@@ -281,6 +282,51 @@ const TESTIMONIALS = [
    }
 ];
 
+const TRUSTED_SHORTS = [
+   {
+      id: 1,
+      title: "Got PLACEMENT SUPPORT from Antechos",
+      views: "4.3K",
+      thumbnail: "https://i.ibb.co/3m1gcCp7/PHOTO-2026-04-10-01-00-51.jpg",
+      videoId: "dQw4w9WgXcQ"
+   },
+   {
+      id: 2,
+      title: "MAHAK KASHYAP CAREER COUNSELLING HELPED TO SHAPE MY FUTURE IN BUSINESS",
+      views: "19.4K",
+      thumbnail: "https://i.ibb.co/rKc1fffG/PHOTO-2026-04-10-00-55-12.jpg",
+      videoId: "dQw4w9WgXcQ"
+   },
+   {
+      id: 3,
+      title: "Chain Reaction An Experiment",
+      views: "9.7K",
+      thumbnail: "https://i.ibb.co/WNtsqTY8/PHOTO-2026-04-10-01-00-52-1.jpg",
+      videoId: "dQw4w9WgXcQ"
+   },
+   {
+      id: 4,
+      title: "SNEHA SINGH TOOK ADMISSION WITHOUT ANY HUSTLE",
+      views: "6K",
+      thumbnail: "https://i.ibb.co/GG1FKVj/PHOTO-2026-04-10-01-01-06.jpg",
+      videoId: "dQw4w9WgXcQ"
+   },
+   {
+      id: 5,
+      title: "Student Experience Review",
+      views: "7.2K",
+      thumbnail: "https://i.ibb.co/TxSPY34N/PHOTO-2026-04-10-01-15-29.jpg",
+      videoId: "dQw4w9WgXcQ"
+   },
+   {
+      id: 6,
+      title: "How I chose my university",
+      views: "12.1K",
+      thumbnail: "https://i.ibb.co/FpqxdLV/PHOTO-2026-04-10-01-15-30.jpg",
+      videoId: "dQw4w9WgXcQ"
+   }
+];
+
 const FAQ_DATA = [
    {
       question: "What is Antechos?",
@@ -336,6 +382,35 @@ const UniversityPageNew = () => {
    const [isMobile, setIsMobile] = useState(false);
    const [isFaqOpen, setIsFaqOpen] = useState(false);
    const strategicIntelligenceRef = useRef(null);
+
+   const [selectedShort, setSelectedShort] = useState(null);
+   const [isShortsHovered, setIsShortsHovered] = useState(false);
+   const shortsScrollRef = useRef(null);
+
+   const scrollShorts = (direction) => {
+      if (shortsScrollRef.current) {
+         const scrollAmount = windowWidth < 768 ? 260 : 320;
+         shortsScrollRef.current.scrollBy({ left: direction === 'left' ? -scrollAmount : scrollAmount, behavior: 'smooth' });
+      }
+   };
+
+   useEffect(() => {
+      let interval;
+      if (!isShortsHovered && !selectedShort) {
+         interval = setInterval(() => {
+            if (shortsScrollRef.current) {
+               const { scrollLeft, scrollWidth, clientWidth } = shortsScrollRef.current;
+               if (scrollLeft + clientWidth >= scrollWidth - 10) {
+                  shortsScrollRef.current.scrollTo({ left: 0, behavior: 'smooth' });
+               } else {
+                  const scrollAmount = windowWidth < 768 ? 260 : 320;
+                  shortsScrollRef.current.scrollBy({ left: scrollAmount, behavior: 'smooth' });
+               }
+            }
+         }, 3000);
+      }
+      return () => clearInterval(interval);
+   }, [isShortsHovered, selectedShort, windowWidth]);
 
    const getVisibleFeatures = () => {
       if (typeof window === 'undefined') return 4;
@@ -1110,12 +1185,12 @@ const UniversityPageNew = () => {
                         <div className="overflow-hidden py-4 m-auto">
                            <motion.div
                               className="flex w-max gap-6 md:gap-8 pb-12 cursor-grab active:cursor-grabbing touch-pan-x items-stretch"
-                              animate={{ x: -(programIndex * (windowWidth < 768 ? 300 + 24 : 380 + 32)) }}
+                              animate={{ x: -(programIndex * (windowWidth < 768 ? 260 + 24 : 300 + 32)) }}
                               transition={{ type: "spring", damping: 25, stiffness: 120 }}
                               drag="x"
                               dragConstraints={{
                                  right: 0,
-                                 left: -((filteredCourses.length - 1) * (windowWidth < 768 ? 300 + 24 : 380 + 32))
+                                 left: -((filteredCourses.length - 1) * (windowWidth < 768 ? 260 + 24 : 300 + 32))
                               }}
                               onDragEnd={(e, { offset }) => {
                                  pauseAutoplay();
@@ -1124,28 +1199,39 @@ const UniversityPageNew = () => {
                                  if (offset.x > swipeThreshold) setProgramIndex(prev => Math.max(prev - 1, 0));
                               }}
                            >
-                              {filteredCourses.map((course, idx) => (
+                              {filteredCourses.map((course, idx) => {
+                                 const isImageLink = course.link && typeof course.link === 'string' && course.link.match(/\.(jpg|jpeg|png|webp|gif)$/i);
+                                 return (
                                  <div
                                     key={idx}
-                                    className="flex-shrink-0 w-[300px] md:w-[380px] h-[400px] md:h-[420px] relative bg-white border border-slate-100 p-8 md:p-10 rounded-[2.5rem] md:rounded-[3rem] hover:border-blue-200 hover:-translate-y-2 hover:shadow-2xl transition-all duration-700 flex flex-col group content-start cursor-pointer"
+                                    onClick={() => handleUniversityClick(course.link)}
+                                    className="flex-shrink-0 w-[260px] md:w-[300px] h-auto min-h-[320px] md:min-h-[360px] rounded-xl overflow-hidden shadow-sm hover:shadow-2xl transition-all duration-300 cursor-pointer flex flex-col group border border-slate-200"
                                  >
-                                    <div className="absolute top-8 right-8 opacity-40 group-hover:opacity-100 group-hover:text-blue-600 group-hover:scale-110 text-slate-400 transition-all duration-500">
-                                       {course.icon}
+                                    <div className={`relative flex-1 bg-slate-900 flex flex-col items-center justify-center ${isImageLink ? 'p-0' : 'p-6'} overflow-hidden`}>
+                                       <img src={isImageLink ? course.link : (course.image || "https://images.unsplash.com/photo-1552664730-d307ca884978?w=800&q=80")} alt="Background" className={`absolute inset-0 w-full h-full object-cover transition-all duration-700 ${isImageLink ? 'opacity-100 group-hover:scale-105' : 'opacity-30 group-hover:scale-110 group-hover:opacity-40'}`} />
+                                       
+                                       {!isImageLink && (
+                                          <>
+                                             <div className="absolute inset-0 bg-gradient-to-t from-[#0b132b]/80 via-transparent to-transparent"></div>
+                                             <div className="relative z-10 text-center flex flex-col items-center">
+                                                <div className="text-white/80 mb-3 scale-150 group-hover:text-blue-400 group-hover:scale-[1.8] transition-all duration-500">
+                                                   {course.icon}
+                                                </div>
+                                                <h3 className="text-3xl md:text-4xl font-black text-white uppercase tracking-wider drop-shadow-xl leading-none text-center">
+                                                   {course.name.replace(/Online\s?/i, '')}
+                                                </h3>
+                                             </div>
+                                          </>
+                                       )}
                                     </div>
-                                    <div className="mb-10 text-left">
-                                       <span className="bg-slate-50 text-blue-600 px-5 py-2 rounded-full text-[9px] font-black uppercase tracking-widest border border-slate-100 shadow-sm transition-all group-hover:bg-blue-600 group-hover:text-white group-hover:border-blue-500">{course.badge}</span>
+                                    <div className="bg-[#1a36a8] group-hover:bg-[#152a85] transition-colors h-[64px] md:h-[72px] shrink-0 px-4 flex items-center justify-center">
+                                       <span className="text-white font-black text-[13px] md:text-[14px] uppercase tracking-widest text-center line-clamp-2">
+                                          {course.name.toUpperCase().includes('ONLINE') ? course.name.toUpperCase() : `${course.name.toUpperCase()} ONLINE`}
+                                       </span>
                                     </div>
-                                    <h3 className="text-2xl md:text-3xl font-black text-slate-900 mb-4 leading-tight uppercase text-left group-hover:text-blue-600 transition-colors">{course.name}</h3>
-                                    <p className="text-slate-500 text-[10px] md:text-xs font-bold uppercase tracking-widest mb-12 text-left line-clamp-1">{course.category} Certification</p>
-                                    <button
-                                       onClick={() => handleUniversityClick(course.link)}
-                                       className="mt-auto w-full bg-slate-50 hover:bg-slate-900 border border-slate-200 hover:border-slate-800 text-slate-900 hover:text-white font-black py-4 md:py-5 rounded-2xl transition-all flex items-center justify-center gap-4 text-[9px] md:text-[10px] uppercase tracking-[0.2em] group/btn"
-                                    >
-                                       <span>Secure Enrollment</span>
-                                       <ExternalLink className="w-4 h-4 group-hover/btn:rotate-45 transition-transform" />
-                                    </button>
                                  </div>
-                              ))}
+                                 );
+                              })}
                            </motion.div>
                         </div>
 
@@ -1166,32 +1252,43 @@ const UniversityPageNew = () => {
                         </div>
                      </div>
                   ) : (
-                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8">
-                        {filteredCourses.map((course, idx) => (
+                     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 md:gap-8 items-stretch">
+                        {filteredCourses.map((course, idx) => {
+                           const isImageLink = course.link && typeof course.link === 'string' && course.link.match(/\.(jpg|jpeg|png|webp|gif)$/i);
+                           return (
                            <motion.div
                               key={idx}
                               initial={{ opacity: 0, y: 30 }}
                               animate={{ opacity: 1, y: 0 }}
                               transition={{ delay: idx * 0.05 }}
-                              className="relative bg-slate-50 border border-slate-100 p-6 md:p-8 rounded-[2rem] md:rounded-[2.5rem] hover:border-blue-100 hover:bg-white hover:shadow-2xl transition-all duration-700 flex flex-col h-[400px] md:h-[420px]"
+                              onClick={() => handleUniversityClick(course.link)}
+                              className="rounded-xl overflow-hidden shadow-sm hover:shadow-2xl transition-all duration-300 cursor-pointer flex flex-col group border border-slate-200 h-full min-h-[320px] md:min-h-[360px]"
                            >
-                              <div className="absolute top-6 right-6 opacity-40 text-slate-400">
-                                 {course.icon}
+                              <div className={`relative flex-1 bg-slate-900 flex flex-col items-center justify-center ${isImageLink ? 'p-0' : 'p-6'} overflow-hidden`}>
+                                 <img src={isImageLink ? course.link : (course.image || "https://images.unsplash.com/photo-1552664730-d307ca884978?w=800&q=80")} alt="Background" className={`absolute inset-0 w-full h-full object-cover transition-all duration-700 ${isImageLink ? 'opacity-100 group-hover:scale-105' : 'opacity-30 group-hover:scale-110 group-hover:opacity-40'}`} />
+                                 
+                                 {!isImageLink && (
+                                    <>
+                                       <div className="absolute inset-0 bg-gradient-to-t from-[#0b132b]/80 via-transparent to-transparent"></div>
+                                       <div className="relative z-10 text-center flex flex-col items-center">
+                                          <div className="text-white/80 mb-3 scale-150 group-hover:text-blue-400 group-hover:scale-[1.8] transition-all duration-500">
+                                             {course.icon}
+                                          </div>
+                                          <h3 className="text-3xl md:text-4xl font-black text-white uppercase tracking-wider drop-shadow-xl leading-none text-center">
+                                             {course.name.replace(/Online\s?/i, '')}
+                                          </h3>
+                                       </div>
+                                    </>
+                                 )}
                               </div>
-                              <div className="mb-8 md:mb-10 text-left">
-                                 <span className="bg-white text-blue-600 px-4 py-1.5 rounded-full text-[8px] md:text-[9px] font-black uppercase tracking-widest border border-blue-100">{course.badge}</span>
+                              <div className="bg-[#1a36a8] group-hover:bg-[#152a85] transition-colors h-[64px] md:h-[72px] shrink-0 px-4 flex items-center justify-center">
+                                 <span className="text-white font-black text-[13px] md:text-[14px] uppercase tracking-widest text-center line-clamp-2">
+                                    {course.name.toUpperCase().includes('ONLINE') ? course.name.toUpperCase() : `${course.name.toUpperCase()} ONLINE`}
+                                 </span>
                               </div>
-                              <h3 className="text-xl md:text-2xl font-black text-slate-900 mb-3 leading-tight uppercase text-left">{course.name}</h3>
-                              <p className="text-slate-500 text-[9px] md:text-[10px] font-bold uppercase tracking-widest mb-10 md:mb-12 text-left">{course.category} Certification</p>
-                              <button
-                                 onClick={() => handleUniversityClick(course.link)}
-                                 className="mt-auto w-full bg-slate-900 hover:bg-blue-600 text-white font-black py-4 md:py-5 rounded-2xl transition-all flex items-center justify-center gap-4 text-[9px] md:text-[10px] uppercase tracking-[0.2em] group"
-                              >
-                                 <span>Secure Enrollment</span>
-                                 <ExternalLink className="w-4 h-4 group-hover:rotate-45 transition-transform" />
-                              </button>
                            </motion.div>
-                        ))}
+                           );
+                        })}
                      </div>
                   )}
 
@@ -1392,8 +1489,8 @@ const UniversityPageNew = () => {
                               key={i}
                               onClick={() => setTestimonialIndex(i)}
                               className={`h-2 rounded-full transition-all duration-300 ${testimonialIndex === i
-                                    ? "w-8 bg-blue-600"
-                                    : "w-2 bg-slate-300 hover:bg-slate-400"
+                                 ? "w-8 bg-blue-600"
+                                 : "w-2 bg-slate-300 hover:bg-slate-400"
                                  }`}
                            />
                         ))}
@@ -1410,42 +1507,284 @@ const UniversityPageNew = () => {
             </div>
          </section>
 
+         {/* TRUSTED VOICES / SHORTS SECTION */}
+         <section 
+            className="py-12 md:py-20 bg-slate-50 border-t border-slate-100"
+            onMouseEnter={() => setIsShortsHovered(true)}
+            onMouseLeave={() => setIsShortsHovered(false)}
+         >
+            <div className="container mx-auto px-6 max-w-7xl relative">
+               <div className="mb-10 text-left">
+                  <p className="text-slate-500 font-medium text-lg uppercase tracking-widest mb-2">Trusted Voices</p>
+                  <h2 className="text-4xl md:text-5xl font-black text-slate-900 tracking-tight">
+                     <span className="text-blue-600">Hear them</span> out
+                  </h2>
+               </div>
+
+               {/* Left Arrow */}
+               <button 
+                  onClick={() => scrollShorts('left')}
+                  className="absolute left-0 md:-left-6 top-1/2 -translate-y-1/2 z-20 w-12 h-12 bg-white rounded-full shadow-xl border border-slate-200 flex items-center justify-center text-slate-600 hover:text-blue-600 hover:border-blue-300 hover:scale-110 transition-all hidden md:flex"
+               >
+                  <ChevronLeft className="w-6 h-6" />
+               </button>
+
+               {/* Right Arrow */}
+               <button 
+                  onClick={() => scrollShorts('right')}
+                  className="absolute right-0 md:-right-6 top-1/2 -translate-y-1/2 z-20 w-12 h-12 bg-white rounded-full shadow-xl border border-slate-200 flex items-center justify-center text-slate-600 hover:text-blue-600 hover:border-blue-300 hover:scale-110 transition-all hidden md:flex"
+               >
+                  <ChevronRight className="w-6 h-6" />
+               </button>
+
+               <div 
+                  ref={shortsScrollRef}
+                  className="flex gap-4 md:gap-6 overflow-x-auto snap-x snap-mandatory scrollbar-hide pb-8 items-stretch"
+                  style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
+               >
+                  {TRUSTED_SHORTS.map((short) => (
+                     <div 
+                        key={short.id} 
+                        className="snap-start flex-shrink-0 w-[240px] md:w-[280px] h-[400px] md:h-[480px] bg-[#1c1c1c] rounded-2xl overflow-hidden relative group cursor-pointer shadow-lg hover:shadow-2xl transition-all duration-300"
+                        onClick={() => setSelectedShort(short)}
+                     >
+                        <img 
+                           src={short.thumbnail} 
+                           alt={short.title}
+                           className="w-full h-full object-cover opacity-90 group-hover:scale-105 group-hover:opacity-100 transition-all duration-500"
+                        />
+                        
+                        {/* Overlay gradient */}
+                        <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent pointer-events-none"></div>
+
+                        {/* Views Badge */}
+                        <div className="absolute top-4 right-4 bg-white/20 backdrop-blur-md px-2.5 py-1 rounded-full flex items-center gap-1.5 border border-white/10">
+                           <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-white"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg>
+                           <span className="text-white text-[10px] font-bold">{short.views}</span>
+                        </div>
+
+                        {/* Play Button */}
+                        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-14 h-14 bg-black/40 backdrop-blur-md rounded-full flex items-center justify-center border-2 border-white/60 group-hover:scale-110 group-hover:bg-blue-600/80 group-hover:border-blue-400 transition-all duration-300 shadow-2xl">
+                           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="white" stroke="currentColor" strokeWidth="0" strokeLinecap="round" strokeLinejoin="round" className="ml-1"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+                        </div>
+                     </div>
+                  ))}
+               </div>
+            </div>
+
+            {/* Modal Overlay via Portal */}
+            {typeof document !== 'undefined' ? createPortal(
+               <AnimatePresence>
+                  {selectedShort && (
+                     <motion.div 
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        exit={{ opacity: 0 }}
+                        className="fixed inset-0 z-[99999] bg-black/90 backdrop-blur-sm flex items-center justify-center p-4 md:p-6"
+                        onClick={() => setSelectedShort(null)}
+                     >
+                        <motion.div 
+                           initial={{ scale: 0.9, y: 20 }}
+                           animate={{ scale: 1, y: 0 }}
+                           exit={{ scale: 0.9, y: 20 }}
+                           transition={{ type: 'spring', damping: 25, stiffness: 300 }}
+                           className="bg-white w-full max-w-sm rounded-2xl overflow-hidden shadow-2xl relative flex flex-col"
+                           onClick={(e) => e.stopPropagation()}
+                        >
+                           {/* Header */}
+                           <div className="flex items-center justify-between p-4 border-b border-slate-100">
+                              <h3 className="font-bold text-slate-800 line-clamp-1">{selectedShort.title}</h3>
+                              <button 
+                                 onClick={() => setSelectedShort(null)}
+                                 className="w-8 h-8 rounded-full bg-slate-100 flex items-center justify-center text-slate-500 hover:bg-slate-200 hover:text-slate-800 transition-colors shrink-0"
+                              >
+                                 <X className="w-5 h-5" />
+                              </button>
+                           </div>
+
+                           {/* Video Player */}
+                           <div className="relative w-full aspect-[9/16] bg-black">
+                              <iframe 
+                                 src={`https://www.youtube.com/embed/${selectedShort.videoId}?autoplay=1&mute=0&controls=1&loop=1&playlist=${selectedShort.videoId}`} 
+                                 title="YouTube Shorts player" 
+                                 className="absolute top-0 left-0 w-full h-full border-0"
+                                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                                 allowFullScreen
+                              ></iframe>
+                           </div>
+                        </motion.div>
+                     </motion.div>
+                  )}
+               </AnimatePresence>,
+               document.body
+            ) : null}
+         </section>
+
          {/* INSTITUTIONAL PARTNERS / BRANDING SECTION */}
          <section className="py-12 md:py-16 bg-white relative overflow-hidden border-t border-slate-100">
-            <div className="flex flex-col gap-6 md:gap-8 relative group">
-               {/* Fade overlays */}
-               <div className="absolute top-0 bottom-0 left-0 w-24 md:w-40 bg-gradient-to-r from-white to-transparent z-10 pointer-events-none"></div>
-               <div className="absolute top-0 bottom-0 right-0 w-24 md:w-40 bg-gradient-to-l from-white to-transparent z-10 pointer-events-none"></div>
+            {/* Fade overlays */}
+            <div className="absolute top-0 bottom-0 left-0 w-24 md:w-40 bg-gradient-to-r from-white to-transparent z-10 pointer-events-none"></div>
+            <div className="absolute top-0 bottom-0 right-0 w-24 md:w-40 bg-gradient-to-l from-white to-transparent z-10 pointer-events-none"></div>
 
+            <div style={{ transform: 'rotate(-6deg) scale(1.15)', display: 'flex', flexDirection: 'column', gap: 16, position: 'relative' }}>
                {/* Row 1 - Moving Left */}
-               <div className="flex overflow-hidden">
-                  <div className="flex gap-8 md:gap-12 w-max animate-marquee hover:[animation-play-state:paused]" style={{ animationDuration: '40s' }}>
-                     {[...Array(4)].flatMap(() => [
-                        "https://i.ibb.co/VWRNmCzv/image.jpg",
-                        "https://i.ibb.co/s9FvdGcm/image1.jpg",
-                        "https://i.ibb.co/XxGfDznH/image2.jpg",
-                        "https://i.ibb.co/KxMTvQZ0/image3.jpg",
-                        "https://i.ibb.co/4gYDC3Wr/image4.jpg",
+               <div style={{ display: 'flex', overflow: 'hidden' }}>
+                  <div className="animate-marquee hover:[animation-play-state:paused]" style={{ display: 'flex', gap: 16, width: 'max-content', animationDuration: '40s' }}>
+                     {[...Array(2)].flatMap(() => [
+                        "https://i.ibb.co/Fkch65cW/PHOTO-2026-04-18-14-37-03-5.jpg",
+                        "https://i.ibb.co/JjQ57C2S/PHOTO-2026-04-18-14-37-03-8.jpg",
+                        "https://i.ibb.co/rKMV3j6c/PHOTO-2026-04-18-14-37-03-9.jpg",
+                        "https://i.ibb.co/cXN7zLTC/PHOTO-2026-04-18-22-02-42-1.jpg",
+                        "https://i.ibb.co/Z6fhPh62/PHOTO-2026-04-18-22-02-42.jpg",
+                        "https://i.ibb.co/HDTJ7jHt/mba.jpg",
+                        "https://i.ibb.co/TDdMDsmV/PHOTO-2026-04-18-22-03-54.jpg",
+                        "https://i.ibb.co/mVWMrZ7q/PHOTO-2026-04-18-22-05-01-1.jpg",
+                        "https://i.ibb.co/KzLb3Shg/PHOTO-2026-04-18-22-05-01.jpg",
+                        "https://i.ibb.co/0pSh4MCp/PHOTO-2026-04-18-22-06-18.jpg",
+                        "https://i.ibb.co/jvP7ghFL/PHOTO-2026-04-18-22-07-39.jpg",
+                        "https://i.ibb.co/0yMMTRp3/PHOTO-2026-04-18-22-07-40.jpg",
+                        "https://i.ibb.co/1wL5J95/PHOTO-2026-04-18-22-07-41.jpg",
+                        "https://i.ibb.co/n81pj9mc/PHOTO-2026-04-18-22-07-42-1.jpg",
+                        "https://i.ibb.co/d0tdbf65/PHOTO-2026-04-18-22-07-42.jpg",
+                        "https://i.ibb.co/4wytr26b/PHOTO-2026-04-18-22-07-43-1.jpg",
+                        "https://i.ibb.co/tPC0FHdB/PHOTO-2026-04-18-22-07-43.jpg",
+                        "https://i.ibb.co/pjMDdXct/PHOTO-2026-04-18-22-09-08.jpg",
+                        "https://i.ibb.co/HDyN62wr/PHOTO-2026-04-18-22-09-10-1.jpg",
                      ]).map((src, idx) => (
-                        <div key={`row1-${idx}`} className="w-[220px] md:w-[320px] h-[140px] md:h-[180px] flex items-center justify-center flex-shrink-0 transition-colors">
-                           <img src={src} alt="Partner" className="max-w-full max-h-full object-contain transition-all duration-500 hover:scale-110" />
+                        <div key={`row1-${idx}`} className="w-[160px] md:w-[200px] bg-white rounded-[12px] shadow-lg flex flex-col overflow-hidden flex-shrink-0" style={{ boxShadow: '0 4px 16px -4px rgba(0,0,0,0.1)' }}>
+                           <div className="flex items-center px-2.5 py-2 gap-1.5 border-b border-gray-100 bg-white">
+                              <div className="w-5 h-5 rounded-full bg-gradient-to-tr from-yellow-400 via-pink-500 to-purple-600 p-[1px]">
+                                 <div className="w-full h-full bg-white rounded-full p-[1px]">
+                                    <div className="w-full h-full bg-gray-200 rounded-full overflow-hidden">
+                                       <img src="/logo.png" alt="avatar" className="w-full h-full object-cover" onError={(e) => { e.target.style.display = 'none'; }} />
+                                    </div>
+                                 </div>
+                              </div>
+                              <span className="text-[10px] font-bold text-gray-900 tracking-tight">antechos.india</span>
+                              <div className="ml-auto flex gap-0.5">
+                                 <div className="w-0.5 h-0.5 bg-gray-400 rounded-full"></div>
+                                 <div className="w-0.5 h-0.5 bg-gray-400 rounded-full"></div>
+                                 <div className="w-0.5 h-0.5 bg-gray-400 rounded-full"></div>
+                              </div>
+                           </div>
+                           <div className="w-full h-[160px] md:h-[200px] bg-gray-100 overflow-hidden relative">
+                              <img src={src} alt="Post" className="w-full h-full object-cover transition-transform duration-700 hover:scale-105" />
+                           </div>
+                           <div className="px-2.5 py-2 bg-white flex items-center gap-2 text-gray-800">
+                              <svg aria-label="Like" fill="currentColor" height="16" role="img" viewBox="0 0 24 24" width="16"><path d="M16.792 3.904A4.989 4.989 0 0 1 21.5 9.122c0 3.072-2.652 4.959-5.197 7.222-2.512 2.243-3.865 3.469-4.303 3.752-.477-.297-2.163-1.565-4.663-3.746C4.78 14.023 2.5 12.012 2.5 9.122a4.989 4.989 0 0 1 4.708-5.218 4.21 4.21 0 0 1 3.675 1.941c.84 1.175 1.575 1.175 2.434 0a4.213 4.213 0 0 1 3.475-1.941" fill="none" stroke="currentColor" strokeLinejoin="round" strokeWidth="2"></path></svg>
+                              <svg aria-label="Comment" fill="currentColor" height="16" role="img" viewBox="0 0 24 24" width="16"><path d="M20.656 17.008a9.993 9.993 0 1 0-3.59 3.615L22 22Z" fill="none" stroke="currentColor" strokeLinejoin="round" strokeWidth="2"></path></svg>
+                              <svg aria-label="Share" fill="currentColor" height="16" role="img" viewBox="0 0 24 24" width="16"><line fill="none" stroke="currentColor" strokeLinejoin="round" strokeWidth="2" x1="22" x2="9.218" y1="3" y2="10.083"></line><polygon fill="none" points="11.698 20.334 22 3.001 2 3.001 9.218 10.084 11.698 20.334" stroke="currentColor" strokeLinejoin="round" strokeWidth="2"></polygon></svg>
+                              <svg className="ml-auto" aria-label="Save" fill="currentColor" height="16" role="img" viewBox="0 0 24 24" width="16"><polygon fill="none" points="20 21 12 13.44 4 21 4 3 20 3 20 21" stroke="currentColor" strokeLinejoin="round" strokeWidth="2"></polygon></svg>
+                           </div>
                         </div>
                      ))}
                   </div>
                </div>
 
                {/* Row 2 - Moving Right */}
-               <div className="flex overflow-hidden">
-                  <div className="flex gap-8 md:gap-12 w-max animate-marquee-reverse hover:[animation-play-state:paused]" style={{ animationDuration: '45s' }}>
-                     {[...Array(4)].flatMap(() => [
-                        "https://i.ibb.co/qYV5NwJk/image5.jpg",
-                        "https://i.ibb.co/XrPYPpk0/image6.jpg",
-                        "https://i.ibb.co/V40jV4g/image7.jpg",
-                        "https://i.ibb.co/vCxWdVgv/image8.jpg",
-                        "https://i.ibb.co/cXh3tWmv/image9.jpg",
+               <div style={{ display: 'flex', overflow: 'hidden' }}>
+                  <div className="animate-marquee-reverse hover:[animation-play-state:paused]" style={{ display: 'flex', gap: 16, width: 'max-content', animationDuration: '45s' }}>
+                     {[...Array(2)].flatMap(() => [
+                        "https://i.ibb.co/ynryF6Kh/PHOTO-2026-04-18-22-09-11.jpg",
+                        "https://i.ibb.co/zW0kyMjL/PHOTO-2026-04-22-13-43-31-2.jpg",
+                        "https://i.ibb.co/3m3GkGVr/PHOTO-2026-04-22-13-43-31.jpg",
+                        "https://i.ibb.co/YBmhn0W1/PHOTO-2026-04-22-13-43-32-1.jpg",
+                        "https://i.ibb.co/sd1qMvj4/PHOTO-2026-04-22-13-43-32.jpg",
+                        "https://i.ibb.co/XxJN2zcv/PHOTO-2026-04-22-13-43-33-1.jpg",
+                        "https://i.ibb.co/p6HmNxTx/PHOTO-2026-04-22-13-43-33-2.jpg",
+                        "https://i.ibb.co/BHyqVDzb/PHOTO-2026-04-22-13-43-33.jpg",
+                        "https://i.ibb.co/JjWCYp7y/PHOTO-2026-04-22-13-45-06.jpg",
+                        "https://i.ibb.co/6RYkSJXH/PHOTO-2026-04-22-13-45-07-1.jpg",
+                        "https://i.ibb.co/1GmBtvcJ/PHOTO-2026-04-22-13-45-07-2.jpg",
+                        "https://i.ibb.co/KcgXL8vZ/PHOTO-2026-04-22-13-45-07.jpg",
+                        "https://i.ibb.co/bMFJxZjC/PHOTO-2026-04-22-13-47-35.jpg",
+                        "https://i.ibb.co/67mccv0b/PHOTO-2026-04-22-13-47-36-1.jpg",
+                        "https://i.ibb.co/CLjCLVH/PHOTO-2026-04-22-13-47-36-2.jpg",
+                        "https://i.ibb.co/2pXfMgb/PHOTO-2026-04-22-13-47-37-1.jpg",
+                        "https://i.ibb.co/rR3CMYVw/PHOTO-2026-04-22-13-47-37-2.jpg",
+                        "https://i.ibb.co/fGTWHq1w/PHOTO-2026-04-22-13-47-37-3.jpg",
+                        "https://i.ibb.co/Z6D66xgb/PHOTO-2026-04-22-13-47-37.jpg",
                      ]).map((src, idx) => (
-                        <div key={`row2-${idx}`} className="w-[220px] md:w-[320px] h-[140px] md:h-[180px] flex items-center justify-center flex-shrink-0 transition-colors">
-                           <img src={src} alt="Partner" className="max-w-full max-h-full object-contain transition-all duration-500 hover:scale-110" />
+                        <div key={`row2-${idx}`} className="w-[160px] md:w-[200px] bg-white rounded-[12px] shadow-lg flex flex-col overflow-hidden flex-shrink-0" style={{ boxShadow: '0 4px 16px -4px rgba(0,0,0,0.1)' }}>
+                           <div className="flex items-center px-2.5 py-2 gap-1.5 border-b border-gray-100 bg-white">
+                              <div className="w-5 h-5 rounded-full bg-gradient-to-tr from-yellow-400 via-pink-500 to-purple-600 p-[1px]">
+                                 <div className="w-full h-full bg-white rounded-full p-[1px]">
+                                    <div className="w-full h-full bg-gray-200 rounded-full overflow-hidden">
+                                       <img src="/logo.png" alt="avatar" className="w-full h-full object-cover" onError={(e) => { e.target.style.display = 'none'; }} />
+                                    </div>
+                                 </div>
+                              </div>
+                              <span className="text-[10px] font-bold text-gray-900 tracking-tight">antechos.india</span>
+                              <div className="ml-auto flex gap-0.5">
+                                 <div className="w-0.5 h-0.5 bg-gray-400 rounded-full"></div>
+                                 <div className="w-0.5 h-0.5 bg-gray-400 rounded-full"></div>
+                                 <div className="w-0.5 h-0.5 bg-gray-400 rounded-full"></div>
+                              </div>
+                           </div>
+                           <div className="w-full h-[160px] md:h-[200px] bg-gray-100 overflow-hidden relative">
+                              <img src={src} alt="Post" className="w-full h-full object-cover transition-transform duration-700 hover:scale-105" />
+                           </div>
+                           <div className="px-2.5 py-2 bg-white flex items-center gap-2 text-gray-800">
+                              <svg aria-label="Like" fill="currentColor" height="16" role="img" viewBox="0 0 24 24" width="16"><path d="M16.792 3.904A4.989 4.989 0 0 1 21.5 9.122c0 3.072-2.652 4.959-5.197 7.222-2.512 2.243-3.865 3.469-4.303 3.752-.477-.297-2.163-1.565-4.663-3.746C4.78 14.023 2.5 12.012 2.5 9.122a4.989 4.989 0 0 1 4.708-5.218 4.21 4.21 0 0 1 3.675 1.941c.84 1.175 1.575 1.175 2.434 0a4.213 4.213 0 0 1 3.475-1.941" fill="none" stroke="currentColor" strokeLinejoin="round" strokeWidth="2"></path></svg>
+                              <svg aria-label="Comment" fill="currentColor" height="16" role="img" viewBox="0 0 24 24" width="16"><path d="M20.656 17.008a9.993 9.993 0 1 0-3.59 3.615L22 22Z" fill="none" stroke="currentColor" strokeLinejoin="round" strokeWidth="2"></path></svg>
+                              <svg aria-label="Share" fill="currentColor" height="16" role="img" viewBox="0 0 24 24" width="16"><line fill="none" stroke="currentColor" strokeLinejoin="round" strokeWidth="2" x1="22" x2="9.218" y1="3" y2="10.083"></line><polygon fill="none" points="11.698 20.334 22 3.001 2 3.001 9.218 10.084 11.698 20.334" stroke="currentColor" strokeLinejoin="round" strokeWidth="2"></polygon></svg>
+                              <svg className="ml-auto" aria-label="Save" fill="currentColor" height="16" role="img" viewBox="0 0 24 24" width="16"><polygon fill="none" points="20 21 12 13.44 4 21 4 3 20 3 20 21" stroke="currentColor" strokeLinejoin="round" strokeWidth="2"></polygon></svg>
+                           </div>
+                        </div>
+                     ))}
+                  </div>
+               </div>
+
+               {/* Row 3 - Moving Left */}
+               <div style={{ display: 'flex', overflow: 'hidden' }}>
+                  <div className="animate-marquee hover:[animation-play-state:paused]" style={{ display: 'flex', gap: 16, width: 'max-content', animationDuration: '35s' }}>
+                     {[...Array(2)].flatMap(() => [
+                        "https://i.ibb.co/s9t8f9cX/PHOTO-2026-04-22-13-48-45-1.jpg",
+                        "https://i.ibb.co/j9hn9pwJ/ba.jpg",
+                        "https://i.ibb.co/DfFq1wfx/PHOTO-2026-04-22-13-48-46-1.jpg",
+                        "https://i.ibb.co/ZsqRTnS/PHOTO-2026-04-22-13-48-46-2.jpg",
+                        "https://i.ibb.co/xPWkkjQ/PHOTO-2026-04-22-13-48-46-3.jpg",
+                        "https://i.ibb.co/LDw6gbJP/PHOTO-2026-04-22-13-48-46.jpg",
+                        "https://i.ibb.co/nsqD37Gm/PHOTO-2026-04-22-13-48-47-1.jpg",
+                        "https://i.ibb.co/21ttKj7K/PHOTO-2026-04-22-13-48-47.jpg",
+                        "https://i.ibb.co/gbns88pY/PHOTO-2026-04-22-13-50-41-1.jpg",
+                        "https://i.ibb.co/JWJWtp5y/PHOTO-2026-04-22-13-50-41.jpg",
+                        "https://i.ibb.co/1J6Rzqzw/PHOTO-2026-04-22-13-50-42-1.jpg",
+                        "https://i.ibb.co/4RSTzTjy/PHOTO-2026-04-22-13-50-42-2.jpg",
+                        "https://i.ibb.co/ZRqW43bG/PHOTO-2026-04-22-13-50-42-3.jpg",
+                        "https://i.ibb.co/21BM2pp2/PHOTO-2026-04-22-13-50-42-4.jpg",
+                        "https://i.ibb.co/gFVC1j08/PHOTO-2026-04-22-13-50-42-5.jpg",
+                        "https://i.ibb.co/TMfJpDtJ/PHOTO-2026-04-22-13-50-42.jpg",
+                        "https://i.ibb.co/vvDmy3Zz/PHOTO-2026-04-22-13-50-43-1.jpg",
+                        "https://i.ibb.co/VcKDPWGm/PHOTO-2026-04-22-13-50-43.jpg",
+                        "https://i.ibb.co/kLHjBXP/bcs.jpg",
+                        "https://i.ibb.co/dwk7Cz83/PHOTO-2026-04-22-13-52-09.jpg",
+                     ]).map((src, idx) => (
+                        <div key={`row3-${idx}`} className="w-[160px] md:w-[200px] bg-white rounded-[12px] shadow-lg flex flex-col overflow-hidden flex-shrink-0" style={{ boxShadow: '0 4px 16px -4px rgba(0,0,0,0.1)' }}>
+                           <div className="flex items-center px-2.5 py-2 gap-1.5 border-b border-gray-100 bg-white">
+                              <div className="w-5 h-5 rounded-full bg-gradient-to-tr from-yellow-400 via-pink-500 to-purple-600 p-[1px]">
+                                 <div className="w-full h-full bg-white rounded-full p-[1px]">
+                                    <div className="w-full h-full bg-gray-200 rounded-full overflow-hidden">
+                                       <img src="/logo.png" alt="avatar" className="w-full h-full object-cover" onError={(e) => { e.target.style.display = 'none'; }} />
+                                    </div>
+                                 </div>
+                              </div>
+                              <span className="text-[10px] font-bold text-gray-900 tracking-tight">antechos.india</span>
+                              <div className="ml-auto flex gap-0.5">
+                                 <div className="w-0.5 h-0.5 bg-gray-400 rounded-full"></div>
+                                 <div className="w-0.5 h-0.5 bg-gray-400 rounded-full"></div>
+                                 <div className="w-0.5 h-0.5 bg-gray-400 rounded-full"></div>
+                              </div>
+                           </div>
+                           <div className="w-full h-[160px] md:h-[200px] bg-gray-100 overflow-hidden relative">
+                              <img src={src} alt="Post" className="w-full h-full object-cover transition-transform duration-700 hover:scale-105" />
+                           </div>
+                           <div className="px-2.5 py-2 bg-white flex items-center gap-2 text-gray-800">
+                              <svg aria-label="Like" fill="currentColor" height="16" role="img" viewBox="0 0 24 24" width="16"><path d="M16.792 3.904A4.989 4.989 0 0 1 21.5 9.122c0 3.072-2.652 4.959-5.197 7.222-2.512 2.243-3.865 3.469-4.303 3.752-.477-.297-2.163-1.565-4.663-3.746C4.78 14.023 2.5 12.012 2.5 9.122a4.989 4.989 0 0 1 4.708-5.218 4.21 4.21 0 0 1 3.675 1.941c.84 1.175 1.575 1.175 2.434 0a4.213 4.213 0 0 1 3.475-1.941" fill="none" stroke="currentColor" strokeLinejoin="round" strokeWidth="2"></path></svg>
+                              <svg aria-label="Comment" fill="currentColor" height="16" role="img" viewBox="0 0 24 24" width="16"><path d="M20.656 17.008a9.993 9.993 0 1 0-3.59 3.615L22 22Z" fill="none" stroke="currentColor" strokeLinejoin="round" strokeWidth="2"></path></svg>
+                              <svg aria-label="Share" fill="currentColor" height="16" role="img" viewBox="0 0 24 24" width="16"><line fill="none" stroke="currentColor" strokeLinejoin="round" strokeWidth="2" x1="22" x2="9.218" y1="3" y2="10.083"></line><polygon fill="none" points="11.698 20.334 22 3.001 2 3.001 9.218 10.084 11.698 20.334" stroke="currentColor" strokeLinejoin="round" strokeWidth="2"></polygon></svg>
+                              <svg className="ml-auto" aria-label="Save" fill="currentColor" height="16" role="img" viewBox="0 0 24 24" width="16"><polygon fill="none" points="20 21 12 13.44 4 21 4 3 20 3 20 21" stroke="currentColor" strokeLinejoin="round" strokeWidth="2"></polygon></svg>
+                           </div>
                         </div>
                      ))}
                   </div>
