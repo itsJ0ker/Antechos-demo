@@ -193,14 +193,14 @@ const WHY_CHOOSE_DATA = [
 ];
 
 const OFFICIAL_COURSES = [
-   { name: "Online MBA", category: "Masters (PG)", link: "https://i.ibb.co/HDTJ7jHt/mba.jpg", icon: <Briefcase className="w-5 h-5" />, badge: "UGC Approved" },
-   { name: "Online BBA", category: "Bachelor's (UG)", link: "https://i.ibb.co/Y4CnR6PZ/bba.jpg", icon: <TrendingUp className="w-5 h-5" />, badge: "Industry Lead" },
-   { name: "Online MCA", category: "Masters (PG)", link: "https://i.ibb.co/Zk7RHXV/mca.jpg", icon: <Zap className="w-5 h-5" />, badge: "Tech Accredited" },
-   { name: "Online BCA", category: "Bachelor's (UG)", link: "https://i.ibb.co/x87fDS4F/bca.jpg", icon: <Rocket className="w-5 h-5" />, badge: "Skill Based" },
-   { name: "Online MA", category: "Masters (PG)", link: "https://i.ibb.co/cdq0cy7/ma.jpg", icon: <GraduationCap className="w-5 h-5" />, badge: "Research Led" },
-   { name: "Online BA", category: "Bachelor's (UG)", link: "https://i.ibb.co/j9hn9pwJ/ba.jpg", icon: <Globe className="w-5 h-5" />, badge: "Diverse Curriculum" },
-   { name: "Online M.Com", category: "Masters (PG)", link: "https://i.ibb.co/8Lrjf2Xf/mcom.jpg", icon: <CreditCard className="w-5 h-5" />, badge: "Finance Focused" },
-   { name: "Online B.Com", category: "Bachelor's (UG)", link: "https://i.ibb.co/GQw4bbKJ/bcom.jpg", icon: <Activity className="w-5 h-5" />, badge: "Business Foundation" },
+   { name: "Online MBA", category: "Masters (PG)", link: "https://courses.universityadmission.co.in/online-mba?source_campaign=LAM%20Influencer&campaign_name=4711&ad_group_name=General&ads_name=MBAonine", image: "https://i.ibb.co/HDTJ7jHt/mba.jpg", icon: <Briefcase className="w-5 h-5" />, badge: "UGC Approved" },
+   { name: "Online BBA", category: "Bachelor's (UG)", link: "https://courses.universityadmission.co.in/online-bba?source_campaign=LAM%20Influencer&campaign_name=4711&ad_group_name=General&ads_name=onlineBBA", image: "https://i.ibb.co/Y4CnR6PZ/bba.jpg", icon: <TrendingUp className="w-5 h-5" />, badge: "Industry Lead" },
+   { name: "Online MCA", category: "Masters (PG)", link: "https://courses.universityadmission.co.in/online-mca?source_campaign=LAM%20Influencer&campaign_name=4711&ad_group_name=General&ads_name=onlineMCA", image: "https://i.ibb.co/Zk7RHXV/mca.jpg", icon: <Zap className="w-5 h-5" />, badge: "Tech Accredited" },
+   { name: "Online BCA", category: "Bachelor's (UG)", link: "https://courses.universityadmission.co.in/online-bca?source_campaign=LAM%20Influencer&campaign_name=4711&ad_group_name=General&ads_name=onlineBCA", image: "https://i.ibb.co/x87fDS4F/bca.jpg", icon: <Rocket className="w-5 h-5" />, badge: "Skill Based" },
+   { name: "Online MA", category: "Masters (PG)", link: "https://courses.universityadmission.co.in/online-ma?source_campaign=LAM%20Influencer&campaign_name=4711&ad_group_name=General&ads_name=onlineMA", image: "https://i.ibb.co/cdq0cy7/ma.jpg", icon: <GraduationCap className="w-5 h-5" />, badge: "Research Led" },
+   { name: "Online BA", category: "Bachelor's (UG)", link: "https://courses.universityadmission.co.in/online-ba?source_campaign=LAM%20Influencer&campaign_name=4711&ad_group_name=General&ads_name=onlineBA", image: "https://i.ibb.co/j9hn9pwJ/ba.jpg", icon: <Globe className="w-5 h-5" />, badge: "Diverse Curriculum" },
+   { name: "Online M.Com", category: "Masters (PG)", link: "https://courses.universityadmission.co.in/online-mcom?source_campaign=LAM%20Influencer&campaign_name=4711&ad_group_name=General&ads_name=onlineMCom", image: "https://i.ibb.co/8Lrjf2Xf/mcom.jpg", icon: <CreditCard className="w-5 h-5" />, badge: "Finance Focused" },
+   { name: "Online B.Com", category: "Bachelor's (UG)", link: "https://courses.universityadmission.co.in/online-bcom?source_campaign=LAM%20Influencer&campaign_name=4711&ad_group_name=General&ads_name=onlineBCom", image: "https://i.ibb.co/GQw4bbKJ/bcom.jpg", icon: <Activity className="w-5 h-5" />, badge: "Business Foundation" },
    // PROFESSIONAL & TECH SERIES
    { name: "Block Chain (EPGP)", category: "Certification", link: "https://courses.universityadmission.co.in/online-executive-pg-diploma-certificate-blockchain?source_campaign=LAM%20Influencer&campaign_name=4711&ad_group_name=General&ads_name=courseBlockchain", icon: <ShieldCheck className="w-5 h-5" />, badge: "Web3 Mastery" },
    { name: "Cyber Security (EPGP)", category: "Certification", link: "https://courses.universityadmission.co.in/online-executive-pg-diploma-certificate-cyber-security?source_campaign=LAM%20Influencer&campaign_name=4711&ad_group_name=General&ads_name=courseCyberSecurity", icon: <ShieldCheck className="w-5 h-5" />, badge: "Security Vetting" },
@@ -211,8 +211,8 @@ const OFFICIAL_COURSES = [
    { name: "Data Science & Analytics", category: "Certification", link: "https://courses.universityadmission.co.in/online-epg-diploma-certificate-data-science-analytics?source_campaign=LAM%20Influencer&campaign_name=4711&ad_group_name=General&ads_name=CourseDSA", icon: <TrendingUp className="w-5 h-5" />, badge: "Big Data Elite" },
    { name: "Gen AI & Agentic AI", category: "Certification", link: "https://courses.universityadmission.co.in/generative-ai-and-agentic-ai-programs-online?source_campaign=LAM%20Influencer&campaign_name=4711&ad_group_name=General&ads_name=courseGenAI", icon: <Activity className="w-5 h-5" />, badge: "Advanced Agents" },
 
-   { name: "Online M.Sc", category: "Masters (PG)", link: "https://i.ibb.co/FLKQ4V2Z/msc.jpg", icon: <Info className="w-5 h-5" />, badge: "Advanced Science" },
-   { name: "Online B.Sc", category: "Bachelor's (UG)", link: "https://i.ibb.co/kLHjBXP/bcs.jpg", icon: <Star className="w-5 h-5" />, badge: "Foundational Science" },
+   { name: "Online M.Sc", category: "Masters (PG)", link: "https://courses.universityadmission.co.in/online-msc?source_campaign=LAM%20Influencer&campaign_name=4711&ad_group_name=General&ads_name=onlineMSc", image: "https://i.ibb.co/FLKQ4V2Z/msc.jpg", icon: <Info className="w-5 h-5" />, badge: "Advanced Science" },
+   { name: "Online B.Sc", category: "Bachelor's (UG)", link: "https://courses.universityadmission.co.in/online-bsc?source_campaign=LAM%20Influencer&campaign_name=4711&ad_group_name=General&ads_name=onlineBSc", image: "https://i.ibb.co/kLHjBXP/bcs.jpg", icon: <Star className="w-5 h-5" />, badge: "Foundational Science" },
    { name: "Online Dual MBA", category: "Special", link: "https://courses.universityadmission.co.in/online-mba-dual-specialization?source_campaign=LAM%20Influencer&campaign_name=4711&ad_group_name=General&ads_name=DualMBA", icon: <Briefcase className="w-5 h-5" />, badge: "Expert Specialization" },
    { name: "Integrated BBA + MBA", category: "Integrated Program", link: "https://courses.universityadmission.co.in/online-integrated-bba-mba?source_campaign=LAM%20Influencer&campaign_name=4711&ad_group_name=General&ads_name=onlineBBAMBA", icon: <TrendingUp className="w-5 h-5" />, badge: "Fast Track" },
    { name: "Integrated BCA + MCA", category: "Integrated Program", link: "https://courses.universityadmission.co.in/online-integrated-bca-mca?source_campaign=LAM%20Influencer&campaign_name=4711&ad_group_name=General&ads_name=onlineBCAMCA", icon: <Zap className="w-5 h-5" />, badge: "Technical Mastery" },
@@ -1201,35 +1201,36 @@ const UniversityPageNew = () => {
                            >
                               {filteredCourses.map((course, idx) => {
                                  const isImageLink = course.link && typeof course.link === 'string' && course.link.match(/\.(jpg|jpeg|png|webp|gif)$/i);
+                                 const showPoster = isImageLink || course.image;
                                  return (
-                                 <div
-                                    key={idx}
-                                    onClick={() => handleUniversityClick(course.link)}
-                                    className="flex-shrink-0 w-[260px] md:w-[300px] h-auto min-h-[320px] md:min-h-[360px] rounded-xl overflow-hidden shadow-sm hover:shadow-2xl transition-all duration-300 cursor-pointer flex flex-col group border border-slate-200"
-                                 >
-                                    <div className={`relative flex-1 bg-slate-900 flex flex-col items-center justify-center ${isImageLink ? 'p-0' : 'p-6'} overflow-hidden`}>
-                                       <img src={isImageLink ? course.link : (course.image || "https://images.unsplash.com/photo-1552664730-d307ca884978?w=800&q=80")} alt="Background" className={`absolute inset-0 w-full h-full object-cover transition-all duration-700 ${isImageLink ? 'opacity-100 group-hover:scale-105' : 'opacity-30 group-hover:scale-110 group-hover:opacity-40'}`} />
-                                       
-                                       {!isImageLink && (
-                                          <>
-                                             <div className="absolute inset-0 bg-gradient-to-t from-[#0b132b]/80 via-transparent to-transparent"></div>
-                                             <div className="relative z-10 text-center flex flex-col items-center">
-                                                <div className="text-white/80 mb-3 scale-150 group-hover:text-blue-400 group-hover:scale-[1.8] transition-all duration-500">
-                                                   {course.icon}
+                                    <div
+                                       key={idx}
+                                       onClick={() => handleUniversityClick(course.link)}
+                                       className="flex-shrink-0 w-[260px] md:w-[300px] h-auto min-h-[320px] md:min-h-[360px] rounded-xl overflow-hidden shadow-sm hover:shadow-2xl transition-all duration-300 cursor-pointer flex flex-col group border border-slate-200"
+                                    >
+                                       <div className={`relative flex-1 bg-slate-900 flex flex-col items-center justify-center ${showPoster ? 'p-0' : 'p-6'} overflow-hidden`}>
+                                          <img src={isImageLink ? course.link : (course.image || "https://images.unsplash.com/photo-1552664730-d307ca884978?w=800&q=80")} alt="Background" className={`absolute inset-0 w-full h-full object-cover transition-all duration-700 ${showPoster ? 'opacity-100 group-hover:scale-105' : 'opacity-30 group-hover:scale-110 group-hover:opacity-40'}`} />
+
+                                          {!showPoster && (
+                                             <>
+                                                <div className="absolute inset-0 bg-gradient-to-t from-[#0b132b]/80 via-transparent to-transparent"></div>
+                                                <div className="relative z-10 text-center flex flex-col items-center">
+                                                   <div className="text-white/80 mb-3 scale-150 group-hover:text-blue-400 group-hover:scale-[1.8] transition-all duration-500">
+                                                      {course.icon}
+                                                   </div>
+                                                   <h3 className="text-3xl md:text-4xl font-black text-white uppercase tracking-wider drop-shadow-xl leading-none text-center">
+                                                      {course.name.replace(/Online\s?/i, '')}
+                                                   </h3>
                                                 </div>
-                                                <h3 className="text-3xl md:text-4xl font-black text-white uppercase tracking-wider drop-shadow-xl leading-none text-center">
-                                                   {course.name.replace(/Online\s?/i, '')}
-                                                </h3>
-                                             </div>
-                                          </>
-                                       )}
+                                             </>
+                                          )}
+                                       </div>
+                                       <div className="bg-[#1a36a8] group-hover:bg-[#152a85] transition-colors h-[64px] md:h-[72px] shrink-0 px-4 flex items-center justify-center">
+                                          <span className="text-white font-black text-[13px] md:text-[14px] uppercase tracking-widest text-center line-clamp-2">
+                                             {course.name.toUpperCase().includes('ONLINE') ? course.name.toUpperCase() : `${course.name.toUpperCase()} ONLINE`}
+                                          </span>
+                                       </div>
                                     </div>
-                                    <div className="bg-[#1a36a8] group-hover:bg-[#152a85] transition-colors h-[64px] md:h-[72px] shrink-0 px-4 flex items-center justify-center">
-                                       <span className="text-white font-black text-[13px] md:text-[14px] uppercase tracking-widest text-center line-clamp-2">
-                                          {course.name.toUpperCase().includes('ONLINE') ? course.name.toUpperCase() : `${course.name.toUpperCase()} ONLINE`}
-                                       </span>
-                                    </div>
-                                 </div>
                                  );
                               })}
                            </motion.div>
@@ -1255,38 +1256,39 @@ const UniversityPageNew = () => {
                      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 md:gap-8 items-stretch">
                         {filteredCourses.map((course, idx) => {
                            const isImageLink = course.link && typeof course.link === 'string' && course.link.match(/\.(jpg|jpeg|png|webp|gif)$/i);
+                           const showPoster = isImageLink || course.image;
                            return (
-                           <motion.div
-                              key={idx}
-                              initial={{ opacity: 0, y: 30 }}
-                              animate={{ opacity: 1, y: 0 }}
-                              transition={{ delay: idx * 0.05 }}
-                              onClick={() => handleUniversityClick(course.link)}
-                              className="rounded-xl overflow-hidden shadow-sm hover:shadow-2xl transition-all duration-300 cursor-pointer flex flex-col group border border-slate-200 h-full min-h-[320px] md:min-h-[360px]"
-                           >
-                              <div className={`relative flex-1 bg-slate-900 flex flex-col items-center justify-center ${isImageLink ? 'p-0' : 'p-6'} overflow-hidden`}>
-                                 <img src={isImageLink ? course.link : (course.image || "https://images.unsplash.com/photo-1552664730-d307ca884978?w=800&q=80")} alt="Background" className={`absolute inset-0 w-full h-full object-cover transition-all duration-700 ${isImageLink ? 'opacity-100 group-hover:scale-105' : 'opacity-30 group-hover:scale-110 group-hover:opacity-40'}`} />
-                                 
-                                 {!isImageLink && (
-                                    <>
-                                       <div className="absolute inset-0 bg-gradient-to-t from-[#0b132b]/80 via-transparent to-transparent"></div>
-                                       <div className="relative z-10 text-center flex flex-col items-center">
-                                          <div className="text-white/80 mb-3 scale-150 group-hover:text-blue-400 group-hover:scale-[1.8] transition-all duration-500">
-                                             {course.icon}
+                              <motion.div
+                                 key={idx}
+                                 initial={{ opacity: 0, y: 30 }}
+                                 animate={{ opacity: 1, y: 0 }}
+                                 transition={{ delay: idx * 0.05 }}
+                                 onClick={() => handleUniversityClick(course.link)}
+                                 className="rounded-xl overflow-hidden shadow-sm hover:shadow-2xl transition-all duration-300 cursor-pointer flex flex-col group border border-slate-200 h-full min-h-[320px] md:min-h-[360px]"
+                              >
+                                 <div className={`relative flex-1 bg-slate-900 flex flex-col items-center justify-center ${showPoster ? 'p-0' : 'p-6'} overflow-hidden`}>
+                                    <img src={isImageLink ? course.link : (course.image || "https://images.unsplash.com/photo-1552664730-d307ca884978?w=800&q=80")} alt="Background" className={`absolute inset-0 w-full h-full object-cover transition-all duration-700 ${showPoster ? 'opacity-100 group-hover:scale-105' : 'opacity-30 group-hover:scale-110 group-hover:opacity-40'}`} />
+
+                                    {!showPoster && (
+                                       <>
+                                          <div className="absolute inset-0 bg-gradient-to-t from-[#0b132b]/80 via-transparent to-transparent"></div>
+                                          <div className="relative z-10 text-center flex flex-col items-center">
+                                             <div className="text-white/80 mb-3 scale-150 group-hover:text-blue-400 group-hover:scale-[1.8] transition-all duration-500">
+                                                {course.icon}
+                                             </div>
+                                             <h3 className="text-3xl md:text-4xl font-black text-white uppercase tracking-wider drop-shadow-xl leading-none text-center">
+                                                {course.name.replace(/Online\s?/i, '')}
+                                             </h3>
                                           </div>
-                                          <h3 className="text-3xl md:text-4xl font-black text-white uppercase tracking-wider drop-shadow-xl leading-none text-center">
-                                             {course.name.replace(/Online\s?/i, '')}
-                                          </h3>
-                                       </div>
-                                    </>
-                                 )}
-                              </div>
-                              <div className="bg-[#1a36a8] group-hover:bg-[#152a85] transition-colors h-[64px] md:h-[72px] shrink-0 px-4 flex items-center justify-center">
-                                 <span className="text-white font-black text-[13px] md:text-[14px] uppercase tracking-widest text-center line-clamp-2">
-                                    {course.name.toUpperCase().includes('ONLINE') ? course.name.toUpperCase() : `${course.name.toUpperCase()} ONLINE`}
-                                 </span>
-                              </div>
-                           </motion.div>
+                                       </>
+                                    )}
+                                 </div>
+                                 <div className="bg-[#1a36a8] group-hover:bg-[#152a85] transition-colors h-[64px] md:h-[72px] shrink-0 px-4 flex items-center justify-center">
+                                    <span className="text-white font-black text-[13px] md:text-[14px] uppercase tracking-widest text-center line-clamp-2">
+                                       {course.name.toUpperCase().includes('ONLINE') ? course.name.toUpperCase() : `${course.name.toUpperCase()} ONLINE`}
+                                    </span>
+                                 </div>
+                              </motion.div>
                            );
                         })}
                      </div>
@@ -1380,6 +1382,121 @@ const UniversityPageNew = () => {
                </div>
             </div>
          </section>*/}
+
+
+
+         {/* TRUSTED VOICES / SHORTS SECTION */}
+         <section
+            className="py-12 md:py-20 bg-slate-50 border-t border-slate-100"
+            onMouseEnter={() => setIsShortsHovered(true)}
+            onMouseLeave={() => setIsShortsHovered(false)}
+         >
+            <div className="container mx-auto px-6 max-w-7xl relative">
+               <div className="mb-10 text-left">
+                  <p className="text-slate-500 font-medium text-lg uppercase tracking-widest mb-2">Trusted Voices</p>
+                  <h2 className="text-4xl md:text-5xl font-black text-slate-900 tracking-tight">
+                     <span className="text-blue-600">Hear them</span> out
+                  </h2>
+               </div>
+
+               {/* Left Arrow */}
+               <button
+                  onClick={() => scrollShorts('left')}
+                  className="absolute left-0 md:-left-6 top-1/2 -translate-y-1/2 z-20 w-12 h-12 bg-white rounded-full shadow-xl border border-slate-200 flex items-center justify-center text-slate-600 hover:text-blue-600 hover:border-blue-300 hover:scale-110 transition-all hidden md:flex"
+               >
+                  <ChevronLeft className="w-6 h-6" />
+               </button>
+
+               {/* Right Arrow */}
+               <button
+                  onClick={() => scrollShorts('right')}
+                  className="absolute right-0 md:-right-6 top-1/2 -translate-y-1/2 z-20 w-12 h-12 bg-white rounded-full shadow-xl border border-slate-200 flex items-center justify-center text-slate-600 hover:text-blue-600 hover:border-blue-300 hover:scale-110 transition-all hidden md:flex"
+               >
+                  <ChevronRight className="w-6 h-6" />
+               </button>
+
+               <div
+                  ref={shortsScrollRef}
+                  className="flex gap-4 md:gap-6 overflow-x-auto snap-x snap-mandatory scrollbar-hide pb-8 items-stretch"
+                  style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
+               >
+                  {TRUSTED_SHORTS.map((short) => (
+                     <div
+                        key={short.id}
+                        className="snap-start flex-shrink-0 w-[240px] md:w-[280px] h-[400px] md:h-[480px] bg-[#1c1c1c] rounded-2xl overflow-hidden relative group cursor-pointer shadow-lg hover:shadow-2xl transition-all duration-300"
+                        onClick={() => setSelectedShort(short)}
+                     >
+                        <img
+                           src={short.thumbnail}
+                           alt={short.title}
+                           className="w-full h-full object-cover opacity-90 group-hover:scale-105 group-hover:opacity-100 transition-all duration-500"
+                        />
+
+                        {/* Overlay gradient */}
+                        <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent pointer-events-none"></div>
+
+                        {/* Views Badge */}
+                        <div className="absolute top-4 right-4 bg-white/20 backdrop-blur-md px-2.5 py-1 rounded-full flex items-center gap-1.5 border border-white/10">
+                           <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-white"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z" /><circle cx="12" cy="12" r="3" /></svg>
+                           <span className="text-white text-[10px] font-bold">{short.views}</span>
+                        </div>
+
+                        {/* Play Button */}
+                        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-14 h-14 bg-black/40 backdrop-blur-md rounded-full flex items-center justify-center border-2 border-white/60 group-hover:scale-110 group-hover:bg-blue-600/80 group-hover:border-blue-400 transition-all duration-300 shadow-2xl">
+                           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="white" stroke="currentColor" strokeWidth="0" strokeLinecap="round" strokeLinejoin="round" className="ml-1"><polygon points="5 3 19 12 5 21 5 3" /></svg>
+                        </div>
+                     </div>
+                  ))}
+               </div>
+            </div>
+
+            {/* Modal Overlay via Portal */}
+            {typeof document !== 'undefined' ? createPortal(
+               <AnimatePresence>
+                  {selectedShort && (
+                     <motion.div
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        exit={{ opacity: 0 }}
+                        className="fixed inset-0 z-[99999] bg-black/90 backdrop-blur-sm flex items-center justify-center p-4 md:p-6"
+                        onClick={() => setSelectedShort(null)}
+                     >
+                        <motion.div
+                           initial={{ scale: 0.9, y: 20 }}
+                           animate={{ scale: 1, y: 0 }}
+                           exit={{ scale: 0.9, y: 20 }}
+                           transition={{ type: 'spring', damping: 25, stiffness: 300 }}
+                           className="bg-white w-full max-w-sm rounded-2xl overflow-hidden shadow-2xl relative flex flex-col"
+                           onClick={(e) => e.stopPropagation()}
+                        >
+                           {/* Header */}
+                           <div className="flex items-center justify-between p-4 border-b border-slate-100">
+                              <h3 className="font-bold text-slate-800 line-clamp-1">{selectedShort.title}</h3>
+                              <button
+                                 onClick={() => setSelectedShort(null)}
+                                 className="w-8 h-8 rounded-full bg-slate-100 flex items-center justify-center text-slate-500 hover:bg-slate-200 hover:text-slate-800 transition-colors shrink-0"
+                              >
+                                 <X className="w-5 h-5" />
+                              </button>
+                           </div>
+
+                           {/* Video Player */}
+                           <div className="relative w-full aspect-[9/16] bg-black">
+                              <iframe
+                                 src={`https://www.youtube.com/embed/${selectedShort.videoId}?autoplay=1&mute=0&controls=1&loop=1&playlist=${selectedShort.videoId}`}
+                                 title="YouTube Shorts player"
+                                 className="absolute top-0 left-0 w-full h-full border-0"
+                                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                 allowFullScreen
+                              ></iframe>
+                           </div>
+                        </motion.div>
+                     </motion.div>
+                  )}
+               </AnimatePresence>,
+               document.body
+            ) : null}
+         </section>
 
 
 
@@ -1507,124 +1624,13 @@ const UniversityPageNew = () => {
             </div>
          </section>
 
-         {/* TRUSTED VOICES / SHORTS SECTION */}
-         <section 
-            className="py-12 md:py-20 bg-slate-50 border-t border-slate-100"
-            onMouseEnter={() => setIsShortsHovered(true)}
-            onMouseLeave={() => setIsShortsHovered(false)}
-         >
-            <div className="container mx-auto px-6 max-w-7xl relative">
-               <div className="mb-10 text-left">
-                  <p className="text-slate-500 font-medium text-lg uppercase tracking-widest mb-2">Trusted Voices</p>
-                  <h2 className="text-4xl md:text-5xl font-black text-slate-900 tracking-tight">
-                     <span className="text-blue-600">Hear them</span> out
-                  </h2>
-               </div>
 
-               {/* Left Arrow */}
-               <button 
-                  onClick={() => scrollShorts('left')}
-                  className="absolute left-0 md:-left-6 top-1/2 -translate-y-1/2 z-20 w-12 h-12 bg-white rounded-full shadow-xl border border-slate-200 flex items-center justify-center text-slate-600 hover:text-blue-600 hover:border-blue-300 hover:scale-110 transition-all hidden md:flex"
-               >
-                  <ChevronLeft className="w-6 h-6" />
-               </button>
-
-               {/* Right Arrow */}
-               <button 
-                  onClick={() => scrollShorts('right')}
-                  className="absolute right-0 md:-right-6 top-1/2 -translate-y-1/2 z-20 w-12 h-12 bg-white rounded-full shadow-xl border border-slate-200 flex items-center justify-center text-slate-600 hover:text-blue-600 hover:border-blue-300 hover:scale-110 transition-all hidden md:flex"
-               >
-                  <ChevronRight className="w-6 h-6" />
-               </button>
-
-               <div 
-                  ref={shortsScrollRef}
-                  className="flex gap-4 md:gap-6 overflow-x-auto snap-x snap-mandatory scrollbar-hide pb-8 items-stretch"
-                  style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
-               >
-                  {TRUSTED_SHORTS.map((short) => (
-                     <div 
-                        key={short.id} 
-                        className="snap-start flex-shrink-0 w-[240px] md:w-[280px] h-[400px] md:h-[480px] bg-[#1c1c1c] rounded-2xl overflow-hidden relative group cursor-pointer shadow-lg hover:shadow-2xl transition-all duration-300"
-                        onClick={() => setSelectedShort(short)}
-                     >
-                        <img 
-                           src={short.thumbnail} 
-                           alt={short.title}
-                           className="w-full h-full object-cover opacity-90 group-hover:scale-105 group-hover:opacity-100 transition-all duration-500"
-                        />
-                        
-                        {/* Overlay gradient */}
-                        <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent pointer-events-none"></div>
-
-                        {/* Views Badge */}
-                        <div className="absolute top-4 right-4 bg-white/20 backdrop-blur-md px-2.5 py-1 rounded-full flex items-center gap-1.5 border border-white/10">
-                           <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-white"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg>
-                           <span className="text-white text-[10px] font-bold">{short.views}</span>
-                        </div>
-
-                        {/* Play Button */}
-                        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-14 h-14 bg-black/40 backdrop-blur-md rounded-full flex items-center justify-center border-2 border-white/60 group-hover:scale-110 group-hover:bg-blue-600/80 group-hover:border-blue-400 transition-all duration-300 shadow-2xl">
-                           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="white" stroke="currentColor" strokeWidth="0" strokeLinecap="round" strokeLinejoin="round" className="ml-1"><polygon points="5 3 19 12 5 21 5 3"/></svg>
-                        </div>
-                     </div>
-                  ))}
-               </div>
-            </div>
-
-            {/* Modal Overlay via Portal */}
-            {typeof document !== 'undefined' ? createPortal(
-               <AnimatePresence>
-                  {selectedShort && (
-                     <motion.div 
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: 1 }}
-                        exit={{ opacity: 0 }}
-                        className="fixed inset-0 z-[99999] bg-black/90 backdrop-blur-sm flex items-center justify-center p-4 md:p-6"
-                        onClick={() => setSelectedShort(null)}
-                     >
-                        <motion.div 
-                           initial={{ scale: 0.9, y: 20 }}
-                           animate={{ scale: 1, y: 0 }}
-                           exit={{ scale: 0.9, y: 20 }}
-                           transition={{ type: 'spring', damping: 25, stiffness: 300 }}
-                           className="bg-white w-full max-w-sm rounded-2xl overflow-hidden shadow-2xl relative flex flex-col"
-                           onClick={(e) => e.stopPropagation()}
-                        >
-                           {/* Header */}
-                           <div className="flex items-center justify-between p-4 border-b border-slate-100">
-                              <h3 className="font-bold text-slate-800 line-clamp-1">{selectedShort.title}</h3>
-                              <button 
-                                 onClick={() => setSelectedShort(null)}
-                                 className="w-8 h-8 rounded-full bg-slate-100 flex items-center justify-center text-slate-500 hover:bg-slate-200 hover:text-slate-800 transition-colors shrink-0"
-                              >
-                                 <X className="w-5 h-5" />
-                              </button>
-                           </div>
-
-                           {/* Video Player */}
-                           <div className="relative w-full aspect-[9/16] bg-black">
-                              <iframe 
-                                 src={`https://www.youtube.com/embed/${selectedShort.videoId}?autoplay=1&mute=0&controls=1&loop=1&playlist=${selectedShort.videoId}`} 
-                                 title="YouTube Shorts player" 
-                                 className="absolute top-0 left-0 w-full h-full border-0"
-                                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
-                                 allowFullScreen
-                              ></iframe>
-                           </div>
-                        </motion.div>
-                     </motion.div>
-                  )}
-               </AnimatePresence>,
-               document.body
-            ) : null}
-         </section>
 
          {/* INSTITUTIONAL PARTNERS / BRANDING SECTION */}
-         <section className="py-12 md:py-16 bg-white relative overflow-hidden border-t border-slate-100">
+         <section className="py-12 md:py-16 bg-slate-950 relative overflow-hidden border-t border-slate-800">
             {/* Fade overlays */}
-            <div className="absolute top-0 bottom-0 left-0 w-24 md:w-40 bg-gradient-to-r from-white to-transparent z-10 pointer-events-none"></div>
-            <div className="absolute top-0 bottom-0 right-0 w-24 md:w-40 bg-gradient-to-l from-white to-transparent z-10 pointer-events-none"></div>
+            <div className="absolute top-0 bottom-0 left-0 w-24 md:w-40 bg-gradient-to-r from-slate-950 to-transparent z-10 pointer-events-none"></div>
+            <div className="absolute top-0 bottom-0 right-0 w-24 md:w-40 bg-gradient-to-l from-slate-950 to-transparent z-10 pointer-events-none"></div>
 
             <div style={{ transform: 'rotate(-6deg) scale(1.15)', display: 'flex', flexDirection: 'column', gap: 16, position: 'relative' }}>
                {/* Row 1 - Moving Left */}

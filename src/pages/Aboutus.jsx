@@ -971,7 +971,7 @@ const Aboutus = () => {
                         <img
                           src={member.image_url || 'https://placehold.co/400x500/131820/38BDF8?text=Team+Member'}
                           alt={member.name}
-                          style={{ width: '100%', height: 300, objectFit: 'cover', display: 'block' }}
+                          style={{ width: '100%', height: 420, objectFit: 'cover', display: 'block' }}
                           onError={e => { e.target.src = 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400'; }}
                         />
                         <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to top, rgba(10,10,10,0.8) 0%, transparent 50%)' }} />
@@ -1354,7 +1354,10 @@ const Aboutus = () => {
         </section>
 
         {/* ── PARTNERS MARQUEE (Bent & Full Screen) ────────────────────── */}
-        <section style={{ padding: '60px 0', overflow: 'hidden', position: 'relative' }}>
+        <section style={{ padding: '60px 0', overflow: 'hidden', position: 'relative', background: '#0a0a0a' }}>
+           {/* Fade overlays */}
+           <div style={{ position: 'absolute', top: 0, bottom: 0, left: 0, width: '150px', background: 'linear-gradient(to right, #0a0a0a, transparent)', zIndex: 10, pointerEvents: 'none' }}></div>
+           <div style={{ position: 'absolute', top: 0, bottom: 0, right: 0, width: '150px', background: 'linear-gradient(to left, #0a0a0a, transparent)', zIndex: 10, pointerEvents: 'none' }}></div>
            <div style={{ transform: 'rotate(-6deg) scale(1.15)', display: 'flex', flexDirection: 'column', gap: 16, position: 'relative' }}>
               {/* Row 1 - Moving Left */}
               <div style={{ display: 'flex', overflow: 'hidden' }}>
