@@ -279,6 +279,24 @@ const TESTIMONIALS = [
       details: "MCA Professional • Batch 2024",
       img: "https://i.ibb.co/S7s5ncHK/image.png",
       text: "The technical specialization counseling helped me identify exactly which Cloud program would boost my salary. Antechos isn't just counseling; it's career engineering."
+   },
+   {
+      name: "Ananya Verma",
+      details: "BBA Student • Online Batch 2024",
+      img: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=400",
+      text: "The scholarship support I received through Antechos was life-changing. They handled all the documentation smoothly, and I'm now studying at a top-tier university with zero financial stress."
+   },
+   {
+      name: "Rahul Sharma",
+      details: "Executive MBA • Working Professional",
+      img: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400",
+      text: "Balancing a high-pressure job with studies seemed impossible until I spoke to the Antechos team. Their recommendation for a flexible weekend-batch MBA was exactly what I needed."
+   },
+   {
+      name: "Meera Reddy",
+      details: "Digital Marketing Cert. • Batch 2024",
+      img: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=400",
+      text: "The placement intelligence reports provided by Antechos helped me switch to a high-paying role in a global tech firm. Their interview coaching is top-notch!"
    }
 ];
 
@@ -382,6 +400,8 @@ const UniversityPageNew = () => {
    const [isMobile, setIsMobile] = useState(false);
    const [isFaqOpen, setIsFaqOpen] = useState(false);
    const strategicIntelligenceRef = useRef(null);
+   const uniScrollRef = useRef(null);
+   const [isUniHovered, setIsUniHovered] = useState(false);
 
    const [selectedShort, setSelectedShort] = useState(null);
    const [isShortsHovered, setIsShortsHovered] = useState(false);
@@ -411,6 +431,29 @@ const UniversityPageNew = () => {
       }
       return () => clearInterval(interval);
    }, [isShortsHovered, selectedShort, windowWidth]);
+
+   // Auto-scroll for university carousel
+   useEffect(() => {
+      if (isUniHovered || showAll) return;
+      const interval = setInterval(() => {
+         if (uniScrollRef.current) {
+            const el = uniScrollRef.current;
+            const halfWidth = el.scrollWidth / 2;
+            if (el.scrollLeft >= halfWidth) {
+               el.scrollLeft = el.scrollLeft - halfWidth;
+            }
+            el.scrollBy({ left: 1, behavior: 'auto' });
+         }
+      }, 20);
+      return () => clearInterval(interval);
+   }, [isUniHovered, showAll]);
+
+   const scrollUni = (direction) => {
+      if (uniScrollRef.current) {
+         const scrollAmount = windowWidth < 768 ? 302 : 372;
+         uniScrollRef.current.scrollBy({ left: direction === 'left' ? -scrollAmount : scrollAmount, behavior: 'smooth' });
+      }
+   };
 
    const getVisibleFeatures = () => {
       if (typeof window === 'undefined') return 4;
@@ -540,7 +583,7 @@ const UniversityPageNew = () => {
          <style>{styles}</style>
 
          {/* 1. HERO SECTION */}
-         <section className="relative w-full bg-slate-950 overflow-hidden mt-5 md:mt-15">
+         <section className="relative w-full bg-slate-950 overflow-hidden">
 
             {/* IMAGE FRAME — drives height on mobile, fixed viewport height on desktop */}
             <div className="relative w-full h-[100svh] md:h-[80vh] md:max-h-[820px]">
@@ -934,101 +977,73 @@ const UniversityPageNew = () => {
 
                <div className="relative">
                   {!showAll ? (
-                     <div className="relative group/carousel">
-                        <div className="overflow-hidden relative">
-                           <div className="flex justify-end mb-4 pr-4">
-                              <span className="text-[9px] font-black uppercase tracking-[0.3em] text-slate-300 flex items-center gap-2 animate-pulse">
-                                 <ArrowRight className="w-3 h-3" />
-                                 Drag to Explore Entities
-                              </span>
-                           </div>
+                     <div
+                        className="relative group/carousel"
+                        onMouseEnter={() => setIsUniHovered(true)}
+                        onMouseLeave={() => setIsUniHovered(false)}
+                     >
+                        <div
+                           ref={uniScrollRef}
+                           className="flex gap-8 overflow-x-auto pb-4 items-stretch hide-scrollbar"
+                           style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
+                        >
+                           {[...filteredUniversities, ...filteredUniversities].map((uni, idx) => (
+                              <div
+                                 key={`${uni.id}-${idx}`}
+                                 className="flex-shrink-0 w-[270px] md:w-[340px] h-auto min-h-[520px] group flex flex-col bg-white rounded-[2rem] md:rounded-[2.5rem] overflow-hidden border border-slate-100 hover:border-blue-100 transition-all duration-700 hover:shadow-[0_40px_80px_-15px_rgba(0,0,0,0.08)]"
+                              >
+                                 <div className="relative w-full aspect-square overflow-hidden bg-slate-100 flex-shrink-0">
+                                    <img src={uni.image} alt={uni.name} className="absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition-transform duration-1000" />
+                                    <div className="absolute inset-0 bg-gradient-to-t from-slate-900/80 via-slate-900/10 to-transparent pointer-events-none z-10"></div>
+                                    <div className="absolute bottom-4 left-4 flex gap-1.5 z-20">
+                                       <span className="bg-white/90 backdrop-blur-md text-slate-900 py-1.5 px-3 rounded-lg text-[8px] md:text-[9px] font-black uppercase tracking-widest shadow-xl border border-white/20">{uni.category}</span>
+                                       <span className="bg-blue-600 text-white py-1.5 px-3 rounded-lg text-[8px] md:text-[9px] font-black uppercase tracking-widest shadow-xl">Top Rated</span>
+                                    </div>
+                                    <div className="absolute bottom-4 right-4 bg-slate-900/80 backdrop-blur-md text-white p-1.5 px-3 rounded-xl flex items-center gap-1.5 font-black text-[9px] md:text-xs border border-white/10 z-20">
+                                       <Star className="w-3.5 h-3.5 text-orange-400 fill-current" />
+                                       {uni.rating}
+                                    </div>
+                                 </div>
 
-                           <motion.div
-                              className="flex gap-8 pb-12 cursor-grab active:cursor-grabbing touch-pan-x items-stretch"
-                              animate={{ x: -(currentIndex * (windowWidth < 768 ? 270 + 32 : 340 + 32)) }}
-                              transition={{ type: "spring", damping: 25, stiffness: 120 }}
-                              drag="x"
-                              dragConstraints={{
-                                 right: 0,
-                                 left: -((filteredUniversities.length - 1) * (windowWidth < 768 ? 270 + 32 : 340 + 32))
-                              }}
-                              onDragEnd={(e, { offset, velocity }) => {
-                                 const swipeThreshold = 50;
-                                 if (offset.x < -swipeThreshold) setCurrentIndex(prev => Math.min(prev + 1, filteredUniversities.length - 1));
-                                 if (offset.x > swipeThreshold) setCurrentIndex(prev => Math.max(prev - 1, 0));
-                              }}
-                           >
-                              {filteredUniversities.map((uni) => (
-                                 <motion.div
-                                    key={uni.id}
-                                    className="flex-shrink-0 w-[270px] md:w-[340px] h-auto min-h-[520px] group flex flex-col bg-white rounded-[2rem] md:rounded-[2.5rem] overflow-hidden border border-slate-100 hover:border-blue-100 transition-all duration-700 hover:shadow-[0_40px_80px_-15px_rgba(0,0,0,0.08)]"
-                                 >
-                                    <div className="relative w-full aspect-square overflow-hidden bg-slate-100 flex-shrink-0">
-                                       <img src={uni.image} alt={uni.name} className="absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition-transform duration-1000" />
-                                       <div className="absolute inset-0 bg-gradient-to-t from-slate-900/80 via-slate-900/10 to-transparent pointer-events-none z-10"></div>
-                                       <div className="absolute bottom-4 left-4 flex gap-1.5 z-20">
-                                          <span className="bg-white/90 backdrop-blur-md text-slate-900 py-1.5 px-3 rounded-lg text-[8px] md:text-[9px] font-black uppercase tracking-widest shadow-xl border border-white/20">{uni.category}</span>
-                                          <span className="bg-blue-600 text-white py-1.5 px-3 rounded-lg text-[8px] md:text-[9px] font-black uppercase tracking-widest shadow-xl">Top Rated</span>
-                                       </div>
-                                       <div className="absolute bottom-4 right-4 bg-slate-900/80 backdrop-blur-md text-white p-1.5 px-3 rounded-xl flex items-center gap-1.5 font-black text-[9px] md:text-xs border border-white/10 z-20">
-                                          <Star className="w-3.5 h-3.5 text-orange-400 fill-current" />
-                                          {uni.rating}
-                                       </div>
+                                 <div className="p-5 md:p-6 flex flex-col flex-grow text-left">
+                                    <div className="flex items-center gap-2 mb-4">
+                                       <MapPin className="w-3.5 h-3.5 text-blue-600" />
+                                       <span className="text-[9px] font-black text-slate-400 uppercase tracking-widest">{uni.location}</span>
+                                    </div>
+                                    <h3 className="text-lg md:text-xl font-black text-slate-900 mb-4 font-display group-hover:text-blue-600 transition-colors uppercase leading-tight">{uni.name}</h3>
+                                    <p className="text-slate-500 font-medium text-[11px] md:text-xs leading-relaxed mb-6 line-clamp-3">{uni.description}</p>
+
+                                    <div className="flex flex-wrap gap-1.5 mb-8">
+                                       {uni.programs.map((p, i) => (
+                                          <span key={i} className="text-[7px] md:text-[8px] font-black text-slate-400 border border-slate-100 p-1.5 px-3 rounded-lg uppercase tracking-[0.1em]">{p}</span>
+                                       ))}
                                     </div>
 
-                                    <div className="p-5 md:p-6 flex flex-col flex-grow text-left">
-                                       <div className="flex items-center gap-2 mb-4">
-                                          <MapPin className="w-3.5 h-3.5 text-blue-600" />
-                                          <span className="text-[9px] font-black text-slate-400 uppercase tracking-widest">{uni.location}</span>
-                                       </div>
-                                       <h3 className="text-lg md:text-xl font-black text-slate-900 mb-4 font-display group-hover:text-blue-600 transition-colors uppercase leading-tight">{uni.name}</h3>
-                                       <p className="text-slate-500 font-medium text-[11px] md:text-xs leading-relaxed mb-6 line-clamp-3">{uni.description}</p>
-
-                                       <div className="flex flex-wrap gap-1.5 mb-8">
-                                          {uni.programs.map((p, i) => (
-                                             <span key={i} className="text-[7px] md:text-[8px] font-black text-slate-400 border border-slate-100 p-1.5 px-3 rounded-lg uppercase tracking-[0.1em]">{p}</span>
-                                          ))}
-                                       </div>
-
-                                       <div className="mt-auto">
-                                          <button
-                                             onClick={() => handleUniversityClick(uni.link)}
-                                             className="w-full flex items-center justify-between group/btn bg-slate-900 hover:bg-blue-600 text-white p-4 md:p-5 rounded-[1.2rem] md:rounded-[1.5rem] transition-all duration-500"
-                                          >
-                                             <span className="text-[8px] md:text-[9px] font-black uppercase tracking-[0.3em]">Full Intel</span>
-                                             <ArrowRight className="w-4 h-4 group-hover/btn:translate-x-2 transition-transform" />
-                                          </button>
-                                       </div>
+                                    <div className="mt-auto">
+                                       <button
+                                          onClick={() => handleUniversityClick(uni.link)}
+                                          className="w-full flex items-center justify-between group/btn bg-slate-900 hover:bg-blue-600 text-white p-4 md:p-5 rounded-[1.2rem] md:rounded-[1.5rem] transition-all duration-500"
+                                       >
+                                          <span className="text-[8px] md:text-[9px] font-black uppercase tracking-[0.3em]">Full Intel</span>
+                                          <ArrowRight className="w-4 h-4 group-hover/btn:translate-x-2 transition-transform" />
+                                       </button>
                                     </div>
-                                 </motion.div>
-                              ))}
-                           </motion.div>
-
-                           {/* Pagination Indicators */}
-                           <div className="flex justify-center gap-2 mt-0">
-                              {filteredUniversities.map((_, i) => (
-                                 <button
-                                    key={i}
-                                    onClick={() => setCurrentIndex(i)}
-                                    className={`h-1 rounded-full transition-all ${currentIndex === i ? "bg-blue-500 w-6" : "bg-slate-200 w-1.5"}`}
-                                 />
-                              ))}
-                           </div>
+                                 </div>
+                              </div>
+                           ))}
                         </div>
 
                         {/* Navigation Arrows */}
-                        <div className="absolute top-1/2 -translate-y-1/2 left-0 md:left-0 right-0 md:right-0 flex justify-between pointer-events-none z-20 px-1 md:px-2">
+                        <div className="absolute top-1/2 -translate-y-1/2 left-0 right-0 flex justify-between pointer-events-none z-20 px-1 md:px-2">
                            <button
-                              onClick={() => setCurrentIndex(prev => Math.max(prev - 1, 0))}
-                              disabled={currentIndex === 0}
-                              className={`w-10 h-10 md:w-14 md:h-14 bg-white rounded-full shadow-2xl border border-slate-100 flex items-center justify-center text-slate-400 hover:text-blue-600 transition-all active:scale-90 pointer-events-auto opacity-0 group-hover/carousel:opacity-100 disabled:opacity-0 translate-x-4 group-hover/carousel:translate-x-0 cursor-pointer`}
+                              onClick={() => scrollUni('left')}
+                              className="w-10 h-10 md:w-14 md:h-14 bg-white rounded-full shadow-2xl border border-slate-100 flex items-center justify-center text-slate-400 hover:text-blue-600 transition-all active:scale-90 pointer-events-auto opacity-0 group-hover/carousel:opacity-100 translate-x-4 group-hover/carousel:translate-x-0 cursor-pointer"
                            >
                               <ChevronLeft className="w-5 h-5 md:w-6 md:h-6" />
                            </button>
                            <button
-                              onClick={() => setCurrentIndex(prev => Math.min(prev + 1, filteredUniversities.length - 1))}
-                              disabled={currentIndex === filteredUniversities.length - 1}
-                              className={`w-10 h-10 md:w-14 md:h-14 bg-white rounded-full shadow-2xl border border-slate-100 flex items-center justify-center text-slate-400 hover:text-blue-600 transition-all active:scale-90 pointer-events-auto opacity-0 group-hover/carousel:opacity-100 disabled:opacity-0 -translate-x-4 group-hover/carousel:translate-x-0 cursor-pointer`}
+                              onClick={() => scrollUni('right')}
+                              className="w-10 h-10 md:w-14 md:h-14 bg-white rounded-full shadow-2xl border border-slate-100 flex items-center justify-center text-slate-400 hover:text-blue-600 transition-all active:scale-90 pointer-events-auto opacity-0 group-hover/carousel:opacity-100 -translate-x-4 group-hover/carousel:translate-x-0 cursor-pointer"
                            >
                               <ChevronRight className="w-5 h-5 md:w-6 md:h-6" />
                            </button>
@@ -1837,6 +1852,66 @@ const UniversityPageNew = () => {
                            desc: "Deep-dive into predictive algorithms, neural networks, and automated intelligence pipelines."
                         },
                         {
+                           title: "Artificial Intelligence & ML",
+                           img: "https://cdn.discordapp.com/attachments/1208841496296685729/1498767394829766687/image.jpg?ex=69f25b68&is=69f109e8&hm=e5038850bbbc493e85cdad62c7097cc149f73779d9d79b78a22c29ab406df8c6&",
+                           salary: "15-28 LPA",
+                           desc: "Master deep learning, neural networks, and computer vision to build the next generation of intelligent systems."
+                        },
+                        {
+                           title: "FinTech & Digital Finance",
+                           img: "https://cdn.discordapp.com/attachments/1208841496296685729/1498767227451605135/image.jpg?ex=69f25b40&is=69f109c0&hm=33ec900ec0238556918649c3efac0e8478b1b617fe7d544168c026649982fbea&",
+                           salary: "11-20 LPA",
+                           desc: "Explore blockchain, algorithmic trading, and digital payment systems at the intersection of finance and tech."
+                        },
+                        {
+                           title: "Information Technology",
+                           img: "https://cdn.discordapp.com/attachments/1208841496296685729/1498766529871872063/image.jpg?ex=69f25a9a&is=69f1091a&hm=f43025146c8adf832ed174ed2220a3989acee4494d7f43eda8ef8b52ddf513cc&",
+                           salary: "10-18 LPA",
+                           desc: "Lead digital transformation initiatives and manage complex enterprise infrastructures for the modern cloud era."
+                        },
+                        {
+                           title: "Business Analytics",
+                           img: "https://cdn.discordapp.com/attachments/1208841496296685729/1498767310381645844/image.jpg?ex=69f25b54&is=69f109d4&hm=d6904b39d6b501b740339ae3f9feb98a653381b6a223a7a61b5d5fb47d90ce2e&",
+                           salary: "12-24 LPA",
+                           desc: "Translate data into actionable business strategies using advanced statistical modeling and predictive analytics."
+                        },
+                        {
+                           title: "Healthcare & Hospital Mgt.",
+                           img: "https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?w=800",
+                           salary: "8-15 LPA",
+                           desc: "Optimize clinical operations and patient care systems within modern healthcare organizations and global medical hubs."
+                        },
+                        {
+                           title: "Operations Management",
+                           img: "https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?w=800",
+                           salary: "10-16 LPA",
+                           desc: "Streamline organizational efficiency through Lean Six Sigma, quality control, and strategic resource planning."
+                        },
+                        {
+                           title: "Intl. Finance & Account Mgt.",
+                           img: "https://cdn.discordapp.com/attachments/1208841496296685729/1498766652010139738/image.jpg?ex=69f25ab7&is=69f10937&hm=2464584843122d7889b22073533b0db316ed0aa90818d651754b9d43c3d614f5&",
+                           salary: "12-22 LPA",
+                           desc: "Navigate global markets and cross-border regulatory frameworks with advanced financial reporting and auditing."
+                        },
+                        {
+                           title: "Digital Marketing & Growth",
+                           img: "https://cdn.discordapp.com/attachments/1208841496296685729/1498766838635561092/image.jpg?ex=69f25ae4&is=69f10964&hm=fd64deb9bc5deb9c77d6162ca888d1778a1d677062d494b05ea24b47f96db29e&",
+                           salary: "8-16 LPA",
+                           desc: "Master SEO, social engineering, and data-driven advertising to scale brands in the hyper-competitive digital space."
+                        },
+                        {
+                           title: "Logistics & Supply Chain",
+                           img: "https://cdn.discordapp.com/attachments/1208841496296685729/1498766773430911017/image.jpg?ex=69f25ad4&is=69f10954&hm=c8e38e65c0c569d5312364954f25fb76927d29f09ab732bb233d4dd095cf85dc&",
+                           salary: "9-15 LPA",
+                           desc: "Revolutionize global trade routes and inventory systems using automated warehousing and last-mile delivery tech."
+                        },
+                        {
+                           title: "Marketing Management",
+                           img: "https://images.unsplash.com/photo-1542744173-8e7e53415bb0?w=800",
+                           salary: "10-18 LPA",
+                           desc: "Drive revenue growth and market penetration through consumer psychology and strategic brand positioning."
+                        },
+                        {
                            title: "Cyber Security & Defense",
                            img: "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?w=800",
                            salary: "10-18 LPA",
@@ -1860,7 +1935,10 @@ const UniversityPageNew = () => {
                                  <p className="text-blue-600 font-black text-xl">₹ {spec.salary}</p>
                               </div>
 
-                              <button className="flex items-center gap-2 group/link text-[10px] font-black uppercase tracking-widest text-slate-400 hover:text-blue-600 transition-all text-left">
+                              <button 
+                                 onClick={() => setShowEnquiry(true)}
+                                 className="flex items-center gap-2 group/link text-[10px] font-black uppercase tracking-widest text-slate-400 hover:text-blue-600 transition-all text-left"
+                              >
                                  <div className="w-1.5 h-1.5 rounded-full bg-blue-600 group-hover/link:animate-ping"></div>
                                  Explore Intel
                               </button>
