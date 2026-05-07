@@ -74,7 +74,7 @@ const CoursesNew = () => {
         .select('*')
         .eq('is_active', true)
         .order('created_at', { ascending: false });
-      
+
       if (error) {
         console.error('Error fetching courses:', error);
         // Fallback to static data if database fails
@@ -99,8 +99,8 @@ const CoursesNew = () => {
   };
 
   const categories = ['all', ...new Set(courses.map(c => c.category))];
-  const filteredCourses = selectedCategory === 'all' 
-    ? courses 
+  const filteredCourses = selectedCategory === 'all'
+    ? courses
     : courses.filter(c => c.category === selectedCategory);
 
   const handleEnrollClick = (courseId) => {
@@ -123,16 +123,16 @@ const CoursesNew = () => {
       <ScrollProgress />
       {/* Modern Hero Section */}
       <section className="relative overflow-hidden">
-        <div 
+        <div
           className="absolute inset-0 opacity-10"
-          style={{ 
+          style={{
             backgroundColor: heroData?.background_color || '#93B5F1',
             backgroundImage: heroData?.background_image ? `url(${heroData.background_image})` : 'none',
             backgroundSize: 'cover',
             backgroundPosition: 'center'
           }}
         />
-        
+
         <div className="relative max-w-7xl mx-auto px-6 py-12">
           <div className="bg-gradient-to-br from-blue-50 via-white to-indigo-50 rounded-3xl shadow-2xl border border-blue-100 overflow-hidden">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-0">
@@ -150,7 +150,7 @@ const CoursesNew = () => {
                   <br />
                   <span className="text-gray-900">{heroData?.subtitle || 'Made Simple'}</span>
                 </h1>
-                
+
                 <p className="text-gray-600 text-base mb-6 leading-relaxed">
                   {heroData?.description || 'Process transactions with confidence. Enterprise-grade security meets effortless user experience.'}
                 </p>
@@ -182,9 +182,9 @@ const CoursesNew = () => {
               </div>
 
               {/* Right Image */}
-              <div 
+              <div
                 className="relative bg-gradient-to-br from-blue-400 to-indigo-500 p-8 lg:p-12 flex items-center justify-center"
-                style={{ 
+                style={{
                   backgroundColor: heroData?.background_color || '#93B5F1'
                 }}
               >
@@ -199,7 +199,7 @@ const CoursesNew = () => {
                     <BookOpen className="w-24 h-24 text-white/70" />
                   </div>
                 )}
-                
+
                 {/* Decorative Elements */}
                 <div className="absolute top-10 right-10 w-20 h-20 bg-white/10 rounded-full blur-2xl"></div>
                 <div className="absolute bottom-10 left-10 w-32 h-32 bg-white/10 rounded-full blur-3xl"></div>
@@ -242,17 +242,16 @@ const CoursesNew = () => {
               <span className="text-xs text-gray-600">courses</span>
             </div>
           </div>
-          
+
           <div className="flex flex-wrap gap-3">
             {categories.map((cat) => (
               <button
                 key={cat}
                 onClick={() => setSelectedCategory(cat)}
-                className={`group relative px-5 py-2.5 rounded-xl font-semibold transition-all duration-200 ${
-                  selectedCategory === cat
+                className={`group relative px-5 py-2.5 rounded-xl font-semibold transition-all duration-200 ${selectedCategory === cat
                     ? 'bg-gradient-to-r from-blue-600 to-indigo-600 text-white shadow-lg shadow-blue-500/30 scale-105'
                     : 'bg-white text-gray-700 border-2 border-gray-200 hover:border-blue-400 hover:shadow-md'
-                }`}
+                  }`}
               >
                 {selectedCategory === cat && (
                   <div className="absolute inset-0 bg-white/20 rounded-xl animate-pulse"></div>
@@ -274,18 +273,17 @@ const CoursesNew = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {filteredCourses.map((course, index) => {
             const isPopular = index === 1 || index === 4;
-            
+
             return (
               <motion.div
                 key={course.id}
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: index * 0.05 }}
-                className={`group bg-white rounded-2xl overflow-hidden transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl ${
-                  isPopular 
-                    ? 'ring-2 ring-blue-500 shadow-xl shadow-blue-100' 
+                className={`group bg-white rounded-2xl overflow-hidden transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl ${isPopular
+                    ? 'ring-2 ring-blue-500 shadow-xl shadow-blue-100'
                     : 'border border-gray-200 shadow-lg hover:border-blue-300'
-                }`}
+                  }`}
               >
                 {/* Popular Badge */}
                 {isPopular && (
@@ -308,10 +306,10 @@ const CoursesNew = () => {
                       <BookOpen className="w-20 h-20 text-white/40" />
                     </div>
                   )}
-                  
+
                   {/* Gradient Overlay */}
                   <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
-                  
+
                   {/* Badges */}
                   <div className="absolute top-4 left-4 right-4 flex items-start justify-between">
                     {course.category && (
@@ -401,13 +399,12 @@ const CoursesNew = () => {
                     </div>
                   </div>
 
-                  <button 
+                  <button
                     onClick={() => handleEnrollClick(course.id)}
-                    className={`w-full py-3.5 rounded-xl font-bold transition-all duration-200 flex items-center justify-center gap-2 ${
-                    isPopular
-                      ? 'bg-gradient-to-r from-blue-600 to-indigo-600 text-white hover:shadow-lg hover:scale-105'
-                      : 'bg-gradient-to-r from-gray-900 to-gray-800 text-white hover:shadow-lg hover:scale-105'
-                  }`}>
+                    className={`w-full py-3.5 rounded-xl font-bold transition-all duration-200 flex items-center justify-center gap-2 ${isPopular
+                        ? 'bg-gradient-to-r from-blue-600 to-indigo-600 text-white hover:shadow-lg hover:scale-105'
+                        : 'bg-gradient-to-r from-gray-900 to-gray-800 text-white hover:shadow-lg hover:scale-105'
+                      }`}>
                     Enroll Now
                     <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
@@ -428,7 +425,7 @@ const CoursesNew = () => {
       {/* Modern Features Section */}
       <section className="relative bg-gradient-to-b from-white via-blue-50 to-white py-20 overflow-hidden">
         <div className="absolute inset-0 bg-grid-pattern opacity-5"></div>
-        
+
         <div className="relative max-w-7xl mx-auto px-6">
           <div className="text-center mb-16">
             <div className="inline-flex items-center gap-2 bg-blue-100 text-blue-700 px-4 py-2 rounded-full text-sm font-semibold mb-4">
@@ -488,28 +485,28 @@ const CoursesNew = () => {
         </div>
       </section>
 
-      {/* Newsletter Section */}
-      <Newsletter />
+      {/* Newsletter Section
+      <Newsletter />*/}
 
       {/* Modern CTA Section */}
       <section className="relative bg-gradient-to-br from-blue-600 via-indigo-600 to-purple-700 py-20 overflow-hidden">
         <div className="absolute inset-0 bg-black/10"></div>
         <div className="absolute top-0 right-0 w-96 h-96 bg-white/10 rounded-full blur-3xl"></div>
         <div className="absolute bottom-0 left-0 w-96 h-96 bg-white/10 rounded-full blur-3xl"></div>
-        
+
         <div className="relative max-w-4xl mx-auto px-6 text-center">
           <div className="inline-flex items-center gap-2 bg-white/20 backdrop-blur-sm text-white px-4 py-2 rounded-full text-sm font-semibold mb-6">
             <Users className="w-4 h-4" />
             Expert Guidance Available
           </div>
-          
+
           <h2 className="text-4xl md:text-5xl font-bold text-white mb-6">
             Need Help Choosing the Right Course?
           </h2>
           <p className="text-xl text-blue-100 mb-10 leading-relaxed">
             Talk to our expert counselors and find the perfect course tailored to your career goals
           </p>
-          
+
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <button className="group bg-white text-blue-600 px-8 py-4 rounded-xl font-bold hover:shadow-2xl transition-all duration-200 flex items-center justify-center gap-2">
               Get Free Counseling
@@ -521,7 +518,7 @@ const CoursesNew = () => {
               View All Courses
             </button>
           </div>
-          
+
           <div className="flex items-center justify-center gap-8 mt-12 text-white/90">
             <div className="flex items-center gap-2">
               <Check className="w-5 h-5" />

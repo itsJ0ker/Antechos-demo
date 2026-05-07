@@ -332,17 +332,12 @@ const Aboutus = () => {
   const displayTeam = team.length > 0 ? team : defaultTeam;
 
   const shortsData = [
-    { id: 1, img: 'https://media.collegesathi.com/images/1775130642398-1red.webp', text: 'Regular, Distance or Online Education–which one is the best for you? Let\'s find out.', videoUrl: 'https://www.youtube.com/shorts/dQw4w9WgXcQ' },
-    { id: 2, img: 'https://media.collegesathi.com/images/1775130642785-2red.webp', text: 'University name or skills - what actually gets you hired?', videoUrl: 'https://www.youtube.com/shorts/dQw4w9WgXcQ' },
-    { id: 3, img: 'https://media.collegesathi.com/images/1775130643141-3red.webp', text: 'Are Online Degrees accepted for government and private jobs? Let\'s find out.', videoUrl: 'https://www.youtube.com/shorts/dQw4w9WgXcQ' },
-    { id: 4, img: 'https://media.collegesathi.com/images/1775130643564-4red.webp', text: 'HIDDEN costs of Online Courses no one tells you about!', videoUrl: 'https://www.youtube.com/shorts/dQw4w9WgXcQ' },
-    { id: 5, img: 'https://media.collegesathi.com/images/1775130643931-6red.webp', text: 'Your goals are unique. Your course should be too. Choose smarter with Antechos India.', videoUrl: 'https://www.youtube.com/shorts/dQw4w9WgXcQ' },
-    { id: 6, img: 'https://media.collegesathi.com/images/1775130644298-6white.webp', text: 'Avoid these 5 mistakes while choosing an Online Degree.', videoUrl: 'https://www.youtube.com/shorts/dQw4w9WgXcQ' },
-    { id: 7, img: 'https://media.collegesathi.com/images/1775130644671-7white.webp', text: 'Top 7 reasons why Online Education is a smart choice.', videoUrl: 'https://www.youtube.com/shorts/dQw4w9WgXcQ' },
-    { id: 8, img: 'https://media.collegesathi.com/images/1775130645080-8white.webp', text: 'Eligibility criteria for enrolling in online courses.', videoUrl: 'https://www.youtube.com/shorts/dQw4w9WgXcQ' },
-    { id: 9, img: 'https://media.collegesathi.com/images/1775130645858-10black.webp', text: 'How to avail Scholarships and Discounts for Online Courses?', videoUrl: 'https://www.youtube.com/shorts/dQw4w9WgXcQ' },
-    { id: 10, img: 'https://media.collegesathi.com/images/1775130646220-11black.webp', text: 'Top 5 Trending in-demand courses of 2026.', videoUrl: 'https://www.youtube.com/shorts/dQw4w9WgXcQ' },
-    { id: 11, img: 'https://media.collegesathi.com/images/1775130646220-11black.webp', text: 'Check these important factors before choosing an online university.', videoUrl: 'https://www.youtube.com/shorts/dQw4w9WgXcQ' },
+    { id: 1, img: 'https://i.ibb.co/LXkSMPbx/Whats-App-Image-2026-04-29-at-10-08-19-PM.jpg', text: 'Regular, Distance or Online Education–which one is the best for you? Let\'s find out.', videoUrl: 'https://www.youtube.com/shorts/dQw4w9WgXcQ' },
+    { id: 2, img: 'https://i.ibb.co/r25KZ0fC/Whats-App-Image-2026-04-29-at-10-08-20-PM-1.jpg', text: 'University name or skills - what actually gets you hired?', videoUrl: 'https://www.youtube.com/shorts/dQw4w9WgXcQ' },
+    { id: 3, img: 'https://i.ibb.co/nM5nZ0KK/Whats-App-Image-2026-04-29-at-10-08-20-PM-2.jpg', text: 'Are Online Degrees accepted for government and private jobs? Let\'s find out.', videoUrl: 'https://www.youtube.com/shorts/dQw4w9WgXcQ' },
+    { id: 4, img: 'https://i.ibb.co/JRZBTCBh/Whats-App-Image-2026-04-29-at-10-08-20-PM.jpg', text: 'HIDDEN costs of Online Courses no one tells you about!', videoUrl: 'https://www.youtube.com/shorts/dQw4w9WgXcQ' },
+    { id: 5, img: 'https://i.ibb.co/Wps8Y452/Whats-App-Image-2026-04-29-at-10-08-21-PM.jpg', text: 'Your goals are unique. Your course should be too. Choose smarter with Antechos India.', videoUrl: 'https://www.youtube.com/shorts/dQw4w9WgXcQ' },
+
   ];
   const videoTestimonials = shortsData; // kept for compatibility
 

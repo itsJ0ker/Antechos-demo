@@ -205,7 +205,7 @@ const OFFICIAL_COURSES = [
    { name: "Block Chain (EPGP)", category: "Certification", link: "https://courses.universityadmission.co.in/online-executive-pg-diploma-certificate-blockchain?source_campaign=LAM%20Influencer&campaign_name=4711&ad_group_name=General&ads_name=courseBlockchain", icon: <ShieldCheck className="w-5 h-5" />, badge: "Web3 Mastery" },
    { name: "Cyber Security (EPGP)", category: "Certification", link: "https://courses.universityadmission.co.in/online-executive-pg-diploma-certificate-cyber-security?source_campaign=LAM%20Influencer&campaign_name=4711&ad_group_name=General&ads_name=courseCyberSecurity", icon: <ShieldCheck className="w-5 h-5" />, badge: "Security Vetting" },
    { name: "Dev Ops (EPGP)", category: "Certification", link: "https://courses.universityadmission.co.in/online-executive-pg-diploma-certificate-devops?source_campaign=LAM%20Influencer&campaign_name=4711&ad_group_name=General&ads_name=courseDEVOPS", icon: <Zap className="w-5 h-5" />, badge: "Deployment Ready" },
-   { name: "AI & Machine Learning", category: "Certification", link: "https://courses.universityadmission.co.in/online-executive-pg-diploma-certificate-ai-machine-learning?source_campaign=LAM%20Influencer&campaign_name=4711&ad_group_name=General&ads_name=courseAInML", icon: <Lightbulb className="w-5 h-5" />, badge: "Deep Intelligence" },
+   { name: "AI & Machine Learning", category: "Certification", link: "https://i.ibb.co/C4Jv9pT/Chat-GPT-Image-Apr-28-2026-06-10-25-PM.png", icon: <Lightbulb className="w-5 h-5" />, badge: "Deep Intelligence" },
    { name: "UI & UX Design", category: "Certification", link: "https://courses.universityadmission.co.in/epgp-ui-ux-design-online?source_campaign=LAM%20Influencer&campaign_name=4711&ad_group_name=General&ads_name=UIUXcertification", icon: <Star className="w-5 h-5" />, badge: "Experience Strategy" },
    { name: "Generative AI (EPGP)", category: "Certification", link: "https://courses.universityadmission.co.in/online-epg-diploma-certificate-generative-ai?source_campaign=LAM%20Influencer&campaign_name=4711&ad_group_name=General&ads_name=courseGENERATIVEAI", icon: <Rocket className="w-5 h-5" />, badge: "Future Proof" },
    { name: "Data Science & Analytics", category: "Certification", link: "https://courses.universityadmission.co.in/online-epg-diploma-certificate-data-science-analytics?source_campaign=LAM%20Influencer&campaign_name=4711&ad_group_name=General&ads_name=CourseDSA", icon: <TrendingUp className="w-5 h-5" />, badge: "Big Data Elite" },
@@ -213,11 +213,11 @@ const OFFICIAL_COURSES = [
 
    { name: "Online M.Sc", category: "Masters (PG)", link: "https://courses.universityadmission.co.in/online-msc?source_campaign=LAM%20Influencer&campaign_name=4711&ad_group_name=General&ads_name=onlineMSc", image: "https://i.ibb.co/FLKQ4V2Z/msc.jpg", icon: <Info className="w-5 h-5" />, badge: "Advanced Science" },
    { name: "Online B.Sc", category: "Bachelor's (UG)", link: "https://courses.universityadmission.co.in/online-bsc?source_campaign=LAM%20Influencer&campaign_name=4711&ad_group_name=General&ads_name=onlineBSc", image: "https://i.ibb.co/kLHjBXP/bcs.jpg", icon: <Star className="w-5 h-5" />, badge: "Foundational Science" },
-   { name: "Online Dual MBA", category: "Special", link: "https://courses.universityadmission.co.in/online-mba-dual-specialization?source_campaign=LAM%20Influencer&campaign_name=4711&ad_group_name=General&ads_name=DualMBA", icon: <Briefcase className="w-5 h-5" />, badge: "Expert Specialization" },
-   { name: "Integrated BBA + MBA", category: "Integrated Program", link: "https://courses.universityadmission.co.in/online-integrated-bba-mba?source_campaign=LAM%20Influencer&campaign_name=4711&ad_group_name=General&ads_name=onlineBBAMBA", icon: <TrendingUp className="w-5 h-5" />, badge: "Fast Track" },
-   { name: "Integrated BCA + MCA", category: "Integrated Program", link: "https://courses.universityadmission.co.in/online-integrated-bca-mca?source_campaign=LAM%20Influencer&campaign_name=4711&ad_group_name=General&ads_name=onlineBCAMCA", icon: <Zap className="w-5 h-5" />, badge: "Technical Mastery" },
-   { name: "Integrated B.Com + MBA", category: "Integrated Program", link: "https://courses.universityadmission.co.in/online-integrated-bcom-mba?source_campaign=LAM%20Influencer&campaign_name=4711&ad_group_name=General&ads_name=onlineBComMBA", icon: <CreditCard className="w-5 h-5" />, badge: "Corporate Ready" },
-   { name: "Online PGDM", category: "Masters (PG)", link: "https://courses.universityadmission.co.in/pgdm-online?source_campaign=LAM%20Influencer&campaign_name=4711&ad_group_name=General&ads_name=onlinePGDM", icon: <Briefcase className="w-5 h-5" />, badge: "AIMA Approved" },
+   { name: "Online Dual MBA", category: "Special", link: "https://i.ibb.co/99H9yywH/Whats-App-Image-2026-04-29-at-11-12-39-PM-1.jpg", icon: <Briefcase className="w-5 h-5" />, badge: "Expert Specialization" },
+   { name: "Integrated BBA + MBA", category: "Integrated Program", link: "https://i.ibb.co/s92RLfSR/Whats-App-Image-2026-04-29-at-10-09-11-PM-1.jpg", icon: <TrendingUp className="w-5 h-5" />, badge: "Fast Track" },
+   { name: "Integrated BCA + MCA", category: "Integrated Program", link: "https://i.ibb.co/27XB7Lsp/Whats-App-Image-2026-04-29-at-10-09-38-PM.jpg", icon: <Zap className="w-5 h-5" />, badge: "Technical Mastery" },
+   { name: "Integrated B.Com + MBA", category: "Integrated Program", link: "https://i.ibb.co/vxGdvpKy/Whats-App-Image-2026-04-29-at-10-48-58-PM.jpg", icon: <CreditCard className="w-5 h-5" />, badge: "Corporate Ready" },
+   { name: "Online PGDM", category: "Masters (PG)", link: "https://i.ibb.co/gbGYWtVJ/Whats-App-Image-2026-04-29-at-10-10-41-PM.jpg", icon: <Briefcase className="w-5 h-5" />, badge: "AIMA Approved" },
    { name: "PhD for Professionals", category: "Special", link: "https://courses.universityadmission.co.in/phd-for-working-professionals?source_campaign=LAM%20Influencer&campaign_name=4711&ad_group_name=General&ads_name=onlinePHDworkProf", icon: <Award className="w-5 h-5" />, badge: "Working Pro Specialized" },
    { name: "Pay After Placement", category: "Special", link: "https://courses.universityadmission.co.in/pay-after-placement?source_campaign=LAM%20Influencer&campaign_name=4711&ad_group_name=General&ads_name=onlinePayAfterPlacement", icon: <Lightbulb className="w-5 h-5" />, badge: "Risk Free Education" },
 ];
@@ -1181,7 +1181,7 @@ const UniversityPageNew = () => {
                      <h2 className="text-2xl sm:text-4xl md:text-5xl font-black text-slate-900 mb-0 font-display uppercase tracking-tighter w-full max-w-4xl">Explore Programs From <span className="text-blue-600">Top Ranked Universities</span></h2>
                   </div>
                   <div className="self-center flex overflow-x-auto hide-scrollbar justify-start md:justify-center gap-2 bg-slate-50 p-2 md:p-3 rounded-[2rem] md:rounded-[2.5rem] border border-slate-100 w-full mx-auto max-w-5xl mt-4 md:mt-0">
-                     {['All', 'Integrated Program', 'Certification', 'Masters (PG)', "Bachelor's (UG)", 'Special'].map(tab => (
+                     {['Integrated Program', 'Certification', 'Masters (PG)', "Bachelor's (UG)", 'Special'].map(tab => (//'All', 
                         <button
                            key={tab}
                            onClick={() => setCourseType(tab)}
@@ -1853,25 +1853,25 @@ const UniversityPageNew = () => {
                         },
                         {
                            title: "Artificial Intelligence & ML",
-                           img: "https://cdn.discordapp.com/attachments/1208841496296685729/1498767394829766687/image.jpg?ex=69f25b68&is=69f109e8&hm=e5038850bbbc493e85cdad62c7097cc149f73779d9d79b78a22c29ab406df8c6&",
+                           img: "https://i.ibb.co/C4Jv9pT/Chat-GPT-Image-Apr-28-2026-06-10-25-PM.png",
                            salary: "15-28 LPA",
                            desc: "Master deep learning, neural networks, and computer vision to build the next generation of intelligent systems."
                         },
                         {
                            title: "FinTech & Digital Finance",
-                           img: "https://cdn.discordapp.com/attachments/1208841496296685729/1498767227451605135/image.jpg?ex=69f25b40&is=69f109c0&hm=33ec900ec0238556918649c3efac0e8478b1b617fe7d544168c026649982fbea&",
+                           img: "https://i.ibb.co/HDbbvTDt/Chat-GPT-Image-Apr-28-2026-06-10-38-PM-2.png",
                            salary: "11-20 LPA",
                            desc: "Explore blockchain, algorithmic trading, and digital payment systems at the intersection of finance and tech."
                         },
                         {
                            title: "Information Technology",
-                           img: "https://cdn.discordapp.com/attachments/1208841496296685729/1498766529871872063/image.jpg?ex=69f25a9a&is=69f1091a&hm=f43025146c8adf832ed174ed2220a3989acee4494d7f43eda8ef8b52ddf513cc&",
+                           img: "https://i.ibb.co/jv6yRPFq/Chat-GPT-Image-Apr-28-2026-06-16-35-PM.png",
                            salary: "10-18 LPA",
                            desc: "Lead digital transformation initiatives and manage complex enterprise infrastructures for the modern cloud era."
                         },
                         {
                            title: "Business Analytics",
-                           img: "https://cdn.discordapp.com/attachments/1208841496296685729/1498767310381645844/image.jpg?ex=69f25b54&is=69f109d4&hm=d6904b39d6b501b740339ae3f9feb98a653381b6a223a7a61b5d5fb47d90ce2e&",
+                           img: "https://i.ibb.co/VYQMCBZr/Chat-GPT-Image-Apr-28-2026-06-10-54-PM.png",
                            salary: "12-24 LPA",
                            desc: "Translate data into actionable business strategies using advanced statistical modeling and predictive analytics."
                         },
@@ -1889,19 +1889,19 @@ const UniversityPageNew = () => {
                         },
                         {
                            title: "Intl. Finance & Account Mgt.",
-                           img: "https://cdn.discordapp.com/attachments/1208841496296685729/1498766652010139738/image.jpg?ex=69f25ab7&is=69f10937&hm=2464584843122d7889b22073533b0db316ed0aa90818d651754b9d43c3d614f5&",
+                           img: "https://i.ibb.co/nqxy8sNC/Chat-GPT-Image-Apr-28-2026-06-11-09-PM.png",
                            salary: "12-22 LPA",
                            desc: "Navigate global markets and cross-border regulatory frameworks with advanced financial reporting and auditing."
                         },
                         {
                            title: "Digital Marketing & Growth",
-                           img: "https://cdn.discordapp.com/attachments/1208841496296685729/1498766838635561092/image.jpg?ex=69f25ae4&is=69f10964&hm=fd64deb9bc5deb9c77d6162ca888d1778a1d677062d494b05ea24b47f96db29e&",
+                           img: "https://i.ibb.co/xqJGVg4R/Chat-GPT-Image-Apr-28-2026-06-11-05-PM.png",
                            salary: "8-16 LPA",
                            desc: "Master SEO, social engineering, and data-driven advertising to scale brands in the hyper-competitive digital space."
                         },
                         {
                            title: "Logistics & Supply Chain",
-                           img: "https://cdn.discordapp.com/attachments/1208841496296685729/1498766773430911017/image.jpg?ex=69f25ad4&is=69f10954&hm=c8e38e65c0c569d5312364954f25fb76927d29f09ab732bb233d4dd095cf85dc&",
+                           img: "https://i.ibb.co/N6V14nkj/Chat-GPT-Image-Apr-28-2026-06-11-07-PM.png",
                            salary: "9-15 LPA",
                            desc: "Revolutionize global trade routes and inventory systems using automated warehousing and last-mile delivery tech."
                         },
@@ -1913,7 +1913,7 @@ const UniversityPageNew = () => {
                         },
                         {
                            title: "Cyber Security & Defense",
-                           img: "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?w=800",
+                           img: "https://i.ibb.co/pB46p1qY/Chat-GPT-Image-Apr-28-2026-06-11-01-PM.png",
                            salary: "10-18 LPA",
                            desc: "Master the art of digital perimeter defense, ethical hacking, and real-time threat neutralization."
                         }
@@ -1935,7 +1935,7 @@ const UniversityPageNew = () => {
                                  <p className="text-blue-600 font-black text-xl">₹ {spec.salary}</p>
                               </div>
 
-                              <button 
+                              <button
                                  onClick={() => setShowEnquiry(true)}
                                  className="flex items-center gap-2 group/link text-[10px] font-black uppercase tracking-widest text-slate-400 hover:text-blue-600 transition-all text-left"
                               >
