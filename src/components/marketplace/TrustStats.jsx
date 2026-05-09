@@ -75,7 +75,7 @@ const TrustStats = () => {
         style={{ background: 'radial-gradient(ellipse, rgba(124,58,237,0.08) 0%, transparent 70%)' }} />
 
       <div className="relative z-10 max-w-5xl mx-auto px-5 sm:px-8">
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-0 rounded-3xl overflow-hidden"
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-0 rounded-3xl overflow-hidden mp-border-sweep"
           style={{ background: 'rgba(255,255,255,0.02)', border: '1px solid rgba(255,255,255,0.05)', backdropFilter: 'blur(20px)' }}>
           {stats.map((stat, i) => (
             <div key={stat.label} className="relative">

@@ -18,6 +18,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { getCourses, getUniversities } from "../../lib/supabase";
 import { universities as staticUniversities } from "../../data/universities";
 import logo from "../../assets/logo.png";
+import { ThemeToggle } from "../common/ThemeToggle";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -227,7 +228,8 @@ const Navbar = () => {
           </div>
 
           {/* User & Mobile Menu Controls */}
-          <div className="flex items-center gap-4">
+          <div className="flex items-center gap-2 sm:gap-4">
+            <ThemeToggle />
             <button
               className="hidden md:flex p-2.5 rounded-xl transition-colors text-slate-500 hover:bg-slate-100"
               onClick={() => handleNavigate("/AuthPage")}

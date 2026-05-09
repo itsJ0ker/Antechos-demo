@@ -291,22 +291,22 @@ const Aboutus = () => {
   const defaultTeam = [
     {
       id: 1, name: 'Amal Shaw', position: 'Co-Founder & CEO',
-      image_url: 'https://cdn.prod.website-files.com/68ac13020232ad81bfa07e7c/698b03c1f423fd677b439b27_Frame%201000008678.png',
+      image_url: 'https://i.ibb.co/60xKz4gv/Whats-App-Image-2026-04-21-at-3-34-27-PM-3.jpg',
       linkedin_url: '#'
     },
     {
       id: 2, name: 'Vishwajeet', position: 'Founder & CEO',
-      image_url: 'https://cdn.prod.website-files.com/68ac13020232ad81bfa07e7c/698b03c4f5a8b61a81e99c5d_Frame%201000008677.png',
+      image_url: 'https://i.ibb.co/GfKccxkk/Whats-App-Image-2026-04-21-at-3-34-27-PM-4.jpg',
       linkedin_url: '#'
     },
     {
       id: 3, name: 'Team Member 3', position: 'CTO',
-      image_url: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400',
+      image_url: 'https://i.ibb.co/mCKJKfCG/Whats-App-Image-2026-04-21-at-3-34-27-PM.jpg',
       linkedin_url: '#'
     },
     {
       id: 4, name: 'Team Member 4', position: 'COO',
-      image_url: 'https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=400',
+      image_url: 'https://i.ibb.co/d46bV3Ft/Whats-App-Image-2026-04-21-at-3-34-27-PM-5.jpg',
       linkedin_url: '#'
     },
   ];
@@ -623,7 +623,7 @@ const Aboutus = () => {
             <div style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
               {/* Row 1 */}
               <div style={{ display: 'grid', gridTemplateColumns: windowWidth < 480 ? '1fr' : '1fr 1fr', gap: 16, border: '1px solid var(--border)', borderRadius: 16, overflow: 'hidden', background: 'var(--card-bg)' }}>
-                <img src="https://images.unsplash.com/photo-1531482615713-2afd69097998?w=600&q=80" alt="Education" style={{ width: '100%', height: 180, objectFit: 'cover' }} />
+                <img src="https://i.ibb.co/Q37M5K8S/Whats-App-Image-2026-04-21-at-3-34-27-PM-6.jpg" alt="Education" style={{ width: '100%', height: 180, objectFit: 'cover' }} />
                 <div style={{ padding: '20px 16px', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
                   <h4 style={{ fontSize: 16, fontWeight: 700, marginBottom: 8 }}>Practical Learning</h4>
                   <p style={{ color: 'var(--text-secondary)', fontSize: 14, lineHeight: 1.7 }}>
@@ -634,7 +634,7 @@ const Aboutus = () => {
 
               {/* Row 2 */}
               <div style={{ display: 'grid', gridTemplateColumns: windowWidth < 480 ? '1fr' : '1fr 1fr', gap: 16, border: '1px solid var(--border)', borderRadius: 16, overflow: 'hidden', background: 'var(--card-bg)' }}>
-                <img src="https://images.unsplash.com/photo-1552664730-d307ca884978?w=600&q=80" alt="Mentorship" style={{ width: '100%', height: 180, objectFit: 'cover' }} />
+                <img src="https://i.ibb.co/d46bV3Ft/Whats-App-Image-2026-04-21-at-3-34-27-PM-5.jpg" alt="Mentorship" style={{ width: '100%', height: 180, objectFit: 'cover' }} />
                 <div style={{ padding: '20px 16px', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
                   <h4 style={{ fontSize: 16, fontWeight: 700, marginBottom: 8 }}>Industry Mentorship</h4>
                   <p style={{ color: 'var(--text-secondary)', fontSize: 14, lineHeight: 1.7 }}>
@@ -681,7 +681,7 @@ const Aboutus = () => {
             {/* Right - Image */}
             <div style={{ borderRadius: 20, overflow: 'hidden', border: '1px solid var(--border)' }}>
               <img
-                src="https://images.unsplash.com/photo-1531482615713-2afd69097998?w=800&q=80"
+                src="https://i.ibb.co/QFc8b7DK/Whats-App-Image-2026-04-21-at-3-34-27-PM-7.jpg"
                 alt="Our Mission"
                 style={{ width: '100%', height: 'auto', minHeight: 'clamp(240px, 30vw, 400px)', objectFit: 'cover', display: 'block' }}
               />
@@ -698,7 +698,7 @@ const Aboutus = () => {
             {/* Left - Image */}
             <div style={{ borderRadius: 20, overflow: 'hidden', border: '1px solid var(--border)', order: windowWidth < 992 ? 2 : 1 }}>
               <img
-                src="https://images.unsplash.com/photo-1552664730-d307ca884978?w=800&q=80"
+                src="https://i.ibb.co/B2V9XYgY/Whats-App-Image-2026-04-21-at-3-34-26-PM.jpg"
                 alt="Our Vision"
                 style={{ width: '100%', height: 'auto', minHeight: 'clamp(240px, 30vw, 400px)', objectFit: 'cover', display: 'block' }}
               />
@@ -856,7 +856,7 @@ const Aboutus = () => {
               {/* Left - tall/long image */}
               <div style={{ borderRadius: 20, overflow: 'hidden', border: '1px solid var(--border)' }}>
                 <img
-                  src="https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?w=800&q=80"
+                  src="https://i.ibb.co/GfKccxkk/Whats-App-Image-2026-04-21-at-3-34-27-PM-4.jpg"
                   alt="Antechos India story"
                   style={{ width: '100%', height: 'auto', minHeight: 'clamp(300px, 40vw, 500px)', objectFit: 'cover', display: 'block' }}
                 />
@@ -1032,10 +1032,10 @@ const Aboutus = () => {
                       <div style={{ height: 180, overflow: 'hidden', position: 'relative' }}>
                         <img
                           src={[
-                            'https://images.unsplash.com/photo-1552664730-d307ca884978?w=500',
-                            'https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=500',
-                            'https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=500',
-                            'https://images.unsplash.com/photo-1600880292203-757bb62b4baf?w=500',
+                            'https://i.ibb.co/Mypwq6J8/Whats-App-Image-2026-04-21-at-3-34-22-PM.jpg',
+                            'https://i.ibb.co/LzMLhXtZ/Whats-App-Image-2026-04-21-at-3-34-24-PM.jpg',
+                            'https://i.ibb.co/7dCtQw82/Whats-App-Image-2026-04-21-at-3-34-26-PM-1.jpg',
+                            'https://i.ibb.co/rftZ5B7V/Whats-App-Image-2026-04-21-at-3-34-27-PM-1.jpg',
                           ][(val.id - 1) % 4]}
                           alt={val.title}
                           style={{ width: '100%', height: '100%', objectFit: 'cover' }}
@@ -1123,7 +1123,7 @@ const Aboutus = () => {
               {/* Quote + image */}
               <div>
                 <img
-                  src="https://images.unsplash.com/photo-1542744173-8e7e53415bb0?w=800&q=80"
+                  src="https://i.ibb.co/mCKJKfCG/Whats-App-Image-2026-04-21-at-3-34-27-PM.jpg"
                   alt="Journey"
                   style={{ width: '100%', borderRadius: 20, objectFit: 'cover', aspectRatio: '4/3', marginBottom: 28, border: '1px solid var(--border)' }}
                 />
@@ -1358,16 +1358,19 @@ const Aboutus = () => {
             <div style={{ display: 'flex', overflow: 'hidden' }}>
               <div className="animate-marquee hover:[animation-play-state:paused]" style={{ display: 'flex', gap: 16, width: 'max-content', animationDuration: '40s' }}>
                 {[...Array(4)].flatMap(() => [
-                  "https://i.ibb.co/XZfFZzhM/PHOTO-2026-04-10-00-55-11.jpg",
-                  "https://i.ibb.co/rKc1fffG/PHOTO-2026-04-10-00-55-12.jpg",
-                  "https://i.ibb.co/pB0Mpmjx/PHOTO-2026-04-10-01-00-51-1.jpg",
-                  "https://i.ibb.co/3m1gcCp7/PHOTO-2026-04-10-01-00-51.jpg",
-                  "https://i.ibb.co/WNtsqTY8/PHOTO-2026-04-10-01-00-52-1.jpg",
-                  "https://i.ibb.co/HDDL9NFh/PHOTO-2026-04-10-01-00-52.jpg",
-                  "https://i.ibb.co/LzyR44Fr/PHOTO-2026-04-10-01-01-05.jpg",
-                  "https://i.ibb.co/GG1FKVj/PHOTO-2026-04-10-01-01-06.jpg",
-                  "https://i.ibb.co/TxSPY34N/PHOTO-2026-04-10-01-15-29.jpg",
-                  "https://i.ibb.co/FpqxdLV/PHOTO-2026-04-10-01-15-30.jpg",
+                  "https://i.ibb.co/GB4CRVV/Whats-App-Image-2026-04-21-at-3-34-21-PM.jpg",
+                  "https://i.ibb.co/Mypwq6J8/Whats-App-Image-2026-04-21-at-3-34-22-PM.jpg",
+                  "https://i.ibb.co/LzMLhXtZ/Whats-App-Image-2026-04-21-at-3-34-24-PM.jpg",
+                  "https://i.ibb.co/7dCtQw82/Whats-App-Image-2026-04-21-at-3-34-26-PM-1.jpg",
+                  "https://i.ibb.co/B2V9XYgY/Whats-App-Image-2026-04-21-at-3-34-26-PM.jpg",
+                  "https://i.ibb.co/rftZ5B7V/Whats-App-Image-2026-04-21-at-3-34-27-PM-1.jpg",
+                  "https://i.ibb.co/Txw0tXzh/Whats-App-Image-2026-04-21-at-3-34-27-PM-2.jpg",
+                  "https://i.ibb.co/60xKz4gv/Whats-App-Image-2026-04-21-at-3-34-27-PM-3.jpg",
+                  "https://i.ibb.co/GfKccxkk/Whats-App-Image-2026-04-21-at-3-34-27-PM-4.jpg",
+                  "https://i.ibb.co/d46bV3Ft/Whats-App-Image-2026-04-21-at-3-34-27-PM-5.jpg",
+                  "https://i.ibb.co/Q37M5K8S/Whats-App-Image-2026-04-21-at-3-34-27-PM-6.jpg",
+                  "https://i.ibb.co/QFc8b7DK/Whats-App-Image-2026-04-21-at-3-34-27-PM-7.jpg",
+                  "https://i.ibb.co/mCKJKfCG/Whats-App-Image-2026-04-21-at-3-34-27-PM.jpg"
                 ]).map((src, idx) => (
                   <div key={`row1-${idx}`} className="w-[160px] md:w-[200px] bg-white rounded-[12px] shadow-lg flex flex-col overflow-hidden flex-shrink-0" style={{ boxShadow: '0 4px 16px -4px rgba(0,0,0,0.1)' }}>
                     <div className="flex items-center px-2.5 py-2 gap-1.5 border-b border-gray-100 bg-white">
@@ -1403,16 +1406,19 @@ const Aboutus = () => {
             <div style={{ display: 'flex', overflow: 'hidden' }}>
               <div className="animate-marquee-reverse hover:[animation-play-state:paused]" style={{ display: 'flex', gap: 16, width: 'max-content', animationDuration: '45s' }}>
                 {[...Array(4)].flatMap(() => [
-                  "https://i.ibb.co/N6mgpzs2/PHOTO-2026-04-18-14-37-03-1.jpg",
-                  "https://i.ibb.co/wrYm5GL4/PHOTO-2026-04-18-14-37-03-2.jpg",
-                  "https://i.ibb.co/7tPP1JjY/PHOTO-2026-04-18-14-37-03-4.jpg",
-                  "https://i.ibb.co/9mfyszrG/PHOTO-2026-04-18-14-37-03-6.jpg",
-                  "https://i.ibb.co/BKF4sXkf/PHOTO-2026-04-18-14-37-03.jpg",
-                  "https://i.ibb.co/hJDWPKPN/PHOTO-2026-04-18-22-02-43-2.jpg",
-                  "https://i.ibb.co/gMM0Dz6h/PHOTO-2026-04-21-15-34-21.jpg",
-                  "https://i.ibb.co/6SdDg9t/PHOTO-2026-04-21-15-34-22.jpg",
-                  "https://i.ibb.co/fYnTMCRf/PHOTO-2026-04-21-15-34-24.jpg",
-                  "https://i.ibb.co/20JNfG4L/PHOTO-2026-04-21-15-34-26-1.jpg",
+                  "https://i.ibb.co/mCKJKfCG/Whats-App-Image-2026-04-21-at-3-34-27-PM.jpg",
+                  "https://i.ibb.co/QFc8b7DK/Whats-App-Image-2026-04-21-at-3-34-27-PM-7.jpg",
+                  "https://i.ibb.co/Q37M5K8S/Whats-App-Image-2026-04-21-at-3-34-27-PM-6.jpg",
+                  "https://i.ibb.co/d46bV3Ft/Whats-App-Image-2026-04-21-at-3-34-27-PM-5.jpg",
+                  "https://i.ibb.co/GfKccxkk/Whats-App-Image-2026-04-21-at-3-34-27-PM-4.jpg",
+                  "https://i.ibb.co/60xKz4gv/Whats-App-Image-2026-04-21-at-3-34-27-PM-3.jpg",
+                  "https://i.ibb.co/Txw0tXzh/Whats-App-Image-2026-04-21-at-3-34-27-PM-2.jpg",
+                  "https://i.ibb.co/rftZ5B7V/Whats-App-Image-2026-04-21-at-3-34-27-PM-1.jpg",
+                  "https://i.ibb.co/B2V9XYgY/Whats-App-Image-2026-04-21-at-3-34-26-PM.jpg",
+                  "https://i.ibb.co/7dCtQw82/Whats-App-Image-2026-04-21-at-3-34-26-PM-1.jpg",
+                  "https://i.ibb.co/LzMLhXtZ/Whats-App-Image-2026-04-21-at-3-34-24-PM.jpg",
+                  "https://i.ibb.co/Mypwq6J8/Whats-App-Image-2026-04-21-at-3-34-22-PM.jpg",
+                  "https://i.ibb.co/GB4CRVV/Whats-App-Image-2026-04-21-at-3-34-21-PM.jpg"
                 ]).map((src, idx) => (
                   <div key={`row2-${idx}`} className="w-[160px] md:w-[200px] bg-white rounded-[12px] shadow-lg flex flex-col overflow-hidden flex-shrink-0" style={{ boxShadow: '0 4px 16px -4px rgba(0,0,0,0.1)' }}>
                     <div className="flex items-center px-2.5 py-2 gap-1.5 border-b border-gray-100 bg-white">
@@ -1448,17 +1454,19 @@ const Aboutus = () => {
             <div style={{ display: 'flex', overflow: 'hidden' }}>
               <div className="animate-marquee hover:[animation-play-state:paused]" style={{ display: 'flex', gap: 16, width: 'max-content', animationDuration: '35s' }}>
                 {[...Array(4)].flatMap(() => [
-                  "https://i.ibb.co/DPT52Z1s/PHOTO-2026-04-21-15-34-26.jpg",
-                  "https://i.ibb.co/XxtKVhyP/PHOTO-2026-04-21-15-34-27-1.jpg",
-                  "https://i.ibb.co/93nL4Kns/PHOTO-2026-04-21-15-34-27-2.jpg",
-                  "https://i.ibb.co/jPndkhMV/PHOTO-2026-04-21-15-34-27-3.jpg",
-                  "https://i.ibb.co/LzbRvs3H/PHOTO-2026-04-21-15-34-27-4.jpg",
-                  "https://i.ibb.co/4wvmFQRm/PHOTO-2026-04-21-15-34-27-5.jpg",
-                  "https://i.ibb.co/Z6m24HVx/PHOTO-2026-04-21-15-34-27-6.jpg",
-                  "https://i.ibb.co/zVCdLg12/PHOTO-2026-04-21-15-34-27-7.jpg",
-                  "https://i.ibb.co/C5hgXmcN/PHOTO-2026-04-21-15-34-27.jpg",
-                  "https://i.ibb.co/7JsXWYtS/PHOTO-2026-04-10-00-55-09-1.jpg",
-                  "https://i.ibb.co/R4zyF0M1/PHOTO-2026-04-10-00-55-09.jpg",
+                  "https://i.ibb.co/LzMLhXtZ/Whats-App-Image-2026-04-21-at-3-34-24-PM.jpg",
+                  "https://i.ibb.co/B2V9XYgY/Whats-App-Image-2026-04-21-at-3-34-26-PM.jpg",
+                  "https://i.ibb.co/Txw0tXzh/Whats-App-Image-2026-04-21-at-3-34-27-PM-2.jpg",
+                  "https://i.ibb.co/GfKccxkk/Whats-App-Image-2026-04-21-at-3-34-27-PM-4.jpg",
+                  "https://i.ibb.co/Q37M5K8S/Whats-App-Image-2026-04-21-at-3-34-27-PM-6.jpg",
+                  "https://i.ibb.co/mCKJKfCG/Whats-App-Image-2026-04-21-at-3-34-27-PM.jpg",
+                  "https://i.ibb.co/GB4CRVV/Whats-App-Image-2026-04-21-at-3-34-21-PM.jpg",
+                  "https://i.ibb.co/Mypwq6J8/Whats-App-Image-2026-04-21-at-3-34-22-PM.jpg",
+                  "https://i.ibb.co/7dCtQw82/Whats-App-Image-2026-04-21-at-3-34-26-PM-1.jpg",
+                  "https://i.ibb.co/rftZ5B7V/Whats-App-Image-2026-04-21-at-3-34-27-PM-1.jpg",
+                  "https://i.ibb.co/60xKz4gv/Whats-App-Image-2026-04-21-at-3-34-27-PM-3.jpg",
+                  "https://i.ibb.co/d46bV3Ft/Whats-App-Image-2026-04-21-at-3-34-27-PM-5.jpg",
+                  "https://i.ibb.co/QFc8b7DK/Whats-App-Image-2026-04-21-at-3-34-27-PM-7.jpg"
                 ]).map((src, idx) => (
                   <div key={`row3-${idx}`} className="w-[160px] md:w-[200px] bg-white rounded-[12px] shadow-lg flex flex-col overflow-hidden flex-shrink-0" style={{ boxShadow: '0 4px 16px -4px rgba(0,0,0,0.1)' }}>
                     <div className="flex items-center px-2.5 py-2 gap-1.5 border-b border-gray-100 bg-white">

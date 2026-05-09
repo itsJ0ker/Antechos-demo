@@ -1,0 +1,264 @@
+/* ═══════════════════════════════════════════════════
+   ANTECHOS MARKETPLACE V2 — DESIGN SYSTEM
+   Premium · Functional · Enterprise-grade
+   ═══════════════════════════════════════════════════ */
+
+:root {
+  /* Colors - Enhanced for Professional Vibrancy */
+  --v2-bg: #FFFFFF;
+  --v2-bg-subtle: #F9FAFB;
+  --v2-bg-muted: #F3F4F6;
+  
+  --v2-text-main: #0F172A;
+  --v2-text-secondary: #475569;
+  --v2-text-muted: #94A3B8;
+  
+  --v2-accent: #6366F1; /* Indigo-500 */
+  --v2-accent-hover: #4F46E5; /* Indigo-600 */
+  --v2-accent-subtle: #EEF2FF;
+  
+  --v2-primary-gradient: linear-gradient(135deg, #6366f1 0%, #a855f7 100%);
+  --v2-surface-gradient: linear-gradient(180deg, rgba(255,255,255,1) 0%, rgba(249,250,251,1) 100%);
+  
+  --v2-border: #E2E8F0;
+  --v2-border-hover: #CBD5E1;
+  
+  --v2-success: #10B981;
+  --v2-warning: #F59E0B;
+  --v2-error: #EF4444;
+
+  /* Shadows - Linear Style */
+  --v2-shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  --v2-shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  --v2-shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  --v2-shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  
+  /* Skeleton slates */
+  --v2-skeleton-base: #F1F5F9;
+  --v2-skeleton-highlight: #E2E8F0;
+
+  /* Layout */
+  --v2-container: 1280px;
+  --v2-radius: 12px;
+  --v2-radius-sm: 8px;
+  --v2-radius-lg: 16px;
+}
+
+/* ── Dark Theme Overrides ── */
+[data-theme='dark'], .dark {
+  --v2-bg: #0F172A; /* Slate-900 */
+  --v2-bg-subtle: #1E293B; /* Slate-800 */
+  --v2-bg-muted: #334155; /* Slate-700 */
+  
+  --v2-text-main: #F8FAFC; /* Slate-50 */
+  --v2-text-secondary: #94A3B8; /* Slate-400 */
+  --v2-text-muted: #64748B; /* Slate-500 */
+  
+  --v2-accent: #818CF8; /* Indigo-400 */
+  --v2-accent-hover: #6366F1; /* Indigo-500 */
+  --v2-accent-subtle: rgba(99, 102, 241, 0.1);
+  
+  --v2-primary-gradient: linear-gradient(135deg, #818cf8 0%, #c084fc 100%);
+  --v2-surface-gradient: linear-gradient(180deg, #1e293b 0%, #0f172a 100%);
+  
+  --v2-border: #334155;
+  --v2-border-hover: #475569;
+
+  --v2-skeleton-base: #1E293B;
+  --v2-skeleton-highlight: #334155;
+}
+
+/* ── Mesh Background Pattern ── */
+.v2-mesh-bg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: -1;
+  background-color: var(--v2-bg);
+  background-image: 
+    radial-gradient(at 0% 0%, hsla(253,16%,7%,1) 0, transparent 50%), 
+    radial-gradient(at 50% 0%, hsla(225,39%,30%,1) 0, transparent 50%), 
+    radial-gradient(at 100% 0%, hsla(339,49%,30%,1) 0, transparent 50%);
+  opacity: 0.03;
+}
+
+[data-theme='dark'] .v2-mesh-bg, .dark .v2-mesh-bg {
+  background-image: 
+    radial-gradient(at 0% 0%, hsla(253,50%,15%,1) 0, transparent 50%), 
+    radial-gradient(at 50% 0%, hsla(225,50%,20%,1) 0, transparent 50%), 
+    radial-gradient(at 100% 0%, hsla(339,50%,20%,1) 0, transparent 50%);
+  opacity: 0.15;
+}
+
+.v2-accent-glow {
+  position: absolute;
+  filter: blur(100px);
+  border-radius: 100%;
+  z-index: -1;
+  opacity: 0.4;
+}
+
+[data-theme='dark'] .v2-accent-glow, .dark .v2-accent-glow {
+  opacity: 0.2;
+}
+
+/* ── Global Styles ── */
+.v2-root {
+  background: var(--v2-bg);
+  color: var(--v2-text-main);
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  min-height: 100vh;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* ── Typography ── */
+.v2-gradient-text {
+  background: var(--v2-primary-gradient);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.v2-heading {
+  font-weight: 700;
+  letter-spacing: -0.025em;
+  color: var(--v2-text-main);
+}
+
+.v2-subheading {
+  color: var(--v2-text-secondary);
+  line-height: 1.6;
+}
+
+/* ── Buttons ── */
+.v2-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.625rem 1.25rem;
+  border-radius: var(--v2-radius-sm);
+  font-weight: 600;
+  font-size: 0.875rem;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  cursor: pointer;
+}
+
+.v2-btn-primary {
+  background: var(--v2-text-main);
+  color: var(--v2-bg);
+  border: 1px solid var(--v2-text-main);
+}
+
+.v2-btn-primary:hover {
+  opacity: 0.9;
+  transform: translateY(-1px);
+  box-shadow: var(--v2-shadow-md);
+}
+
+.v2-btn-secondary {
+  background: var(--v2-bg);
+  color: var(--v2-text-main);
+  border: 1px solid var(--v2-border);
+}
+
+.v2-btn-secondary:hover {
+  background: var(--v2-bg-subtle);
+  border-color: var(--v2-border-hover);
+}
+
+.v2-btn-accent {
+  background: var(--v2-accent);
+  color: white;
+  border: 1px solid var(--v2-accent);
+}
+
+.v2-btn-accent:hover {
+  background: var(--v2-accent-hover);
+  box-shadow: 0 0 15px rgba(79, 70, 229, 0.2);
+}
+
+/* ── Cards ── */
+.v2-card {
+  background: var(--v2-bg);
+  border: 1px solid var(--v2-border);
+  border-radius: var(--v2-radius);
+  box-shadow: var(--v2-shadow-sm);
+  transition: all 0.3s ease;
+}
+
+.v2-card:hover {
+  border-color: var(--v2-accent);
+  box-shadow: var(--v2-shadow-md);
+}
+
+.v2-card-glass {
+  background: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  box-shadow: var(--v2-shadow-lg);
+}
+
+[data-theme='dark'] .v2-card-glass, .dark .v2-card-glass {
+  background: rgba(30, 41, 59, 0.7);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* ── Utilities ── */
+.v2-section {
+  background: var(--v2-bg);
+  color: var(--v2-text-main);
+  transition: background-color 0.5s ease, color 0.5s ease;
+}
+
+.v2-section-alt {
+  background: var(--v2-bg-subtle);
+  color: var(--v2-text-main);
+  transition: background-color 0.5s ease, color 0.5s ease;
+}
+
+/* ── Dashboard Elements ── */
+.v2-dashboard-frame {
+  background: var(--v2-bg);
+  border: 1px solid var(--v2-border);
+  border-radius: var(--v2-radius-lg);
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.15);
+  overflow: hidden;
+}
+
+.v2-dashboard-sidebar {
+  background: var(--v2-bg-subtle);
+  border-right: 1px solid var(--v2-border);
+}
+
+/* ── Interactive Search ── */
+.v2-search-input:focus {
+  outline: none;
+  border-color: var(--v2-accent);
+  box-shadow: 0 0 0 4px var(--v2-accent-subtle);
+}
+
+/* ── Skeleton ── */
+.v2-skeleton {
+  background: linear-gradient(90deg, var(--v2-skeleton-base) 25%, var(--v2-skeleton-highlight) 50%, var(--v2-skeleton-base) 75%);
+  background-size: 200% 100%;
+  animation: v2-skeleton-loading 1.5s infinite;
+}
+
+@keyframes v2-skeleton-loading {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+/* ── Animation Classes ── */
+.v2-reveal {
+  opacity: 0;
+  transform: translateY(20px);
+}
+
+.v2-reveal-active {
+  opacity: 1;
+  transform: translateY(0);
+  transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+}

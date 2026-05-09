@@ -14,6 +14,7 @@ import UniversityPageNew from "./pages/UniversityPageNew";
 import MarketplaceImarticus from "./pages/MarketplaceImarticus";
 import MarketplaceRedesign from "./pages/MarketplaceRedesign";
 import MarketplacePremium from "./pages/MarketplacePremium";
+import MarketplaceV2 from "./pages/MarketplaceV2";
 import TrainerProfile from "./components/sections/Trainerprofile";
 import UniversityDetail from "./components/sections/UniversityDetails";
 import CourseDetail from "./pages/CourseDetail";
@@ -38,6 +39,7 @@ import DatabaseTest from "./pages/DatabaseTest";
 
 // Admin Panel — unified auth
 import { AdminAuthProvider } from "./contexts/AdminAuth";
+import { ThemeProvider } from "./contexts/ThemeContext";
 import AdminProtectedRoute from "./components/admin/AdminProtectedRoute";
 import AdminLogin from "./pages/admin/AdminLogin";
 import AdminIndex from "./pages/admin/AdminIndex";
@@ -100,7 +102,7 @@ const AppContent = () => {
           <Route path="/" element={<Home />} />
           <Route path="/AuthPage" element={<AuthPage />} />
           <Route path="/About" element={<About />} />
-          <Route path="/Marketplace" element={<MarketplacePremium />} />
+          <Route path="/Marketplace" element={<MarketplaceV2 />} />
           <Route path="/marketplace-new" element={<MarketplaceImarticus />} />
           <Route path="/marketplace-redesign" element={<MarketplaceRedesign />} />
           <Route path="/marketplace-premium" element={<MarketplacePremium />} />
@@ -236,7 +238,9 @@ const App = () => (
   <HashRouter>
     <UserAuthProvider>
       <AdminAuthProvider>
-        <AppContent />
+        <ThemeProvider>
+          <AppContent />
+        </ThemeProvider>
       </AdminAuthProvider>
     </UserAuthProvider>
   </HashRouter>

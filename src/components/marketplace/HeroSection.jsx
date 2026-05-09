@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef, useMemo } from 'react';
 import { motion, useMotionValue, useTransform, useSpring } from 'framer-motion';
 import { Search, ArrowRight, Sparkles, Zap, Brain, Shield, Star } from 'lucide-react';
+import { MagneticButton } from './MarketplaceUI';
 
 /* ── Floating Profile Card ── */
 const FloatingProfileCard = ({ name, role, match, avatar, delay, index }) => {
@@ -33,18 +34,15 @@ const FloatingProfileCard = ({ name, role, match, avatar, delay, index }) => {
       }}
       className="relative rounded-2xl overflow-hidden p-[1px] cursor-pointer group"
     >
-      {/* Animated border gradient */}
       <div className="absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"
         style={{ background: 'linear-gradient(135deg, #7c3aed, #818cf8, #22d3ee, #7c3aed)', backgroundSize: '300% 300%', animation: 'mp-shimmer 3s ease infinite' }} />
 
       <div className="relative rounded-2xl p-4 sm:p-5"
         style={{ background: 'rgba(20, 2, 40, 0.85)', backdropFilter: 'blur(24px)' }}>
 
-        {/* Glow */}
         <div className="absolute -top-6 -right-6 w-20 h-20 rounded-full opacity-30 group-hover:opacity-60 transition-opacity"
           style={{ background: `radial-gradient(circle, ${matchColor}, transparent)`, filter: 'blur(20px)' }} />
 
-        {/* Avatar + Info */}
         <div className="flex items-center gap-3 mb-3">
           <div className="relative">
             <div className="w-12 h-12 rounded-xl overflow-hidden ring-2 ring-white/10 group-hover:ring-violet-500/40 transition-all">
@@ -61,7 +59,6 @@ const FloatingProfileCard = ({ name, role, match, avatar, delay, index }) => {
           </div>
         </div>
 
-        {/* Match Bar */}
         <div className="flex items-center gap-2">
           <div className="flex-1 h-1.5 rounded-full bg-white/5 overflow-hidden">
             <motion.div className="h-full rounded-full"
@@ -72,7 +69,6 @@ const FloatingProfileCard = ({ name, role, match, avatar, delay, index }) => {
           <span className="text-xs font-mono font-bold" style={{ color: matchColor, fontFamily: 'var(--mp-font-mono)' }}>{match}%</span>
         </div>
 
-        {/* Skills chips */}
         <div className="flex gap-1.5 mt-3 flex-wrap">
           {['React', 'AI/ML', 'Node'].slice(0, 2 + index % 2).map(s => (
             <span key={s} className="text-[10px] px-2 py-0.5 rounded-md bg-white/5 text-white/40 border border-white/5">{s}</span>
@@ -142,12 +138,12 @@ const Particles = () => {
 
 /* ═══ HERO SECTION ═══ */
 const HeroSection = () => {
-  const mouseX = useMotionValue(0);
-  const mouseY = useMotionValue(0);
+  const mouseX = useMotionValue(0.5);
+  const mouseY = useMotionValue(0.5);
   const springX = useSpring(mouseX, { stiffness: 50, damping: 20 });
   const springY = useSpring(mouseY, { stiffness: 50, damping: 20 });
-  const bgX = useTransform(springX, [0, 1], [-15, 15]);
-  const bgY = useTransform(springY, [0, 1], [-15, 15]);
+  const bgX = useTransform(springX, [0, 1], [-20, 20]);
+  const bgY = useTransform(springY, [0, 1], [-20, 20]);
 
   const handleMouseMove = (e) => {
     const rect = e.currentTarget.getBoundingClientRect();
@@ -173,18 +169,19 @@ const HeroSection = () => {
     <section
       className="relative min-h-screen flex items-center overflow-hidden mp-noise"
       onMouseMove={handleMouseMove}
-      style={{ background: 'radial-gradient(ellipse 80% 60% at 50% 0%, #1f0640 0%, #0c0117 55%, #08010f 100%)' }}
     >
+      <div className="mp-mesh-bg opacity-40" />
+
       {/* Ambient Glow Orbs */}
-      <GlowOrb color="rgba(124, 58, 237, 0.35)" size="500px" top="-15%" left="10%" delay={0} />
-      <GlowOrb color="rgba(129, 140, 248, 0.2)" size="400px" top="50%" left="70%" delay={2} />
-      <GlowOrb color="rgba(34, 211, 238, 0.12)" size="350px" top="70%" left="20%" delay={4} />
+      <GlowOrb color="rgba(124, 58, 237, 0.4)" size="600px" top="-10%" left="5%" delay={0} />
+      <GlowOrb color="rgba(129, 140, 248, 0.25)" size="500px" top="40%" left="65%" delay={2} />
+      <GlowOrb color="rgba(34, 211, 238, 0.15)" size="400px" top="65%" left="15%" delay={4} />
 
       {/* Grid lines */}
       <div className="absolute inset-0 pointer-events-none" style={{ zIndex: 1 }}>
-        <div className="absolute inset-0 opacity-[0.03]" style={{
+        <div className="absolute inset-0 opacity-[0.04]" style={{
           backgroundImage: 'linear-gradient(rgba(255,255,255,0.4) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.4) 1px, transparent 1px)',
-          backgroundSize: '80px 80px',
+          backgroundSize: '100px 100px',
         }} />
       </div>
 
@@ -192,7 +189,7 @@ const HeroSection = () => {
 
       {/* Main Content */}
       <div className="relative z-10 w-full max-w-[1400px] mx-auto px-5 sm:px-8 lg:px-12 py-24 lg:py-0">
-        <div className="grid lg:grid-cols-[1.15fr_1fr] gap-12 lg:gap-8 items-center min-h-[85vh]">
+        <div className="grid lg:grid-cols-[1.1fr_1fr] gap-12 lg:gap-16 items-center min-h-[85vh]">
 
           {/* ── Left Column ── */}
           <div className="flex flex-col justify-center">
@@ -201,33 +198,33 @@ const HeroSection = () => {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.1, duration: 0.6 }}
-              className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full mb-6 w-fit"
-              style={{ background: 'rgba(124, 58, 237, 0.1)', border: '1px solid rgba(124, 58, 237, 0.25)' }}
+              className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full mb-8 w-fit"
+              style={{ background: 'rgba(124, 58, 237, 0.12)', border: '1px solid rgba(124, 58, 237, 0.3)', backdropFilter: 'blur(10px)' }}
             >
               <Sparkles size={14} className="text-violet-400" />
-              <span className="text-xs font-medium text-violet-300" style={{ fontFamily: 'var(--mp-font-display)' }}>AI-Powered Matchmaking</span>
+              <span className="text-[11px] font-bold text-violet-300 uppercase tracking-widest" style={{ fontFamily: 'var(--mp-font-mono)' }}>AI-Native Ecosystem</span>
             </motion.div>
 
             {/* Headline */}
             <motion.h1
-              className="mp-heading text-4xl sm:text-5xl md:text-6xl lg:text-[3.75rem] xl:text-7xl mb-6"
+              className="mp-heading text-5xl sm:text-6xl md:text-7xl lg:text-[4.5rem] xl:text-8xl mb-8"
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.2, duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
             >
-              Find the right talent.{' '}
-              <span className="mp-gradient-text block mt-1">Build the future.</span>
+              Scale with <br />
+              <span className="mp-gradient-text">Elite Talent.</span>
             </motion.h1>
 
             {/* Subtitle */}
             <motion.p
-              className="mp-subheading text-base sm:text-lg max-w-lg mb-8"
+              className="mp-subheading text-base sm:text-lg md:text-xl max-w-xl mb-10 text-white/60"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.35, duration: 0.7 }}
             >
-              The most intelligent way to hire, collaborate and grow together. 
-              Our AI analyzes 50+ signals to match you with the perfect talent.
+              The most intelligent way to hire and collaborate. 
+              Our neural matching engine analyzes 50+ dimensions to find your ideal partners in seconds.
             </motion.p>
 
             {/* Search Bar */}
@@ -235,23 +232,23 @@ const HeroSection = () => {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.45, duration: 0.7 }}
-              className="relative max-w-xl mb-6"
+              className="relative max-w-2xl mb-8"
             >
-              <div className="flex items-center gap-3 p-1.5 rounded-2xl"
-                style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.08)', backdropFilter: 'blur(12px)' }}>
+              <div className="flex items-center gap-3 p-2 rounded-2xl mp-glass group"
+                style={{ border: '1px solid rgba(255,255,255,0.1)' }}>
                 <div className="pl-4">
-                  <Search size={18} className="text-violet-400/60" />
+                  <Search size={20} className="text-violet-400/50 group-focus-within:text-violet-400 transition-colors" />
                 </div>
                 <input
                   type="text"
-                  placeholder="What do you need help with?"
-                  className="flex-1 bg-transparent text-sm text-white/80 placeholder-white/25 outline-none py-3"
+                  placeholder="Describe your project (e.g. 'Senior React Developer for Fintech')..."
+                  className="flex-1 bg-transparent text-base text-white/90 placeholder-white/20 outline-none py-4"
                   style={{ fontFamily: 'var(--mp-font-body)' }}
                 />
-                <button className="mp-btn-primary flex items-center gap-2 !py-3 !px-6 !rounded-xl">
-                  <span className="hidden sm:inline">Search</span>
-                  <ArrowRight size={16} />
-                </button>
+                <MagneticButton className="mp-btn-primary !py-3.5 !px-8 flex items-center gap-2">
+                  <span>Match</span>
+                  <ArrowRight size={18} />
+                </MagneticButton>
               </div>
             </motion.div>
 
@@ -260,9 +257,8 @@ const HeroSection = () => {
               initial={{ opacity: 0, y: 15 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.55, duration: 0.7 }}
-              className="flex flex-wrap gap-2 mb-8"
+              className="flex flex-wrap gap-2.5 mb-10"
             >
-              <span className="text-xs text-white/25 mr-1 self-center" style={{ fontFamily: 'var(--mp-font-mono)' }}>Popular:</span>
               {categories.map(c => <CategoryPill key={c.label} {...c} />)}
             </motion.div>
 
@@ -271,79 +267,61 @@ const HeroSection = () => {
               initial={{ opacity: 0, y: 15 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.65, duration: 0.7 }}
-              className="flex flex-wrap gap-4"
+              className="flex flex-wrap gap-5"
             >
-              <button className="mp-btn-primary flex items-center gap-2">
-                Hire Talent <ArrowRight size={16} />
-              </button>
-              <button className="mp-btn-ghost">Join as Talent</button>
+              <MagneticButton className="mp-btn-primary !px-10 !py-4 text-base">
+                Get Started
+              </MagneticButton>
+              <MagneticButton className="mp-btn-ghost !px-10 !py-4 text-base"
+                style={{
+                  fontFamily: 'var(--mp-font-display)',
+                  fontWeight: 600,
+                  borderRadius: '16px',
+                  border: '1px solid rgba(124, 58, 237, 0.3)',
+                  color: 'var(--mp-violet-300)'
+                }}>
+                Join as Talent
+              </MagneticButton>
             </motion.div>
           </div>
 
           {/* ── Right Column — Floating Talent Cards ── */}
           <motion.div
-            className="relative flex items-center justify-center min-h-[420px] lg:min-h-[520px]"
+            className="relative flex items-center justify-center min-h-[450px] lg:min-h-[550px]"
             style={{ x: bgX, y: bgY }}
           >
-            {/* Central Glow Aura */}
-            <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-              <div className="w-[320px] h-[320px] rounded-full" style={{
-                background: 'radial-gradient(circle, rgba(124,58,237,0.2) 0%, rgba(124,58,237,0.05) 50%, transparent 70%)',
-                filter: 'blur(40px)',
-                animation: 'mp-pulse-glow 5s ease-in-out infinite',
-              }} />
-            </div>
-
             {/* AI Match Panel */}
             <motion.div
               initial={{ opacity: 0, scale: 0.85 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ delay: 0.5, duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-              className="absolute top-4 sm:top-8 left-1/2 -translate-x-1/2 z-20"
+              className="absolute top-0 left-1/2 -translate-x-1/2 z-20"
             >
-              <div className="flex items-center gap-2 px-4 py-2 rounded-xl"
-                style={{ background: 'rgba(20,2,40,0.8)', border: '1px solid rgba(124,58,237,0.3)', backdropFilter: 'blur(20px)' }}>
-                <div className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
-                <span className="text-xs font-medium text-white/70" style={{ fontFamily: 'var(--mp-font-display)' }}>Top Match for You</span>
+              <div className="flex items-center gap-3 px-5 py-2.5 rounded-2xl"
+                style={{ background: 'rgba(20,2,40,0.85)', border: '1px solid rgba(124,58,237,0.4)', backdropFilter: 'blur(24px)' }}>
+                <div className="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse shadow-[0_0_10px_rgba(52,211,153,0.5)]" />
+                <span className="text-[12px] font-bold text-white/80 uppercase tracking-widest" style={{ fontFamily: 'var(--mp-font-mono)' }}>Neural Engine Active</span>
               </div>
             </motion.div>
 
-            {/* Profile Cards — stacked with depth */}
-            <div className="relative w-full max-w-md space-y-4 sm:space-y-0">
+            {/* Profile Cards */}
+            <div className="relative w-full max-w-md">
               {profiles.map((p, i) => (
-                <div key={p.name} className="sm:absolute" style={{
-                  ...(i === 0 ? { top: '60px', left: '0', zIndex: 3 } : {}),
-                  ...(i === 1 ? { top: '30px', right: '0', zIndex: 2 } : {}),
-                  ...(i === 2 ? { top: '180px', left: '50%', transform: 'translateX(-50%)', zIndex: 1 } : {}),
-                  width: 'min(220px, 100%)',
+                <div key={p.name} className="absolute" style={{
+                  ...(i === 0 ? { top: '-10px', left: '-20px', zIndex: 3 } : {}),
+                  ...(i === 1 ? { top: '-50px', right: '-40px', zIndex: 2 } : {}),
+                  ...(i === 2 ? { bottom: '-260px', left: '50%', transform: 'translateX(-50%)', zIndex: 1 } : {}),
+                  width: 'min(240px, 100%)',
                 }}>
                   <FloatingProfileCard {...p} delay={i * 0.15} index={i} />
                 </div>
               ))}
             </div>
 
-            {/* Floating AI Engine Badge */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 1.2, duration: 0.7 }}
-              className="absolute bottom-4 sm:bottom-8 right-4 sm:right-8 z-20"
-              style={{ animation: 'mp-float-slow 8s ease-in-out infinite' }}
-            >
-              <div className="flex items-center gap-2.5 px-4 py-2.5 rounded-xl"
-                style={{ background: 'rgba(20,2,40,0.85)', border: '1px solid rgba(34,211,238,0.25)', backdropFilter: 'blur(20px)' }}>
-                <Brain size={16} className="text-cyan-400" />
-                <div>
-                  <p className="text-[11px] font-semibold text-white/80" style={{ fontFamily: 'var(--mp-font-display)' }}>AI Match Engine</p>
-                  <p className="text-[10px] text-cyan-400/60" style={{ fontFamily: 'var(--mp-font-mono)' }}>Analyzing 50+ signals</p>
-                </div>
-              </div>
-            </motion.div>
-
             {/* Decorative Rings */}
-            <div className="absolute inset-0 flex items-center justify-center pointer-events-none opacity-20">
-              <div className="w-[280px] h-[280px] rounded-full border border-violet-500/30" style={{ animation: 'mp-rotate-slow 30s linear infinite' }} />
-              <div className="absolute w-[380px] h-[380px] rounded-full border border-violet-500/15" style={{ animation: 'mp-rotate-slow 45s linear infinite reverse' }} />
+            <div className="absolute inset-0 flex items-center justify-center pointer-events-none opacity-25">
+              <div className="w-[320px] h-[320px] rounded-full border border-violet-500/30 shadow-[0_0_30px_rgba(124,58,237,0.1)]" style={{ animation: 'mp-rotate-slow 40s linear infinite' }} />
+              <div className="absolute w-[450px] h-[450px] rounded-full border border-violet-500/15" style={{ animation: 'mp-rotate-slow 60s linear infinite reverse' }} />
             </div>
           </motion.div>
         </div>

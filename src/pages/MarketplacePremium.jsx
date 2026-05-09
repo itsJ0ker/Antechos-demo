@@ -16,6 +16,7 @@ const MarketplacePremium = () => {
 
   return (
     <div className="mp-root">
+      <div className="mp-mesh-bg" />
       <HeroSection />
       <TrustStats />
       <HowItWorks />
