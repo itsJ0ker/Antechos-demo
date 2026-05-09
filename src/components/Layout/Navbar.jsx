@@ -229,7 +229,7 @@ const Navbar = () => {
 
           {/* User & Mobile Menu Controls */}
           <div className="flex items-center gap-2 sm:gap-4">
-            <ThemeToggle />
+            {location.pathname.toLowerCase().includes('marketplace') && <ThemeToggle />}
             <button
               className="hidden md:flex p-2.5 rounded-xl transition-colors text-slate-500 hover:bg-slate-100"
               onClick={() => handleNavigate("/AuthPage")}

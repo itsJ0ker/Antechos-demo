@@ -871,7 +871,7 @@ const UniversityPageNew = () => {
             </div>
          </section>
 
-         {/* 4. NEW: CAREER ECOSYSTEM (Image 1) */}
+         {/* 4. MORE THAN EDUCATION (Image 4) */}
          <section className="py-24 bg-white">
             <div className="container mx-auto px-6">
                <div className="text-left mb-16">
@@ -884,7 +884,7 @@ const UniversityPageNew = () => {
                   </h2>
                </div>
 
-               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-6">
+               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
                   {CAREER_ECOSYSTEM_DATA.map((item, idx) => (
                      <motion.div
                         key={idx}
@@ -892,30 +892,31 @@ const UniversityPageNew = () => {
                         whileInView={{ opacity: 1, y: 0 }}
                         transition={{ delay: idx * 0.1 }}
                         viewport={{ once: true }}
-                        className="bg-white rounded-[2rem] p-6 md:p-8 border border-slate-100 shadow-sm hover:shadow-xl transition-all duration-500 text-center flex flex-col items-center group"
+                        className="bg-white rounded-3xl p-8 border border-slate-100 shadow-sm hover:shadow-xl transition-all duration-500 text-center flex flex-col items-center group"
                      >
-                        <div className="w-16 h-16 md:w-20 md:h-20 rounded-full bg-blue-50 flex items-center justify-center text-blue-600 mb-6 md:mb-8 border border-blue-100 group-hover:scale-110 transition-transform duration-500">
-                           {React.cloneElement(item.icon, { className: "w-8 h-8 md:w-10 md:h-10" })}
+                        <div className="w-20 h-20 rounded-full bg-blue-50 flex items-center justify-center text-blue-600 mb-8 border border-blue-100/50 group-hover:scale-110 transition-transform duration-500 relative">
+                           <div className="absolute inset-0 bg-blue-400/10 rounded-full blur-xl opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                           {React.cloneElement(item.icon, { className: "w-10 h-10 relative z-10" })}
                         </div>
-                        <h3 className="text-base md:text-lg font-black text-slate-900 mb-3 md:mb-4 leading-tight">{item.title}</h3>
-                        <p className="text-[10px] md:text-xs text-slate-500 font-medium leading-relaxed">{item.desc}</p>
+                        <h3 className="text-lg font-black text-slate-900 mb-4 leading-tight group-hover:text-blue-600 transition-colors">{item.title}</h3>
+                        <p className="text-xs text-slate-500 font-medium leading-relaxed">{item.desc}</p>
                      </motion.div>
                   ))}
                </div>
             </div>
          </section>
 
-         {/* 5. NEW: WHY CHOOSE ANTECHOS BAR (Image 2) */}
+         {/* 5. WHY CHOOSE ANTECHOS STRIP (Image 3) */}
          <section className="py-12 bg-white">
             <div className="container mx-auto px-6">
-               <div className="bg-[#051129] rounded-[2rem] py-12 px-6 md:px-12 shadow-2xl relative overflow-hidden">
-                  <div className="relative z-10 text-center mb-12">
-                     <h2 className="text-2xl md:text-4xl font-black text-white font-display">
-                        Why Students Choose <span className="text-blue-600">Antechos</span>
+               <div className="bg-[#051129] rounded-[2rem] py-10 px-6 md:px-12 shadow-2xl relative overflow-hidden">
+                  <div className="relative z-10 text-center mb-10">
+                     <h2 className="text-2xl md:text-3xl font-black text-white font-display">
+                        Why Students Choose <span className="text-blue-500">Antechos</span>
                      </h2>
                   </div>
 
-                  <div className="relative z-10 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-6 md:gap-8">
+                  <div className="relative z-10 flex flex-wrap lg:flex-nowrap items-center justify-between gap-6">
                      {[
                         { title: "UGC Approved Universities", desc: "100% Recognized Degrees", icon: <ShieldCheck className="w-6 h-6" /> },
                         { title: "Industry-Aligned Curriculum", desc: "Learn what companies actually need", icon: <BookOpen className="w-6 h-6" /> },
@@ -923,37 +924,37 @@ const UniversityPageNew = () => {
                         { title: "Placement Guarantee", desc: "Focused training for top career outcomes", icon: <Target className="w-6 h-6" /> },
                         { title: "Easy EMI Options", desc: "Flexible payment plans for all", icon: <CreditCard className="w-6 h-6" /> }
                      ].map((item, idx) => (
-                        <div key={idx} className="flex items-center gap-4 group">
-                           <div className="w-10 h-10 md:w-12 md:h-12 rounded-xl bg-blue-600 flex-shrink-0 flex items-center justify-center text-white shadow-lg group-hover:scale-110 transition-transform">
-                              {React.cloneElement(item.icon, { className: "w-5 h-5 md:w-6 md:h-6" })}
+                        <React.Fragment key={idx}>
+                           <div className="flex items-center gap-4 group flex-1 min-w-[200px]">
+                              <div className="w-12 h-12 rounded-xl bg-blue-600/20 flex-shrink-0 flex items-center justify-center text-blue-500 border border-blue-500/20 group-hover:bg-blue-600 group-hover:text-white transition-all duration-300">
+                                 {React.cloneElement(item.icon, { className: "w-6 h-6" })}
+                              </div>
+                              <div className="text-left">
+                                 <h3 className="text-sm font-bold text-white leading-tight mb-1">{item.title}</h3>
+                                 <p className="text-[10px] text-slate-400 font-medium leading-tight">{item.desc}</p>
+                              </div>
                            </div>
-                           <div className="text-left">
-                              <h3 className="text-xs md:text-sm font-bold text-white leading-tight mb-1">{item.title}</h3>
-                              <p className="text-[9px] md:text-[10px] text-slate-400 font-medium leading-tight">{item.desc}</p>
-                           </div>
-                        </div>
+                           {idx < 4 && <div className="hidden lg:block w-px h-12 bg-white/10 mx-2"></div>}
+                        </React.Fragment>
                      ))}
                   </div>
                </div>
             </div>
          </section>
 
-         {/* 6. NEW: CAREER JOURNEY PROCESS (Image 3) */}
+         {/* 6. CAREER JOURNEY PROCESS (Image 1) */}
          <section className="py-24 bg-slate-50/50">
             <div className="container mx-auto px-6">
-               <div className="grid grid-cols-1 lg:grid-cols-5 gap-6 lg:gap-4 relative">
+               <div className="grid grid-cols-1 lg:grid-cols-5 gap-6 relative">
                   {CAREER_JOURNEY_STEPS.map((step, idx) => (
-                     <div key={idx} className="relative flex flex-col items-center">
-                        {/* Connecting Arrow (Desktop Only) */}
+                     <div key={idx} className="relative">
+                        {/* Connecting Dashed Arrow (Desktop Only) */}
                         {idx < CAREER_JOURNEY_STEPS.length - 1 && (
-                           <div className="hidden lg:block absolute top-12 -right-4 z-20">
-                              <ChevronRight className="w-6 h-6 text-blue-200" />
+                           <div className="hidden lg:block absolute top-1/3 -right-8 z-20 w-16 h-px border-t-2 border-dashed border-blue-200">
+                              <div className="absolute right-0 -top-1">
+                                 <ChevronRight className="w-3 h-3 text-blue-200" />
+                              </div>
                            </div>
-                        )}
-
-                        {/* Connecting Line (Mobile Only) */}
-                        {idx < CAREER_JOURNEY_STEPS.length - 1 && (
-                           <div className="lg:hidden absolute top-full left-1/2 -translate-x-1/2 h-6 w-0.5 bg-blue-100 z-0"></div>
                         )}
 
                         <motion.div
@@ -961,18 +962,19 @@ const UniversityPageNew = () => {
                            whileInView={{ opacity: 1, y: 0 }}
                            transition={{ delay: idx * 0.1 }}
                            viewport={{ once: true }}
-                           className="w-full bg-white rounded-[2rem] p-6 md:p-8 border border-slate-100 shadow-sm hover:shadow-xl transition-all duration-500 flex flex-col items-start min-h-[auto] lg:min-h-[320px] relative z-10"
+                           className="bg-white rounded-3xl p-8 border border-slate-100 shadow-sm hover:shadow-xl transition-all duration-500 flex flex-col items-center text-center relative z-10 group h-full"
                         >
-                           <div className="flex items-center gap-4 mb-6 md:mb-8">
-                              <div className="w-8 h-8 rounded-full bg-blue-600 flex items-center justify-center text-white text-[10px] font-bold shadow-lg">
-                                 {step.id}
-                              </div>
-                              <div className="w-10 h-10 md:w-12 md:h-12 rounded-full bg-blue-50 flex items-center justify-center text-blue-600">
-                                 {React.cloneElement(step.icon, { className: "w-5 h-5 md:w-6 md:h-6" })}
-                              </div>
+                           {/* Step Number Badge */}
+                           <div className="absolute top-4 left-4 w-10 h-10 rounded-full bg-blue-600 flex items-center justify-center text-white text-xs font-black shadow-lg z-20">
+                              {step.id}
                            </div>
-                           <h3 className="text-base md:text-lg font-black text-slate-900 mb-3 md:mb-4 leading-tight">{step.title}</h3>
-                           <p className="text-xs md:text-sm text-slate-500 font-medium leading-relaxed">{step.desc}</p>
+
+                           <div className="w-24 h-24 rounded-full bg-blue-50 flex items-center justify-center text-blue-600 mb-8 border border-blue-100 group-hover:scale-110 transition-transform duration-500">
+                              {React.cloneElement(step.icon, { className: "w-10 h-10" })}
+                           </div>
+                           
+                           <h3 className="text-xl font-black text-slate-900 mb-4 leading-tight">{step.title}</h3>
+                           <p className="text-xs text-slate-500 font-medium leading-relaxed">{step.desc}</p>
                         </motion.div>
                      </div>
                   ))}
@@ -980,7 +982,7 @@ const UniversityPageNew = () => {
             </div>
          </section>
 
-         {/* 7. NEW: CAREER SYSTEM SECTION (Image 5) */}
+         {/* 7. CAREER SYSTEM SECTION (Image 2) */}
          <section className="py-24 bg-white">
             <div className="container mx-auto px-6">
                <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center mb-16">
@@ -995,69 +997,79 @@ const UniversityPageNew = () => {
                   </div>
 
                   <div className="lg:col-span-8">
-                     <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+                     <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8 relative">
                         {CAREER_SYSTEM_STEPS.map((step, idx) => (
-                           <motion.div
-                              key={idx}
-                              initial={{ opacity: 0, y: 20 }}
-                              whileInView={{ opacity: 1, y: 0 }}
-                              transition={{ delay: idx * 0.1 }}
-                              viewport={{ once: true }}
-                              className="bg-white rounded-[2rem] overflow-hidden border border-slate-100 shadow-sm hover:shadow-xl transition-all duration-500 h-full flex flex-col"
-                           >
-                              <div className="p-6">
-                                 <div className="flex items-center gap-3 mb-6">
-                                    <div className="w-8 h-8 rounded-full bg-blue-600 flex items-center justify-center text-white text-[10px] font-bold">
-                                       {step.id}
-                                    </div>
-                                    <div className="w-10 h-10 rounded-full bg-blue-50 flex items-center justify-center text-blue-600">
-                                       {React.cloneElement(step.icon, { className: "w-5 h-5" })}
-                                    </div>
+                           <div key={idx} className="relative">
+                              {/* Connecting Arrow */}
+                              {idx < CAREER_SYSTEM_STEPS.length - 1 && (
+                                 <div className="hidden md:block absolute top-1/2 -right-6 -translate-y-1/2 z-20">
+                                    <ArrowRight className="w-6 h-6 text-blue-200" />
                                  </div>
-                                 <h3 className="text-base md:text-lg font-black text-slate-900 mb-2">{step.title}</h3>
-                                 <p className="text-xs text-slate-500 font-medium mb-4">{step.desc}</p>
-                              </div>
-                              <div className="h-40 md:h-48 overflow-hidden mt-auto">
-                                 <img src={step.image} alt={step.title} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" />
-                              </div>
-                           </motion.div>
+                              )}
+                              <motion.div
+                                 initial={{ opacity: 0, y: 20 }}
+                                 whileInView={{ opacity: 1, y: 0 }}
+                                 transition={{ delay: idx * 0.1 }}
+                                 viewport={{ once: true }}
+                                 className="bg-white rounded-3xl overflow-hidden border border-slate-100 shadow-sm hover:shadow-xl transition-all duration-500 h-full flex flex-col group"
+                              >
+                                 <div className="p-8">
+                                    <div className="flex items-center gap-4 mb-6">
+                                       <div className="w-10 h-10 rounded-full bg-blue-600 flex items-center justify-center text-white text-xs font-black shadow-lg">
+                                          {step.id}
+                                       </div>
+                                       <div className="w-12 h-12 rounded-full bg-blue-50 flex items-center justify-center text-blue-600">
+                                          {React.cloneElement(step.icon, { className: "w-6 h-6" })}
+                                       </div>
+                                    </div>
+                                    <h3 className="text-xl font-black text-slate-900 mb-3">{step.title}</h3>
+                                    <p className="text-xs text-slate-500 font-medium mb-6">{step.desc}</p>
+                                 </div>
+                                 <div className="h-48 overflow-hidden mt-auto">
+                                    <img src={step.image} alt={step.title} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" />
+                                 </div>
+                              </motion.div>
+                           </div>
                         ))}
                      </div>
                   </div>
                </div>
 
-               {/* Formula Bar */}
-               <div className="bg-[#051129] rounded-[2rem] p-6 md:p-8 grid grid-cols-2 lg:grid-cols-5 items-center gap-6 md:gap-8">
-                  {[
-                     { label: "DEGREE", desc: "Build Foundation", icon: <GraduationCap className="w-5 h-5" /> },
-                     { label: "SKILLS", desc: "Build Your Edge", icon: <Zap className="w-5 h-5" /> },
-                     { label: "PLACEMENT", desc: "Build Your Future", icon: <Target className="w-5 h-5" /> }
-                  ].map((item, idx) => (
-                     <React.Fragment key={idx}>
-                        <div className="flex items-center gap-3 md:gap-4">
-                           <div className="w-10 h-10 md:w-12 md:h-12 rounded-full bg-blue-600 flex items-center justify-center text-white shadow-lg shrink-0">
-                              {item.icon}
+               {/* Formula Strip */}
+               <div className="bg-[#051129] rounded-3xl p-6 md:p-8 flex flex-wrap lg:flex-nowrap items-center justify-between gap-8 md:gap-12 shadow-2xl">
+                  <div className="flex flex-wrap lg:flex-nowrap items-center gap-8 md:gap-12 flex-grow">
+                     {[
+                        { label: "DEGREE", desc: "Build Your Foundation", icon: <GraduationCap className="w-6 h-6" /> },
+                        { label: "SKILLS", desc: "Build Your Edge", icon: <Zap className="w-6 h-6" /> },
+                        { label: "PLACEMENT", desc: "Build Your Future", icon: <Target className="w-6 h-6" /> }
+                     ].map((item, idx) => (
+                        <React.Fragment key={idx}>
+                           <div className="flex items-center gap-4 group">
+                              <div className="w-12 h-12 rounded-full bg-blue-600/20 flex items-center justify-center text-blue-500 border border-blue-500/20 group-hover:bg-blue-600 group-hover:text-white transition-all duration-300 shadow-inner">
+                                 {item.icon}
+                              </div>
+                              <div className="text-left">
+                                 <p className="text-[10px] font-black text-white tracking-widest leading-none mb-1">{item.label}</p>
+                                 <p className="text-[10px] text-slate-400 font-medium leading-none">{item.desc}</p>
+                              </div>
                            </div>
-                           <div className="text-left">
-                              <p className="text-[10px] font-black text-white tracking-widest leading-none mb-1">{item.label}</p>
-                              <p className="text-[8px] md:text-[10px] text-slate-400 font-medium leading-none">{item.desc}</p>
-                           </div>
-                        </div>
-                        {idx < 2 && <span className="hidden lg:block text-white text-2xl font-bold ml-auto">+</span>}
-                     </React.Fragment>
-                  ))}
-                  <div className="flex items-center lg:justify-center">
-                     <span className="hidden lg:block text-white text-2xl font-bold mr-8">=</span>
-                     <div className="text-left border-l border-white/10 pl-6 md:pl-8">
-                        <p className="text-[10px] font-black text-white tracking-widest mb-1 leading-none uppercase">Guaranteed</p>
-                        <p className="text-lg md:text-xl font-black text-orange-500 tracking-tight leading-none uppercase">Direction</p>
+                           {idx < 2 && <div className="text-white text-2xl font-bold opacity-30">+</div>}
+                        </React.Fragment>
+                     ))}
+                  </div>
+                  
+                  <div className="flex items-center gap-8 md:gap-12">
+                     <div className="text-white text-2xl font-bold opacity-30">=</div>
+                     <div className="text-left border-l border-white/10 pl-8">
+                        <p className="text-[10px] font-black text-white tracking-widest mb-1 leading-none uppercase opacity-60">Guaranteed</p>
+                        <p className="text-xl md:text-2xl font-black text-orange-500 tracking-tight leading-none uppercase">Direction</p>
                      </div>
                   </div>
                </div>
             </div>
          </section>
 
-         {/* 8. NEW: CLARITY CONSULTATION (Image 4) */}
+         {/* 8. CLARITY CONSULTATION (Image 5) */}
          <section className="py-20 bg-[#051129] relative overflow-hidden">
             <div className="container mx-auto px-6 relative z-10">
                <div className="grid grid-cols-1 lg:grid-cols-12 items-center gap-12 lg:gap-16">
@@ -1068,14 +1080,14 @@ const UniversityPageNew = () => {
                         initial={{ opacity: 0, x: -30 }}
                         whileInView={{ opacity: 1, x: 0 }}
                         viewport={{ once: true }}
-                        className="text-3xl md:text-5xl lg:text-7xl font-black text-white mb-8 md:mb-12 leading-[1.1] tracking-tighter font-display"
+                        className="text-3xl md:text-5xl lg:text-6xl font-black text-white mb-8 md:mb-12 leading-[1.1] tracking-tighter font-display uppercase"
                      >
                         Stop Guessing Your <br className="hidden md:block" />
                         Career Path. <br className="hidden md:block" />
                         Get <span className="text-orange-500">Clarity</span> Today.
                      </motion.h2>
 
-                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 md:gap-6 mb-12">
+                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 mb-12">
                         {[
                            { label: "1:1 Expert Consultation", icon: <Users className="w-5 h-5" /> },
                            { label: "Personalized Roadmap", icon: <TrendingUp className="w-5 h-5" /> },
@@ -1088,12 +1100,12 @@ const UniversityPageNew = () => {
                               whileInView={{ opacity: 1, y: 0 }}
                               transition={{ delay: 0.2 + (idx * 0.1) }}
                               viewport={{ once: true }}
-                              className="flex items-center gap-3 group"
+                              className="flex items-center gap-4 group"
                            >
-                              <div className="w-8 h-8 md:w-10 md:h-10 rounded-xl bg-white/10 flex items-center justify-center text-white border border-white/20">
-                                 {React.cloneElement(item.icon, { className: "w-4 h-4 md:w-5 md:h-5" })}
+                              <div className="w-10 h-10 rounded-xl bg-white/5 flex items-center justify-center text-white border border-white/10 group-hover:bg-blue-600 group-hover:border-blue-600 transition-all">
+                                 {React.cloneElement(item.icon, { className: "w-5 h-5" })}
                               </div>
-                              <span className="text-[10px] md:text-xs font-bold text-slate-300 uppercase tracking-tight">{item.label}</span>
+                              <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest">{item.label}</span>
                            </motion.div>
                         ))}
                      </div>
@@ -1105,46 +1117,46 @@ const UniversityPageNew = () => {
                         initial={{ opacity: 0, y: 30 }}
                         whileInView={{ opacity: 1, y: 0 }}
                         viewport={{ once: true }}
-                        className="w-full max-w-md bg-white rounded-[2rem] p-8 shadow-2xl relative z-10"
+                        className="w-full max-w-md bg-white rounded-3xl p-10 shadow-2xl relative z-10"
                      >
-                        <h3 className="text-xl font-bold text-slate-900 mb-2">Book Your Free Career Consultation</h3>
-                        <p className="text-slate-500 text-xs mb-6">Limited slots per day. Hurry!</p>
+                        <h3 className="text-xl font-black text-slate-900 mb-2">Book Your Free Career Consultation</h3>
+                        <p className="text-slate-500 text-xs mb-8">Limited slots per day. Hurry!</p>
 
                         <div className="space-y-4">
-                           <input type="text" placeholder="Your Name" className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-orange-500/20 text-sm" />
-                           <input type="text" placeholder="Mobile Number" className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-orange-500/20 text-sm" />
-                           <select className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-orange-500/20 text-sm text-slate-500 bg-white">
+                           <input type="text" placeholder="Your Name" className="w-full px-5 py-4 rounded-xl border border-slate-100 bg-slate-50 focus:outline-none focus:ring-2 focus:ring-blue-500/20 text-sm font-medium" />
+                           <input type="text" placeholder="Mobile Number" className="w-full px-5 py-4 rounded-xl border border-slate-100 bg-slate-50 focus:outline-none focus:ring-2 focus:ring-blue-500/20 text-sm font-medium" />
+                           <select className="w-full px-5 py-4 rounded-xl border border-slate-100 bg-slate-50 focus:outline-none focus:ring-2 focus:ring-blue-500/20 text-sm font-medium text-slate-500">
                               <option>Select Your Interest</option>
                               <option>MBA</option>
                               <option>MCA</option>
                            </select>
-                           <button className="w-full bg-orange-500 hover:bg-orange-600 text-white font-bold py-4 rounded-xl flex items-center justify-center gap-2 transition-all shadow-lg shadow-orange-500/25 group">
+                           <button className="w-full bg-orange-500 hover:bg-orange-600 text-white font-black py-5 rounded-xl flex items-center justify-center gap-3 transition-all shadow-lg shadow-orange-500/25 group uppercase tracking-widest text-xs">
                               Book Free Slot Now <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
                            </button>
                         </div>
                      </motion.div>
 
                      {/* Consultant Image */}
-                     <div className="hidden lg:block absolute -right-24 bottom-0 w-[450px] z-0">
+                     <div className="hidden lg:block absolute -right-24 bottom-0 w-[450px] z-0 opacity-80">
                         <img src={consultantImg} alt="Career Consultant" className="w-full h-auto" />
                      </div>
                   </div>
                </div>
 
-               {/* Bottom Trust Bar */}
-               <div className="mt-16 md:mt-20 pt-10 md:pt-12 border-t border-white/10 grid grid-cols-2 md:grid-cols-5 gap-6 md:gap-8">
+               {/* Bottom Trust Strip */}
+               <div className="mt-20 pt-12 border-t border-white/5 flex flex-wrap justify-between gap-8">
                   {[
-                     { label: "UGC Approved & Recognized", icon: <ShieldCheck className="w-5 h-5 text-white" /> },
-                     { label: "NAAC A+ Universities", icon: <Award className="w-5 h-5 text-white" /> },
-                     { label: "100% Secure Process", icon: <ShieldCheck className="w-5 h-5 text-white" /> },
-                     { label: "Easy EMI Options", icon: <CreditCard className="w-5 h-5 text-white" /> },
-                     { label: "24/7 Student Support", icon: <Headphones className="w-5 h-5 text-white" /> }
+                     { label: "UGC Approved & Recognized", icon: <ShieldCheck className="w-5 h-5" /> },
+                     { label: "NAAC A+ Universities", icon: <Award className="w-5 h-5" /> },
+                     { label: "100% Secure Process", icon: <ShieldCheck className="w-5 h-5" /> },
+                     { label: "Easy EMI Options Available", icon: <CreditCard className="w-5 h-5" /> },
+                     { label: "24/7 Student Support", icon: <Headphones className="w-5 h-5" /> }
                   ].map((item, idx) => (
-                     <div key={idx} className="flex items-center gap-2 md:gap-3">
-                        <div className="w-7 h-7 md:w-8 md:h-8 rounded-full bg-white/10 flex items-center justify-center border border-white/20 shrink-0">
-                           {React.cloneElement(item.icon, { className: "w-4 h-4 md:w-5 md:h-5" })}
+                     <div key={idx} className="flex items-center gap-3">
+                        <div className="w-8 h-8 rounded-full bg-white/5 flex items-center justify-center border border-white/10 shrink-0">
+                           {React.cloneElement(item.icon, { className: "w-4 h-4 text-white/60" })}
                         </div>
-                        <span className="text-[8px] md:text-[9px] lg:text-[10px] font-black text-white uppercase tracking-widest leading-tight">{item.label}</span>
+                        <span className="text-[10px] font-black text-white/60 uppercase tracking-widest leading-tight">{item.label}</span>
                      </div>
                   ))}
                </div>

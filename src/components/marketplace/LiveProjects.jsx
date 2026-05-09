@@ -54,7 +54,7 @@ const ProjectCard = ({ project, index }) => (
     {/* Top accent bar */}
     <div className="h-[2px]" style={{ background: `linear-gradient(90deg, transparent, ${project.tagColor}, transparent)` }} />
 
-    <div className="p-5 sm:p-6">
+    <div className="p-5 sm:p-6 flex flex-col h-full">
       {/* Tag */}
       <div className="flex items-center justify-between mb-4">
         <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-[10px] font-bold uppercase tracking-wider"
@@ -69,7 +69,7 @@ const ProjectCard = ({ project, index }) => (
       </div>
 
       {/* Title */}
-      <h3 className="text-base font-bold text-white/85 mb-4 group-hover:text-white transition-colors leading-snug"
+      <h3 className="text-base sm:text-lg font-bold text-white/85 mb-4 group-hover:text-white transition-colors leading-snug"
         style={{ fontFamily: 'var(--mp-font-display)' }}>
         {project.title}
       </h3>
@@ -85,14 +85,14 @@ const ProjectCard = ({ project, index }) => (
       </div>
 
       {/* Budget & Proposals */}
-      <div className="flex items-center justify-between mb-5 pb-4" style={{ borderBottom: '1px solid rgba(255,255,255,0.04)' }}>
+      <div className="flex items-center justify-between mb-5 pb-4 mt-auto" style={{ borderBottom: '1px solid rgba(255,255,255,0.04)' }}>
         <div>
           <p className="text-[10px] text-white/25 uppercase tracking-wider mb-0.5" style={{ fontFamily: 'var(--mp-font-mono)' }}>Budget</p>
-          <p className="text-lg font-bold" style={{ color: project.tagColor, fontFamily: 'var(--mp-font-display)' }}>{project.budget}</p>
+          <p className="text-base sm:text-lg font-bold" style={{ color: project.tagColor, fontFamily: 'var(--mp-font-display)' }}>{project.budget}</p>
         </div>
         <div className="text-right">
           <p className="text-[10px] text-white/25 uppercase tracking-wider mb-0.5" style={{ fontFamily: 'var(--mp-font-mono)' }}>Proposals</p>
-          <p className="text-lg font-bold text-white/70" style={{ fontFamily: 'var(--mp-font-display)' }}>{project.proposals}</p>
+          <p className="text-base sm:text-lg font-bold text-white/70" style={{ fontFamily: 'var(--mp-font-display)' }}>{project.proposals}</p>
         </div>
       </div>
 
@@ -128,6 +128,7 @@ const ProjectCard = ({ project, index }) => (
       </div>
     </div>
 
+
     {/* Bottom hover glow */}
     <div className="absolute bottom-0 left-0 right-0 h-20 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none"
       style={{ background: `linear-gradient(to top, ${project.tagColor}08, transparent)` }} />
@@ -135,30 +136,30 @@ const ProjectCard = ({ project, index }) => (
 );
 
 const LiveProjects = () => (
-  <section className="relative py-20 sm:py-28 overflow-hidden" style={{ background: 'var(--mp-surface-0)' }}>
+  <section className="relative py-24 sm:py-32 lg:py-40 overflow-hidden" style={{ background: 'var(--mp-surface-0)' }}>
     <div className="absolute bottom-0 left-0 w-[400px] h-[400px] pointer-events-none"
       style={{ background: 'radial-gradient(circle, rgba(251,113,133,0.05) 0%, transparent 60%)' }} />
 
-    <div className="relative z-10 max-w-6xl mx-auto px-5 sm:px-8">
+    <div className="relative z-10 max-w-7xl mx-auto px-6 sm:px-8">
       {/* Header */}
       <motion.div
-        className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4 mb-12"
+        className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-6 mb-16"
         initial={{ opacity: 0, y: 30 }}
         whileInView={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.7 }}
         viewport={{ once: true }}
       >
-        <div>
-          <span className="text-xs font-medium text-violet-400/60 uppercase tracking-[0.2em] mb-3 block"
+        <div className="max-w-2xl">
+          <span className="text-xs font-medium text-violet-400/60 uppercase tracking-[0.2em] mb-4 block"
             style={{ fontFamily: 'var(--mp-font-mono)' }}>Live Projects</span>
-          <h2 className="mp-heading text-3xl sm:text-4xl lg:text-5xl">
+          <h2 className="mp-heading text-4xl sm:text-5xl lg:text-6xl">
             Exciting opportunities{' '}
             <span className="mp-gradient-text">awaiting talent like you</span>
           </h2>
         </div>
         <motion.button
           whileHover={{ x: 4 }}
-          className="flex items-center gap-2 text-sm text-violet-400/70 hover:text-violet-300 transition-colors self-start sm:self-auto"
+          className="flex items-center gap-2 text-sm font-bold text-violet-400 hover:text-violet-300 transition-colors self-start sm:self-auto px-6 py-3 rounded-xl bg-white/5 border border-white/10"
           style={{ fontFamily: 'var(--mp-font-display)' }}
         >
           View all projects <ArrowRight size={14} />
@@ -166,14 +167,14 @@ const LiveProjects = () => (
       </motion.div>
 
       {/* Project Grid */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
         {projects.map((p, i) => (
           <ProjectCard key={p.title} project={p} index={i} />
         ))}
       </div>
     </div>
 
-    <div className="mp-section-divider mt-20" />
+    <div className="mp-section-divider mt-24 sm:mt-32" />
   </section>
 );
 
