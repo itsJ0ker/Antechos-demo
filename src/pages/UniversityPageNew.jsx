@@ -30,13 +30,16 @@ import {
    Filter,
    Lightbulb,
    Layers,
-   Target
+   Target,
+   BookOpen,
+   Headphones
 } from 'lucide-react';
 import { motion, AnimatePresence, useScroll, useTransform } from 'framer-motion';
 import { universities as staticUniversities } from '../data/universities';
 import { getUniversities, submitEnquiry } from '../lib/supabase';
 import { Phone } from 'lucide-react';
 import CountUp from 'react-countup';
+import consultantImg from '../assets/career_consultant_dark.png';
 
 /* ─── Inline CSS ─────────────────────────────────────────────────────────── */
 const styles = `
@@ -265,6 +268,124 @@ const FEATURES_DATA = [
    { img: "https://i.ibb.co/VWHND6fQ/Whats-App-Image-2026-04-04-at-1-17-05-AM.jpg", text: "Live & Recorded Lectures, Fully Flexible Curriculum" },
    { img: "https://i.ibb.co/QvdrfLjd/Whats-App-Image-2026-04-04-at-1-19-08-AM.jpg", text: "Smart spend, World Class Degrees" },
    { img: "https://i.ibb.co/HDM7Hm9j/Whats-App-Image-2026-04-04-at-12-58-07-AM.jpg", text: "Access to Top Global Universities" }
+];
+
+const WHY_STUDENTS_CHOOSE = [
+   {
+      title: "UGC Approved Universities",
+      desc: "100% Recognized Degrees",
+      icon: <ShieldCheck className="w-6 h-6" />,
+      color: "text-blue-400"
+   },
+   {
+      title: "Industry-Aligned Curriculum",
+      desc: "Learn what companies actually need",
+      icon: <BookOpen className="w-6 h-6" />,
+      color: "text-blue-400"
+   },
+   {
+      title: "Personalized Mentorship",
+      desc: "One-on-one guidance at every step",
+      icon: <Users className="w-6 h-6" />,
+      color: "text-blue-400"
+   },
+   {
+      title: "Placement Guarantee",
+      desc: "Focused training for top career outcomes",
+      icon: <Target className="w-6 h-6" />,
+      color: "text-blue-400"
+   },
+   {
+      title: "Easy EMI Options",
+      desc: "Flexible payment plans for all",
+      icon: <CreditCard className="w-6 h-6" />,
+      color: "text-blue-400"
+   }
+];
+
+const CAREER_JOURNEY_STEPS = [
+   {
+      id: "01",
+      title: "Career Assessment",
+      desc: "Discover your strengths, interests & best career paths.",
+      icon: <Users className="w-8 h-8" />
+   },
+   {
+      id: "02",
+      title: "Choose the Right University",
+      desc: "Get matched with top UGC-approved universities.",
+      icon: <GraduationCap className="w-8 h-8" />
+   },
+   {
+      id: "03",
+      title: "Learn & Build In-Demand Skills",
+      desc: "Access premium learning, tools and certifications.",
+      icon: <Activity className="w-8 h-8" />
+   },
+   {
+      id: "04",
+      title: "Gain Real-World Experience",
+      desc: "Internships, live projects & industry mentorship.",
+      icon: <Briefcase className="w-8 h-8" />
+   },
+   {
+      id: "05",
+      title: "Placement Success",
+      desc: "Resume building, interviews & placement support.",
+      icon: <TrendingUp className="w-8 h-8" />
+   }
+];
+
+const CAREER_SYSTEM_STEPS = [
+   {
+      id: "01",
+      title: "Choose Smart",
+      desc: "Top UGC-approved universities matched to your goals.",
+      image: "https://images.unsplash.com/photo-1592280771190-3e2e4d571952?w=800&q=80",
+      icon: <Building2 className="w-6 h-6" />
+   },
+   {
+      id: "02",
+      title: "Build Skills",
+      desc: "Learn in-demand skills with expert-led training.",
+      image: "https://images.unsplash.com/photo-1516321497487-e288fb19713f?w=800&q=80",
+      icon: <GraduationCap className="w-6 h-6" />
+   },
+   {
+      id: "03",
+      title: "Get Experience",
+      desc: "Internships, live projects & industry exposure that build your resume.",
+      image: "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=800&q=80",
+      icon: <Briefcase className="w-6 h-6" />
+   }
+];
+
+const CAREER_ECOSYSTEM_DATA = [
+   {
+      title: "Personalized Career Guidance",
+      desc: "Get expert guidance to choose the right path for your future.",
+      icon: <Target className="w-10 h-10 text-blue-600" />
+   },
+   {
+      title: "Industry-Aligned Curriculum",
+      desc: "Learn skills that companies need, not just theory.",
+      icon: <Activity className="w-10 h-10 text-blue-600" />
+   },
+   {
+      title: "Internships & Live Projects",
+      desc: "Gain real-world experience while you study.",
+      icon: <Briefcase className="w-10 h-10 text-blue-600" />
+   },
+   {
+      title: "Placement Assistance",
+      desc: "Resume building, mock interviews & job support.",
+      icon: <Users className="w-10 h-10 text-blue-600" />
+   },
+   {
+      title: "Career Growth Support",
+      desc: "Continuous support even after you get placed.",
+      icon: <TrendingUp className="w-10 h-10 text-blue-600" />
+   }
 ];
 
 const TESTIMONIALS = [
@@ -750,78 +871,214 @@ const UniversityPageNew = () => {
             </div>
          </section>
 
-
-
-         {/* 5. STRATEGIC GUIDANCE SECTION (NEW) */}
-         <section className="py-12 md:py-24 bg-white overflow-hidden relative">
-            <div className="container mx-auto px-6 text-center flex flex-col items-center">
-               <motion.div
-                  initial={{ opacity: 0, scale: 0.9 }}
-                  whileInView={{ opacity: 1, scale: 1 }}
-                  className="inline-flex items-center gap-2 px-6 py-2 bg-blue-50 text-blue-600 rounded-full border border-blue-100 mb-8"
-               >
-                  <Sparkles className="w-4 h-4" />
-                  <span className="text-[10px] font-black uppercase tracking-widest font-display">Your Future Starts Here</span>
-               </motion.div>
-
-               <motion.h2
+         {/* NEW: WHY STUDENTS CHOOSE ANTECHOS (Image 1) */}
+         <section className="py-12 bg-white">
+            <div className="container mx-auto px-6">
+               <motion.div 
                   initial={{ opacity: 0, y: 30 }}
                   whileInView={{ opacity: 1, y: 0 }}
-                  className="text-3xl sm:text-4xl md:text-5xl lg:text-7xl font-black text-slate-900 mb-8 leading-[1.2] md:leading-[1.1] tracking-tighter max-w-5xl font-display"
+                  viewport={{ once: true }}
+                  className="bg-[#0b1b3d] rounded-[2rem] p-8 md:p-12 text-white shadow-2xl relative overflow-hidden"
                >
-                  Best Online Universities & <span className="text-blue-600">Top Career <br className="hidden md:block" /> Guidance</span> in <span className="text-blue-600 underline underline-offset-8 decoration-4 md:decoration-8 decoration-blue-600/20">India</span>
-               </motion.h2>
+                  <div className="absolute top-0 right-0 w-64 h-64 bg-blue-500/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2"></div>
+                  
+                  <h2 className="text-2xl md:text-4xl font-black text-center mb-12 font-display">
+                     Why Students Choose <span className="text-blue-400">Antechos</span>
+                  </h2>
 
-               <motion.p
-                  initial={{ opacity: 0 }}
-                  whileInView={{ opacity: 1 }}
-                  transition={{ delay: 0.2 }}
-                  className="text-slate-500 text-base md:text-xl font-medium max-w-3xl mb-12 leading-relaxed px-4"
-               >
-                  Get personalized online degree recommendations, expert admission counselling, and clear paths to your dream career. As an independent educational guidance platform, we help you make informed decisions for your distance learning journey.
-               </motion.p>
-
-               <motion.div
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.3 }}
-                  className="flex flex-col sm:flex-row items-center gap-4 md:gap-6 mb-16 md:mb-20 w-full md:w-auto"
-               >
-                  <button
-                     onClick={() => setShowEnquiry(true)}
-                     className="w-full md:w-auto px-12 py-5 md:py-6 bg-blue-600 text-white font-black rounded-2xl shadow-[0_15px_40px_-10px_rgba(37,99,235,0.4)] hover:scale-105 transition-all text-[11px] uppercase tracking-widest flex items-center justify-center gap-3"
-                  >
-                     Get Free Counselling
-                     <ArrowRight className="w-5 h-5" />
-                  </button>
-                  <a
-                     href="#strategic-intelligence"
-                     onClick={scrollToStrategicIntelligence}
-                     className="w-full md:w-auto px-12 py-5 md:py-6 bg-white text-slate-900 border border-slate-200 font-black rounded-2xl hover:bg-slate-50 transition-all text-[11px] uppercase tracking-widest text-center"
-                  >
-                     Explore Courses
-                  </a>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-8">
+                     {WHY_STUDENTS_CHOOSE.map((item, idx) => (
+                        <motion.div 
+                           key={idx}
+                           initial={{ opacity: 0, scale: 0.9 }}
+                           whileInView={{ opacity: 1, scale: 1 }}
+                           transition={{ delay: idx * 0.1 }}
+                           viewport={{ once: true }}
+                           className="flex flex-col items-center text-center group"
+                        >
+                           <div className="w-16 h-16 bg-blue-500/20 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 group-hover:bg-blue-500/30 transition-all duration-300 border border-blue-500/20">
+                              <div className="text-blue-400">{item.icon}</div>
+                           </div>
+                           <h3 className="text-sm font-black mb-2 uppercase tracking-tight leading-tight">{item.title}</h3>
+                           <p className="text-[10px] text-slate-400 font-medium uppercase tracking-widest">{item.desc}</p>
+                        </motion.div>
+                     ))}
+                  </div>
                </motion.div>
+            </div>
+         </section>
 
-               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8 w-full max-w-6xl">
-                  {[
-                     { val: 50000, label: 'of Students Guided', suffix: '+' },
-                     { val: 100, label: 'Partner Universities', suffix: '+' },
-                     { val: 1000, label: 'Admission Success', suffix: '+' }
-                  ].map((stat, i) => (
-                     <motion.div
-                        key={i}
-                        initial={{ opacity: 0, y: 30 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        transition={{ delay: i * 0.1 }}
-                        className={`p-8 md:p-10 rounded-xl bg-white border border-blue-100/50 shadow-sm hover:shadow-2xl transition-all text-center flex flex-col items-center justify-center group ${i === 2 && 'sm:col-span-2 lg:col-span-1'}`}
+
+
+         {/* 5. STRATEGIC GUIDANCE SECTION -> IMPROVED CLARITY CONSULTATION (Image 2) */}
+         <section className="py-20 md:py-32 bg-[#050a14] relative overflow-hidden">
+            <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')] opacity-[0.05]"></div>
+            <div className="absolute top-1/4 left-0 w-96 h-96 bg-blue-600/10 rounded-full blur-[120px]"></div>
+            
+            <div className="container mx-auto px-6 relative z-10">
+               <div className="grid grid-cols-1 lg:grid-cols-12 items-center gap-12 lg:gap-8">
+                  
+                  {/* Left Content: Text & Social Proof */}
+                  <div className="lg:col-span-5 text-left">
+                     <motion.h2 
+                        initial={{ opacity: 0, x: -30 }}
+                        whileInView={{ opacity: 1, x: 0 }}
+                        viewport={{ once: true }}
+                        className="text-4xl md:text-5xl lg:text-6xl font-black text-white mb-8 leading-[1.1] tracking-tighter font-display"
                      >
-                        <div className="text-4xl md:text-5xl lg:text-6xl font-black text-slate-900 mb-4 font-display group-hover:scale-105 transition-transform">
-                           <CountUp end={stat.val} duration={2.5} separator="," enableScrollSpy scrollSpyOnce suffix={stat.suffix} />
+                        Stop Guessing Your <br /> 
+                        Career Path. <br />
+                        <span className="text-blue-500">Get Clarity Today.</span>
+                     </motion.h2>
+
+                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 mb-12">
+                        {[
+                           { label: "1:1 Expert Consultation", icon: <Users className="w-5 h-5" /> },
+                           { label: "Personalized Career Roadmap", icon: <TrendingUp className="w-5 h-5" /> },
+                           { label: "Right Skills. Right Opportunities.", icon: <ShieldCheck className="w-5 h-5" /> },
+                           { label: "100% Free Guidance", icon: <Star className="w-5 h-5" /> }
+                        ].map((item, idx) => (
+                           <motion.div 
+                              key={idx}
+                              initial={{ opacity: 0, y: 10 }}
+                              whileInView={{ opacity: 1, y: 0 }}
+                              transition={{ delay: 0.2 + (idx * 0.1) }}
+                              viewport={{ once: true }}
+                              className="flex items-center gap-3 group"
+                           >
+                              <div className="w-10 h-10 rounded-xl bg-blue-500/10 flex items-center justify-center text-blue-500 border border-blue-500/20 group-hover:bg-blue-500 group-hover:text-white transition-all duration-300">
+                                 {item.icon}
+                              </div>
+                              <span className="text-xs font-bold text-slate-300 uppercase tracking-tight">{item.label}</span>
+                           </motion.div>
+                        ))}
+                     </div>
+
+                     <div className="flex items-center gap-4 p-5 rounded-2xl bg-white/5 border border-white/10 backdrop-blur-md max-w-sm">
+                        <div className="flex -space-x-3">
+                           {[1,2,3,4].map(i => (
+                              <div key={i} className="w-10 h-10 rounded-full border-2 border-[#050a14] overflow-hidden">
+                                 <img src={`https://i.pravatar.cc/100?img=${i+10}`} alt="user" className="w-full h-full object-cover" />
+                              </div>
+                           ))}
                         </div>
-                        <div className="text-[10px] md:text-xs font-bold text-slate-400 uppercase tracking-widest">{stat.label}</div>
+                        <div>
+                           <p className="text-white font-black text-lg leading-none mb-1">50,000+</p>
+                           <p className="text-slate-500 text-[9px] font-bold uppercase tracking-widest leading-none">Guided Successfully</p>
+                        </div>
+                     </div>
+                  </div>
+
+                  {/* Center: Consultant Image (Desktop Only) */}
+                  <div className="lg:col-span-3 relative flex items-end justify-center self-end hidden lg:flex h-full min-h-[450px]">
+                     <motion.div 
+                        initial={{ opacity: 0, scale: 0.9, y: 30 }}
+                        whileInView={{ opacity: 1, scale: 1, y: 0 }}
+                        transition={{ duration: 0.8, ease: "easeOut" }}
+                        viewport={{ once: true }}
+                        className="relative z-10 w-full"
+                     >
+                        <img 
+                           src={consultantImg} 
+                           alt="Career Consultant" 
+                           className="w-full h-auto drop-shadow-[0_20px_50px_rgba(37,99,235,0.3)] z-10 relative" 
+                        />
+                        {/* Gradient Fade to Blend Bottom */}
+                        <div className="absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-[#050a14] to-transparent z-20"></div>
+                        
+                        {/* Verified Badge */}
+                        <motion.div 
+                           animate={{ y: [0, -10, 0] }}
+                           transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
+                           className="absolute top-1/4 -right-4 bg-white/10 backdrop-blur-xl border border-white/20 p-3 rounded-2xl z-30 shadow-2xl"
+                        >
+                           <div className="flex items-center gap-2">
+                              <div className="w-6 h-6 rounded-full bg-blue-600 flex items-center justify-center">
+                                 <ShieldCheck className="w-3.5 h-3.5 text-white" />
+                              </div>
+                              <span className="text-[10px] font-black text-white uppercase tracking-widest">Verified Expert</span>
+                           </div>
+                        </motion.div>
                      </motion.div>
-                  ))}
+                  </div>
+
+                  {/* Right Form */}
+                  <div className="lg:col-span-4 relative">
+                     <motion.div 
+                        initial={{ opacity: 0, x: 30 }}
+                        whileInView={{ opacity: 1, x: 0 }}
+                        viewport={{ once: true }}
+                        className="relative z-20"
+                     >
+                        <EnquiryPopup isInline={true} />
+                     </motion.div>
+                     
+                     {/* Mobile Image removed as requested */}
+                  </div>
+               </div>
+            </div>
+
+            {/* Bottom Trust Bar (Image 2 bottom) */}
+            <div className="mt-20 md:mt-32 w-full bg-white/5 border-y border-white/10 py-8 relative z-10">
+               <div className="container mx-auto px-6">
+                  <div className="flex flex-wrap justify-center md:justify-between items-center gap-8 md:gap-4 opacity-70">
+                     {[
+                        { label: "UGC Approved & Recognized", icon: <ShieldCheck className="w-6 h-6" /> },
+                        { label: "NAAC A+ Universities", icon: <Award className="w-6 h-6" /> },
+                        { label: "100% Secure Admission Process", icon: <ShieldCheck className="w-6 h-6" /> },
+                        { label: "Easy EMI Options Available", icon: <CreditCard className="w-6 h-6" /> },
+                        { label: "24/7 Student Support", icon: <Headphones className="w-6 h-6" /> }
+                     ].map((item, idx) => (
+                        <div key={idx} className="flex items-center gap-3 text-white">
+                           <div className="text-blue-500">{item.icon}</div>
+                           <span className="text-[10px] font-black uppercase tracking-widest">{item.label}</span>
+                        </div>
+                     ))}
+                  </div>
+               </div>
+            </div>
+         </section>
+
+         {/* NEW: CAREER JOURNEY PROCESS (Image 3) */}
+         <section className="py-24 bg-white relative overflow-hidden">
+            <div className="container mx-auto px-6">
+               <div className="text-center mb-20">
+                  <SectionLabel icon={Rocket}>Your Path to Success</SectionLabel>
+                  <h2 className="text-3xl md:text-5xl font-black text-slate-900 tracking-tighter uppercase font-display">How It <span className="text-blue-600">Works</span></h2>
+               </div>
+
+               <div className="relative">
+                  {/* Connection Line */}
+                  <div className="absolute top-1/2 left-0 w-full h-0.5 bg-blue-100 -translate-y-1/2 hidden lg:block"></div>
+                  
+                  <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-8 relative z-10">
+                     {CAREER_JOURNEY_STEPS.map((step, idx) => (
+                        <motion.div 
+                           key={idx}
+                           initial={{ opacity: 0, y: 20 }}
+                           whileInView={{ opacity: 1, y: 0 }}
+                           transition={{ delay: idx * 0.15 }}
+                           viewport={{ once: true }}
+                           className="bg-white rounded-3xl p-8 shadow-[0_20px_50px_rgba(0,0,0,0.04)] border border-slate-100 relative group hover:shadow-2xl transition-all duration-500"
+                        >
+                           <div className="absolute -top-4 -left-4 w-12 h-12 bg-blue-600 text-white rounded-full flex items-center justify-center font-black text-sm shadow-lg group-hover:scale-110 transition-transform">
+                              {step.id}
+                           </div>
+                           
+                           <div className="w-16 h-16 bg-blue-50 rounded-2xl flex items-center justify-center mb-6 text-blue-600 group-hover:bg-blue-600 group-hover:text-white transition-all duration-500">
+                              {step.icon}
+                           </div>
+                           
+                           <h3 className="text-lg font-black text-slate-900 mb-4 font-display uppercase leading-tight group-hover:text-blue-600 transition-colors">{step.title}</h3>
+                           <p className="text-xs text-slate-500 font-medium leading-relaxed">{step.desc}</p>
+
+                           {/* Connector Arrow (Mobile/Tablet) */}
+                           <div className="absolute top-1/2 -right-4 -translate-y-1/2 text-blue-200 hidden lg:group-last:hidden lg:block">
+                              <ChevronRight className="w-8 h-8" />
+                           </div>
+                        </motion.div>
+                     ))}
+                  </div>
                </div>
             </div>
          </section>
@@ -1331,6 +1588,92 @@ const UniversityPageNew = () => {
 
             {/* Subtle background ornamentation */}
             <div className="absolute -bottom-24 left-0 w-72 md:w-96 h-72 md:h-96 bg-blue-50/50 rounded-full blur-3xl pointer-events-none"></div>
+         </section>
+
+         {/* NEW: CAREER SYSTEM (Image 4) */}
+         <section className="py-24 bg-slate-50 relative overflow-hidden">
+            <div className="container mx-auto px-6">
+               <div className="flex flex-col lg:flex-row items-center gap-16 mb-20">
+                  <div className="lg:w-1/3 text-left">
+                     <h2 className="text-4xl md:text-5xl font-black text-slate-900 mb-6 leading-tight font-display uppercase tracking-tighter">
+                        Not Just a Degree. <br />
+                        <span className="text-blue-600">A Career System.</span>
+                     </h2>
+                     <p className="text-slate-500 font-medium text-lg leading-relaxed">
+                        A proven 3-step process that turns your degree into a future-ready career.
+                     </p>
+                  </div>
+                  
+                  <div className="lg:w-2/3 grid grid-cols-1 md:grid-cols-3 gap-8">
+                     {CAREER_SYSTEM_STEPS.map((step, idx) => (
+                        <motion.div 
+                           key={idx}
+                           initial={{ opacity: 0, y: 30 }}
+                           whileInView={{ opacity: 1, y: 0 }}
+                           transition={{ delay: idx * 0.2 }}
+                           viewport={{ once: true }}
+                           className="bg-white rounded-[2rem] overflow-hidden shadow-xl group border border-slate-100 flex flex-col"
+                        >
+                           <div className="p-8 pb-4">
+                              <div className="flex items-center gap-4 mb-6">
+                                 <div className="w-10 h-10 bg-blue-600 text-white rounded-full flex items-center justify-center font-black text-xs">
+                                    {step.id}
+                                 </div>
+                                 <div className="text-blue-600">{step.icon}</div>
+                              </div>
+                              <h3 className="text-xl font-black text-slate-900 mb-3 font-display uppercase">{step.title}</h3>
+                              <p className="text-xs text-slate-500 font-medium leading-relaxed mb-6">{step.desc}</p>
+                           </div>
+                           
+                           <div className="mt-auto overflow-hidden h-48">
+                              <img src={step.image} alt={step.title} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" />
+                           </div>
+                        </motion.div>
+                     ))}
+                  </div>
+               </div>
+
+               {/* Summary Bar (Image 4 bottom) */}
+               <div className="bg-[#0b1b3d] rounded-[2rem] p-6 md:p-8 text-white flex flex-col md:flex-row items-center justify-between gap-8">
+                  <div className="flex items-center gap-4">
+                     <div className="w-12 h-12 bg-white/10 rounded-xl flex items-center justify-center">
+                        <GraduationCap className="w-6 h-6 text-blue-400" />
+                     </div>
+                     <div className="text-left">
+                        <p className="text-[10px] font-black uppercase tracking-widest text-slate-400">Step 01</p>
+                        <p className="font-black text-sm uppercase">Degree</p>
+                        <p className="text-[9px] text-slate-400 uppercase tracking-widest">Build Your Foundation</p>
+                     </div>
+                  </div>
+                  <div className="text-blue-400 font-black text-xl">+</div>
+                  <div className="flex items-center gap-4">
+                     <div className="w-12 h-12 bg-white/10 rounded-xl flex items-center justify-center">
+                        <Activity className="w-6 h-6 text-blue-400" />
+                     </div>
+                     <div className="text-left">
+                        <p className="text-[10px] font-black uppercase tracking-widest text-slate-400">Step 02</p>
+                        <p className="font-black text-sm uppercase">Skills</p>
+                        <p className="text-[9px] text-slate-400 uppercase tracking-widest">Build Your Edge</p>
+                     </div>
+                  </div>
+                  <div className="text-blue-400 font-black text-xl">=</div>
+                  <div className="flex items-center gap-4">
+                     <div className="w-12 h-12 bg-blue-600 rounded-xl flex items-center justify-center">
+                        <Target className="w-6 h-6 text-white" />
+                     </div>
+                     <div className="text-left">
+                        <p className="text-[10px] font-black uppercase tracking-widest text-slate-400">Step 03</p>
+                        <p className="font-black text-sm uppercase">Placement</p>
+                        <p className="text-[9px] text-slate-400 uppercase tracking-widest">Build Your Future</p>
+                     </div>
+                  </div>
+                  <div className="hidden md:block h-12 w-0.5 bg-white/10"></div>
+                  <div className="text-right">
+                     <p className="text-[10px] font-black uppercase tracking-[0.3em] text-blue-400 mb-1">Guaranteed</p>
+                     <p className="text-xl font-black uppercase tracking-tighter">Direction</p>
+                  </div>
+               </div>
+            </div>
          </section>
 
 
@@ -1951,6 +2294,38 @@ const UniversityPageNew = () => {
          </section>
 
 
+
+         {/* NEW: CAREER ECOSYSTEM (Image 5) */}
+         <section className="py-24 bg-white relative">
+            <div className="container mx-auto px-6">
+               <div className="mb-16">
+                  <SectionLabel icon={Globe}>Strategic Infrastructure</SectionLabel>
+                  <h2 className="text-3xl md:text-5xl font-black text-slate-900 mb-4 font-display uppercase tracking-tighter">
+                     More Than Education. <br />
+                     <span className="text-blue-600">A Complete Career Ecosystem.</span>
+                  </h2>
+               </div>
+
+               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-6">
+                  {CAREER_ECOSYSTEM_DATA.map((item, idx) => (
+                     <motion.div 
+                        key={idx}
+                        initial={{ opacity: 0, scale: 0.95 }}
+                        whileInView={{ opacity: 1, scale: 1 }}
+                        transition={{ delay: idx * 0.1 }}
+                        viewport={{ once: true }}
+                        className="bg-white p-8 rounded-3xl border border-slate-100 shadow-[0_15px_40px_rgba(0,0,0,0.03)] hover:shadow-xl transition-all duration-300 flex flex-col items-center text-center group"
+                     >
+                        <div className="w-20 h-20 bg-blue-50 rounded-full flex items-center justify-center mb-8 group-hover:scale-110 group-hover:bg-blue-600 group-hover:text-white transition-all duration-500">
+                           {item.icon}
+                        </div>
+                        <h3 className="text-base font-black text-slate-900 mb-4 font-display uppercase leading-tight">{item.title}</h3>
+                        <p className="text-xs text-slate-500 font-medium leading-relaxed">{item.desc}</p>
+                     </motion.div>
+                  ))}
+               </div>
+            </div>
+         </section>
 
          {/* 10. FAQ SECTION */}
          <section className="py-16 md:py-24 bg-white border-t border-slate-100 relative overflow-hidden text-left">
