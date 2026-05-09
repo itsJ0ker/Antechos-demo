@@ -13,6 +13,7 @@ import UniversityPage from "./pages/UniversityPage";
 import UniversityPageNew from "./pages/UniversityPageNew";
 import MarketplaceImarticus from "./pages/MarketplaceImarticus";
 import MarketplaceRedesign from "./pages/MarketplaceRedesign";
+import MarketplacePremium from "./pages/MarketplacePremium";
 import TrainerProfile from "./components/sections/Trainerprofile";
 import UniversityDetail from "./components/sections/UniversityDetails";
 import CourseDetail from "./pages/CourseDetail";
@@ -99,9 +100,10 @@ const AppContent = () => {
           <Route path="/" element={<Home />} />
           <Route path="/AuthPage" element={<AuthPage />} />
           <Route path="/About" element={<About />} />
-          <Route path="/Marketplace" element={<MarketplaceRedesign />} />
+          <Route path="/Marketplace" element={<MarketplacePremium />} />
           <Route path="/marketplace-new" element={<MarketplaceImarticus />} />
           <Route path="/marketplace-redesign" element={<MarketplaceRedesign />} />
+          <Route path="/marketplace-premium" element={<MarketplacePremium />} />
           <Route path="/Courses" element={<Courses />} />
           <Route path="/Universities-mainbutnotinusenow" element={<UniversityPage />} />{/*maim*/}
           <Route path="/universities" element={<UniversityPageNew />} />

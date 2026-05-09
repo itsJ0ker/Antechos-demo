@@ -66,7 +66,7 @@ const Navbar = () => {
     { name: "About", path: "/about" },
     { name: "Courses", path: "/courses", hasDropdown: true },
     { name: "Universities", path: "/universities", hasDropdown: true },
-    // { name: "Marketplace", path: "/marketplace" },
+    { name: "Marketplace", path: "/Marketplace" },
   ];
 
   const handleNavigate = (path) => {
