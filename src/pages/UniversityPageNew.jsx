@@ -320,7 +320,7 @@ const CAREER_JOURNEY_STEPS = [
       id: "03",
       title: "Learn & Build In-Demand Skills",
       desc: "Access premium learning, tools and certifications.",
-      icon: <Activity className="w-8 h-8" />
+      icon: <BookOpen className="w-8 h-8" />
    },
    {
       id: "04",
@@ -871,74 +871,218 @@ const UniversityPageNew = () => {
             </div>
          </section>
 
-         {/* NEW: WHY STUDENTS CHOOSE ANTECHOS (Image 1) */}
-         <section className="py-12 bg-white">
+         {/* 4. NEW: CAREER ECOSYSTEM (Image 1) */}
+         <section className="py-24 bg-white">
             <div className="container mx-auto px-6">
-               <motion.div 
-                  initial={{ opacity: 0, y: 30 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  className="bg-[#0b1b3d] rounded-[2rem] p-8 md:p-12 text-white shadow-2xl relative overflow-hidden"
-               >
-                  <div className="absolute top-0 right-0 w-64 h-64 bg-blue-500/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2"></div>
-                  
-                  <h2 className="text-2xl md:text-4xl font-black text-center mb-12 font-display">
-                     Why Students Choose <span className="text-blue-400">Antechos</span>
-                  </h2>
-
-                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-8">
-                     {WHY_STUDENTS_CHOOSE.map((item, idx) => (
-                        <motion.div 
-                           key={idx}
-                           initial={{ opacity: 0, scale: 0.9 }}
-                           whileInView={{ opacity: 1, scale: 1 }}
-                           transition={{ delay: idx * 0.1 }}
-                           viewport={{ once: true }}
-                           className="flex flex-col items-center text-center group"
-                        >
-                           <div className="w-16 h-16 bg-blue-500/20 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 group-hover:bg-blue-500/30 transition-all duration-300 border border-blue-500/20">
-                              <div className="text-blue-400">{item.icon}</div>
-                           </div>
-                           <h3 className="text-sm font-black mb-2 uppercase tracking-tight leading-tight">{item.title}</h3>
-                           <p className="text-[10px] text-slate-400 font-medium uppercase tracking-widest">{item.desc}</p>
-                        </motion.div>
-                     ))}
+               <div className="text-left mb-16">
+                  <div className="inline-flex items-center px-4 py-2 rounded-full bg-blue-50 text-blue-600 text-[10px] font-black uppercase tracking-widest mb-6 border border-blue-100">
+                     Why Antechos India
                   </div>
-               </motion.div>
+                  <h2 className="text-4xl md:text-5xl font-black text-slate-900 leading-tight font-display">
+                     More Than Education. <br />
+                     <span className="text-blue-600">A Complete Career Ecosystem.</span>
+                  </h2>
+               </div>
+
+               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-6">
+                  {CAREER_ECOSYSTEM_DATA.map((item, idx) => (
+                     <motion.div
+                        key={idx}
+                        initial={{ opacity: 0, y: 20 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        transition={{ delay: idx * 0.1 }}
+                        viewport={{ once: true }}
+                        className="bg-white rounded-[2rem] p-6 md:p-8 border border-slate-100 shadow-sm hover:shadow-xl transition-all duration-500 text-center flex flex-col items-center group"
+                     >
+                        <div className="w-16 h-16 md:w-20 md:h-20 rounded-full bg-blue-50 flex items-center justify-center text-blue-600 mb-6 md:mb-8 border border-blue-100 group-hover:scale-110 transition-transform duration-500">
+                           {React.cloneElement(item.icon, { className: "w-8 h-8 md:w-10 md:h-10" })}
+                        </div>
+                        <h3 className="text-base md:text-lg font-black text-slate-900 mb-3 md:mb-4 leading-tight">{item.title}</h3>
+                        <p className="text-[10px] md:text-xs text-slate-500 font-medium leading-relaxed">{item.desc}</p>
+                     </motion.div>
+                  ))}
+               </div>
             </div>
          </section>
 
+         {/* 5. NEW: WHY CHOOSE ANTECHOS BAR (Image 2) */}
+         <section className="py-12 bg-white">
+            <div className="container mx-auto px-6">
+               <div className="bg-[#051129] rounded-[2rem] py-12 px-6 md:px-12 shadow-2xl relative overflow-hidden">
+                  <div className="relative z-10 text-center mb-12">
+                     <h2 className="text-2xl md:text-4xl font-black text-white font-display">
+                        Why Students Choose <span className="text-blue-600">Antechos</span>
+                     </h2>
+                  </div>
 
+                  <div className="relative z-10 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-6 md:gap-8">
+                     {[
+                        { title: "UGC Approved Universities", desc: "100% Recognized Degrees", icon: <ShieldCheck className="w-6 h-6" /> },
+                        { title: "Industry-Aligned Curriculum", desc: "Learn what companies actually need", icon: <BookOpen className="w-6 h-6" /> },
+                        { title: "Personalized Mentorship", desc: "One-on-one guidance at every step", icon: <Users className="w-6 h-6" /> },
+                        { title: "Placement Guarantee", desc: "Focused training for top career outcomes", icon: <Target className="w-6 h-6" /> },
+                        { title: "Easy EMI Options", desc: "Flexible payment plans for all", icon: <CreditCard className="w-6 h-6" /> }
+                     ].map((item, idx) => (
+                        <div key={idx} className="flex items-center gap-4 group">
+                           <div className="w-10 h-10 md:w-12 md:h-12 rounded-xl bg-blue-600 flex-shrink-0 flex items-center justify-center text-white shadow-lg group-hover:scale-110 transition-transform">
+                              {React.cloneElement(item.icon, { className: "w-5 h-5 md:w-6 md:h-6" })}
+                           </div>
+                           <div className="text-left">
+                              <h3 className="text-xs md:text-sm font-bold text-white leading-tight mb-1">{item.title}</h3>
+                              <p className="text-[9px] md:text-[10px] text-slate-400 font-medium leading-tight">{item.desc}</p>
+                           </div>
+                        </div>
+                     ))}
+                  </div>
+               </div>
+            </div>
+         </section>
 
-         {/* 5. STRATEGIC GUIDANCE SECTION -> IMPROVED CLARITY CONSULTATION (Image 2) */}
-         <section className="py-20 md:py-32 bg-[#050a14] relative overflow-hidden">
-            <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')] opacity-[0.05]"></div>
-            <div className="absolute top-1/4 left-0 w-96 h-96 bg-blue-600/10 rounded-full blur-[120px]"></div>
-            
+         {/* 6. NEW: CAREER JOURNEY PROCESS (Image 3) */}
+         <section className="py-24 bg-slate-50/50">
+            <div className="container mx-auto px-6">
+               <div className="grid grid-cols-1 lg:grid-cols-5 gap-6 lg:gap-4 relative">
+                  {CAREER_JOURNEY_STEPS.map((step, idx) => (
+                     <div key={idx} className="relative flex flex-col items-center">
+                        {/* Connecting Arrow (Desktop Only) */}
+                        {idx < CAREER_JOURNEY_STEPS.length - 1 && (
+                           <div className="hidden lg:block absolute top-12 -right-4 z-20">
+                              <ChevronRight className="w-6 h-6 text-blue-200" />
+                           </div>
+                        )}
+
+                        {/* Connecting Line (Mobile Only) */}
+                        {idx < CAREER_JOURNEY_STEPS.length - 1 && (
+                           <div className="lg:hidden absolute top-full left-1/2 -translate-x-1/2 h-6 w-0.5 bg-blue-100 z-0"></div>
+                        )}
+
+                        <motion.div
+                           initial={{ opacity: 0, y: 20 }}
+                           whileInView={{ opacity: 1, y: 0 }}
+                           transition={{ delay: idx * 0.1 }}
+                           viewport={{ once: true }}
+                           className="w-full bg-white rounded-[2rem] p-6 md:p-8 border border-slate-100 shadow-sm hover:shadow-xl transition-all duration-500 flex flex-col items-start min-h-[auto] lg:min-h-[320px] relative z-10"
+                        >
+                           <div className="flex items-center gap-4 mb-6 md:mb-8">
+                              <div className="w-8 h-8 rounded-full bg-blue-600 flex items-center justify-center text-white text-[10px] font-bold shadow-lg">
+                                 {step.id}
+                              </div>
+                              <div className="w-10 h-10 md:w-12 md:h-12 rounded-full bg-blue-50 flex items-center justify-center text-blue-600">
+                                 {React.cloneElement(step.icon, { className: "w-5 h-5 md:w-6 md:h-6" })}
+                              </div>
+                           </div>
+                           <h3 className="text-base md:text-lg font-black text-slate-900 mb-3 md:mb-4 leading-tight">{step.title}</h3>
+                           <p className="text-xs md:text-sm text-slate-500 font-medium leading-relaxed">{step.desc}</p>
+                        </motion.div>
+                     </div>
+                  ))}
+               </div>
+            </div>
+         </section>
+
+         {/* 7. NEW: CAREER SYSTEM SECTION (Image 5) */}
+         <section className="py-24 bg-white">
+            <div className="container mx-auto px-6">
+               <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center mb-16">
+                  <div className="lg:col-span-4 text-left">
+                     <h2 className="text-4xl md:text-5xl font-black text-slate-900 mb-6 leading-tight font-display">
+                        Not Just a Degree. <br />
+                        <span className="text-blue-600">A Career System.</span>
+                     </h2>
+                     <p className="text-slate-500 text-lg font-medium leading-relaxed">
+                        A proven 3-step process that turns your degree into a future-ready career.
+                     </p>
+                  </div>
+
+                  <div className="lg:col-span-8">
+                     <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+                        {CAREER_SYSTEM_STEPS.map((step, idx) => (
+                           <motion.div
+                              key={idx}
+                              initial={{ opacity: 0, y: 20 }}
+                              whileInView={{ opacity: 1, y: 0 }}
+                              transition={{ delay: idx * 0.1 }}
+                              viewport={{ once: true }}
+                              className="bg-white rounded-[2rem] overflow-hidden border border-slate-100 shadow-sm hover:shadow-xl transition-all duration-500 h-full flex flex-col"
+                           >
+                              <div className="p-6">
+                                 <div className="flex items-center gap-3 mb-6">
+                                    <div className="w-8 h-8 rounded-full bg-blue-600 flex items-center justify-center text-white text-[10px] font-bold">
+                                       {step.id}
+                                    </div>
+                                    <div className="w-10 h-10 rounded-full bg-blue-50 flex items-center justify-center text-blue-600">
+                                       {React.cloneElement(step.icon, { className: "w-5 h-5" })}
+                                    </div>
+                                 </div>
+                                 <h3 className="text-base md:text-lg font-black text-slate-900 mb-2">{step.title}</h3>
+                                 <p className="text-xs text-slate-500 font-medium mb-4">{step.desc}</p>
+                              </div>
+                              <div className="h-40 md:h-48 overflow-hidden mt-auto">
+                                 <img src={step.image} alt={step.title} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" />
+                              </div>
+                           </motion.div>
+                        ))}
+                     </div>
+                  </div>
+               </div>
+
+               {/* Formula Bar */}
+               <div className="bg-[#051129] rounded-[2rem] p-6 md:p-8 grid grid-cols-2 lg:grid-cols-5 items-center gap-6 md:gap-8">
+                  {[
+                     { label: "DEGREE", desc: "Build Foundation", icon: <GraduationCap className="w-5 h-5" /> },
+                     { label: "SKILLS", desc: "Build Your Edge", icon: <Zap className="w-5 h-5" /> },
+                     { label: "PLACEMENT", desc: "Build Your Future", icon: <Target className="w-5 h-5" /> }
+                  ].map((item, idx) => (
+                     <React.Fragment key={idx}>
+                        <div className="flex items-center gap-3 md:gap-4">
+                           <div className="w-10 h-10 md:w-12 md:h-12 rounded-full bg-blue-600 flex items-center justify-center text-white shadow-lg shrink-0">
+                              {item.icon}
+                           </div>
+                           <div className="text-left">
+                              <p className="text-[10px] font-black text-white tracking-widest leading-none mb-1">{item.label}</p>
+                              <p className="text-[8px] md:text-[10px] text-slate-400 font-medium leading-none">{item.desc}</p>
+                           </div>
+                        </div>
+                        {idx < 2 && <span className="hidden lg:block text-white text-2xl font-bold ml-auto">+</span>}
+                     </React.Fragment>
+                  ))}
+                  <div className="flex items-center lg:justify-center">
+                     <span className="hidden lg:block text-white text-2xl font-bold mr-8">=</span>
+                     <div className="text-left border-l border-white/10 pl-6 md:pl-8">
+                        <p className="text-[10px] font-black text-white tracking-widest mb-1 leading-none uppercase">Guaranteed</p>
+                        <p className="text-lg md:text-xl font-black text-orange-500 tracking-tight leading-none uppercase">Direction</p>
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </section>
+
+         {/* 8. NEW: CLARITY CONSULTATION (Image 4) */}
+         <section className="py-20 bg-[#051129] relative overflow-hidden">
             <div className="container mx-auto px-6 relative z-10">
-               <div className="grid grid-cols-1 lg:grid-cols-12 items-center gap-12 lg:gap-8">
-                  
+               <div className="grid grid-cols-1 lg:grid-cols-12 items-center gap-12 lg:gap-16">
+
                   {/* Left Content: Text & Social Proof */}
-                  <div className="lg:col-span-5 text-left">
-                     <motion.h2 
+                  <div className="lg:col-span-6 text-left">
+                     <motion.h2
                         initial={{ opacity: 0, x: -30 }}
                         whileInView={{ opacity: 1, x: 0 }}
                         viewport={{ once: true }}
-                        className="text-4xl md:text-5xl lg:text-6xl font-black text-white mb-8 leading-[1.1] tracking-tighter font-display"
+                        className="text-3xl md:text-5xl lg:text-7xl font-black text-white mb-8 md:mb-12 leading-[1.1] tracking-tighter font-display"
                      >
-                        Stop Guessing Your <br /> 
-                        Career Path. <br />
-                        <span className="text-blue-500">Get Clarity Today.</span>
+                        Stop Guessing Your <br className="hidden md:block" />
+                        Career Path. <br className="hidden md:block" />
+                        Get <span className="text-orange-500">Clarity</span> Today.
                      </motion.h2>
 
-                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 mb-12">
+                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 md:gap-6 mb-12">
                         {[
                            { label: "1:1 Expert Consultation", icon: <Users className="w-5 h-5" /> },
-                           { label: "Personalized Career Roadmap", icon: <TrendingUp className="w-5 h-5" /> },
+                           { label: "Personalized Roadmap", icon: <TrendingUp className="w-5 h-5" /> },
                            { label: "Right Skills. Right Opportunities.", icon: <ShieldCheck className="w-5 h-5" /> },
                            { label: "100% Free Guidance", icon: <Star className="w-5 h-5" /> }
                         ].map((item, idx) => (
-                           <motion.div 
+                           <motion.div
                               key={idx}
                               initial={{ opacity: 0, y: 10 }}
                               whileInView={{ opacity: 1, y: 0 }}
@@ -946,139 +1090,63 @@ const UniversityPageNew = () => {
                               viewport={{ once: true }}
                               className="flex items-center gap-3 group"
                            >
-                              <div className="w-10 h-10 rounded-xl bg-blue-500/10 flex items-center justify-center text-blue-500 border border-blue-500/20 group-hover:bg-blue-500 group-hover:text-white transition-all duration-300">
-                                 {item.icon}
+                              <div className="w-8 h-8 md:w-10 md:h-10 rounded-xl bg-white/10 flex items-center justify-center text-white border border-white/20">
+                                 {React.cloneElement(item.icon, { className: "w-4 h-4 md:w-5 md:h-5" })}
                               </div>
-                              <span className="text-xs font-bold text-slate-300 uppercase tracking-tight">{item.label}</span>
+                              <span className="text-[10px] md:text-xs font-bold text-slate-300 uppercase tracking-tight">{item.label}</span>
                            </motion.div>
                         ))}
                      </div>
+                  </div>
 
-                     <div className="flex items-center gap-4 p-5 rounded-2xl bg-white/5 border border-white/10 backdrop-blur-md max-w-sm">
-                        <div className="flex -space-x-3">
-                           {[1,2,3,4].map(i => (
-                              <div key={i} className="w-10 h-10 rounded-full border-2 border-[#050a14] overflow-hidden">
-                                 <img src={`https://i.pravatar.cc/100?img=${i+10}`} alt="user" className="w-full h-full object-cover" />
-                              </div>
-                           ))}
+                  {/* Right Form & Image */}
+                  <div className="lg:col-span-6 flex flex-col md:flex-row items-center gap-8 relative">
+                     <motion.div
+                        initial={{ opacity: 0, y: 30 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true }}
+                        className="w-full max-w-md bg-white rounded-[2rem] p-8 shadow-2xl relative z-10"
+                     >
+                        <h3 className="text-xl font-bold text-slate-900 mb-2">Book Your Free Career Consultation</h3>
+                        <p className="text-slate-500 text-xs mb-6">Limited slots per day. Hurry!</p>
+
+                        <div className="space-y-4">
+                           <input type="text" placeholder="Your Name" className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-orange-500/20 text-sm" />
+                           <input type="text" placeholder="Mobile Number" className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-orange-500/20 text-sm" />
+                           <select className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-orange-500/20 text-sm text-slate-500 bg-white">
+                              <option>Select Your Interest</option>
+                              <option>MBA</option>
+                              <option>MCA</option>
+                           </select>
+                           <button className="w-full bg-orange-500 hover:bg-orange-600 text-white font-bold py-4 rounded-xl flex items-center justify-center gap-2 transition-all shadow-lg shadow-orange-500/25 group">
+                              Book Free Slot Now <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                           </button>
                         </div>
-                        <div>
-                           <p className="text-white font-black text-lg leading-none mb-1">50,000+</p>
-                           <p className="text-slate-500 text-[9px] font-bold uppercase tracking-widest leading-none">Guided Successfully</p>
-                        </div>
+                     </motion.div>
+
+                     {/* Consultant Image */}
+                     <div className="hidden lg:block absolute -right-24 bottom-0 w-[450px] z-0">
+                        <img src={consultantImg} alt="Career Consultant" className="w-full h-auto" />
                      </div>
                   </div>
-
-                  {/* Center: Consultant Image (Desktop Only) */}
-                  <div className="lg:col-span-3 relative flex items-end justify-center self-end hidden lg:flex h-full min-h-[450px]">
-                     <motion.div 
-                        initial={{ opacity: 0, scale: 0.9, y: 30 }}
-                        whileInView={{ opacity: 1, scale: 1, y: 0 }}
-                        transition={{ duration: 0.8, ease: "easeOut" }}
-                        viewport={{ once: true }}
-                        className="relative z-10 w-full"
-                     >
-                        <img 
-                           src={consultantImg} 
-                           alt="Career Consultant" 
-                           className="w-full h-auto drop-shadow-[0_20px_50px_rgba(37,99,235,0.3)] z-10 relative" 
-                        />
-                        {/* Gradient Fade to Blend Bottom */}
-                        <div className="absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-[#050a14] to-transparent z-20"></div>
-                        
-                        {/* Verified Badge */}
-                        <motion.div 
-                           animate={{ y: [0, -10, 0] }}
-                           transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
-                           className="absolute top-1/4 -right-4 bg-white/10 backdrop-blur-xl border border-white/20 p-3 rounded-2xl z-30 shadow-2xl"
-                        >
-                           <div className="flex items-center gap-2">
-                              <div className="w-6 h-6 rounded-full bg-blue-600 flex items-center justify-center">
-                                 <ShieldCheck className="w-3.5 h-3.5 text-white" />
-                              </div>
-                              <span className="text-[10px] font-black text-white uppercase tracking-widest">Verified Expert</span>
-                           </div>
-                        </motion.div>
-                     </motion.div>
-                  </div>
-
-                  {/* Right Form */}
-                  <div className="lg:col-span-4 relative">
-                     <motion.div 
-                        initial={{ opacity: 0, x: 30 }}
-                        whileInView={{ opacity: 1, x: 0 }}
-                        viewport={{ once: true }}
-                        className="relative z-20"
-                     >
-                        <EnquiryPopup isInline={true} />
-                     </motion.div>
-                     
-                     {/* Mobile Image removed as requested */}
-                  </div>
                </div>
-            </div>
 
-            {/* Bottom Trust Bar (Image 2 bottom) */}
-            <div className="mt-20 md:mt-32 w-full bg-white/5 border-y border-white/10 py-8 relative z-10">
-               <div className="container mx-auto px-6">
-                  <div className="flex flex-wrap justify-center md:justify-between items-center gap-8 md:gap-4 opacity-70">
-                     {[
-                        { label: "UGC Approved & Recognized", icon: <ShieldCheck className="w-6 h-6" /> },
-                        { label: "NAAC A+ Universities", icon: <Award className="w-6 h-6" /> },
-                        { label: "100% Secure Admission Process", icon: <ShieldCheck className="w-6 h-6" /> },
-                        { label: "Easy EMI Options Available", icon: <CreditCard className="w-6 h-6" /> },
-                        { label: "24/7 Student Support", icon: <Headphones className="w-6 h-6" /> }
-                     ].map((item, idx) => (
-                        <div key={idx} className="flex items-center gap-3 text-white">
-                           <div className="text-blue-500">{item.icon}</div>
-                           <span className="text-[10px] font-black uppercase tracking-widest">{item.label}</span>
+               {/* Bottom Trust Bar */}
+               <div className="mt-16 md:mt-20 pt-10 md:pt-12 border-t border-white/10 grid grid-cols-2 md:grid-cols-5 gap-6 md:gap-8">
+                  {[
+                     { label: "UGC Approved & Recognized", icon: <ShieldCheck className="w-5 h-5 text-white" /> },
+                     { label: "NAAC A+ Universities", icon: <Award className="w-5 h-5 text-white" /> },
+                     { label: "100% Secure Process", icon: <ShieldCheck className="w-5 h-5 text-white" /> },
+                     { label: "Easy EMI Options", icon: <CreditCard className="w-5 h-5 text-white" /> },
+                     { label: "24/7 Student Support", icon: <Headphones className="w-5 h-5 text-white" /> }
+                  ].map((item, idx) => (
+                     <div key={idx} className="flex items-center gap-2 md:gap-3">
+                        <div className="w-7 h-7 md:w-8 md:h-8 rounded-full bg-white/10 flex items-center justify-center border border-white/20 shrink-0">
+                           {React.cloneElement(item.icon, { className: "w-4 h-4 md:w-5 md:h-5" })}
                         </div>
-                     ))}
-                  </div>
-               </div>
-            </div>
-         </section>
-
-         {/* NEW: CAREER JOURNEY PROCESS (Image 3) */}
-         <section className="py-24 bg-white relative overflow-hidden">
-            <div className="container mx-auto px-6">
-               <div className="text-center mb-20">
-                  <SectionLabel icon={Rocket}>Your Path to Success</SectionLabel>
-                  <h2 className="text-3xl md:text-5xl font-black text-slate-900 tracking-tighter uppercase font-display">How It <span className="text-blue-600">Works</span></h2>
-               </div>
-
-               <div className="relative">
-                  {/* Connection Line */}
-                  <div className="absolute top-1/2 left-0 w-full h-0.5 bg-blue-100 -translate-y-1/2 hidden lg:block"></div>
-                  
-                  <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-8 relative z-10">
-                     {CAREER_JOURNEY_STEPS.map((step, idx) => (
-                        <motion.div 
-                           key={idx}
-                           initial={{ opacity: 0, y: 20 }}
-                           whileInView={{ opacity: 1, y: 0 }}
-                           transition={{ delay: idx * 0.15 }}
-                           viewport={{ once: true }}
-                           className="bg-white rounded-3xl p-8 shadow-[0_20px_50px_rgba(0,0,0,0.04)] border border-slate-100 relative group hover:shadow-2xl transition-all duration-500"
-                        >
-                           <div className="absolute -top-4 -left-4 w-12 h-12 bg-blue-600 text-white rounded-full flex items-center justify-center font-black text-sm shadow-lg group-hover:scale-110 transition-transform">
-                              {step.id}
-                           </div>
-                           
-                           <div className="w-16 h-16 bg-blue-50 rounded-2xl flex items-center justify-center mb-6 text-blue-600 group-hover:bg-blue-600 group-hover:text-white transition-all duration-500">
-                              {step.icon}
-                           </div>
-                           
-                           <h3 className="text-lg font-black text-slate-900 mb-4 font-display uppercase leading-tight group-hover:text-blue-600 transition-colors">{step.title}</h3>
-                           <p className="text-xs text-slate-500 font-medium leading-relaxed">{step.desc}</p>
-
-                           {/* Connector Arrow (Mobile/Tablet) */}
-                           <div className="absolute top-1/2 -right-4 -translate-y-1/2 text-blue-200 hidden lg:group-last:hidden lg:block">
-                              <ChevronRight className="w-8 h-8" />
-                           </div>
-                        </motion.div>
-                     ))}
-                  </div>
+                        <span className="text-[8px] md:text-[9px] lg:text-[10px] font-black text-white uppercase tracking-widest leading-tight">{item.label}</span>
+                     </div>
+                  ))}
                </div>
             </div>
          </section>
@@ -1585,96 +1653,9 @@ const UniversityPageNew = () => {
                   </button>
                </div>
             </div>
-
-            {/* Subtle background ornamentation */}
-            <div className="absolute -bottom-24 left-0 w-72 md:w-96 h-72 md:h-96 bg-blue-50/50 rounded-full blur-3xl pointer-events-none"></div>
          </section>
 
-         {/* NEW: CAREER SYSTEM (Image 4) */}
-         <section className="py-24 bg-slate-50 relative overflow-hidden">
-            <div className="container mx-auto px-6">
-               <div className="flex flex-col lg:flex-row items-center gap-16 mb-20">
-                  <div className="lg:w-1/3 text-left">
-                     <h2 className="text-4xl md:text-5xl font-black text-slate-900 mb-6 leading-tight font-display uppercase tracking-tighter">
-                        Not Just a Degree. <br />
-                        <span className="text-blue-600">A Career System.</span>
-                     </h2>
-                     <p className="text-slate-500 font-medium text-lg leading-relaxed">
-                        A proven 3-step process that turns your degree into a future-ready career.
-                     </p>
-                  </div>
-                  
-                  <div className="lg:w-2/3 grid grid-cols-1 md:grid-cols-3 gap-8">
-                     {CAREER_SYSTEM_STEPS.map((step, idx) => (
-                        <motion.div 
-                           key={idx}
-                           initial={{ opacity: 0, y: 30 }}
-                           whileInView={{ opacity: 1, y: 0 }}
-                           transition={{ delay: idx * 0.2 }}
-                           viewport={{ once: true }}
-                           className="bg-white rounded-[2rem] overflow-hidden shadow-xl group border border-slate-100 flex flex-col"
-                        >
-                           <div className="p-8 pb-4">
-                              <div className="flex items-center gap-4 mb-6">
-                                 <div className="w-10 h-10 bg-blue-600 text-white rounded-full flex items-center justify-center font-black text-xs">
-                                    {step.id}
-                                 </div>
-                                 <div className="text-blue-600">{step.icon}</div>
-                              </div>
-                              <h3 className="text-xl font-black text-slate-900 mb-3 font-display uppercase">{step.title}</h3>
-                              <p className="text-xs text-slate-500 font-medium leading-relaxed mb-6">{step.desc}</p>
-                           </div>
-                           
-                           <div className="mt-auto overflow-hidden h-48">
-                              <img src={step.image} alt={step.title} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" />
-                           </div>
-                        </motion.div>
-                     ))}
-                  </div>
-               </div>
 
-               {/* Summary Bar (Image 4 bottom) */}
-               <div className="bg-[#0b1b3d] rounded-[2rem] p-6 md:p-8 text-white flex flex-col md:flex-row items-center justify-between gap-8">
-                  <div className="flex items-center gap-4">
-                     <div className="w-12 h-12 bg-white/10 rounded-xl flex items-center justify-center">
-                        <GraduationCap className="w-6 h-6 text-blue-400" />
-                     </div>
-                     <div className="text-left">
-                        <p className="text-[10px] font-black uppercase tracking-widest text-slate-400">Step 01</p>
-                        <p className="font-black text-sm uppercase">Degree</p>
-                        <p className="text-[9px] text-slate-400 uppercase tracking-widest">Build Your Foundation</p>
-                     </div>
-                  </div>
-                  <div className="text-blue-400 font-black text-xl">+</div>
-                  <div className="flex items-center gap-4">
-                     <div className="w-12 h-12 bg-white/10 rounded-xl flex items-center justify-center">
-                        <Activity className="w-6 h-6 text-blue-400" />
-                     </div>
-                     <div className="text-left">
-                        <p className="text-[10px] font-black uppercase tracking-widest text-slate-400">Step 02</p>
-                        <p className="font-black text-sm uppercase">Skills</p>
-                        <p className="text-[9px] text-slate-400 uppercase tracking-widest">Build Your Edge</p>
-                     </div>
-                  </div>
-                  <div className="text-blue-400 font-black text-xl">=</div>
-                  <div className="flex items-center gap-4">
-                     <div className="w-12 h-12 bg-blue-600 rounded-xl flex items-center justify-center">
-                        <Target className="w-6 h-6 text-white" />
-                     </div>
-                     <div className="text-left">
-                        <p className="text-[10px] font-black uppercase tracking-widest text-slate-400">Step 03</p>
-                        <p className="font-black text-sm uppercase">Placement</p>
-                        <p className="text-[9px] text-slate-400 uppercase tracking-widest">Build Your Future</p>
-                     </div>
-                  </div>
-                  <div className="hidden md:block h-12 w-0.5 bg-white/10"></div>
-                  <div className="text-right">
-                     <p className="text-[10px] font-black uppercase tracking-[0.3em] text-blue-400 mb-1">Guaranteed</p>
-                     <p className="text-xl font-black uppercase tracking-tighter">Direction</p>
-                  </div>
-               </div>
-            </div>
-         </section>
 
 
 
@@ -2308,7 +2289,7 @@ const UniversityPageNew = () => {
 
                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-6">
                   {CAREER_ECOSYSTEM_DATA.map((item, idx) => (
-                     <motion.div 
+                     <motion.div
                         key={idx}
                         initial={{ opacity: 0, scale: 0.95 }}
                         whileInView={{ opacity: 1, scale: 1 }}

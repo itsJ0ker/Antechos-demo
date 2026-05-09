@@ -53,7 +53,7 @@ const Marketplace = () => {
                 </div>
 
                 <h1 className="text-5xl lg:text-6xl font-bold mb-6 leading-tight">
-                  <span className="bg-gradient-to-r from-blue-400 to-indigo-400 bg-clip-text text-transparent">
+                  <span className="text-blue-500">
                     Transform
                   </span>
                   <br />
@@ -108,7 +108,7 @@ const Marketplace = () => {
             Our Services
           </div>
           <h2 className="text-4xl font-bold text-white mb-4">
-            Comprehensive <span className="bg-gradient-to-r from-blue-400 to-indigo-400 bg-clip-text text-transparent">Solutions</span>
+            Comprehensive <span className="text-blue-500">Solutions</span>
           </h2>
           <p className="text-xl text-gray-400 max-w-2xl mx-auto">
             Tailored services designed to accelerate your business growth
@@ -136,7 +136,7 @@ const Marketplace = () => {
               {service.price_starting > 0 && (
                 <div className="mb-6 pb-6 border-b border-gray-700">
                   <span className="text-xs text-gray-500 uppercase tracking-wide">Starting at</span>
-                  <p className="text-3xl font-bold bg-gradient-to-r from-green-400 to-emerald-400 bg-clip-text text-transparent">
+                  <p className="text-3xl font-bold text-green-500">
                     ₹{service.price_starting.toLocaleString()}
                   </p>
                 </div>
@@ -161,7 +161,7 @@ const Marketplace = () => {
               Why Choose Us
             </div>
             <h2 className="text-4xl font-bold text-gray-900 mb-4">
-              Excellence in <span className="bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">Every Project</span>
+              Excellence in <span className="text-blue-600">Every Project</span>
             </h2>
             <p className="text-xl text-gray-600 max-w-2xl mx-auto">
               We combine expertise, quality, and dedication to deliver outstanding results

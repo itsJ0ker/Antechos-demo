@@ -800,7 +800,7 @@ const MarketplaceRedesign = () => {
               viewport={{ once: true }}
             >
               <h2 className="text-4xl md:text-5xl font-bold text-white mb-4">
-                Our <span className="bg-gradient-to-r from-purple-400 to-blue-400 bg-clip-text text-transparent">Impact</span> in Numbers
+                Our <span className="text-blue-500">Impact</span> in Numbers
               </h2>
               <p className="text-xl text-gray-300 max-w-3xl mx-auto leading-relaxed">
                 Measurable results that showcase our commitment to excellence and innovation

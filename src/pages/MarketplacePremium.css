@@ -160,11 +160,7 @@
 
 /* ── Gradient Text ── */
 .mp-gradient-text {
-  background: linear-gradient(135deg, var(--mp-violet-400) 0%, var(--mp-electric) 50%, var(--mp-cyan) 100%);
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
-  filter: drop-shadow(0 2px 4px rgba(124, 58, 237, 0.1));
+  color: var(--mp-violet-400);
 }
 
 /* ── Keyframes ── */

@@ -115,10 +115,7 @@
 
 /* ── Typography ── */
 .v2-gradient-text {
-  background: var(--v2-primary-gradient);
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
+  color: var(--v2-accent);
 }
 
 .v2-heading {
