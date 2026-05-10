@@ -23,6 +23,10 @@ import TestSpecializations from "./pages/TestSpecializations";
 import IndustryTrainer from "./components/sections/Industrytrainer";
 import SkilledWorkforce from "./components/sections/SkilledWorkforce";
 import FullStackTeams from "./components/sections/FullStackTeams";
+import CoursesNewV2 from "./pages/CoursesNewV2";
+import PremiumCourseDetail from "./pages/PremiumCourseDetail";
+import CoursesPremium from "./pages/CoursesPremium";
+import CoursePremiumDetail from "./pages/CoursePremiumDetail";
 import ScrollToTop from "./components/Layout/ScrollToTop";
 import EnquiryPopup from "./components/sections/PopupForm";
 import LiveChatWidget from "./components/common/LiveChatWidget";
@@ -107,6 +111,10 @@ const AppContent = () => {
           <Route path="/marketplace-redesign" element={<MarketplaceRedesign />} />
           <Route path="/marketplace-premium" element={<MarketplacePremium />} />
           <Route path="/Courses" element={<Courses />} />
+          <Route path="/courses-new" element={<CoursesNewV2 />} />
+          <Route path="/courses-new/:id" element={<PremiumCourseDetail />} />
+          <Route path="/courses-premium" element={<CoursesPremium />} />
+          <Route path="/courses-premium/:slug" element={<CoursePremiumDetail />} />
           <Route path="/Universities-mainbutnotinusenow" element={<UniversityPage />} />{/*maim*/}
           <Route path="/universities" element={<UniversityPageNew />} />
           <Route path="/trainer/:id" element={<TrainerProfile />} />
