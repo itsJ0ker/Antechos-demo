@@ -884,7 +884,7 @@ const UniversityPageNew = () => {
                   </h2>
                </div>
 
-               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
+               <div className="grid grid-cols-5 gap-1.5 sm:gap-4 lg:gap-6">
                   {CAREER_ECOSYSTEM_DATA.map((item, idx) => (
                      <motion.div
                         key={idx}
@@ -892,14 +892,14 @@ const UniversityPageNew = () => {
                         whileInView={{ opacity: 1, y: 0 }}
                         transition={{ delay: idx * 0.1 }}
                         viewport={{ once: true }}
-                        className="bg-white rounded-3xl p-8 border border-slate-100 shadow-sm hover:shadow-xl transition-all duration-500 text-center flex flex-col items-center group"
+                        className="bg-white rounded-xl md:rounded-3xl p-2 md:p-8 border border-slate-100 shadow-sm hover:shadow-xl transition-all duration-500 text-center flex flex-col items-center group"
                      >
-                        <div className="w-20 h-20 rounded-full bg-blue-50 flex items-center justify-center text-blue-600 mb-8 border border-blue-100/50 group-hover:scale-110 transition-transform duration-500 relative">
+                        <div className="w-8 h-8 md:w-16 md:h-20 rounded-full bg-blue-50 flex items-center justify-center text-blue-600 mb-2 md:mb-8 border border-blue-100/50 group-hover:scale-110 transition-transform duration-500 relative">
                            <div className="absolute inset-0 bg-blue-400/10 rounded-full blur-xl opacity-0 group-hover:opacity-100 transition-opacity"></div>
-                           {React.cloneElement(item.icon, { className: "w-10 h-10 relative z-10" })}
+                           {React.cloneElement(item.icon, { className: "w-4 h-4 md:w-8 md:h-10 relative z-10" })}
                         </div>
-                        <h3 className="text-lg font-black text-slate-900 mb-4 leading-tight group-hover:text-blue-600 transition-colors">{item.title}</h3>
-                        <p className="text-xs text-slate-500 font-medium leading-relaxed">{item.desc}</p>
+                        <h3 className="text-[7px] md:text-sm lg:text-lg font-black text-slate-900 mb-1 md:mb-4 leading-tight group-hover:text-blue-600 transition-colors">{item.title}</h3>
+                        <p className="hidden md:block text-xs text-slate-500 font-medium leading-relaxed">{item.desc}</p>
                      </motion.div>
                   ))}
                </div>
@@ -916,25 +916,25 @@ const UniversityPageNew = () => {
                      </h2>
                   </div>
 
-                  <div className="relative z-10 flex flex-wrap lg:flex-nowrap items-center justify-between gap-6">
+                  <div className="relative z-10 flex flex-nowrap items-center justify-between gap-1 md:gap-6">
                      {[
-                        { title: "UGC Approved Universities", desc: "100% Recognized Degrees", icon: <ShieldCheck className="w-6 h-6" /> },
-                        { title: "Industry-Aligned Curriculum", desc: "Learn what companies actually need", icon: <BookOpen className="w-6 h-6" /> },
-                        { title: "Personalized Mentorship", desc: "One-on-one guidance at every step", icon: <Users className="w-6 h-6" /> },
-                        { title: "Placement Guarantee", desc: "Focused training for top career outcomes", icon: <Target className="w-6 h-6" /> },
-                        { title: "Easy EMI Options", desc: "Flexible payment plans for all", icon: <CreditCard className="w-6 h-6" /> }
+                        { title: "UGC Approved", desc: "100% Recognized Degrees", icon: <ShieldCheck className="w-6 h-6" /> },
+                        { title: "Industry-Aligned", desc: "Learn what companies actually need", icon: <BookOpen className="w-6 h-6" /> },
+                        { title: "Expert Mentor", desc: "One-on-one guidance at every step", icon: <Users className="w-6 h-6" /> },
+                        { title: "Career Outcome", desc: "Focused training for top career outcomes", icon: <Target className="w-6 h-6" /> },
+                        { title: "EMI Options", desc: "Flexible payment plans for all", icon: <CreditCard className="w-6 h-6" /> }
                      ].map((item, idx) => (
                         <React.Fragment key={idx}>
-                           <div className="flex items-center gap-4 group flex-1 min-w-[200px]">
-                              <div className="w-12 h-12 rounded-xl bg-blue-600/20 flex-shrink-0 flex items-center justify-center text-blue-500 border border-blue-500/20 group-hover:bg-blue-600 group-hover:text-white transition-all duration-300">
-                                 {React.cloneElement(item.icon, { className: "w-6 h-6" })}
+                           <div className="flex flex-col md:flex-row items-center gap-1 md:gap-4 group flex-1">
+                              <div className="w-6 h-6 md:w-12 md:h-12 rounded-lg md:rounded-xl bg-blue-600/20 flex-shrink-0 flex items-center justify-center text-blue-500 border border-blue-500/20 group-hover:bg-blue-600 group-hover:text-white transition-all duration-300">
+                                 {React.cloneElement(item.icon, { className: "w-3 h-3 md:w-6 md:h-6" })}
                               </div>
-                              <div className="text-left">
-                                 <h3 className="text-sm font-bold text-white leading-tight mb-1">{item.title}</h3>
-                                 <p className="text-[10px] text-slate-400 font-medium leading-tight">{item.desc}</p>
+                              <div className="text-center md:text-left">
+                                 <h3 className="text-[6px] md:text-sm font-bold text-white leading-tight">{item.title}</h3>
+                                 <p className="hidden md:block text-[10px] text-slate-400 font-medium leading-tight mt-1">{item.desc}</p>
                               </div>
                            </div>
-                           {idx < 4 && <div className="hidden lg:block w-px h-12 bg-white/10 mx-2"></div>}
+                           {idx < 4 && <div className="hidden lg:block w-px h-12 bg-white/10 mx-2 shrink-0"></div>}
                         </React.Fragment>
                      ))}
                   </div>
@@ -945,14 +945,14 @@ const UniversityPageNew = () => {
          {/* 6. CAREER JOURNEY PROCESS (Image 1) */}
          <section className="py-24 bg-slate-50/50">
             <div className="container mx-auto px-6">
-               <div className="grid grid-cols-1 lg:grid-cols-5 gap-6 relative">
+               <div className="grid grid-cols-5 gap-1.5 sm:gap-6 relative">
                   {CAREER_JOURNEY_STEPS.map((step, idx) => (
                      <div key={idx} className="relative">
-                        {/* Connecting Dashed Arrow (Desktop Only) */}
+                        {/* Connecting Dashed Arrow (Scales with screen) */}
                         {idx < CAREER_JOURNEY_STEPS.length - 1 && (
-                           <div className="hidden lg:block absolute top-1/3 -right-8 z-20 w-16 h-px border-t-2 border-dashed border-blue-200">
-                              <div className="absolute right-0 -top-1">
-                                 <ChevronRight className="w-3 h-3 text-blue-200" />
+                           <div className="absolute top-[20%] md:top-1/3 -right-2 sm:-right-4 md:-right-8 z-20 w-3 sm:w-8 md:w-16 h-px border-t-[1px] md:border-t-2 border-dashed border-blue-200">
+                              <div className="absolute right-0 -top-0.5 md:-top-1">
+                                 <ChevronRight className="w-1.5 h-1.5 md:w-3 md:h-3 text-blue-200" />
                               </div>
                            </div>
                         )}
@@ -962,19 +962,19 @@ const UniversityPageNew = () => {
                            whileInView={{ opacity: 1, y: 0 }}
                            transition={{ delay: idx * 0.1 }}
                            viewport={{ once: true }}
-                           className="bg-white rounded-3xl p-8 border border-slate-100 shadow-sm hover:shadow-xl transition-all duration-500 flex flex-col items-center text-center relative z-10 group h-full"
+                           className="bg-white rounded-lg md:rounded-3xl p-1.5 md:p-8 border border-slate-100 shadow-sm hover:shadow-xl transition-all duration-500 flex flex-col items-center text-center relative z-10 group h-full"
                         >
                            {/* Step Number Badge */}
-                           <div className="absolute top-4 left-4 w-10 h-10 rounded-full bg-blue-600 flex items-center justify-center text-white text-xs font-black shadow-lg z-20">
+                           <div className="absolute top-1 left-1 md:top-4 md:left-4 w-4 h-4 md:w-10 md:h-10 rounded-full bg-blue-600 flex items-center justify-center text-white text-[6px] md:text-xs font-black shadow-lg z-20">
                               {step.id}
                            </div>
 
-                           <div className="w-24 h-24 rounded-full bg-blue-50 flex items-center justify-center text-blue-600 mb-8 border border-blue-100 group-hover:scale-110 transition-transform duration-500">
-                              {React.cloneElement(step.icon, { className: "w-10 h-10" })}
+                           <div className="w-6 h-6 md:w-20 md:h-24 rounded-full bg-blue-50 flex items-center justify-center text-blue-600 mb-1.5 md:mb-8 border border-blue-100 group-hover:scale-110 transition-transform duration-500">
+                              {React.cloneElement(step.icon, { className: "w-3 h-3 md:w-10 md:h-10" })}
                            </div>
                            
-                           <h3 className="text-xl font-black text-slate-900 mb-4 leading-tight">{step.title}</h3>
-                           <p className="text-xs text-slate-500 font-medium leading-relaxed">{step.desc}</p>
+                           <h3 className="text-[7px] md:text-sm lg:text-xl font-black text-slate-900 leading-tight md:mb-4">{step.title}</h3>
+                           <p className="hidden md:block text-xs text-slate-500 font-medium leading-relaxed">{step.desc}</p>
                         </motion.div>
                      </div>
                   ))}
@@ -997,13 +997,13 @@ const UniversityPageNew = () => {
                   </div>
 
                   <div className="lg:col-span-8">
-                     <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8 relative">
+                     <div className="grid grid-cols-3 gap-2 sm:gap-8 relative">
                         {CAREER_SYSTEM_STEPS.map((step, idx) => (
                            <div key={idx} className="relative">
                               {/* Connecting Arrow */}
                               {idx < CAREER_SYSTEM_STEPS.length - 1 && (
-                                 <div className="hidden md:block absolute top-1/2 -right-6 -translate-y-1/2 z-20">
-                                    <ArrowRight className="w-6 h-6 text-blue-200" />
+                                 <div className="absolute top-1/2 -right-1 sm:-right-4 md:-right-6 -translate-y-1/2 z-20">
+                                    <ArrowRight className="w-3 h-3 md:w-6 md:h-6 text-blue-200" />
                                  </div>
                               )}
                               <motion.div
@@ -1011,21 +1011,21 @@ const UniversityPageNew = () => {
                                  whileInView={{ opacity: 1, y: 0 }}
                                  transition={{ delay: idx * 0.1 }}
                                  viewport={{ once: true }}
-                                 className="bg-white rounded-3xl overflow-hidden border border-slate-100 shadow-sm hover:shadow-xl transition-all duration-500 h-full flex flex-col group"
+                                 className="bg-white rounded-lg md:rounded-3xl overflow-hidden border border-slate-100 shadow-sm hover:shadow-xl transition-all duration-500 h-full flex flex-col group"
                               >
-                                 <div className="p-8">
-                                    <div className="flex items-center gap-4 mb-6">
-                                       <div className="w-10 h-10 rounded-full bg-blue-600 flex items-center justify-center text-white text-xs font-black shadow-lg">
+                                 <div className="p-2 md:p-8">
+                                    <div className="flex items-center gap-1.5 md:gap-4 mb-2 md:mb-6">
+                                       <div className="w-5 h-5 md:w-10 md:h-10 rounded-full bg-blue-600 flex items-center justify-center text-white text-[6px] md:text-xs font-black shadow-lg">
                                           {step.id}
                                        </div>
-                                       <div className="w-12 h-12 rounded-full bg-blue-50 flex items-center justify-center text-blue-600">
-                                          {React.cloneElement(step.icon, { className: "w-6 h-6" })}
+                                       <div className="w-6 h-6 md:w-12 md:h-12 rounded-full bg-blue-50 flex items-center justify-center text-blue-600">
+                                          {React.cloneElement(step.icon, { className: "w-3 h-3 md:w-6 md:h-6" })}
                                        </div>
                                     </div>
-                                    <h3 className="text-xl font-black text-slate-900 mb-3">{step.title}</h3>
-                                    <p className="text-xs text-slate-500 font-medium mb-6">{step.desc}</p>
+                                    <h3 className="text-[8px] md:text-xl font-black text-slate-900 leading-tight md:mb-3">{step.title}</h3>
+                                    <p className="hidden md:block text-xs text-slate-500 font-medium mb-6">{step.desc}</p>
                                  </div>
-                                 <div className="h-48 overflow-hidden mt-auto">
+                                 <div className="h-12 sm:h-24 md:h-48 overflow-hidden mt-auto">
                                     <img src={step.image} alt={step.title} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" />
                                  </div>
                               </motion.div>
@@ -1036,33 +1036,33 @@ const UniversityPageNew = () => {
                </div>
 
                {/* Formula Strip */}
-               <div className="bg-[#051129] rounded-3xl p-6 md:p-8 flex flex-wrap lg:flex-nowrap items-center justify-between gap-8 md:gap-12 shadow-2xl">
-                  <div className="flex flex-wrap lg:flex-nowrap items-center gap-8 md:gap-12 flex-grow">
+               <div className="bg-[#051129] rounded-xl md:rounded-3xl p-3 md:p-8 flex flex-nowrap items-center justify-between gap-2 md:gap-12 shadow-2xl">
+                  <div className="flex flex-nowrap items-center gap-2 md:gap-12 flex-grow">
                      {[
-                        { label: "DEGREE", desc: "Build Your Foundation", icon: <GraduationCap className="w-6 h-6" /> },
-                        { label: "SKILLS", desc: "Build Your Edge", icon: <Zap className="w-6 h-6" /> },
-                        { label: "PLACEMENT", desc: "Build Your Future", icon: <Target className="w-6 h-6" /> }
+                        { label: "DEGREE", desc: "Build Foundation", icon: <GraduationCap className="w-6 h-6" /> },
+                        { label: "SKILLS", desc: "Build Edge", icon: <Zap className="w-6 h-6" /> },
+                        { label: "PLACEMENT", desc: "Build Future", icon: <Target className="w-6 h-6" /> }
                      ].map((item, idx) => (
                         <React.Fragment key={idx}>
-                           <div className="flex items-center gap-4 group">
-                              <div className="w-12 h-12 rounded-full bg-blue-600/20 flex items-center justify-center text-blue-500 border border-blue-500/20 group-hover:bg-blue-600 group-hover:text-white transition-all duration-300 shadow-inner">
-                                 {item.icon}
+                           <div className="flex items-center gap-1.5 md:gap-4 group">
+                              <div className="w-6 h-6 md:w-12 md:h-12 rounded-full bg-blue-600/20 flex items-center justify-center text-blue-500 border border-blue-500/20 group-hover:bg-blue-600 group-hover:text-white transition-all duration-300 shadow-inner">
+                                 {React.cloneElement(item.icon, { className: "w-3 h-3 md:w-6 md:h-6" })}
                               </div>
                               <div className="text-left">
-                                 <p className="text-[10px] font-black text-white tracking-widest leading-none mb-1">{item.label}</p>
-                                 <p className="text-[10px] text-slate-400 font-medium leading-none">{item.desc}</p>
+                                 <p className="text-[6px] md:text-[10px] font-black text-white tracking-widest leading-none mb-0.5 md:mb-1 uppercase">{item.label}</p>
+                                 <p className="hidden md:block text-[10px] text-slate-400 font-medium leading-none">{item.desc}</p>
                               </div>
                            </div>
-                           {idx < 2 && <div className="text-white text-2xl font-bold opacity-30">+</div>}
+                           {idx < 2 && <div className="text-white text-xs md:text-2xl font-bold opacity-30">+</div>}
                         </React.Fragment>
                      ))}
                   </div>
                   
-                  <div className="flex items-center gap-8 md:gap-12">
-                     <div className="text-white text-2xl font-bold opacity-30">=</div>
-                     <div className="text-left border-l border-white/10 pl-8">
-                        <p className="text-[10px] font-black text-white tracking-widest mb-1 leading-none uppercase opacity-60">Guaranteed</p>
-                        <p className="text-xl md:text-2xl font-black text-orange-500 tracking-tight leading-none uppercase">Direction</p>
+                  <div className="flex items-center gap-2 md:gap-12">
+                     <div className="text-white text-xs md:text-2xl font-bold opacity-30">=</div>
+                     <div className="text-left border-l border-white/10 pl-2 md:pl-8">
+                        <p className="text-[5px] md:text-[10px] font-black text-white tracking-widest mb-0.5 md:mb-1 leading-none uppercase opacity-60">Guaranteed</p>
+                        <p className="text-[8px] md:text-2xl font-black text-orange-500 tracking-tight leading-none uppercase">Direction</p>
                      </div>
                   </div>
                </div>
