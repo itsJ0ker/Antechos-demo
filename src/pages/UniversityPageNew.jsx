@@ -884,7 +884,7 @@ const UniversityPageNew = () => {
                   </h2>
                </div>
 
-               <div className="grid grid-cols-5 gap-1.5 sm:gap-4 lg:gap-6">
+               <div className="grid grid-cols-5 gap-1 md:gap-4 lg:gap-6">
                   {CAREER_ECOSYSTEM_DATA.map((item, idx) => (
                      <motion.div
                         key={idx}
@@ -892,14 +892,14 @@ const UniversityPageNew = () => {
                         whileInView={{ opacity: 1, y: 0 }}
                         transition={{ delay: idx * 0.1 }}
                         viewport={{ once: true }}
-                        className="bg-white rounded-xl md:rounded-3xl p-2 md:p-8 border border-slate-100 shadow-sm hover:shadow-xl transition-all duration-500 text-center flex flex-col items-center group"
+                        className="bg-white rounded-xl md:rounded-3xl p-1.5 md:p-4 lg:p-8 border border-slate-100 shadow-sm hover:shadow-xl transition-all duration-500 text-center flex flex-col items-center group min-h-max"
                      >
-                        <div className="w-8 h-8 md:w-16 md:h-20 rounded-full bg-blue-50 flex items-center justify-center text-blue-600 mb-2 md:mb-8 border border-blue-100/50 group-hover:scale-110 transition-transform duration-500 relative">
+                        <div className="w-6 h-6 md:w-12 md:h-16 lg:w-20 lg:h-20 rounded-full bg-blue-50 flex items-center justify-center text-blue-600 mb-1.5 md:mb-6 border border-blue-100/50 group-hover:scale-110 transition-transform duration-500 relative">
                            <div className="absolute inset-0 bg-blue-400/10 rounded-full blur-xl opacity-0 group-hover:opacity-100 transition-opacity"></div>
-                           {React.cloneElement(item.icon, { className: "w-4 h-4 md:w-8 md:h-10 relative z-10" })}
+                           {React.cloneElement(item.icon, { className: "w-3 h-3 md:w-6 md:h-8 lg:w-10 lg:h-10 relative z-10" })}
                         </div>
-                        <h3 className="text-[7px] md:text-sm lg:text-lg font-black text-slate-900 mb-1 md:mb-4 leading-tight group-hover:text-blue-600 transition-colors">{item.title}</h3>
-                        <p className="hidden md:block text-xs text-slate-500 font-medium leading-relaxed">{item.desc}</p>
+                        <h3 className="text-[6px] md:text-xs lg:text-lg font-black text-slate-900 mb-1 md:mb-3 leading-tight group-hover:text-blue-600 transition-colors">{item.title}</h3>
+                        <p className="hidden lg:block text-xs text-slate-500 font-medium leading-relaxed">{item.desc}</p>
                      </motion.div>
                   ))}
                </div>
@@ -916,7 +916,7 @@ const UniversityPageNew = () => {
                      </h2>
                   </div>
 
-                  <div className="relative z-10 flex flex-nowrap items-center justify-between gap-1 md:gap-6">
+                  <div className="relative z-10 flex flex-nowrap items-center justify-between gap-1 md:gap-4 lg:gap-6">
                      {[
                         { title: "UGC Approved", desc: "100% Recognized Degrees", icon: <ShieldCheck className="w-6 h-6" /> },
                         { title: "Industry-Aligned", desc: "Learn what companies actually need", icon: <BookOpen className="w-6 h-6" /> },
@@ -925,16 +925,16 @@ const UniversityPageNew = () => {
                         { title: "EMI Options", desc: "Flexible payment plans for all", icon: <CreditCard className="w-6 h-6" /> }
                      ].map((item, idx) => (
                         <React.Fragment key={idx}>
-                           <div className="flex flex-col md:flex-row items-center gap-1 md:gap-4 group flex-1">
-                              <div className="w-6 h-6 md:w-12 md:h-12 rounded-lg md:rounded-xl bg-blue-600/20 flex-shrink-0 flex items-center justify-center text-blue-500 border border-blue-500/20 group-hover:bg-blue-600 group-hover:text-white transition-all duration-300">
-                                 {React.cloneElement(item.icon, { className: "w-3 h-3 md:w-6 md:h-6" })}
+                           <div className="flex flex-col lg:flex-row items-center gap-1 md:gap-2 lg:gap-4 group flex-1 min-w-0">
+                              <div className="w-5 h-5 md:w-10 md:h-10 lg:w-12 lg:h-12 rounded-lg md:rounded-xl bg-blue-600/20 flex-shrink-0 flex items-center justify-center text-blue-500 border border-blue-500/20 group-hover:bg-blue-600 group-hover:text-white transition-all duration-300">
+                                 {React.cloneElement(item.icon, { className: "w-2.5 h-2.5 md:w-5 md:h-5 lg:w-6 lg:h-6" })}
                               </div>
-                              <div className="text-center md:text-left">
-                                 <h3 className="text-[6px] md:text-sm font-bold text-white leading-tight">{item.title}</h3>
-                                 <p className="hidden md:block text-[10px] text-slate-400 font-medium leading-tight mt-1">{item.desc}</p>
+                              <div className="text-center lg:text-left min-w-0 overflow-hidden">
+                                 <h3 className="text-[5px] md:text-[10px] lg:text-sm font-bold text-white leading-tight truncate lg:whitespace-normal">{item.title}</h3>
+                                 <p className="hidden xl:block text-[10px] text-slate-400 font-medium leading-tight mt-1">{item.desc}</p>
                               </div>
                            </div>
-                           {idx < 4 && <div className="hidden lg:block w-px h-12 bg-white/10 mx-2 shrink-0"></div>}
+                           {idx < 4 && <div className="hidden lg:block w-px h-10 bg-white/10 mx-1 shrink-0"></div>}
                         </React.Fragment>
                      ))}
                   </div>
@@ -945,14 +945,14 @@ const UniversityPageNew = () => {
          {/* 6. CAREER JOURNEY PROCESS (Image 1) */}
          <section className="py-24 bg-slate-50/50">
             <div className="container mx-auto px-6">
-               <div className="grid grid-cols-5 gap-1.5 sm:gap-6 relative">
+               <div className="grid grid-cols-5 gap-1 md:gap-4 lg:gap-6 relative">
                   {CAREER_JOURNEY_STEPS.map((step, idx) => (
                      <div key={idx} className="relative">
                         {/* Connecting Dashed Arrow (Scales with screen) */}
                         {idx < CAREER_JOURNEY_STEPS.length - 1 && (
-                           <div className="absolute top-[20%] md:top-1/3 -right-2 sm:-right-4 md:-right-8 z-20 w-3 sm:w-8 md:w-16 h-px border-t-[1px] md:border-t-2 border-dashed border-blue-200">
+                           <div className="absolute top-[20%] md:top-[30%] lg:top-1/3 -right-1 md:-right-4 lg:-right-8 z-20 w-2 md:w-8 lg:w-16 h-px border-t-[1px] md:border-t-2 border-dashed border-blue-200">
                               <div className="absolute right-0 -top-0.5 md:-top-1">
-                                 <ChevronRight className="w-1.5 h-1.5 md:w-3 md:h-3 text-blue-200" />
+                                 <ChevronRight className="w-1 md:w-3 md:h-3 text-blue-200" />
                               </div>
                            </div>
                         )}
@@ -962,19 +962,19 @@ const UniversityPageNew = () => {
                            whileInView={{ opacity: 1, y: 0 }}
                            transition={{ delay: idx * 0.1 }}
                            viewport={{ once: true }}
-                           className="bg-white rounded-lg md:rounded-3xl p-1.5 md:p-8 border border-slate-100 shadow-sm hover:shadow-xl transition-all duration-500 flex flex-col items-center text-center relative z-10 group h-full"
+                           className="bg-white rounded-lg md:rounded-3xl p-1.5 md:p-4 lg:p-8 border border-slate-100 shadow-sm hover:shadow-xl transition-all duration-500 flex flex-col items-center text-center relative z-10 group h-full"
                         >
                            {/* Step Number Badge */}
-                           <div className="absolute top-1 left-1 md:top-4 md:left-4 w-4 h-4 md:w-10 md:h-10 rounded-full bg-blue-600 flex items-center justify-center text-white text-[6px] md:text-xs font-black shadow-lg z-20">
+                           <div className="absolute top-0.5 left-0.5 md:top-4 md:left-4 w-3.5 h-3.5 md:w-10 md:h-10 rounded-full bg-blue-600 flex items-center justify-center text-white text-[5px] md:text-xs font-black shadow-lg z-20">
                               {step.id}
                            </div>
 
-                           <div className="w-6 h-6 md:w-20 md:h-24 rounded-full bg-blue-50 flex items-center justify-center text-blue-600 mb-1.5 md:mb-8 border border-blue-100 group-hover:scale-110 transition-transform duration-500">
-                              {React.cloneElement(step.icon, { className: "w-3 h-3 md:w-10 md:h-10" })}
+                           <div className="w-5 h-5 md:w-16 md:h-16 lg:w-20 lg:h-24 rounded-full bg-blue-50 flex items-center justify-center text-blue-600 mb-1 md:mb-6 lg:mb-8 border border-blue-100 group-hover:scale-110 transition-transform duration-500">
+                              {React.cloneElement(step.icon, { className: "w-2.5 h-2.5 md:w-8 md:h-8 lg:w-10 lg:h-10" })}
                            </div>
                            
-                           <h3 className="text-[7px] md:text-sm lg:text-xl font-black text-slate-900 leading-tight md:mb-4">{step.title}</h3>
-                           <p className="hidden md:block text-xs text-slate-500 font-medium leading-relaxed">{step.desc}</p>
+                           <h3 className="text-[6px] md:text-[10px] lg:text-xl font-black text-slate-900 leading-tight lg:mb-4">{step.title}</h3>
+                           <p className="hidden lg:block text-xs text-slate-500 font-medium leading-relaxed">{step.desc}</p>
                         </motion.div>
                      </div>
                   ))}
@@ -997,13 +997,13 @@ const UniversityPageNew = () => {
                   </div>
 
                   <div className="lg:col-span-8">
-                     <div className="grid grid-cols-3 gap-2 sm:gap-8 relative">
+                     <div className="grid grid-cols-3 gap-1 md:gap-6 lg:gap-8 relative">
                         {CAREER_SYSTEM_STEPS.map((step, idx) => (
                            <div key={idx} className="relative">
                               {/* Connecting Arrow */}
                               {idx < CAREER_SYSTEM_STEPS.length - 1 && (
-                                 <div className="absolute top-1/2 -right-1 sm:-right-4 md:-right-6 -translate-y-1/2 z-20">
-                                    <ArrowRight className="w-3 h-3 md:w-6 md:h-6 text-blue-200" />
+                                 <div className="absolute top-1/2 -right-0.5 md:-right-4 lg:-right-6 -translate-y-1/2 z-20">
+                                    <ArrowRight className="w-2 md:w-6 md:h-6 text-blue-200" />
                                  </div>
                               )}
                               <motion.div
@@ -1013,19 +1013,19 @@ const UniversityPageNew = () => {
                                  viewport={{ once: true }}
                                  className="bg-white rounded-lg md:rounded-3xl overflow-hidden border border-slate-100 shadow-sm hover:shadow-xl transition-all duration-500 h-full flex flex-col group"
                               >
-                                 <div className="p-2 md:p-8">
-                                    <div className="flex items-center gap-1.5 md:gap-4 mb-2 md:mb-6">
-                                       <div className="w-5 h-5 md:w-10 md:h-10 rounded-full bg-blue-600 flex items-center justify-center text-white text-[6px] md:text-xs font-black shadow-lg">
+                                 <div className="p-1.5 md:p-4 lg:p-8">
+                                    <div className="flex items-center gap-1 md:gap-4 mb-1.5 md:mb-6">
+                                       <div className="w-4 h-4 md:w-8 md:h-8 lg:w-10 lg:h-10 rounded-full bg-blue-600 flex items-center justify-center text-white text-[5px] md:text-xs font-black shadow-lg">
                                           {step.id}
                                        </div>
-                                       <div className="w-6 h-6 md:w-12 md:h-12 rounded-full bg-blue-50 flex items-center justify-center text-blue-600">
-                                          {React.cloneElement(step.icon, { className: "w-3 h-3 md:w-6 md:h-6" })}
+                                       <div className="w-5 h-5 md:w-10 md:h-10 lg:w-12 lg:h-12 rounded-full bg-blue-50 flex items-center justify-center text-blue-600">
+                                          {React.cloneElement(step.icon, { className: "w-2.5 h-2.5 md:w-5 md:h-5 lg:w-6 lg:h-6" })}
                                        </div>
                                     </div>
-                                    <h3 className="text-[8px] md:text-xl font-black text-slate-900 leading-tight md:mb-3">{step.title}</h3>
-                                    <p className="hidden md:block text-xs text-slate-500 font-medium mb-6">{step.desc}</p>
+                                    <h3 className="text-[6px] md:text-sm lg:text-xl font-black text-slate-900 leading-tight lg:mb-3">{step.title}</h3>
+                                    <p className="hidden lg:block text-xs text-slate-500 font-medium mb-6">{step.desc}</p>
                                  </div>
-                                 <div className="h-12 sm:h-24 md:h-48 overflow-hidden mt-auto">
+                                 <div className="h-8 sm:h-20 md:h-32 lg:h-48 overflow-hidden mt-auto">
                                     <img src={step.image} alt={step.title} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" />
                                  </div>
                               </motion.div>
