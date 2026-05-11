@@ -553,7 +553,7 @@ const UniversityPageNew = () => {
       return () => clearInterval(interval);
    }, [isShortsHovered, selectedShort, windowWidth]);
 
-   // Auto-scroll for university carousel
+   // Auto-scroll for university carousel New
    useEffect(() => {
       if (isUniHovered || showAll) return;
       const interval = setInterval(() => {
@@ -972,7 +972,7 @@ const UniversityPageNew = () => {
                            <div className="w-5 h-5 md:w-16 md:h-16 lg:w-20 lg:h-24 rounded-full bg-blue-50 flex items-center justify-center text-blue-600 mb-1 md:mb-6 lg:mb-8 border border-blue-100 group-hover:scale-110 transition-transform duration-500">
                               {React.cloneElement(step.icon, { className: "w-2.5 h-2.5 md:w-8 md:h-8 lg:w-10 lg:h-10" })}
                            </div>
-                           
+
                            <h3 className="text-[6px] md:text-[10px] lg:text-xl font-black text-slate-900 leading-tight lg:mb-4">{step.title}</h3>
                            <p className="hidden lg:block text-xs text-slate-500 font-medium leading-relaxed">{step.desc}</p>
                         </motion.div>
@@ -1057,7 +1057,7 @@ const UniversityPageNew = () => {
                         </React.Fragment>
                      ))}
                   </div>
-                  
+
                   <div className="flex items-center gap-2 md:gap-12">
                      <div className="text-white text-xs md:text-2xl font-bold opacity-30">=</div>
                      <div className="text-left border-l border-white/10 pl-2 md:pl-8">
