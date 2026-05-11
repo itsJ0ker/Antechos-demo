@@ -113,7 +113,7 @@ const AppContent = () => {
           <Route path="/Courses" element={<Courses />} />
           <Route path="/courses-new" element={<CoursesNewV2 />} />
           <Route path="/courses-new/:id" element={<PremiumCourseDetail />} />
-          <Route path="/courses-premium" element={<CoursesPremium />} />
+          <Route path="/courses-premium" element={<CoursesPremium />} />{/*New*/}
           <Route path="/courses-premium/:slug" element={<CoursePremiumDetail />} />
           <Route path="/Universities-mainbutnotinusenow" element={<UniversityPage />} />{/*maim*/}
           <Route path="/universities" element={<UniversityPageNew />} />
@@ -129,24 +129,24 @@ const AppContent = () => {
 
           {/* ✅ Dynamic course details page */}
           <Route path="/course/:id" element={<CourseDetailWrapper />} />
-          
+
           {/* User Dashboard */}
           <Route path="/user-dashboard" element={
             <ProtectedUserRoute>
               <UserDashboard />
             </ProtectedUserRoute>
           } />
-          
+
           {/* Database Test */}
           <Route path="/database-test" element={<DatabaseTest />} />
-          
+
           {/* ========= Admin Routes ========= */}
           {/* /admin → auto-redirect to login or dashboard */}
           <Route path="/admin" element={<AdminIndex />} />
-          
+
           {/* /admin/login → login page */}
           <Route path="/admin/login" element={<AdminLogin />} />
-          
+
           {/* /admin/dashboard → protected dashboard */}
           <Route path="/admin/dashboard" element={
             <AdminProtectedRoute>
@@ -179,7 +179,7 @@ const CourseDetailWrapper = () => {
     const fetchCourse = async () => {
       try {
         console.log('Fetching course details for ID:', id);
-        
+
         // First try to get from database
         const { supabase } = await import('./lib/supabase');
         const { data: courseData, error } = await supabase
@@ -188,7 +188,7 @@ const CourseDetailWrapper = () => {
           .eq('id', parseInt(id))
           .eq('is_active', true)
           .single();
-        
+
         if (error) {
           console.error('Database error, trying fallback:', error);
           // Fallback to static data
