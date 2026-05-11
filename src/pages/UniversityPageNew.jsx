@@ -2288,7 +2288,7 @@ const UniversityPageNew = () => {
 
 
 
-         {/* NEW: CAREER ECOSYSTEM (Image 5) */}
+         {/* NEW: CAREER ECOSYSTEM (Image 5) 
          <section className="py-24 bg-white relative">
             <div className="container mx-auto px-6">
                <div className="mb-16">
@@ -2318,7 +2318,7 @@ const UniversityPageNew = () => {
                   ))}
                </div>
             </div>
-         </section>
+         </section>*/}
 
          {/* 10. FAQ SECTION */}
          <section className="py-16 md:py-24 bg-white border-t border-slate-100 relative overflow-hidden text-left">
