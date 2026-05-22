@@ -830,7 +830,7 @@ const UniversityPageNew = () => {
          {/* 2. IMPACT STATS (From About Page) */}
          <section className="py-20 bg-white border-b border-slate-100 relative overflow-hidden">
             <div className="container mx-auto px-6">
-               <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
+               <div className="grid grid-cols-2 md:grid-cols-4 gap-12 md:gap-16">
                   {[
                      { val: 18, label: 'Certified Leaders', suffix: 'k+' },
                      { val: 95, label: 'Placement Trajectory', suffix: '%' },
@@ -884,7 +884,7 @@ const UniversityPageNew = () => {
                   </h2>
                </div>
 
-               <div className="grid grid-cols-5 gap-1 md:gap-4 lg:gap-6">
+               <div className="grid grid-cols-5 gap-3 md:gap-6 lg:gap-10">
                   {CAREER_ECOSYSTEM_DATA.map((item, idx) => (
                      <motion.div
                         key={idx}
@@ -892,14 +892,14 @@ const UniversityPageNew = () => {
                         whileInView={{ opacity: 1, y: 0 }}
                         transition={{ delay: idx * 0.1 }}
                         viewport={{ once: true }}
-                        className="bg-white rounded-xl md:rounded-3xl p-1.5 md:p-4 lg:p-8 border border-slate-100 shadow-sm hover:shadow-xl transition-all duration-500 text-center flex flex-col items-center group min-h-max"
+                        className="bg-slate-900 rounded-xl md:rounded-3xl p-1.5 md:p-4 lg:p-8 border border-slate-800 shadow-sm hover:shadow-2xl hover:border-slate-700 transition-all duration-500 text-center flex flex-col items-center group min-h-max"
                      >
-                        <div className="w-6 h-6 md:w-12 md:h-16 lg:w-20 lg:h-20 rounded-full bg-blue-50 flex items-center justify-center text-blue-600 mb-1.5 md:mb-6 border border-blue-100/50 group-hover:scale-110 transition-transform duration-500 relative">
+                        <div className="w-6 h-6 md:w-12 md:h-16 lg:w-20 lg:h-20 rounded-full bg-slate-800 flex items-center justify-center text-blue-400 mb-1.5 md:mb-6 border border-slate-700 group-hover:scale-110 transition-transform duration-500 relative">
                            <div className="absolute inset-0 bg-blue-400/10 rounded-full blur-xl opacity-0 group-hover:opacity-100 transition-opacity"></div>
                            {React.cloneElement(item.icon, { className: "w-3 h-3 md:w-6 md:h-8 lg:w-10 lg:h-10 relative z-10" })}
                         </div>
-                        <h3 className="text-[6px] md:text-xs lg:text-lg font-black text-slate-900 mb-1 md:mb-3 leading-tight group-hover:text-blue-600 transition-colors">{item.title}</h3>
-                        <p className="hidden lg:block text-xs text-slate-500 font-medium leading-relaxed">{item.desc}</p>
+                        <h3 className="text-[6px] md:text-xs lg:text-lg font-black text-white mb-1 md:mb-3 leading-tight group-hover:text-blue-400 transition-colors">{item.title}</h3>
+                        <p className="hidden lg:block text-xs text-slate-400 font-medium leading-relaxed">{item.desc}</p>
                      </motion.div>
                   ))}
                </div>
@@ -1293,7 +1293,7 @@ const UniversityPageNew = () => {
          </section>
 
          {/* 6. CAREER JOURNEY PROCESS (Image 1) */}
-         <section className="py-24 bg-slate-50/50">
+         <section className="py-24 bg-slate-50/50 border-y border-slate-200">
             <div className="container mx-auto px-6">
                <div className="grid grid-cols-5 gap-1 md:gap-4 lg:gap-6 relative">
                   {CAREER_JOURNEY_STEPS.map((step, idx) => (
@@ -2049,15 +2049,15 @@ const UniversityPageNew = () => {
          </section>
 
          {/* 7. CAREER SYSTEM SECTION (Image 2) */}
-         <section className="py-24 bg-white">
+         <section className="py-24 bg-slate-900">
             <div className="container mx-auto px-6">
                <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center mb-16">
                   <div className="lg:col-span-4 text-left">
-                     <h2 className="text-4xl md:text-5xl font-black text-slate-900 mb-6 leading-tight font-display">
+                     <h2 className="text-4xl md:text-5xl font-black text-white mb-6 leading-tight font-display">
                         Not Just a Degree. <br />
-                        <span className="text-blue-600">A Career System.</span>
+                        <span className="text-blue-400">A Career System.</span>
                      </h2>
-                     <p className="text-slate-500 text-lg font-medium leading-relaxed">
+                     <p className="text-slate-400 text-lg font-medium leading-relaxed">
                         A proven 3-step process that turns your degree into a future-ready career.
                      </p>
                   </div>
