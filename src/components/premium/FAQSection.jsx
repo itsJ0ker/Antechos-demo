@@ -25,24 +25,24 @@ const FAQSection = () => {
   ];
 
   return (
-    <section className="py-32">
-      <div className="max-w-3xl mx-auto">
-        <h2 className="p-heading-lg mb-16 text-center uppercase tracking-tighter">Common Queries</h2>
+    <section className="py-20 md:py-32">
+      <div className="max-w-3xl mx-auto px-4 sm:px-6">
+        <h2 className="p-heading-lg mb-10 md:mb-16 text-center uppercase tracking-tighter">Common Queries</h2>
         <div className="space-y-4">
           {faqs.map((faq, i) => (
             <div 
               key={i}
-              className="p-card rounded-3xl overflow-hidden"
+              className="p-card rounded-2xl md:rounded-3xl overflow-hidden border border-[#38bdf8]/15 hover:border-[#38bdf8]/35 transition-all duration-300"
             >
               <button
                 onClick={() => setOpenIndex(openIndex === i ? null : i)}
-                className="w-full flex items-center justify-between p-8 text-left group"
+                className="w-full flex items-center justify-between p-6 md:p-8 text-left group"
               >
-                <span className="text-xl font-bold group-hover:text-p-accent transition-colors">
+                <span className="text-lg md:text-xl font-bold group-hover:text-p-accent transition-colors pr-4">
                   {faq.question}
                 </span>
-                <div className={`p-2 rounded-full bg-gray-50 transition-transform ${openIndex === i ? "rotate-180" : ""}`}>
-                  {openIndex === i ? <Minus className="w-5 h-5" /> : <Plus className="w-5 h-5" />}
+                <div className={`p-2 rounded-full bg-slate-50 transition-transform flex-shrink-0 ${openIndex === i ? "rotate-180" : ""}`}>
+                  {openIndex === i ? <Minus className="w-4 h-4 md:w-5 md:h-5 text-slate-600" /> : <Plus className="w-4 h-4 md:w-5 md:h-5 text-slate-600" />}
                 </div>
               </button>
               
@@ -54,7 +54,7 @@ const FAQSection = () => {
                     exit={{ height: 0, opacity: 0 }}
                     transition={{ duration: 0.3 }}
                   >
-                    <div className="px-8 pb-8 text-p-text-body leading-relaxed border-t border-black/[0.03] pt-6">
+                    <div className="px-6 pb-6 md:px-8 md:pb-8 text-p-text-body text-sm md:text-base leading-relaxed border-t border-black/[0.03] pt-4 md:pt-6">
                       {faq.answer}
                     </div>
                   </motion.div>

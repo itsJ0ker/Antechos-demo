@@ -17,6 +17,7 @@ import {
 import { motion, AnimatePresence } from "framer-motion";
 import { getCourses, getUniversities } from "../../lib/supabase";
 import { universities as staticUniversities } from "../../data/universities";
+import { coursesData as premiumCourses } from "../../data/coursesData";
 import logo from "../../assets/logo.png";
 import { ThemeToggle } from "../common/ThemeToggle";
 
@@ -65,7 +66,7 @@ const Navbar = () => {
   const menuItems = [
     { name: "Home", path: "/" },
     { name: "About", path: "/about" },
-    { name: "Courses", path: "/courses", hasDropdown: true },
+    { name: "Courses", path: "/courses-premium", hasDropdown: true },
     { name: "Universities", path: "/universities", hasDropdown: true },
     { name: "Marketplace", path: "/Marketplace" },
   ];
@@ -151,26 +152,33 @@ const Navbar = () => {
                         {item.name === "Courses" && (
                           <>
                             <div className="col-span-1 space-y-4">
-                              <h4 className="text-xs font-bold text-slate-400 uppercase tracking-widest px-2">Popular Categories</h4>
+                              <h4 className="text-xs font-bold text-slate-400 uppercase tracking-widest px-2">Premium Programs</h4>
                               <div className="flex flex-col gap-1">
-                                {Array.from(new Set(courses.map(c => c.category))).slice(0, 4).map(cat => (
-                                  <button key={cat} onClick={() => handleNavigate('/courses')} className="flex items-center gap-3 p-2 rounded-xl hover:bg-blue-50 transition-colors group text-left">
+                                {premiumCourses.map(c => (
+                                  <button 
+                                    key={c.id} 
+                                    onClick={() => handleNavigate(`/courses-premium/${c.slug}`)} 
+                                    className="flex items-center gap-3 p-2 rounded-xl hover:bg-blue-50 transition-colors group text-left"
+                                  >
                                     <div className="w-8 h-8 rounded-lg bg-blue-100 flex items-center justify-center text-blue-600 group-hover:scale-110 transition-transform">
                                       <BookOpen className="w-4 h-4" />
                                     </div>
-                                    <span className="text-sm font-bold text-slate-700">{cat}</span>
+                                    <div className="flex flex-col">
+                                      <span className="text-sm font-bold text-slate-700 line-clamp-1">{c.title}</span>
+                                      <span className="text-[10px] text-slate-400 font-medium">{c.level}</span>
+                                    </div>
                                   </button>
                                 ))}
                               </div>
                             </div>
                             <div className="col-span-1 bg-slate-50 rounded-2xl p-4 flex flex-col justify-between border border-slate-100">
                               <div>
-                                <h4 className="text-xs font-bold text-slate-400 uppercase tracking-widest mb-2">Featured Course</h4>
-                                <p className="text-sm font-bold text-slate-700 mb-1 leading-tight">Master Professional Leadership</p>
-                                <p className="text-xs text-slate-500 font-medium">Kickstart your career with our top-rated executive program.</p>
+                                <h4 className="text-xs font-bold text-slate-400 uppercase tracking-widest mb-2">Featured Program</h4>
+                                <p className="text-sm font-bold text-slate-700 mb-1 leading-tight">{premiumCourses[0]?.title}</p>
+                                <p className="text-xs text-slate-500 font-medium leading-snug">{premiumCourses[0]?.shortDescription}</p>
                               </div>
-                              <button onClick={() => handleNavigate('/courses')} className="mt-4 text-blue-600 font-bold text-xs flex items-center gap-1 group/btn">
-                                Explore All Courses <ArrowRight className="w-3 h-3 group-hover/btn:translate-x-1 transition-transform" />
+                              <button onClick={() => handleNavigate('/courses-premium')} className="mt-4 text-blue-600 font-bold text-xs flex items-center gap-1 group/btn">
+                                Explore All Programs <ArrowRight className="w-3 h-3 group-hover/btn:translate-x-1 transition-transform" />
                               </button>
                             </div>
                           </>
@@ -286,8 +294,8 @@ const Navbar = () => {
                     </button>
                     {item.hasDropdown && (
                       <div className="ml-4 pl-4 border-l-2 border-slate-100 flex flex-col gap-3 mt-1">
-                        {item.name === "Courses" && courses.slice(0, 4).map(c => (
-                          <button key={c.id} onClick={() => handleNavigate('/courses')} className="text-sm font-semibold text-slate-500 hover:text-blue-600 text-left">
+                        {item.name === "Courses" && premiumCourses.map(c => (
+                          <button key={c.id} onClick={() => handleNavigate(`/courses-premium/${c.slug}`)} className="text-sm font-semibold text-slate-500 hover:text-blue-600 text-left">
                             {c.title}
                           </button>
                         ))}

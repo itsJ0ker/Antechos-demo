@@ -2105,7 +2105,7 @@ const UniversityPageNew = () => {
                <div className="bg-[#051129] rounded-xl md:rounded-3xl p-3 sm:p-5 md:p-8 flex flex-nowrap items-center justify-between gap-1.5 sm:gap-4 md:gap-12 shadow-2xl w-full relative overflow-hidden">
                   {/* Background decoration */}
                   <div className="absolute inset-0 bg-gradient-to-r from-blue-900/20 to-orange-900/20 pointer-events-none hidden md:block"></div>
-                  
+
                   <div className="flex flex-nowrap items-center justify-start gap-1 sm:gap-3 md:gap-8 z-10 shrink min-w-0">
                      {[
                         { label: "DEGREE", desc: "Build Foundation", icon: <GraduationCap className="w-5 h-5 md:w-6 md:h-6" /> },
@@ -2221,101 +2221,875 @@ const UniversityPageNew = () => {
          </section>
 
          {/* 8. CLARITY CONSULTATION (Image 5) */}
-         <section className="py-20 bg-[#051129] relative overflow-hidden">
-            <div className="container mx-auto px-6 relative z-10">
-               <div className="grid grid-cols-1 lg:grid-cols-12 items-center gap-12 lg:gap-16">
-
-                  {/* Left Content: Text & Social Proof */}
-                  <div className="lg:col-span-6 text-left">
-                     <motion.h2
-                        initial={{ opacity: 0, x: -30 }}
-                        whileInView={{ opacity: 1, x: 0 }}
-                        viewport={{ once: true }}
-                        className="text-3xl md:text-5xl lg:text-6xl font-black text-white mb-8 md:mb-12 leading-[1.1] tracking-tighter font-display uppercase"
-                     >
-                        Stop Guessing Your <br className="hidden md:block" />
-                        Career Path. <br className="hidden md:block" />
-                        Get <span className="text-orange-500">Clarity</span> Today.
-                     </motion.h2>
-
-                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 mb-12">
-                        {[
-                           { label: "1:1 Expert Consultation", icon: <Users className="w-5 h-5" /> },
-                           { label: "Personalized Roadmap", icon: <TrendingUp className="w-5 h-5" /> },
-                           { label: "Right Skills. Right Opportunities.", icon: <ShieldCheck className="w-5 h-5" /> },
-                           { label: "100% Free Guidance", icon: <Star className="w-5 h-5" /> }
-                        ].map((item, idx) => (
-                           <motion.div
-                              key={idx}
-                              initial={{ opacity: 0, y: 10 }}
-                              whileInView={{ opacity: 1, y: 0 }}
-                              transition={{ delay: 0.2 + (idx * 0.1) }}
-                              viewport={{ once: true }}
-                              className="flex items-center gap-4 group"
-                           >
-                              <div className="w-10 h-10 rounded-xl bg-white/5 flex items-center justify-center text-white border border-white/10 group-hover:bg-blue-600 group-hover:border-blue-600 transition-all">
-                                 {React.cloneElement(item.icon, { className: "w-5 h-5" })}
-                              </div>
-                              <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest">{item.label}</span>
-                           </motion.div>
-                        ))}
-                     </div>
-                  </div>
-
-                  {/* Right Form & Image */}
-                  <div className="lg:col-span-6 flex flex-col md:flex-row items-center gap-8 relative">
-                     <motion.div
-                        initial={{ opacity: 0, y: 30 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        viewport={{ once: true }}
-                        className="w-full max-w-md bg-white rounded-3xl p-10 shadow-2xl relative z-10"
-                     >
-                        <h3 className="text-xl font-black text-slate-900 mb-2">Book Your Free Career Consultation</h3>
-                        <p className="text-slate-500 text-xs mb-8">Limited slots per day. Hurry!</p>
-
-                        <div className="space-y-4">
-                           <input type="text" placeholder="Your Name" className="w-full px-5 py-4 rounded-xl border border-slate-100 bg-slate-50 focus:outline-none focus:ring-2 focus:ring-blue-500/20 text-sm font-medium" />
-                           <input type="text" placeholder="Mobile Number" className="w-full px-5 py-4 rounded-xl border border-slate-100 bg-slate-50 focus:outline-none focus:ring-2 focus:ring-blue-500/20 text-sm font-medium" />
-                           <select className="w-full px-5 py-4 rounded-xl border border-slate-100 bg-slate-50 focus:outline-none focus:ring-2 focus:ring-blue-500/20 text-sm font-medium text-slate-500">
-                              <option>Select Your Interest</option>
-                              <option>MBA</option>
-                              <option>MCA</option>
-                           </select>
-                           <button className="w-full bg-orange-500 hover:bg-orange-600 text-white font-black py-5 rounded-xl flex items-center justify-center gap-3 transition-all shadow-lg shadow-orange-500/25 group uppercase tracking-widest text-xs">
-                              Book Free Slot Now <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-                           </button>
-                        </div>
-                     </motion.div>
-
-                     {/* Consultant Image */}
-                     <div className="hidden lg:block absolute -right-24 bottom-0 w-[450px] z-0 opacity-80">
-                        <img src={consultantImg} alt="Career Consultant" className="w-full h-auto" />
-                     </div>
-                  </div>
-               </div>
-
-               {/* Bottom Trust Strip */}
-               <div className="mt-20 pt-12 border-t border-white/5 flex flex-wrap justify-between gap-8">
-                  {[
-                     { label: "UGC Approved & Recognized", icon: <ShieldCheck className="w-5 h-5" /> },
-                     { label: "NAAC A+ Universities", icon: <Award className="w-5 h-5" /> },
-                     { label: "100% Secure Process", icon: <ShieldCheck className="w-5 h-5" /> },
-                     { label: "Easy EMI Options Available", icon: <CreditCard className="w-5 h-5" /> },
-                     { label: "24/7 Student Support", icon: <Headphones className="w-5 h-5" /> }
-                  ].map((item, idx) => (
-                     <div key={idx} className="flex items-center gap-3">
-                        <div className="w-8 h-8 rounded-full bg-white/5 flex items-center justify-center border border-white/10 shrink-0">
-                           {React.cloneElement(item.icon, { className: "w-4 h-4 text-white/60" })}
-                        </div>
-                        <span className="text-[10px] font-black text-white/60 uppercase tracking-widest leading-tight">{item.label}</span>
-                     </div>
-                  ))}
-               </div>
-            </div>
-         </section>
-
+         <EnquirySection />
       </div>
    );
 };
+
+// --- ENQUIRY SECTION COMPONENT ---
+const Check = () => (
+   <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#FF5A00" strokeWidth="2.8" strokeLinecap="round">
+      <polyline points="20 6 9 17 4 12" />
+   </svg>
+);
+
+const trustBadges = [
+   {
+      icon: (
+         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8">
+            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+            <path d="M9 12l2 2 4-4" strokeLinecap="round" strokeLinejoin="round" />
+         </svg>
+      ),
+      label: "UGC Approved",
+      sub: "& Recognized",
+   },
+   {
+      icon: (
+         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8">
+            <circle cx="12" cy="8" r="4" />
+            <path d="M6 20v-2a6 6 0 0 1 12 0v2" />
+            <path d="M16 3.13a4 4 0 0 1 0 7.75" />
+         </svg>
+      ),
+      label: "NAAC A+",
+      sub: "Universities",
+   },
+   {
+      icon: (
+         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8">
+            <rect x="3" y="11" width="18" height="11" rx="2" />
+            <path d="M7 11V7a5 5 0 0 1 10 0v4" />
+         </svg>
+      ),
+      label: "100% Secure",
+      sub: "Admission Process",
+   },
+   {
+      icon: (
+         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8">
+            <rect x="2" y="5" width="20" height="14" rx="2" />
+            <path d="M2 10h20" />
+            <path d="M6 15h4M14 15h4" />
+         </svg>
+      ),
+      label: "Easy EMI",
+      sub: "Options Available",
+   },
+   {
+      icon: (
+         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8">
+            <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 13.5 19.79 19.79 0 0 1 1.61 4.9 2 2 0 0 1 3.6 2.69h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L7.91 10a16 16 0 0 0 6.09 6.09l.95-.95a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z" />
+         </svg>
+      ),
+      label: "24/7 Student",
+      sub: "Support",
+   },
+];
+
+const features = [
+   { label: "1:1 Expert Consultation" },
+   { label: "Personalized Career Roadmap" },
+   { label: "Right Skills. Right Opportunities." },
+   { label: "100% Free Guidance" },
+];
+
+const interests = [
+   "Engineering",
+   "MBA",
+   "Medical",
+   "Law",
+   "Design",
+   "Data Science",
+   "Arts & Humanities",
+];
+
+function EnquirySection() {
+   const [name, setName] = useState("");
+   const [mobile, setMobile] = useState("");
+   const [interest, setInterest] = useState("");
+   const [loading, setLoading] = useState(false);
+
+   const handleSubmit = async (e) => {
+      e.preventDefault();
+      if (!name.trim() || !mobile.trim() || !interest) {
+         alert("Please fill in all fields");
+         return;
+      }
+      if (mobile.length !== 10 || !/^\d+$/.test(mobile)) {
+         alert("Please enter a valid 10-digit mobile number");
+         return;
+      }
+
+      setLoading(true);
+      try {
+         const { error } = await submitEnquiry({
+            name: name.trim(),
+            phone: mobile.trim(),
+            course_interest: interest,
+            source: 'clarity_consultation_form'
+         });
+
+         if (error) throw error;
+
+         alert("Success! Your career consultation slot has been booked. Our expert advisor will contact you shortly.");
+         setName("");
+         setMobile("");
+         setInterest("");
+      } catch (err) {
+         console.error('Submission Error:', err);
+         alert('Security Verification: We encountered a temporary sync issue. Please retry in a moment.');
+      } finally {
+         setLoading(false);
+      }
+   };
+
+   return (
+      <div className="enquiry-section-wrapper">
+         <style dangerouslySetInnerHTML={{ __html: `
+            .enquiry-section-wrapper {
+               width: 100%;
+               font-family: 'Segoe UI', system-ui, sans-serif;
+               overflow: hidden;
+            }
+
+            .enquiry-main-band {
+               width: 100%;
+               background: linear-gradient(135deg, #081428 0%, #0c1d4a 35%, #0e2260 65%, #081428 100%);
+               position: relative;
+               overflow: hidden;
+            }
+
+            .enquiry-content-container {
+               max-width: 1280px;
+               margin: 0 auto;
+               padding: 28px 40px;
+               display: flex;
+               flex-direction: row;
+               flex-wrap: nowrap;
+               align-items: center;
+               justify-content: space-between;
+               position: relative;
+               z-index: 2;
+               gap: 24px;
+            }
+
+            .enquiry-left-col {
+               flex: 0 1 340px;
+               display: flex;
+               flex-direction: column;
+               justify-content: center;
+               padding-right: 32px;
+            }
+
+            .enquiry-headline {
+               font-size: 32px;
+               font-weight: 900;
+               color: #fff;
+               line-height: 1.15;
+               letter-spacing: -0.5px;
+               margin: 0;
+            }
+
+            .enquiry-headline span {
+               color: #FF5A00;
+               font-style: italic;
+               text-shadow: 0 0 20px rgba(255,90,0,0.55);
+            }
+
+            .enquiry-features {
+               margin-top: 18px;
+               display: flex;
+               flex-direction: column;
+               gap: 8px;
+            }
+
+            .enquiry-feature-item {
+               display: flex;
+               align-items: center;
+               gap: 8px;
+            }
+
+            .enquiry-feature-icon {
+               width: 20px;
+               height: 20px;
+               border-radius: 4px;
+               background: rgba(255,90,0,0.12);
+               border: 1px solid rgba(255,90,0,0.3);
+               display: flex;
+               align-items: center;
+               justify-content: center;
+               flex-shrink: 0;
+            }
+
+            .enquiry-feature-text {
+               font-size: 13px;
+               color: rgba(255,255,255,0.82);
+               font-weight: 500;
+            }
+
+            .enquiry-center-col {
+               flex: 1 1 480px;
+               display: flex;
+               justify-content: center;
+               min-width: 0;
+            }
+
+            .enquiry-form-card {
+               background: rgba(255,255,255,0.97);
+               border-radius: 16px;
+               box-shadow: 0 20px 60px rgba(0,0,0,0.45);
+               overflow: hidden;
+               width: 100%;
+               max-width: 480px;
+               border-top: 4px solid #FF5A00;
+            }
+
+            .enquiry-form {
+               padding: 22px 24px;
+            }
+
+            .enquiry-form-header {
+               margin-bottom: 16px;
+            }
+
+            .enquiry-form-title {
+               font-size: 17px;
+               font-weight: 800;
+               color: #0f172a;
+               margin: 0;
+               line-height: 1.3;
+            }
+
+            .enquiry-form-sub {
+               font-size: 12px;
+               color: #FF5A00;
+               font-weight: 600;
+               margin: 4px 0 0;
+            }
+
+            .enquiry-form-inputs {
+               display: flex;
+               gap: 10px;
+               margin-bottom: 10px;
+            }
+
+            .enquiry-form-input {
+               flex: 1;
+               border: 1.5px solid #e2e8f0;
+               border-radius: 8px;
+               padding: 10px 11px;
+               font-size: 13px;
+               color: #0f172a;
+               background: #f8fafc;
+               outline: none;
+               font-family: inherit;
+               min-width: 0;
+            }
+
+            .enquiry-form-select-wrapper {
+               position: relative;
+               flex: 1;
+               min-width: 0;
+            }
+
+            .enquiry-form-select {
+               width: 100%;
+               appearance: none;
+               padding-right: 28px;
+               cursor: pointer;
+            }
+
+            .enquiry-form-select-arrow {
+               position: absolute;
+               right: 8px;
+               top: 50%;
+               transform: translateY(-50%);
+               pointer-events: none;
+               color: #94a3b8;
+            }
+
+            .enquiry-form-button {
+               width: 100%;
+               background: linear-gradient(90deg, #FF5A00, #FF8C00);
+               border: none;
+               border-radius: 10px;
+               padding: 13px 20px;
+               color: #fff;
+               font-size: 15px;
+               font-weight: 800;
+               cursor: pointer;
+               display: flex;
+               align-items: center;
+               justify-content: center;
+               gap: 8px;
+               box-shadow: 0 8px 24px rgba(255,90,0,0.38);
+               letter-spacing: 0.2px;
+               transition: opacity 0.2s;
+            }
+
+            .enquiry-form-button:hover {
+               opacity: 0.9;
+            }
+
+            .enquiry-right-col {
+               flex: 0 0 220px;
+               display: flex;
+               align-items: flex-end;
+               justify-content: center;
+               height: 180px;
+               position: relative;
+            }
+
+            .enquiry-advisor-svg {
+               width: 200px;
+               height: 220px;
+               position: absolute;
+               bottom: -28px;
+            }
+
+            /* Trust Bar */
+            .enquiry-trust-bar {
+               width: 100%;
+               background: linear-gradient(90deg, #070f20, #0b1840, #070f20);
+               border-top: 1px solid rgba(255,255,255,0.06);
+            }
+
+            .enquiry-trust-bar-content {
+               max-width: 1280px;
+               margin: 0 auto;
+               padding: 12px 40px;
+               display: flex;
+               align-items: center;
+               justify-content: space-between;
+            }
+
+            .enquiry-trust-badge {
+               display: flex;
+               align-items: center;
+               gap: 10px;
+               padding: 0 10px;
+            }
+
+            .enquiry-trust-badge-icon {
+               width: 36px;
+               height: 36px;
+               border-radius: 8px;
+               background: rgba(255,255,255,0.07);
+               border: 1px solid rgba(255,255,255,0.1);
+               display: flex;
+               align-items: center;
+               justify-content: center;
+               color: rgba(255,255,255,0.85);
+               flex-shrink: 0;
+            }
+
+            .enquiry-trust-badge-text-primary {
+               font-size: 12px;
+               font-weight: 700;
+               color: #fff;
+               line-height: 1.3;
+            }
+
+            .enquiry-trust-badge-text-secondary {
+               font-size: 11px;
+               color: rgba(255,255,255,0.48);
+               line-height: 1.3;
+            }
+
+            .enquiry-trust-badge-divider {
+               width: 1px;
+               height: 32px;
+               background: rgba(255,255,255,0.1);
+               flex-shrink: 0;
+            }
+
+            /* Breakpoint: Tablet (768px - 1024px) */
+            @media (max-width: 1024px) {
+               .enquiry-content-container {
+                  padding: 20px 24px;
+                  gap: 16px;
+               }
+               .enquiry-left-col {
+                  flex: 0 1 240px;
+                  padding-right: 8px;
+               }
+               .enquiry-headline {
+                  font-size: 22px;
+               }
+               .enquiry-feature-text {
+                  font-size: 11px;
+               }
+               .enquiry-center-col {
+                  flex: 1 1 360px;
+               }
+               .enquiry-form-card {
+                  max-width: 360px;
+               }
+               .enquiry-form {
+                  padding: 16px 18px;
+               }
+               .enquiry-form-inputs {
+                  flex-direction: column;
+                  gap: 8px;
+               }
+               .enquiry-right-col {
+                  flex: 0 0 160px;
+                  height: 140px;
+               }
+               .enquiry-advisor-svg {
+                  width: 160px;
+                  height: 176px;
+                  bottom: -28px;
+               }
+               .enquiry-trust-bar-content {
+                  padding: 10px 20px;
+               }
+               .enquiry-trust-badge {
+                  padding: 0 5px;
+               }
+               .enquiry-trust-badge-icon {
+                  width: 28px;
+                  height: 28px;
+               }
+               .enquiry-trust-badge-icon svg {
+                  width: 16px;
+                  height: 16px;
+               }
+               .enquiry-trust-badge-text-primary {
+                  font-size: 10px;
+               }
+               .enquiry-trust-badge-text-secondary {
+                  font-size: 9px;
+               }
+               .enquiry-trust-badge-divider {
+                  height: 24px;
+               }
+            }
+
+            /* Breakpoint: Mobile (481px - 767px) */
+            @media (max-width: 767px) {
+               .enquiry-content-container {
+                  padding: 12px 10px;
+                  gap: 8px;
+               }
+               .enquiry-left-col {
+                  flex: 0 1 120px;
+                  padding-right: 8px;
+               }
+               .enquiry-headline {
+                  font-size: 14px;
+                  line-height: 1.2;
+               }
+               .enquiry-features {
+                  margin-top: 8px;
+                  gap: 4px;
+               }
+               .enquiry-feature-icon {
+                  width: 12px;
+                  height: 12px;
+               }
+               .enquiry-feature-icon svg {
+                  width: 8px;
+                  height: 8px;
+               }
+               .enquiry-feature-text {
+                  font-size: 9px;
+               }
+               .enquiry-center-col {
+                  flex: 1 1 200px;
+                  max-width: 240px;
+               }
+               .enquiry-form-card {
+                  border-radius: 10px;
+               }
+               .enquiry-form {
+                  padding: 10px 8px;
+               }
+               .enquiry-form-header {
+                  margin-bottom: 8px;
+               }
+               .enquiry-form-title {
+                  font-size: 11px;
+               }
+               .enquiry-form-sub {
+                  font-size: 9px;
+                  margin-top: 2px;
+               }
+               .enquiry-form-inputs {
+                  flex-direction: column;
+                  gap: 6px;
+                  margin-bottom: 6px;
+               }
+               .enquiry-form-input {
+                  padding: 6px 8px;
+                  font-size: 11px;
+                  border-radius: 6px;
+               }
+               .enquiry-form-button {
+                  padding: 8px 12px;
+                  font-size: 11px;
+                  border-radius: 6px;
+                  gap: 4px;
+               }
+               .enquiry-right-col {
+                  flex: 0 0 80px;
+                  height: 90px;
+               }
+               .enquiry-advisor-svg {
+                  width: 90px;
+                  height: 99px;
+                  bottom: -20px;
+               }
+               
+               /* Trust Bar Mobile */
+               .enquiry-trust-bar-content {
+                  padding: 6px 8px;
+               }
+               .enquiry-trust-badge {
+                  padding: 0 2px;
+                  flex-direction: column;
+                  gap: 2px;
+               }
+               .enquiry-trust-badge-icon {
+                  width: 20px;
+                  height: 20px;
+                  border-radius: 4px;
+               }
+               .enquiry-trust-badge-icon svg {
+                  width: 12px;
+                  height: 12px;
+               }
+               .enquiry-trust-badge-text-primary {
+                  font-size: 8px;
+                  text-align: center;
+               }
+               .enquiry-trust-badge-text-secondary {
+                  display: none;
+               }
+               .enquiry-trust-badge-divider {
+                  height: 18px;
+               }
+            }
+
+            /* Breakpoint: Small Mobile (<= 480px) */
+            @media (max-width: 480px) {
+               .enquiry-content-container {
+                  padding: 8px 6px;
+                  gap: 4px;
+               }
+               .enquiry-left-col {
+                  flex: 0 1 85px;
+                  padding-right: 2px;
+               }
+               .enquiry-headline {
+                  font-size: 11px;
+                  line-height: 1.15;
+               }
+               .enquiry-features {
+                  display: none;
+               }
+               .enquiry-center-col {
+                  flex: 1 1 150px;
+                  max-width: 180px;
+               }
+               .enquiry-form {
+                  padding: 8px 6px;
+               }
+               .enquiry-form-header {
+                  margin-bottom: 6px;
+               }
+               .enquiry-form-title {
+                  font-size: 9px;
+               }
+               .enquiry-form-sub {
+                  font-size: 8px;
+               }
+               .enquiry-form-inputs {
+                  gap: 4px;
+                  margin-bottom: 4px;
+               }
+               .enquiry-form-input {
+                  padding: 4px 6px;
+                  font-size: 10px;
+                  border-radius: 4px;
+               }
+               .enquiry-form-button {
+                  padding: 6px 10px;
+                  font-size: 9px;
+                  border-radius: 4px;
+                  gap: 2px;
+               }
+               .enquiry-form-button svg {
+                  width: 10px;
+                  height: 10px;
+               }
+               .enquiry-right-col {
+                  flex: 0 0 55px;
+                  height: 70px;
+               }
+               .enquiry-advisor-svg {
+                  width: 65px;
+                  height: 72px;
+                  bottom: -15px;
+               }
+               
+               /* Trust Bar Small Mobile */
+               .enquiry-trust-bar-content {
+                  padding: 4px;
+               }
+               .enquiry-trust-badge-icon {
+                  width: 16px;
+                  height: 16px;
+                  border-radius: 2px;
+               }
+               .enquiry-trust-badge-icon svg {
+                  width: 10px;
+                  height: 10px;
+               }
+               .enquiry-trust-badge-text-primary {
+                  font-size: 7px;
+               }
+               .enquiry-trust-badge-divider {
+                  height: 14px;
+               }
+            }
+         ` }} />
+
+         {/* ── MAIN BAND ── */}
+         <div className="enquiry-main-band">
+            {/* Dot-grid overlay */}
+            <div
+               style={{
+                  position: "absolute",
+                  inset: 0,
+                  opacity: 0.08,
+                  backgroundImage: "radial-gradient(circle, rgba(255,255,255,0.4) 1px, transparent 1px)",
+                  backgroundSize: "26px 26px",
+                  pointerEvents: "none",
+               }}
+            />
+            {/* Left orange glow */}
+            <div
+               style={{
+                  position: "absolute",
+                  left: -60,
+                  top: 0,
+                  width: 300,
+                  height: 300,
+                  borderRadius: "50%",
+                  background: "radial-gradient(circle, rgba(255,90,0,0.15) 0%, transparent 70%)",
+                  pointerEvents: "none",
+               }}
+            />
+
+            {/* Inner content — flex row */}
+            <div className="enquiry-content-container">
+               {/* ── LEFT: Headline + features ── */}
+               <div className="enquiry-left-col">
+                  <h2 className="enquiry-headline">
+                     Stop Guessing Your
+                     <br />
+                     Career Path.
+                     <br />
+                     Get <span>Clarity</span> Today.
+                  </h2>
+
+                  {/* Feature list */}
+                  <div className="enquiry-features">
+                     {features.map((f, i) => (
+                        <div key={i} className="enquiry-feature-item">
+                           <div className="enquiry-feature-icon">
+                              <Check />
+                           </div>
+                           <span className="enquiry-feature-text">
+                              {f.label}
+                           </span>
+                        </div>
+                     ))}
+                  </div>
+               </div>
+
+               {/* ── CENTER: Form card ── */}
+               <div className="enquiry-center-col">
+                  <div className="enquiry-form-card">
+                     <form onSubmit={handleSubmit} className="enquiry-form">
+                        <div className="enquiry-form-header">
+                           <h3 className="enquiry-form-title">
+                              Book Your Free Career Consultation
+                           </h3>
+                           <p className="enquiry-form-sub">
+                              ⚡ Limited slots per day. Hurry!
+                           </p>
+                        </div>
+
+                        {/* Inputs row */}
+                        <div className="enquiry-form-inputs">
+                           <input
+                              type="text"
+                              placeholder="Your Name"
+                              value={name}
+                              onChange={(e) => setName(e.target.value)}
+                              className="enquiry-form-input"
+                              required
+                           />
+                           <input
+                              type="tel"
+                              placeholder="Mobile Number"
+                              value={mobile}
+                              onChange={(e) => setMobile(e.target.value)}
+                              maxLength={10}
+                              className="enquiry-form-input"
+                              required
+                           />
+                           {/* Select inline */}
+                           <div className="enquiry-form-select-wrapper">
+                              <select
+                                 value={interest}
+                                 onChange={(e) => setInterest(e.target.value)}
+                                 required
+                                 className="enquiry-form-input enquiry-form-select"
+                                 style={{
+                                    color: interest ? "#0f172a" : "#94a3b8",
+                                 }}
+                              >
+                                 <option value="" disabled>
+                                    Select Your Interest
+                                 </option>
+                                 {interests.map((it) => (
+                                    <option key={it} value={it} style={{ color: "#0f172a" }}>
+                                       {it}
+                                    </option>
+                                 ))}
+                              </select>
+                              <svg
+                                 className="enquiry-form-select-arrow"
+                                 width="14"
+                                 height="14"
+                                 viewBox="0 0 24 24"
+                                 fill="none"
+                                 stroke="currentColor"
+                                 strokeWidth="2"
+                              >
+                                 <path d="M6 9l6 6 6-6" strokeLinecap="round" />
+                              </svg>
+                           </div>
+                        </div>
+
+                        {/* CTA button */}
+                        <button
+                           type="submit"
+                           disabled={loading}
+                           className="enquiry-form-button"
+                        >
+                           {loading ? "Booking..." : "Book Free Slot Now"}
+                           <svg
+                              width="16"
+                              height="16"
+                              viewBox="0 0 24 24"
+                              fill="none"
+                              stroke="white"
+                              strokeWidth="2.5"
+                              strokeLinecap="round"
+                           >
+                              <path d="M5 12h14M13 6l6 6-6 6" />
+                           </svg>
+                        </button>
+                     </form>
+                  </div>
+               </div>
+
+               {/* ── RIGHT: Advisor illustration ── */}
+               <div className="enquiry-right-col">
+                  <svg
+                     viewBox="0 0 200 220"
+                     fill="none"
+                     xmlns="http://www.w3.org/2000/svg"
+                     className="enquiry-advisor-svg"
+                  >
+                     {/* Shadow base */}
+                     <ellipse cx="100" cy="210" rx="70" ry="12" fill="rgba(0,0,0,0.25)" />
+                     {/* Body */}
+                     <rect x="38" y="130" width="124" height="90" rx="20" fill="#1e4399" />
+                     {/* Shirt white triangle */}
+                     <path d="M86 130 L100 162 L114 130" fill="white" opacity="0.95" />
+                     {/* Left lapel */}
+                     <path d="M86 130 L62 182 L100 162 Z" fill="#163080" />
+                     {/* Right lapel */}
+                     <path d="M114 130 L138 182 L100 162 Z" fill="#163080" />
+                     {/* Neck */}
+                     <rect x="90" y="112" width="20" height="22" rx="6" fill="#cc8855" />
+                     {/* Head */}
+                     <ellipse cx="100" cy="88" rx="36" ry="38" fill="#cc8855" />
+                     {/* Hair top */}
+                     <ellipse cx="100" cy="54" rx="36" ry="14" fill="#1a0e05" />
+                     {/* Hair sides */}
+                     <path d="M64 72 Q56 58 64 48 Q73 42 86 48 L64 72Z" fill="#1a0e05" />
+                     <path d="M136 72 Q144 58 136 48 Q127 42 114 48 L136 72Z" fill="#1a0e05" />
+                     {/* Eyes white */}
+                     <ellipse cx="88" cy="86" rx="5" ry="5.5" fill="white" />
+                     <ellipse cx="112" cy="86" rx="5" ry="5.5" fill="white" />
+                     {/* Pupils */}
+                     <circle cx="89" cy="87" r="3.2" fill="#1a0e05" />
+                     <circle cx="113" cy="87" r="3.2" fill="#1a0e05" />
+                     {/* Eye shine */}
+                     <circle cx="90" cy="86" r="1.1" fill="white" />
+                     <circle cx="114" cy="86" r="1.1" fill="white" />
+                     {/* Smile */}
+                     <path d="M91 101 Q100 109 109 101" stroke="#a06040" strokeWidth="1.8" fill="none" strokeLinecap="round" />
+                     {/* Headset band */}
+                     <path d="M64 67 Q100 44 136 67" stroke="#333" strokeWidth="4" fill="none" strokeLinecap="round" />
+                     {/* Ear cups */}
+                     <ellipse cx="64" cy="78" rx="7" ry="10" fill="#2a2a2a" />
+                     <ellipse cx="136" cy="78" rx="7" ry="10" fill="#2a2a2a" />
+                     {/* Mic arm */}
+                     <path d="M64 76 Q50 82 52 96 Q53 104 62 106" stroke="#444" strokeWidth="2.5" fill="none" strokeLinecap="round" />
+                     {/* Mic dot */}
+                     <circle cx="61" cy="107" r="3" fill="#333" />
+                     {/* Left arm */}
+                     <path d="M38 150 Q14 172 28 200" stroke="#1e4399" strokeWidth="16" strokeLinecap="round" fill="none" />
+                     {/* Right arm */}
+                     <path d="M162 150 Q186 172 172 200" stroke="#1e4399" strokeWidth="16" strokeLinecap="round" fill="none" />
+                     {/* Hands */}
+                     <ellipse cx="29" cy="202" rx="11" ry="8" fill="#cc8855" />
+                     <ellipse cx="171" cy="202" rx="11" ry="8" fill="#cc8855" />
+                     {/* Laptop body */}
+                     <rect x="44" y="174" width="112" height="38" rx="5" fill="#d0d8f0" opacity="0.22" />
+                     <rect x="48" y="177" width="104" height="31" rx="4" fill="#b0c4e8" opacity="0.28" />
+                     {/* Apple logo hint */}
+                     <circle cx="100" cy="193" r="5" fill="white" opacity="0.18" />
+                  </svg>
+               </div>
+            </div>
+         </div>
+
+         {/* ── TRUST BAR ── */}
+         <div className="enquiry-trust-bar">
+            <div className="enquiry-trust-bar-content">
+               {trustBadges.map((b, i) => (
+                  <React.Fragment key={i}>
+                     <div className="enquiry-trust-badge">
+                        <div className="enquiry-trust-badge-icon">
+                           {b.icon}
+                        </div>
+                        <div>
+                           <div className="enquiry-trust-badge-text-primary">
+                              {b.label}
+                           </div>
+                           <div className="enquiry-trust-badge-text-secondary">
+                              {b.sub}
+                           </div>
+                        </div>
+                     </div>
+                     {i < trustBadges.length - 1 && (
+                        <div className="enquiry-trust-badge-divider" />
+                     )}
+                  </React.Fragment>
+               ))}
+            </div>
+         </div>
+      </div>
+   );
+}
 
 export default UniversityPageNew;

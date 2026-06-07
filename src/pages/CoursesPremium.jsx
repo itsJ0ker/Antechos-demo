@@ -34,8 +34,9 @@ const CoursesPremium = () => {
 
       <PremiumHero />
       
+      <FeaturedCourses courses={coursesData} />
+      
       <div className="max-w-7xl mx-auto px-6">
-        <FeaturedCourses courses={coursesData} />
         <TransformationJourney />
         <StudentOutcomes />
         <LearningExperience />

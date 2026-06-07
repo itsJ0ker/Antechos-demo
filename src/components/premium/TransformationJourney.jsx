@@ -1,6 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { ArrowRight, UserMinus, UserCheck, TrendingUp } from 'lucide-react';
+import { UserMinus, UserCheck, TrendingUp } from 'lucide-react';
 
 const TransformationJourney = () => {
   const steps = [
@@ -17,7 +17,7 @@ const TransformationJourney = () => {
       status: "During",
       desc: "Intensive, tactical training on live enterprise projects. Developing the mental frameworks of high-level professionals.",
       icon: TrendingUp,
-      color: "text-p-accent",
+      color: "text-[#0284c7]",
       tint: "p-tint-blue"
     },
     {
@@ -31,10 +31,10 @@ const TransformationJourney = () => {
   ];
 
   return (
-    <section className="py-32 border-y border-black/5 relative p-mesh-warm">
+    <section className="py-20 md:py-32 border-y border-[#38bdf8]/10 relative p-mesh-warm">
       <div className="absolute inset-0 p-grid-mesh opacity-10 pointer-events-none" />
       
-      <div className="text-center mb-24">
+      <div className="text-center mb-16 md:mb-24">
         <h2 className="p-heading-lg mb-6 uppercase tracking-tighter">The Transformation</h2>
         <p className="p-text-body max-w-2xl mx-auto italic">
           "Education is not the learning of facts, but the training of the mind to think." 
@@ -42,7 +42,7 @@ const TransformationJourney = () => {
         </p>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-12 md:gap-6 items-stretch">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8 items-stretch">
         {steps.map((step, idx) => (
           <React.Fragment key={idx}>
             <motion.div
@@ -50,13 +50,13 @@ const TransformationJourney = () => {
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: idx * 0.2 }}
               viewport={{ once: true }}
-              className={`p-12 rounded-[3rem] border border-black/5 shadow-sm text-center relative group flex flex-col ${step.tint}`}
+              className={`p-6 sm:p-10 md:p-12 rounded-[2rem] md:rounded-[3rem] border border-[#38bdf8]/10 shadow-sm text-center relative group flex flex-col ${step.tint}`}
             >
-              <div className={`w-20 h-20 rounded-[1.5rem] bg-white flex items-center justify-center mx-auto mb-10 border border-black/[0.03] group-hover:scale-110 transition-transform shadow-sm ${step.color}`}>
-                <step.icon className="w-10 h-10" />
+              <div className={`w-16 h-16 md:w-20 md:h-20 rounded-[1.2rem] md:rounded-[1.5rem] bg-white flex items-center justify-center mx-auto mb-8 md:mb-10 border border-black/[0.03] group-hover:scale-110 transition-transform shadow-sm ${step.color}`}>
+                <step.icon className="w-8 h-8 md:w-10 md:h-10" />
               </div>
-              <div className="text-[10px] font-black uppercase tracking-[0.3em] text-p-text-muted mb-6">{step.status}</div>
-              <h3 className="text-2xl font-black mb-6 uppercase tracking-tight">{step.title}</h3>
+              <div className="text-[10px] font-black uppercase tracking-[0.3em] text-p-text-muted mb-4 md:mb-6">{step.status}</div>
+              <h3 className="text-xl md:text-2xl font-black mb-4 md:mb-6 uppercase tracking-tight">{step.title}</h3>
               <p className="text-sm text-p-text-muted leading-relaxed flex-1">{step.desc}</p>
             </motion.div>
           </React.Fragment>

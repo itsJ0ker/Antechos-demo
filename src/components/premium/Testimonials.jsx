@@ -25,17 +25,17 @@ const Testimonials = () => {
   ];
 
   return (
-    <section className="py-32 border-t border-black/5 relative overflow-hidden">
+    <section className="py-20 md:py-32 border-t border-black/5 relative overflow-hidden">
       <div className="absolute inset-0 p-mesh-blue opacity-5 pointer-events-none" />
       
-      <div className="max-w-7xl mx-auto px-6 mb-16 flex items-end justify-between">
+      <div className="max-w-7xl mx-auto px-6 mb-12 md:mb-16 flex flex-col md:flex-row md:items-end justify-between gap-4">
         <h2 className="p-heading-lg mb-0 uppercase tracking-tighter leading-none">Voices of <br /> Transformation</h2>
         <div className="text-[10px] font-black uppercase tracking-[0.4em] text-p-text-muted flex items-center gap-4">
           <div className="w-12 h-[1px] bg-black/10" /> Scroll to explore
         </div>
       </div>
 
-      <div className="flex overflow-x-auto gap-8 pb-12 px-6 -mx-6 snap-x snap-mandatory scroll-smooth cursor-grab active:cursor-grabbing scrollbar-hide" style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
+      <div className="flex overflow-x-auto gap-6 md:gap-8 pb-12 px-6 -mx-6 snap-x snap-mandatory scroll-smooth cursor-grab active:cursor-grabbing scrollbar-hide" style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
         {testimonials.map((t, i) => (
           <motion.div
             key={i}
@@ -43,31 +43,31 @@ const Testimonials = () => {
             whileInView={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.8, delay: i * 0.1 }}
             viewport={{ once: true }}
-            className="flex-shrink-0 w-[90vw] md:w-[600px] p-16 rounded-[4rem] bg-white border border-black/5 shadow-xl relative group overflow-hidden snap-center"
+            className="flex-shrink-0 w-[85vw] md:w-[600px] p-8 md:p-16 rounded-[2rem] md:rounded-[4rem] bg-white border border-black/5 shadow-xl relative group overflow-hidden snap-center"
           >
-            <div className="absolute top-0 right-0 p-12 opacity-5 scale-150 rotate-12">
-              <Quote className="w-40 h-40 text-p-accent" />
+            <div className="absolute top-0 right-0 p-8 md:p-12 opacity-5 scale-110 md:scale-150 rotate-12">
+              <Quote className="w-24 h-24 md:w-40 md:h-40 text-p-accent" />
             </div>
             
             <div className="relative z-10">
-              <div className="flex items-center gap-6 mb-12">
-                <div className="w-20 h-20 rounded-3xl overflow-hidden border border-black/5 shadow-sm">
+              <div className="flex items-center gap-4 md:gap-6 mb-8 md:mb-12">
+                <div className="w-16 h-16 md:w-20 md:h-20 rounded-2xl md:rounded-3xl overflow-hidden border border-black/5 shadow-sm">
                   <img src={t.image} alt={t.name} className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700" />
                 </div>
                 <div>
-                  <h4 className="text-2xl font-black tracking-tight">{t.name}</h4>
+                  <h4 className="text-xl md:text-2xl font-black tracking-tight">{t.name}</h4>
                   <p className="text-[10px] font-black uppercase tracking-[0.3em] text-p-text-muted">{t.role}</p>
                 </div>
               </div>
               
-              <blockquote className="text-2xl font-black leading-tight text-p-text tracking-tighter italic mb-12 opacity-80">
+              <blockquote className="text-lg md:text-2xl font-black leading-tight text-p-text tracking-tighter italic mb-8 md:mb-12 opacity-80">
                 "{t.quote}"
               </blockquote>
               
-              <div className="flex items-center justify-between pt-8 border-t border-black/[0.03]">
+              <div className="flex items-center justify-between pt-6 md:pt-8 border-t border-black/[0.03]">
                 <div className="flex items-center gap-2">
                   {[1, 2, 3, 4, 5].map(star => (
-                    <div key={star} className="w-2 h-2 rounded-full bg-p-accent" />
+                     <div key={star} className="w-2 h-2 rounded-full bg-p-accent" />
                   ))}
                 </div>
                 <span className="text-[10px] font-black uppercase tracking-[0.4em] text-slate-300">ATH Verified</span>
