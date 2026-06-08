@@ -2228,7 +2228,7 @@ const UniversityPageNew = () => {
 
 // --- ENQUIRY SECTION COMPONENT ---
 const Check = () => (
-   <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#FF5A00" strokeWidth="2.8" strokeLinecap="round">
+   <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
       <polyline points="20 6 9 17 4 12" />
    </svg>
 );
@@ -2236,7 +2236,7 @@ const Check = () => (
 const trustBadges = [
    {
       icon: (
-         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8">
+         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
             <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
             <path d="M9 12l2 2 4-4" strokeLinecap="round" strokeLinejoin="round" />
          </svg>
@@ -2246,7 +2246,7 @@ const trustBadges = [
    },
    {
       icon: (
-         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8">
+         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
             <circle cx="12" cy="8" r="4" />
             <path d="M6 20v-2a6 6 0 0 1 12 0v2" />
             <path d="M16 3.13a4 4 0 0 1 0 7.75" />
@@ -2257,7 +2257,7 @@ const trustBadges = [
    },
    {
       icon: (
-         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8">
+         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
             <rect x="3" y="11" width="18" height="11" rx="2" />
             <path d="M7 11V7a5 5 0 0 1 10 0v4" />
          </svg>
@@ -2267,18 +2267,17 @@ const trustBadges = [
    },
    {
       icon: (
-         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8">
-            <rect x="2" y="5" width="20" height="14" rx="2" />
-            <path d="M2 10h20" />
-            <path d="M6 15h4M14 15h4" />
+         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+            <rect x="2" y="7" width="20" height="14" rx="2" ry="2" />
+            <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16" />
          </svg>
       ),
-      label: "Easy EMI",
-      sub: "Options Available",
+      label: "Industry Mentors",
+      sub: "& Internship Support",
    },
    {
       icon: (
-         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8">
+         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
             <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 13.5 19.79 19.79 0 0 1 1.61 4.9 2 2 0 0 1 3.6 2.69h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L7.91 10a16 16 0 0 0 6.09 6.09l.95-.95a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z" />
          </svg>
       ),
@@ -2288,10 +2287,43 @@ const trustBadges = [
 ];
 
 const features = [
-   { label: "1:1 Expert Consultation" },
-   { label: "Personalized Career Roadmap" },
-   { label: "Right Skills. Right Opportunities." },
-   { label: "100% Free Guidance" },
+   {
+      label: "1:1 Expert Consultation",
+      icon: (
+         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+            <circle cx="12" cy="7" r="4" />
+         </svg>
+      )
+   },
+   {
+      label: "Personalized Career Roadmap",
+      icon: (
+         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
+            <polyline points="9 22 9 12 15 12 15 22" />
+         </svg>
+      )
+   },
+   {
+      label: "Right Skills. Right Opportunities.",
+      icon: (
+         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <circle cx="12" cy="12" r="10" />
+            <circle cx="12" cy="12" r="6" />
+            <circle cx="12" cy="12" r="2" />
+         </svg>
+      )
+   },
+   {
+      label: "100% Free Guidance",
+      icon: (
+         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+            <path d="M9 12l2 2 4-4" />
+         </svg>
+      )
+   },
 ];
 
 const interests = [
@@ -2345,751 +2377,641 @@ function EnquirySection() {
    };
 
    return (
-      <div className="enquiry-section-wrapper">
-         <style dangerouslySetInnerHTML={{ __html: `
-            .enquiry-section-wrapper {
-               width: 100%;
-               font-family: 'Segoe UI', system-ui, sans-serif;
-               overflow: hidden;
-            }
+      <div className="eq-wrapper">
+         <style dangerouslySetInnerHTML={{
+            __html: `
+            @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&display=swap');
 
-            .enquiry-main-band {
+            .eq-wrapper {
                width: 100%;
-               background: linear-gradient(135deg, #081428 0%, #0c1d4a 35%, #0e2260 65%, #081428 100%);
+               font-family: 'Outfit', system-ui, sans-serif;
+               background: #ffffff;
                position: relative;
                overflow: hidden;
+               padding: 100px 0 80px 0;
             }
 
-            .enquiry-content-container {
+            .eq-bg-pattern {
+               position: absolute;
+               top: 40px;
+               right: 35%;
+               width: 140px;
+               height: 140px;
+               background-image: radial-gradient(#CBD5E1 2px, transparent 2px);
+               background-size: 16px 16px;
+               opacity: 0.6;
+               pointer-events: none;
+               z-index: 1;
+            }
+
+            .eq-container {
                max-width: 1280px;
                margin: 0 auto;
-               padding: 28px 40px;
+               padding: 0 40px;
                display: flex;
-               flex-direction: row;
-               flex-wrap: nowrap;
                align-items: center;
                justify-content: space-between;
                position: relative;
                z-index: 2;
-               gap: 24px;
             }
 
-            .enquiry-left-col {
-               flex: 0 1 340px;
-               display: flex;
-               flex-direction: column;
-               justify-content: center;
-               padding-right: 32px;
+            .eq-left {
+               flex: 1;
+               max-width: 440px;
             }
 
-            .enquiry-headline {
-               font-size: 32px;
-               font-weight: 900;
-               color: #fff;
-               line-height: 1.15;
-               letter-spacing: -0.5px;
-               margin: 0;
-            }
-
-            .enquiry-headline span {
-               color: #FF5A00;
-               font-style: italic;
-               text-shadow: 0 0 20px rgba(255,90,0,0.55);
-            }
-
-            .enquiry-features {
-               margin-top: 18px;
-               display: flex;
-               flex-direction: column;
-               gap: 8px;
-            }
-
-            .enquiry-feature-item {
-               display: flex;
+            .eq-tag {
+               display: inline-flex;
                align-items: center;
                gap: 8px;
+               padding: 8px 16px;
+               background: #ffffff;
+               border: 1px solid #E2E8F0;
+               border-radius: 100px;
+               color: #2563EB;
+               font-size: 12px;
+               font-weight: 800;
+               letter-spacing: 0.5px;
+               text-transform: uppercase;
+               margin-bottom: 24px;
+               box-shadow: 0 4px 10px rgba(0, 0, 0, 0.04);
             }
 
-            .enquiry-feature-icon {
-               width: 20px;
-               height: 20px;
-               border-radius: 4px;
-               background: rgba(255,90,0,0.12);
-               border: 1px solid rgba(255,90,0,0.3);
-               display: flex;
-               align-items: center;
-               justify-content: center;
-               flex-shrink: 0;
+            .eq-tag svg {
+               color: #2563EB;
+               fill: #2563EB;
             }
 
-            .enquiry-feature-text {
-               font-size: 13px;
-               color: rgba(255,255,255,0.82);
+            .eq-title {
+               font-size: 48px;
+               font-weight: 800;
+               line-height: 1.1;
+               color: #0F172A;
+               margin-bottom: 20px;
+            }
+
+            .eq-title span {
+               color: #EA580C;
+            }
+
+            .eq-desc {
+               font-size: 16px;
+               color: #475569;
+               line-height: 1.6;
+               margin-bottom: 32px;
                font-weight: 500;
             }
 
-            .enquiry-center-col {
-               flex: 1 1 480px;
+            .eq-features {
                display: flex;
+               flex-direction: column;
+            }
+
+            .eq-feature {
+               display: flex;
+               align-items: center;
+               gap: 16px;
+               padding: 16px 0;
+               border-bottom: 1px solid #F1F5F9;
+               transition: transform 0.2s ease;
+            }
+
+            .eq-feature:last-child {
+               border-bottom: none;
+            }
+
+            .eq-feature:hover {
+               transform: translateX(4px);
+            }
+
+            .eq-feature-icon {
+               width: 44px;
+               height: 44px;
+               border-radius: 12px;
+               background: #EFF6FF;
+               color: #2563EB;
+               display: flex;
+               align-items: center;
                justify-content: center;
-               min-width: 0;
+               flex-shrink: 0;
             }
 
-            .enquiry-form-card {
-               background: rgba(255,255,255,0.97);
-               border-radius: 16px;
-               box-shadow: 0 20px 60px rgba(0,0,0,0.45);
-               overflow: hidden;
+            .eq-feature-text {
+               font-size: 15px;
+               color: #1E293B;
+               font-weight: 700;
+            }
+
+            .eq-image-container {
+               position: absolute;
+               left: 50%;
+               bottom: -80px;
+               transform: translateX(-50%);
+               width: 480px;
+               z-index: 3;
+               pointer-events: none;
+            }
+
+            .eq-image-container img {
                width: 100%;
-               max-width: 480px;
-               border-top: 4px solid #FF5A00;
+               height: auto;
+               display: block;
+               filter: drop-shadow(0 20px 30px rgba(0, 0, 0, 0.15));
             }
 
-            .enquiry-form {
-               padding: 22px 24px;
-            }
-
-            .enquiry-form-header {
-               margin-bottom: 16px;
-            }
-
-            .enquiry-form-title {
-               font-size: 17px;
-               font-weight: 800;
-               color: #0f172a;
-               margin: 0;
-               line-height: 1.3;
-            }
-
-            .enquiry-form-sub {
-               font-size: 12px;
-               color: #FF5A00;
-               font-weight: 600;
-               margin: 4px 0 0;
-            }
-
-            .enquiry-form-inputs {
+            .eq-right {
+               flex: 1;
+               max-width: 420px;
                display: flex;
-               gap: 10px;
-               margin-bottom: 10px;
+               justify-content: flex-end;
+               z-index: 4;
             }
 
-            .enquiry-form-input {
-               flex: 1;
-               border: 1.5px solid #e2e8f0;
-               border-radius: 8px;
-               padding: 10px 11px;
-               font-size: 13px;
-               color: #0f172a;
-               background: #f8fafc;
-               outline: none;
-               font-family: inherit;
-               min-width: 0;
-            }
-
-            .enquiry-form-select-wrapper {
-               position: relative;
-               flex: 1;
-               min-width: 0;
-            }
-
-            .enquiry-form-select {
+            .eq-form-card {
                width: 100%;
+               background: linear-gradient(135deg, #2563EB, #1D4ED8);
+               border-radius: 24px;
+               padding: 32px 28px;
+               box-shadow: 0 25px 50px -12px rgba(37, 99, 235, 0.25);
+               position: relative;
+               overflow: hidden;
+            }
+
+            .eq-form-top-icon {
+               width: 52px;
+               height: 52px;
+               background: rgba(255, 255, 255, 0.15);
+               border-radius: 50%;
+               display: flex;
+               align-items: center;
+               justify-content: center;
+               margin-bottom: 20px;
+               color: rgba(255, 255, 255, 0.9);
+            }
+
+            .eq-form-header {
+               margin-bottom: 24px;
+            }
+
+            .eq-form-title {
+               font-size: 28px;
+               font-weight: 700;
+               color: #ffffff;
+               margin-bottom: 12px;
+               line-height: 1.2;
+            }
+
+            .eq-form-subtitle {
+               font-size: 14px;
+               color: rgba(255, 255, 255, 0.85);
+               font-weight: 400;
+               display: flex;
+               align-items: center;
+               gap: 6px;
+            }
+
+            .eq-form-subtitle svg {
+               color: #FCD34D;
+            }
+
+            .eq-form-group {
+               margin-bottom: 16px;
+               position: relative;
+               display: flex;
+               align-items: center;
+            }
+
+            .eq-input-icon {
+               position: absolute;
+               left: 16px;
+               color: rgba(255, 255, 255, 0.8);
+               pointer-events: none;
+               width: 20px;
+               height: 20px;
+               display: flex;
+               align-items: center;
+               justify-content: center;
+            }
+
+            .eq-input {
+               width: 100%;
+               background: rgba(255, 255, 255, 0.1);
+               border: 1px solid rgba(255, 255, 255, 0.2);
+               border-radius: 12px;
+               padding: 16px 16px 16px 48px;
+               font-family: inherit;
+               font-size: 15px;
+               color: #ffffff;
+               transition: all 0.3s ease;
+               outline: none;
+            }
+
+            .eq-input::placeholder {
+               color: rgba(255, 255, 255, 0.8);
+               font-weight: 400;
+            }
+
+            .eq-input:focus {
+               border-color: rgba(255, 255, 255, 0.5);
+               background: rgba(255, 255, 255, 0.15);
+            }
+
+            .eq-select-wrapper {
+               position: relative;
+               width: 100%;
+            }
+
+            .eq-select {
                appearance: none;
-               padding-right: 28px;
+               padding-right: 40px;
                cursor: pointer;
             }
 
-            .enquiry-form-select-arrow {
-               position: absolute;
-               right: 8px;
-               top: 50%;
-               transform: translateY(-50%);
-               pointer-events: none;
-               color: #94a3b8;
+            .eq-select option {
+               color: #000;
             }
 
-            .enquiry-form-button {
+            .eq-select-arrow {
+               position: absolute;
+               right: 16px;
+               top: 50%;
+               transform: translateY(-50%);
+               color: rgba(255, 255, 255, 0.8);
+               pointer-events: none;
+            }
+
+            .eq-submit {
                width: 100%;
-               background: linear-gradient(90deg, #FF5A00, #FF8C00);
+               background: #ffffff;
                border: none;
-               border-radius: 10px;
-               padding: 13px 20px;
-               color: #fff;
-               font-size: 15px;
+               border-radius: 12px;
+               padding: 16px;
+               color: #1D4ED8;
+               font-family: inherit;
+               font-size: 16px;
                font-weight: 800;
                cursor: pointer;
                display: flex;
                align-items: center;
                justify-content: center;
-               gap: 8px;
-               box-shadow: 0 8px 24px rgba(255,90,0,0.38);
-               letter-spacing: 0.2px;
-               transition: opacity 0.2s;
+               gap: 10px;
+               margin-top: 24px;
+               margin-bottom: 24px;
+               transition: all 0.3s ease;
+               box-shadow: 0 4px 14px rgba(0, 0, 0, 0.1);
             }
 
-            .enquiry-form-button:hover {
-               opacity: 0.9;
+            .eq-submit:hover {
+               transform: translateY(-2px);
+               box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
             }
 
-            .enquiry-right-col {
-               flex: 0 0 220px;
-               display: flex;
-               align-items: flex-end;
-               justify-content: center;
-               height: 180px;
-               position: relative;
+            .eq-submit:active {
+               transform: translateY(0);
             }
 
-            .enquiry-advisor-svg {
-               width: 200px;
-               height: 220px;
-               position: absolute;
-               bottom: -28px;
-            }
-
-            /* Trust Bar */
-            .enquiry-trust-bar {
-               width: 100%;
-               background: linear-gradient(90deg, #070f20, #0b1840, #070f20);
-               border-top: 1px solid rgba(255,255,255,0.06);
-            }
-
-            .enquiry-trust-bar-content {
-               max-width: 1280px;
-               margin: 0 auto;
-               padding: 12px 40px;
+            .eq-card-trust {
                display: flex;
                align-items: center;
                justify-content: space-between;
+               padding-top: 20px;
+               border-top: 1px solid rgba(255, 255, 255, 0.15);
             }
 
-            .enquiry-trust-badge {
+            .eq-card-trust-item {
                display: flex;
                align-items: center;
-               gap: 10px;
-               padding: 0 10px;
+               gap: 6px;
+               color: rgba(255, 255, 255, 0.9);
+               font-size: 13px;
+               font-weight: 500;
             }
 
-            .enquiry-trust-badge-icon {
-               width: 36px;
-               height: 36px;
-               border-radius: 8px;
-               background: rgba(255,255,255,0.07);
-               border: 1px solid rgba(255,255,255,0.1);
+            /* Bottom Trust Bar */
+            .eq-trust-wrapper {
+               max-width: 1280px;
+               margin: 80px auto 0;
+               padding: 0 40px;
+               position: relative;
+               z-index: 2;
+            }
+
+            .eq-trust-inner {
+               background: #ffffff;
+               border: 1px solid #F1F5F9;
+               border-radius: 24px;
+               padding: 24px 40px;
+               display: flex;
+               align-items: center;
+               justify-content: space-between;
+               flex-wrap: wrap;
+               gap: 24px;
+               box-shadow: 0 10px 40px -10px rgba(0,0,0,0.05);
+            }
+
+            .eq-trust-item {
+               display: flex;
+               align-items: center;
+               gap: 16px;
+               flex: 1;
+               min-width: 200px;
+            }
+
+            .eq-trust-icon {
+               width: 48px;
+               height: 48px;
+               border-radius: 14px;
+               background: #EFF6FF;
+               border: 1px solid #DBEAFE;
                display: flex;
                align-items: center;
                justify-content: center;
-               color: rgba(255,255,255,0.85);
+               color: #2563EB;
                flex-shrink: 0;
             }
 
-            .enquiry-trust-badge-text-primary {
-               font-size: 12px;
-               font-weight: 700;
-               color: #fff;
-               line-height: 1.3;
+            .eq-trust-text h4 {
+               color: #0F172A;
+               font-size: 14px;
+               font-weight: 800;
+               margin: 0 0 4px 0;
+               line-height: 1.2;
             }
 
-            .enquiry-trust-badge-text-secondary {
-               font-size: 11px;
-               color: rgba(255,255,255,0.48);
-               line-height: 1.3;
+            .eq-trust-text p {
+               color: #64748B;
+               font-size: 13px;
+               margin: 0;
+               font-weight: 500;
+               line-height: 1.2;
             }
 
-            .enquiry-trust-badge-divider {
-               width: 1px;
-               height: 32px;
-               background: rgba(255,255,255,0.1);
-               flex-shrink: 0;
+            /* --- Responsive Design --- */
+            @media (max-width: 1200px) {
+               .eq-image-container {
+                  width: 400px;
+                  bottom: -60px;
+               }
             }
 
-            /* Breakpoint: Tablet (768px - 1024px) */
             @media (max-width: 1024px) {
-               .enquiry-content-container {
-                  padding: 20px 24px;
-                  gap: 16px;
+               .eq-container {
+                  padding: 0 24px;
                }
-               .enquiry-left-col {
-                  flex: 0 1 240px;
-                  padding-right: 8px;
+               .eq-trust-wrapper {
+                  padding: 0 24px;
                }
-               .enquiry-headline {
-                  font-size: 22px;
+               .eq-title {
+                  font-size: 40px;
                }
-               .enquiry-feature-text {
-                  font-size: 11px;
+               .eq-image-container {
+                  width: 360px;
+                  bottom: -50px;
                }
-               .enquiry-center-col {
-                  flex: 1 1 360px;
-               }
-               .enquiry-form-card {
-                  max-width: 360px;
-               }
-               .enquiry-form {
-                  padding: 16px 18px;
-               }
-               .enquiry-form-inputs {
-                  flex-direction: column;
-                  gap: 8px;
-               }
-               .enquiry-right-col {
-                  flex: 0 0 160px;
-                  height: 140px;
-               }
-               .enquiry-advisor-svg {
-                  width: 160px;
-                  height: 176px;
-                  bottom: -28px;
-               }
-               .enquiry-trust-bar-content {
-                  padding: 10px 20px;
-               }
-               .enquiry-trust-badge {
-                  padding: 0 5px;
-               }
-               .enquiry-trust-badge-icon {
-                  width: 28px;
-                  height: 28px;
-               }
-               .enquiry-trust-badge-icon svg {
-                  width: 16px;
-                  height: 16px;
-               }
-               .enquiry-trust-badge-text-primary {
-                  font-size: 10px;
-               }
-               .enquiry-trust-badge-text-secondary {
-                  font-size: 9px;
-               }
-               .enquiry-trust-badge-divider {
-                  height: 24px;
+               .eq-trust-inner {
+                  justify-content: center;
                }
             }
 
-            /* Breakpoint: Mobile (481px - 767px) */
-            @media (max-width: 767px) {
-               .enquiry-content-container {
-                  padding: 12px 10px;
-                  gap: 8px;
+            @media (max-width: 860px) {
+               .eq-wrapper {
+                  padding: 60px 0;
                }
-               .enquiry-left-col {
-                  flex: 0 1 120px;
-                  padding-right: 8px;
-               }
-               .enquiry-headline {
-                  font-size: 14px;
-                  line-height: 1.2;
-               }
-               .enquiry-features {
-                  margin-top: 8px;
-                  gap: 4px;
-               }
-               .enquiry-feature-icon {
-                  width: 12px;
-                  height: 12px;
-               }
-               .enquiry-feature-icon svg {
-                  width: 8px;
-                  height: 8px;
-               }
-               .enquiry-feature-text {
-                  font-size: 9px;
-               }
-               .enquiry-center-col {
-                  flex: 1 1 200px;
-                  max-width: 240px;
-               }
-               .enquiry-form-card {
-                  border-radius: 10px;
-               }
-               .enquiry-form {
-                  padding: 10px 8px;
-               }
-               .enquiry-form-header {
-                  margin-bottom: 8px;
-               }
-               .enquiry-form-title {
-                  font-size: 11px;
-               }
-               .enquiry-form-sub {
-                  font-size: 9px;
-                  margin-top: 2px;
-               }
-               .enquiry-form-inputs {
+               .eq-container {
                   flex-direction: column;
-                  gap: 6px;
-                  margin-bottom: 6px;
+                  gap: 40px;
                }
-               .enquiry-form-input {
-                  padding: 6px 8px;
-                  font-size: 11px;
-                  border-radius: 6px;
-               }
-               .enquiry-form-button {
-                  padding: 8px 12px;
-                  font-size: 11px;
-                  border-radius: 6px;
-                  gap: 4px;
-               }
-               .enquiry-right-col {
-                  flex: 0 0 80px;
-                  height: 90px;
-               }
-               .enquiry-advisor-svg {
-                  width: 90px;
-                  height: 99px;
-                  bottom: -20px;
-               }
-               
-               /* Trust Bar Mobile */
-               .enquiry-trust-bar-content {
-                  padding: 6px 8px;
-               }
-               .enquiry-trust-badge {
-                  padding: 0 2px;
-                  flex-direction: column;
-                  gap: 2px;
-               }
-               .enquiry-trust-badge-icon {
-                  width: 20px;
-                  height: 20px;
-                  border-radius: 4px;
-               }
-               .enquiry-trust-badge-icon svg {
-                  width: 12px;
-                  height: 12px;
-               }
-               .enquiry-trust-badge-text-primary {
-                  font-size: 8px;
+               .eq-left {
+                  max-width: 100%;
                   text-align: center;
                }
-               .enquiry-trust-badge-text-secondary {
-                  display: none;
+               .eq-feature {
+                  text-align: left;
                }
-               .enquiry-trust-badge-divider {
-                  height: 18px;
+               .eq-features {
+                  max-width: 500px;
+                  margin: 0 auto;
+               }
+               .eq-right {
+                  max-width: 100%;
+                  justify-content: center;
+                  width: 100%;
+               }
+               .eq-image-container {
+                  position: relative;
+                  left: auto;
+                  bottom: auto;
+                  transform: none;
+                  width: 100%;
+                  max-width: 320px;
+                  margin: 0 auto -60px auto;
+                  z-index: 5;
+               }
+               .eq-form-card {
+                  max-width: 500px;
+                  width: 100%;
+                  margin: 0 auto;
+               }
+               .eq-bg-pattern {
+                  display: none;
                }
             }
 
-            /* Breakpoint: Small Mobile (<= 480px) */
-            @media (max-width: 480px) {
-               .enquiry-content-container {
-                  padding: 8px 6px;
-                  gap: 4px;
+            @media (max-width: 650px) {
+               .eq-title {
+                  font-size: 34px;
                }
-               .enquiry-left-col {
-                  flex: 0 1 85px;
-                  padding-right: 2px;
+               .eq-trust-inner {
+                  padding: 24px;
+                  gap: 20px;
                }
-               .enquiry-headline {
-                  font-size: 11px;
-                  line-height: 1.15;
+               .eq-trust-item {
+                  width: 100%;
                }
-               .enquiry-features {
-                  display: none;
-               }
-               .enquiry-center-col {
-                  flex: 1 1 150px;
-                  max-width: 180px;
-               }
-               .enquiry-form {
-                  padding: 8px 6px;
-               }
-               .enquiry-form-header {
-                  margin-bottom: 6px;
-               }
-               .enquiry-form-title {
-                  font-size: 9px;
-               }
-               .enquiry-form-sub {
-                  font-size: 8px;
-               }
-               .enquiry-form-inputs {
-                  gap: 4px;
-                  margin-bottom: 4px;
-               }
-               .enquiry-form-input {
-                  padding: 4px 6px;
-                  font-size: 10px;
-                  border-radius: 4px;
-               }
-               .enquiry-form-button {
-                  padding: 6px 10px;
-                  font-size: 9px;
-                  border-radius: 4px;
-                  gap: 2px;
-               }
-               .enquiry-form-button svg {
-                  width: 10px;
-                  height: 10px;
-               }
-               .enquiry-right-col {
-                  flex: 0 0 55px;
-                  height: 70px;
-               }
-               .enquiry-advisor-svg {
-                  width: 65px;
-                  height: 72px;
-                  bottom: -15px;
-               }
-               
-               /* Trust Bar Small Mobile */
-               .enquiry-trust-bar-content {
-                  padding: 4px;
-               }
-               .enquiry-trust-badge-icon {
-                  width: 16px;
-                  height: 16px;
-                  border-radius: 2px;
-               }
-               .enquiry-trust-badge-icon svg {
-                  width: 10px;
-                  height: 10px;
-               }
-               .enquiry-trust-badge-text-primary {
-                  font-size: 7px;
-               }
-               .enquiry-trust-badge-divider {
-                  height: 14px;
+               .eq-image-container {
+                  max-width: 260px;
+                  margin: 0 auto -40px auto;
                }
             }
-         ` }} />
+            ` }} />
 
-         {/* ── MAIN BAND ── */}
-         <div className="enquiry-main-band">
-            {/* Dot-grid overlay */}
-            <div
-               style={{
-                  position: "absolute",
-                  inset: 0,
-                  opacity: 0.08,
-                  backgroundImage: "radial-gradient(circle, rgba(255,255,255,0.4) 1px, transparent 1px)",
-                  backgroundSize: "26px 26px",
-                  pointerEvents: "none",
-               }}
-            />
-            {/* Left orange glow */}
-            <div
-               style={{
-                  position: "absolute",
-                  left: -60,
-                  top: 0,
-                  width: 300,
-                  height: 300,
-                  borderRadius: "50%",
-                  background: "radial-gradient(circle, rgba(255,90,0,0.15) 0%, transparent 70%)",
-                  pointerEvents: "none",
-               }}
-            />
+         {/* Subtle Background Elements */}
+         <div className="eq-bg-pattern"></div>
 
-            {/* Inner content — flex row */}
-            <div className="enquiry-content-container">
-               {/* ── LEFT: Headline + features ── */}
-               <div className="enquiry-left-col">
-                  <h2 className="enquiry-headline">
-                     Stop Guessing Your
-                     <br />
-                     Career Path.
-                     <br />
-                     Get <span>Clarity</span> Today.
-                  </h2>
-
-                  {/* Feature list */}
-                  <div className="enquiry-features">
-                     {features.map((f, i) => (
-                        <div key={i} className="enquiry-feature-item">
-                           <div className="enquiry-feature-icon">
-                              <Check />
-                           </div>
-                           <span className="enquiry-feature-text">
-                              {f.label}
-                           </span>
-                        </div>
-                     ))}
-                  </div>
-               </div>
-
-               {/* ── CENTER: Form card ── */}
-               <div className="enquiry-center-col">
-                  <div className="enquiry-form-card">
-                     <form onSubmit={handleSubmit} className="enquiry-form">
-                        <div className="enquiry-form-header">
-                           <h3 className="enquiry-form-title">
-                              Book Your Free Career Consultation
-                           </h3>
-                           <p className="enquiry-form-sub">
-                              ⚡ Limited slots per day. Hurry!
-                           </p>
-                        </div>
-
-                        {/* Inputs row */}
-                        <div className="enquiry-form-inputs">
-                           <input
-                              type="text"
-                              placeholder="Your Name"
-                              value={name}
-                              onChange={(e) => setName(e.target.value)}
-                              className="enquiry-form-input"
-                              required
-                           />
-                           <input
-                              type="tel"
-                              placeholder="Mobile Number"
-                              value={mobile}
-                              onChange={(e) => setMobile(e.target.value)}
-                              maxLength={10}
-                              className="enquiry-form-input"
-                              required
-                           />
-                           {/* Select inline */}
-                           <div className="enquiry-form-select-wrapper">
-                              <select
-                                 value={interest}
-                                 onChange={(e) => setInterest(e.target.value)}
-                                 required
-                                 className="enquiry-form-input enquiry-form-select"
-                                 style={{
-                                    color: interest ? "#0f172a" : "#94a3b8",
-                                 }}
-                              >
-                                 <option value="" disabled>
-                                    Select Your Interest
-                                 </option>
-                                 {interests.map((it) => (
-                                    <option key={it} value={it} style={{ color: "#0f172a" }}>
-                                       {it}
-                                    </option>
-                                 ))}
-                              </select>
-                              <svg
-                                 className="enquiry-form-select-arrow"
-                                 width="14"
-                                 height="14"
-                                 viewBox="0 0 24 24"
-                                 fill="none"
-                                 stroke="currentColor"
-                                 strokeWidth="2"
-                              >
-                                 <path d="M6 9l6 6 6-6" strokeLinecap="round" />
-                              </svg>
-                           </div>
-                        </div>
-
-                        {/* CTA button */}
-                        <button
-                           type="submit"
-                           disabled={loading}
-                           className="enquiry-form-button"
-                        >
-                           {loading ? "Booking..." : "Book Free Slot Now"}
-                           <svg
-                              width="16"
-                              height="16"
-                              viewBox="0 0 24 24"
-                              fill="none"
-                              stroke="white"
-                              strokeWidth="2.5"
-                              strokeLinecap="round"
-                           >
-                              <path d="M5 12h14M13 6l6 6-6 6" />
-                           </svg>
-                        </button>
-                     </form>
-                  </div>
-               </div>
-
-               {/* ── RIGHT: Advisor illustration ── */}
-               <div className="enquiry-right-col">
-                  <svg
-                     viewBox="0 0 200 220"
-                     fill="none"
-                     xmlns="http://www.w3.org/2000/svg"
-                     className="enquiry-advisor-svg"
-                  >
-                     {/* Shadow base */}
-                     <ellipse cx="100" cy="210" rx="70" ry="12" fill="rgba(0,0,0,0.25)" />
-                     {/* Body */}
-                     <rect x="38" y="130" width="124" height="90" rx="20" fill="#1e4399" />
-                     {/* Shirt white triangle */}
-                     <path d="M86 130 L100 162 L114 130" fill="white" opacity="0.95" />
-                     {/* Left lapel */}
-                     <path d="M86 130 L62 182 L100 162 Z" fill="#163080" />
-                     {/* Right lapel */}
-                     <path d="M114 130 L138 182 L100 162 Z" fill="#163080" />
-                     {/* Neck */}
-                     <rect x="90" y="112" width="20" height="22" rx="6" fill="#cc8855" />
-                     {/* Head */}
-                     <ellipse cx="100" cy="88" rx="36" ry="38" fill="#cc8855" />
-                     {/* Hair top */}
-                     <ellipse cx="100" cy="54" rx="36" ry="14" fill="#1a0e05" />
-                     {/* Hair sides */}
-                     <path d="M64 72 Q56 58 64 48 Q73 42 86 48 L64 72Z" fill="#1a0e05" />
-                     <path d="M136 72 Q144 58 136 48 Q127 42 114 48 L136 72Z" fill="#1a0e05" />
-                     {/* Eyes white */}
-                     <ellipse cx="88" cy="86" rx="5" ry="5.5" fill="white" />
-                     <ellipse cx="112" cy="86" rx="5" ry="5.5" fill="white" />
-                     {/* Pupils */}
-                     <circle cx="89" cy="87" r="3.2" fill="#1a0e05" />
-                     <circle cx="113" cy="87" r="3.2" fill="#1a0e05" />
-                     {/* Eye shine */}
-                     <circle cx="90" cy="86" r="1.1" fill="white" />
-                     <circle cx="114" cy="86" r="1.1" fill="white" />
-                     {/* Smile */}
-                     <path d="M91 101 Q100 109 109 101" stroke="#a06040" strokeWidth="1.8" fill="none" strokeLinecap="round" />
-                     {/* Headset band */}
-                     <path d="M64 67 Q100 44 136 67" stroke="#333" strokeWidth="4" fill="none" strokeLinecap="round" />
-                     {/* Ear cups */}
-                     <ellipse cx="64" cy="78" rx="7" ry="10" fill="#2a2a2a" />
-                     <ellipse cx="136" cy="78" rx="7" ry="10" fill="#2a2a2a" />
-                     {/* Mic arm */}
-                     <path d="M64 76 Q50 82 52 96 Q53 104 62 106" stroke="#444" strokeWidth="2.5" fill="none" strokeLinecap="round" />
-                     {/* Mic dot */}
-                     <circle cx="61" cy="107" r="3" fill="#333" />
-                     {/* Left arm */}
-                     <path d="M38 150 Q14 172 28 200" stroke="#1e4399" strokeWidth="16" strokeLinecap="round" fill="none" />
-                     {/* Right arm */}
-                     <path d="M162 150 Q186 172 172 200" stroke="#1e4399" strokeWidth="16" strokeLinecap="round" fill="none" />
-                     {/* Hands */}
-                     <ellipse cx="29" cy="202" rx="11" ry="8" fill="#cc8855" />
-                     <ellipse cx="171" cy="202" rx="11" ry="8" fill="#cc8855" />
-                     {/* Laptop body */}
-                     <rect x="44" y="174" width="112" height="38" rx="5" fill="#d0d8f0" opacity="0.22" />
-                     <rect x="48" y="177" width="104" height="31" rx="4" fill="#b0c4e8" opacity="0.28" />
-                     {/* Apple logo hint */}
-                     <circle cx="100" cy="193" r="5" fill="white" opacity="0.18" />
+         <div className="eq-container">
+            {/* Left Content */}
+            <div className="eq-left">
+               <div className="eq-tag">
+                  <svg width="14" height="14" viewBox="0 0 24 24">
+                     <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
                   </svg>
+                  100% Free Career Guidance
+               </div>
+
+               <h2 className="eq-title">
+                  Stop Guessing Your <br />
+                  Career Path. <br />
+                  Get <span>Clarity</span> Today.
+               </h2>
+
+               <p className="eq-desc">
+                  Connect with our expert advisors to map out a personalized educational journey that aligns perfectly with your goals.
+               </p>
+
+               <div className="eq-features">
+                  {features.map((f, i) => (
+                     <div className="eq-feature" key={i}>
+                        <div className="eq-feature-icon">
+                           {f.icon}
+                        </div>
+                        <span className="eq-feature-text">{f.label}</span>
+                     </div>
+                  ))}
+               </div>
+            </div>
+
+            {/* Middle Image Content */}
+            <div className="eq-image-container">
+               <img src="https://i.ibb.co/Zz3XNSQt/projects-XBJZo-W-N.png" alt="Career Advisor" />
+            </div>
+
+            {/* Right Form Content */}
+            <div className="eq-right">
+               <div className="eq-form-card">
+                  <div className="eq-form-top-icon">
+                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                        <circle cx="12" cy="12" r="10" />
+                        <polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76" />
+                     </svg>
+                  </div>
+                  
+                  <div className="eq-form-header">
+                     <h3 className="eq-form-title">Book Your<br />Consultation</h3>
+                     <div className="eq-form-subtitle">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                           <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" />
+                        </svg>
+                        Limited slots per day. Hurry!
+                     </div>
+                  </div>
+
+                  <form onSubmit={handleSubmit}>
+                     <div className="eq-form-group">
+                        <div className="eq-input-icon">
+                           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                              <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+                              <circle cx="12" cy="7" r="4" />
+                           </svg>
+                        </div>
+                        <input
+                           type="text"
+                           placeholder="Your Full Name"
+                           value={name}
+                           onChange={(e) => setName(e.target.value)}
+                           className="eq-input"
+                           required
+                        />
+                     </div>
+                     <div className="eq-form-group">
+                        <div className="eq-input-icon">
+                           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                              <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 13.5 19.79 19.79 0 0 1 1.61 4.9 2 2 0 0 1 3.6 2.69h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L7.91 10a16 16 0 0 0 6.09 6.09l.95-.95a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z" />
+                           </svg>
+                        </div>
+                        <input
+                           type="tel"
+                           placeholder="Mobile Number"
+                           value={mobile}
+                           onChange={(e) => setMobile(e.target.value)}
+                           maxLength={10}
+                           className="eq-input"
+                           required
+                        />
+                     </div>
+                     <div className="eq-form-group eq-select-wrapper">
+                        <div className="eq-input-icon">
+                           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                              <path d="M22 10v6M2 10l10-5 10 5-10 5z" />
+                              <path d="M6 12v5c3 3 9 3 12 0v-5" />
+                           </svg>
+                        </div>
+                        <select
+                           value={interest}
+                           onChange={(e) => setInterest(e.target.value)}
+                           required
+                           className="eq-input eq-select"
+                           style={{ color: interest ? '#ffffff' : 'rgba(255,255,255,0.8)' }}
+                        >
+                           <option value="" disabled>Select Your Interest</option>
+                           {interests.map((it) => (
+                              <option key={it} value={it} style={{ color: '#000' }}>
+                                 {it}
+                              </option>
+                           ))}
+                        </select>
+                        <svg
+                           className="eq-select-arrow"
+                           width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"
+                        >
+                           <path d="M6 9l6 6 6-6" strokeLinecap="round" strokeLinejoin="round" />
+                        </svg>
+                     </div>
+
+                     <button type="submit" disabled={loading} className="eq-submit">
+                        {loading ? "Booking..." : "Book Free Slot Now"}
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                           <line x1="5" y1="12" x2="19" y2="12"></line>
+                           <polyline points="12 5 19 12 12 19"></polyline>
+                        </svg>
+                     </button>
+                  </form>
+                  
+                  <div className="eq-card-trust">
+                     <div className="eq-card-trust-item">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                           <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+                           <path d="M9 12l2 2 4-4" />
+                        </svg>
+                        100% Free
+                     </div>
+                     <div className="eq-card-trust-item">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                           <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+                           <path d="M9 12l2 2 4-4" />
+                        </svg>
+                        No Spam
+                     </div>
+                     <div className="eq-card-trust-item">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                           <rect x="3" y="11" width="18" height="11" rx="2" ry="2" />
+                           <path d="M7 11V7a5 5 0 0 1 10 0v4" />
+                        </svg>
+                        Secure
+                     </div>
+                  </div>
                </div>
             </div>
          </div>
 
-         {/* ── TRUST BAR ── */}
-         <div className="enquiry-trust-bar">
-            <div className="enquiry-trust-bar-content">
+         {/* Trust Bar */}
+         <div className="eq-trust-wrapper">
+            <div className="eq-trust-inner">
                {trustBadges.map((b, i) => (
-                  <React.Fragment key={i}>
-                     <div className="enquiry-trust-badge">
-                        <div className="enquiry-trust-badge-icon">
-                           {b.icon}
-                        </div>
-                        <div>
-                           <div className="enquiry-trust-badge-text-primary">
-                              {b.label}
-                           </div>
-                           <div className="enquiry-trust-badge-text-secondary">
-                              {b.sub}
-                           </div>
-                        </div>
+                  <div key={i} className="eq-trust-item">
+                     <div className="eq-trust-icon">
+                        {b.icon}
                      </div>
-                     {i < trustBadges.length - 1 && (
-                        <div className="enquiry-trust-badge-divider" />
-                     )}
-                  </React.Fragment>
+                     <div className="eq-trust-text">
+                        <h4>{b.label}</h4>
+                        <p>{b.sub}</p>
+                     </div>
+                  </div>
                ))}
             </div>
          </div>
       </div>
    );
 }
+
 
 export default UniversityPageNew;
