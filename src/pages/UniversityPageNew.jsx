@@ -2759,18 +2759,49 @@ function EnquirySection() {
                line-height: 1.2;
             }
 
-            /* --- Responsive Design (Forced Desktop Scaling) --- */
-            @media (max-width: 1300px) { .eq-wrapper { zoom: 0.95; } }
-            @media (max-width: 1200px) { .eq-wrapper { zoom: 0.90; } }
-            @media (max-width: 1100px) { .eq-wrapper { zoom: 0.82; } }
-            @media (max-width: 980px)  { .eq-wrapper { zoom: 0.75; } }
-            @media (max-width: 860px)  { .eq-wrapper { zoom: 0.65; } }
-            @media (max-width: 768px)  { .eq-wrapper { zoom: 0.58; } }
-            @media (max-width: 650px)  { .eq-wrapper { zoom: 0.48; } }
-            @media (max-width: 550px)  { .eq-wrapper { zoom: 0.40; } }
-            @media (max-width: 450px)  { .eq-wrapper { zoom: 0.34; } }
-            @media (max-width: 400px)  { .eq-wrapper { zoom: 0.30; } }
-            @media (max-width: 350px)  { .eq-wrapper { zoom: 0.26; } }
+            /* --- Responsive Design --- */
+            @media (max-width: 1200px) {
+               .eq-image-container {
+                  width: 400px;
+                  bottom: -60px;
+               }
+            }
+
+            @media (max-width: 1024px) {
+               .eq-container { padding: 0 24px; }
+               .eq-trust-wrapper { padding: 0 24px; }
+               .eq-title { font-size: 40px; }
+               .eq-image-container { width: 360px; bottom: -50px; }
+               .eq-trust-inner { justify-content: center; }
+            }
+
+            @media (max-width: 860px) {
+               .eq-wrapper { padding: 60px 0; }
+               .eq-container { flex-direction: column; gap: 40px; }
+               .eq-left { max-width: 100%; text-align: center; }
+               .eq-feature { text-align: left; }
+               .eq-features { max-width: 500px; margin: 0 auto; }
+               .eq-right { max-width: 100%; justify-content: center; width: 100%; transform: none; }
+               .eq-image-container {
+                  position: relative;
+                  left: auto;
+                  bottom: auto;
+                  transform: none;
+                  width: 100%;
+                  max-width: 320px;
+                  margin: 0 auto -20px auto; /* PERFECT OVERLAP FIX */
+                  z-index: 5;
+               }
+               .eq-form-card { max-width: 500px; width: 100%; margin: 0 auto; }
+               .eq-bg-pattern { display: none; }
+            }
+
+            @media (max-width: 650px) {
+               .eq-title { font-size: 34px; }
+               .eq-trust-inner { padding: 24px; gap: 20px; }
+               .eq-trust-item { width: 100%; }
+               .eq-image-container { max-width: 260px; margin: 0 auto -15px auto; }
+            }
             ` }} />
 
          {/* Subtle Background Elements */}
