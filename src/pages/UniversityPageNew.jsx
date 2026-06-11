@@ -2540,6 +2540,7 @@ function EnquirySection() {
                transform: translateX(80px);
             }
 
+            
             .eq-form-card {
                width: 100%;
                background: linear-gradient(135deg, #2563EB, #1D4ED8);
