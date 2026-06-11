@@ -2760,41 +2760,14 @@ function EnquirySection() {
             }
 
             /* --- Responsive Design --- */
-            @media (max-width: 1280px) {
-               .eq-container { padding: 0 24px; }
-               .eq-right { transform: translateX(0); max-width: 400px; }
-               .eq-left { max-width: 400px; }
-               .eq-image-container { width: 400px; bottom: -60px; }
-               .eq-title { font-size: 42px; }
+            @media (max-width: 1280px) and (min-width: 1025px) {
+               .eq-wrapper { zoom: 0.85; }
+               .eq-right { transform: translateX(0); }
             }
 
-            @media (max-width: 1100px) {
-               .eq-left { max-width: 340px; }
-               .eq-right { max-width: 360px; }
-               .eq-title { font-size: 36px; }
-               .eq-desc { font-size: 15px; }
-               .eq-image-container { width: 320px; bottom: -40px; }
-               .eq-form-card { padding: 24px 20px; }
-            }
-
-            @media (max-width: 980px) {
-               .eq-left { max-width: 300px; }
-               .eq-right { max-width: 320px; }
-               .eq-title { font-size: 30px; }
-               .eq-desc { font-size: 14px; margin-bottom: 20px; }
-               .eq-tag { font-size: 10px; padding: 6px 12px; margin-bottom: 16px; }
-               .eq-feature-icon { width: 36px; height: 36px; }
-               .eq-feature-text { font-size: 13px; }
-               .eq-feature { padding: 10px 0; gap: 10px; }
-               .eq-image-container { width: 280px; bottom: -30px; }
-               .eq-form-card { padding: 20px 16px; border-radius: 16px; }
-               .eq-form-top-icon { width: 40px; height: 40px; margin-bottom: 12px; }
-               .eq-form-title { font-size: 20px; }
-               .eq-form-subtitle { font-size: 12px; }
-               .eq-input { padding: 10px 10px 10px 36px; font-size: 14px; }
-               .eq-submit { padding: 12px; font-size: 14px; margin-top: 16px; margin-bottom: 16px; }
-               .eq-trust-inner { justify-content: center; }
-               .eq-trust-wrapper { padding: 0 24px; }
+            @media (max-width: 1024px) and (min-width: 861px) {
+               .eq-wrapper { zoom: 0.72; }
+               .eq-right { transform: translateX(0); }
             }
 
             @media (max-width: 860px) {
