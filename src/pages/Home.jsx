@@ -638,7 +638,7 @@ const Home = () => {
 
         {/* Course Cards Carousel */}
         <motion.div
-           className="max-w-[1440px] mx-auto overflow-hidden relative contain-paint"
+          className="max-w-[1440px] mx-auto overflow-hidden relative contain-paint"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
@@ -841,8 +841,17 @@ const Home = () => {
         <DeckTestimonials />
       </div>
 
-      {/* Dynamic Home Sections */}
-      {/*<DynamicHomeSection />*/}
+      {/* Promotional Banner Section */}
+      <div className="w-full bg-slate-50 py-8 sm:py-12 lg:py-16 px-4 sm:px-6 lg:px-8 flex justify-center items-center overflow-hidden">
+        <div className="w-full max-w-7xl mx-auto">
+          <img
+            src="https://i.ibb.co/CpW7LTVF/Whats-App-Image-2026-06-07-at-11-58-50-PM.jpg"
+            alt="Promotional Banner"
+            className="w-full h-auto rounded-2xl shadow-lg hover:shadow-xl transition-shadow duration-300 object-cover border border-slate-200"
+            loading="lazy"
+          />
+        </div>
+      </div>
 
       {/* Blog Section */}
       <div className="max-w-full overflow-hidden">
@@ -899,45 +908,45 @@ const Home = () => {
 
       {/* Contact / Enquiry Section */}
       <section className="py-12 md:py-16 bg-gradient-to-r from-blue-50 to-slate-50 relative overflow-hidden mt-12 md:mt-24 max-w-full">
-         {/* Background elements */}
-         <div className="absolute top-0 right-0 w-full h-full bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-[0.03]"></div>
+        {/* Background elements */}
+        <div className="absolute top-0 right-0 w-full h-full bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-[0.03]"></div>
 
-         <div className="container mx-auto px-6 relative z-10">
-            <div className="max-w-6xl mx-auto flex flex-col md:flex-row items-center gap-10 md:gap-16">
+        <div className="container mx-auto px-6 relative z-10">
+          <div className="max-w-6xl mx-auto flex flex-col md:flex-row items-center gap-10 md:gap-16">
 
-               {/* Left Column: Text and Image */}
-               <div className="w-full md:w-1/2 flex flex-col items-center md:items-start text-center md:text-left">
-                  <div className="mb-6 flex flex-col items-center md:items-start">
-                     <h2 className="text-4xl sm:text-5xl lg:text-6xl font-black text-slate-900 mb-4 tracking-tighter font-display leading-[1.1]">
-                        Still <span className="text-blue-600">Confused?</span>
-                     </h2>
-                     <p className="text-slate-600 font-medium text-lg md:text-xl flex items-center justify-center md:justify-start gap-3">
-                        Get 1:1 free counselling Now
-                        <span className="p-2 bg-green-100 text-green-600 rounded-full animate-bounce shadow-sm">
-                           <Phone className="w-5 h-5 fill-current" />
-                        </span>
-                     </p>
-                  </div>
+            {/* Left Column: Text and Image */}
+            <div className="w-full md:w-1/2 flex flex-col items-center md:items-start text-center md:text-left">
+              <div className="mb-6 flex flex-col items-center md:items-start">
+                <h2 className="text-4xl sm:text-5xl lg:text-6xl font-black text-slate-900 mb-4 tracking-tighter font-display leading-[1.1]">
+                  Still <span className="text-blue-600">Confused?</span>
+                </h2>
+                <p className="text-slate-600 font-medium text-lg md:text-xl flex items-center justify-center md:justify-start gap-3">
+                  Get 1:1 free counselling Now
+                  <span className="p-2 bg-green-100 text-green-600 rounded-full animate-bounce shadow-sm">
+                    <Phone className="w-5 h-5 fill-current" />
+                  </span>
+                </p>
+              </div>
 
-                  <div className="w-full max-w-sm mt-4 md:mt-8 relative hidden md:block">
-                     <div className="absolute inset-0 bg-blue-200 rounded-[3rem] blur-[80px] opacity-40"></div>
-                     <img
-                        src="https://static.vecteezy.com/system/resources/thumbnails/010/869/741/small/faq-concept-illustration-people-looking-through-magnifying-glass-at-interrogation-point-searching-solutions-useful-information-customer-support-solving-problem-free-png.png"
-                        alt="Free Counselling Support"
-                        className="w-full h-auto relative z-10 mix-blend-multiply drop-shadow-xl scale-110 -translate-y-4"
-                     />
-                  </div>
-               </div>
-
-               {/* Right Column: Form */}
-               <div className="w-full md:w-1/2 flex justify-center md:justify-end">
-                  <div className="w-full max-w-lg relative">
-                     <EnquiryPopup isInline={true} onClose={() => {}} />
-                  </div>
-               </div>
-
+              <div className="w-full max-w-sm mt-4 md:mt-8 relative hidden md:block">
+                <div className="absolute inset-0 bg-blue-200 rounded-[3rem] blur-[80px] opacity-40"></div>
+                <img
+                  src="https://static.vecteezy.com/system/resources/thumbnails/010/869/741/small/faq-concept-illustration-people-looking-through-magnifying-glass-at-interrogation-point-searching-solutions-useful-information-customer-support-solving-problem-free-png.png"
+                  alt="Free Counselling Support"
+                  className="w-full h-auto relative z-10 mix-blend-multiply drop-shadow-xl scale-110 -translate-y-4"
+                />
+              </div>
             </div>
-         </div>
+
+            {/* Right Column: Form */}
+            <div className="w-full md:w-1/2 flex justify-center md:justify-end">
+              <div className="w-full max-w-lg relative">
+                <EnquiryPopup isInline={true} onClose={() => { }} />
+              </div>
+            </div>
+
+          </div>
+        </div>
       </section>
     </div>
   );

@@ -2048,6 +2048,18 @@ const UniversityPageNew = () => {
             </div>
          </section>
 
+         {/* Promotional Banner Section */}
+         <div className="w-full bg-slate-50 py-8 sm:py-12 lg:py-16 px-4 sm:px-6 lg:px-8 flex justify-center items-center overflow-hidden">
+            <div className="w-full max-w-7xl mx-auto">
+               <img
+                  src="https://i.ibb.co/YBhQLfTw/Whats-App-Image-2026-06-07-at-11-58-51-PM.jpg"
+                  alt="Promotional Banner"
+                  className="w-full h-auto rounded-2xl shadow-lg hover:shadow-xl transition-shadow duration-300 object-cover border border-slate-200"
+                  loading="lazy"
+               />
+            </div>
+         </div>
+
          {/* 7. CAREER SYSTEM SECTION (Image 2) */}
          <section className="py-24 bg-slate-900">
             <div className="container mx-auto px-6">
@@ -2525,6 +2537,7 @@ function EnquirySection() {
                display: flex;
                justify-content: flex-end;
                z-index: 4;
+               transform: translateX(80px);
             }
 
             .eq-form-card {
@@ -2747,30 +2760,41 @@ function EnquirySection() {
             }
 
             /* --- Responsive Design --- */
-            @media (max-width: 1200px) {
-               .eq-image-container {
-                  width: 400px;
-                  bottom: -60px;
-               }
+            @media (max-width: 1280px) {
+               .eq-container { padding: 0 24px; }
+               .eq-right { transform: translateX(0); max-width: 400px; }
+               .eq-left { max-width: 400px; }
+               .eq-image-container { width: 400px; bottom: -60px; }
+               .eq-title { font-size: 42px; }
             }
 
-            @media (max-width: 1024px) {
-               .eq-container {
-                  padding: 0 24px;
-               }
-               .eq-trust-wrapper {
-                  padding: 0 24px;
-               }
-               .eq-title {
-                  font-size: 40px;
-               }
-               .eq-image-container {
-                  width: 360px;
-                  bottom: -50px;
-               }
-               .eq-trust-inner {
-                  justify-content: center;
-               }
+            @media (max-width: 1100px) {
+               .eq-left { max-width: 340px; }
+               .eq-right { max-width: 360px; }
+               .eq-title { font-size: 36px; }
+               .eq-desc { font-size: 15px; }
+               .eq-image-container { width: 320px; bottom: -40px; }
+               .eq-form-card { padding: 24px 20px; }
+            }
+
+            @media (max-width: 980px) {
+               .eq-left { max-width: 300px; }
+               .eq-right { max-width: 320px; }
+               .eq-title { font-size: 30px; }
+               .eq-desc { font-size: 14px; margin-bottom: 20px; }
+               .eq-tag { font-size: 10px; padding: 6px 12px; margin-bottom: 16px; }
+               .eq-feature-icon { width: 36px; height: 36px; }
+               .eq-feature-text { font-size: 13px; }
+               .eq-feature { padding: 10px 0; gap: 10px; }
+               .eq-image-container { width: 280px; bottom: -30px; }
+               .eq-form-card { padding: 20px 16px; border-radius: 16px; }
+               .eq-form-top-icon { width: 40px; height: 40px; margin-bottom: 12px; }
+               .eq-form-title { font-size: 20px; }
+               .eq-form-subtitle { font-size: 12px; }
+               .eq-input { padding: 10px 10px 10px 36px; font-size: 14px; }
+               .eq-submit { padding: 12px; font-size: 14px; margin-top: 16px; margin-bottom: 16px; }
+               .eq-trust-inner { justify-content: center; }
+               .eq-trust-wrapper { padding: 0 24px; }
             }
 
             @media (max-width: 860px) {
@@ -2796,6 +2820,7 @@ function EnquirySection() {
                   max-width: 100%;
                   justify-content: center;
                   width: 100%;
+                  transform: none;
                }
                .eq-image-container {
                   position: relative;
@@ -2884,7 +2909,7 @@ function EnquirySection() {
                         <polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76" />
                      </svg>
                   </div>
-                  
+
                   <div className="eq-form-header">
                      <h3 className="eq-form-title">Book Your<br />Consultation</h3>
                      <div className="eq-form-subtitle">
@@ -2965,7 +2990,7 @@ function EnquirySection() {
                         </svg>
                      </button>
                   </form>
-                  
+
                   <div className="eq-card-trust">
                      <div className="eq-card-trust-item">
                         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
