@@ -2759,78 +2759,18 @@ function EnquirySection() {
                line-height: 1.2;
             }
 
-            /* --- Responsive Design --- */
-            @media (max-width: 1280px) and (min-width: 1025px) {
-               .eq-wrapper { zoom: 0.85; }
-               .eq-right { transform: translateX(0); }
-            }
-
-            @media (max-width: 1024px) and (min-width: 861px) {
-               .eq-wrapper { zoom: 0.72; }
-               .eq-right { transform: translateX(0); }
-            }
-
-            @media (max-width: 860px) {
-               .eq-wrapper {
-                  padding: 60px 0;
-               }
-               .eq-container {
-                  flex-direction: column;
-                  gap: 40px;
-               }
-               .eq-left {
-                  max-width: 100%;
-                  text-align: center;
-               }
-               .eq-feature {
-                  text-align: left;
-               }
-               .eq-features {
-                  max-width: 500px;
-                  margin: 0 auto;
-               }
-               .eq-right {
-                  max-width: 100%;
-                  justify-content: center;
-                  width: 100%;
-                  transform: none;
-               }
-               .eq-image-container {
-                  position: relative;
-                  left: auto;
-                  bottom: auto;
-                  transform: none;
-                  width: 100%;
-                  max-width: 320px;
-                  margin: 0 auto -60px auto;
-                  z-index: 5;
-               }
-               .eq-form-card {
-                  max-width: 500px;
-                  width: 100%;
-                  margin: 0 auto;
-               }
-               .eq-bg-pattern {
-                  display: none;
-               }
-            }
-
-            @media (max-width: 650px) {
-               .eq-title {
-                  font-size: 34px;
-               }
-               .eq-trust-inner {
-                  padding: 24px;
-                  gap: 20px;
-               }
-               .eq-trust-item {
-                  width: 100%;
-               }
-               .eq-image-container {
-                  max-width: 260px;
-                  margin: 0 auto -40px auto;
-               }
-            }
+            /* --- Responsive Design (Forced Desktop Scaling) --- */
+            @media (max-width: 1300px) { .eq-wrapper { zoom: 0.95; } }
+            @media (max-width: 1200px) { .eq-wrapper { zoom: 0.90; } }
+            @media (max-width: 1100px) { .eq-wrapper { zoom: 0.82; } }
+            @media (max-width: 980px)  { .eq-wrapper { zoom: 0.75; } }
+            @media (max-width: 860px)  { .eq-wrapper { zoom: 0.65; } }
+            @media (max-width: 768px)  { .eq-wrapper { zoom: 0.58; } }
+            @media (max-width: 650px)  { .eq-wrapper { zoom: 0.48; } }
+            @media (max-width: 550px)  { .eq-wrapper { zoom: 0.40; } }
+            @media (max-width: 450px)  { .eq-wrapper { zoom: 0.34; } }
+            @media (max-width: 400px)  { .eq-wrapper { zoom: 0.30; } }
+            @media (max-width: 350px)  { .eq-wrapper { zoom: 0.26; } }
             ` }} />
 
          {/* Subtle Background Elements */}
