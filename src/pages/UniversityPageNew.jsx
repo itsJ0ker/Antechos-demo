@@ -2049,15 +2049,13 @@ const UniversityPageNew = () => {
          </section>
 
          {/* Promotional Banner Section */}
-         <div className="w-full bg-slate-50 py-8 sm:py-12 lg:py-16 px-4 sm:px-6 lg:px-8 flex justify-center items-center overflow-hidden">
-            <div className="w-full max-w-7xl mx-auto">
-               <img
-                  src="https://i.ibb.co/YBhQLfTw/Whats-App-Image-2026-06-07-at-11-58-51-PM.jpg"
-                  alt="Promotional Banner"
-                  className="w-full h-auto rounded-2xl shadow-lg hover:shadow-xl transition-shadow duration-300 object-cover border border-slate-200"
-                  loading="lazy"
-               />
-            </div>
+         <div className="w-full overflow-hidden">
+            <img
+               src="./public/imgggg23.jpeg"
+               alt="Promotional Banner"
+               className="w-full h-auto object-cover"
+               loading="lazy"
+            />
          </div>
 
          {/* 7. CAREER SYSTEM SECTION (Image 2) */}
@@ -2540,7 +2538,7 @@ function EnquirySection() {
                transform: translateX(80px);
             }
 
-            
+
             .eq-form-card {
                width: 100%;
                background: linear-gradient(135deg, #2563EB, #1D4ED8);
