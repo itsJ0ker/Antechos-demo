@@ -844,7 +844,7 @@ const Home = () => {
       {/* Promotional Banner Section */}
       <div className="w-full overflow-hidden">
         <img
-          src="./public/imgggg23.jpeg"
+          src="/imgggg23.jpeg"
           alt="Promotional Banner"
           className="w-full h-auto object-cover"
           loading="lazy"
