@@ -2758,18 +2758,111 @@ function EnquirySection() {
                line-height: 1.2;
             }
 
-            /* --- Responsive Design (Forced Desktop Scaling) --- */
+            /* --- Responsive Design (Forced Desktop Scaling for Desktop/Tablet) --- */
             @media (max-width: 1300px) { .eq-wrapper { zoom: 0.90; } }
             @media (max-width: 1200px) { .eq-wrapper { zoom: 0.85; } }
             @media (max-width: 1100px) { .eq-wrapper { zoom: 0.78; } }
             @media (max-width: 980px)  { .eq-wrapper { zoom: 0.70; } }
             @media (max-width: 860px)  { .eq-wrapper { zoom: 0.60; } }
-            @media (max-width: 768px)  { .eq-wrapper { zoom: 0.53; } }
-            @media (max-width: 650px)  { .eq-wrapper { zoom: 0.44; } }
-            @media (max-width: 550px)  { .eq-wrapper { zoom: 0.36; } }
-            @media (max-width: 450px)  { .eq-wrapper { zoom: 0.30; } }
-            @media (max-width: 400px)  { .eq-wrapper { zoom: 0.26; } }
-            @media (max-width: 350px)  { .eq-wrapper { zoom: 0.22; } }
+
+            /* --- True Mobile Responsive Design --- */
+            @media (max-width: 768px) {
+               .eq-wrapper { 
+                  zoom: 1 !important; 
+                  padding: 60px 0;
+               }
+               .eq-container {
+                  flex-direction: column;
+                  padding: 0 20px;
+                  gap: 48px;
+               }
+               .eq-left {
+                  max-width: 100%;
+                  text-align: center;
+               }
+               .eq-tag {
+                  margin: 0 auto 24px auto;
+               }
+               .eq-title {
+                  font-size: 38px;
+                  margin-bottom: 16px;
+               }
+               .eq-title br {
+                  display: none;
+               }
+               .eq-desc {
+                  max-width: 500px;
+                  margin: 0 auto 32px auto;
+               }
+               .eq-features {
+                  align-items: center;
+               }
+               .eq-feature {
+                  width: 100%;
+                  max-width: 400px;
+                  text-align: left;
+               }
+               .eq-image-container {
+                  position: relative;
+                  left: auto;
+                  bottom: auto;
+                  transform: none;
+                  width: 100%;
+                  max-width: 320px;
+                  margin: -20px auto 0 auto;
+               }
+               .eq-right {
+                  max-width: 100%;
+                  width: 100%;
+                  transform: none;
+                  justify-content: center;
+               }
+               .eq-form-card {
+                  max-width: 500px;
+                  margin: 0 auto;
+                  padding: 32px 24px;
+               }
+               .eq-trust-wrapper {
+                  margin-top: 60px;
+                  padding: 0 20px;
+               }
+               .eq-trust-inner {
+                  padding: 24px;
+                  flex-direction: column;
+                  gap: 20px;
+               }
+               .eq-trust-item {
+                  width: 100%;
+                  justify-content: flex-start;
+               }
+               .eq-bg-pattern {
+                  display: none;
+               }
+            }
+
+            @media (max-width: 480px) {
+               .eq-title {
+                  font-size: 32px;
+               }
+               .eq-form-card {
+                  padding: 28px 20px;
+               }
+               .eq-form-title {
+                  font-size: 24px;
+               }
+               .eq-card-trust {
+                  flex-direction: column;
+                  gap: 12px;
+                  align-items: flex-start;
+               }
+               .eq-card-trust-item {
+                  width: 100%;
+               }
+               .eq-trust-icon {
+                  width: 40px;
+                  height: 40px;
+               }
+            }
             ` }} />
 
          {/* Subtle Background Elements */}
