@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { supabase } from '../lib/supabase';
-import { Linkedin, ChevronLeft, ChevronRight, ArrowRight, CheckCircle, Rocket, Eye, Play } from 'lucide-react';
+import { Linkedin, Globe, ChevronLeft, ChevronRight, ArrowRight, CheckCircle, Rocket, Eye, Play } from 'lucide-react';
 
 const MarqueeBand = ({ label }) => (
   <div style={{ textAlign: 'center', overflow: 'hidden' }}>
@@ -974,19 +974,34 @@ const Aboutus = () => {
                       <div style={{ padding: '20px 24px' }}>
                         <h3 style={{ fontSize: 20, fontWeight: 700, marginBottom: 4 }}>{member.name}</h3>
                         <p style={{ color: 'var(--orange)', fontWeight: 600, fontSize: 14, marginBottom: 12 }}>{member.position}</p>
-                        {member.linkedin_url && (
-                          <a href={member.linkedin_url} target="_blank" rel="noopener noreferrer" style={{
-                            display: 'inline-flex', alignItems: 'center', gap: 6,
-                            padding: '8px 16px', background: 'rgba(56,189,248,0.1)', border: '1px solid rgba(56,189,248,0.2)',
-                            borderRadius: 100, fontSize: 13, fontWeight: 600, color: 'var(--orange)', textDecoration: 'none',
-                            transition: 'background 0.2s'
-                          }}
-                            onMouseEnter={e => { e.currentTarget.style.background = 'rgba(56,189,248,0.2)'; }}
-                            onMouseLeave={e => { e.currentTarget.style.background = 'rgba(56,189,248,0.1)'; }}
-                          >
-                            <Linkedin size={14} /> LinkedIn
-                          </a>
-                        )}
+                        <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
+                          {member.linkedin_url && (
+                            <a href={member.linkedin_url} target="_blank" rel="noopener noreferrer" style={{
+                              display: 'inline-flex', alignItems: 'center', gap: 6,
+                              padding: '8px 16px', background: 'rgba(56,189,248,0.1)', border: '1px solid rgba(56,189,248,0.2)',
+                              borderRadius: 100, fontSize: 13, fontWeight: 600, color: 'var(--orange)', textDecoration: 'none',
+                              transition: 'background 0.2s'
+                            }}
+                              onMouseEnter={e => { e.currentTarget.style.background = 'rgba(56,189,248,0.2)'; }}
+                              onMouseLeave={e => { e.currentTarget.style.background = 'rgba(56,189,248,0.1)'; }}
+                            >
+                              <Linkedin size={14} /> LinkedIn
+                            </a>
+                          )}
+                          {member.website_url && (
+                            <a href={member.website_url} target="_blank" rel="noopener noreferrer" style={{
+                              display: 'inline-flex', alignItems: 'center', gap: 6,
+                              padding: '8px 16px', background: 'rgba(56,189,248,0.1)', border: '1px solid rgba(56,189,248,0.2)',
+                              borderRadius: 100, fontSize: 13, fontWeight: 600, color: 'var(--orange)', textDecoration: 'none',
+                              transition: 'background 0.2s'
+                            }}
+                              onMouseEnter={e => { e.currentTarget.style.background = 'rgba(56,189,248,0.2)'; }}
+                              onMouseLeave={e => { e.currentTarget.style.background = 'rgba(56,189,248,0.1)'; }}
+                            >
+                              <Globe size={14} /> Website
+                            </a>
+                          )}
+                        </div>
                       </div>
                     </div>
                   ))}

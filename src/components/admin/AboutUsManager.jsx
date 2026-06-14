@@ -9,7 +9,7 @@ const AboutUsManager = () => {
   const [saving, setSaving] = useState(false);
   const [activeTab, setActiveTab] = useState('team');
   const [editingId, setEditingId] = useState(null);
-  const [teamForm, setTeamForm] = useState({ name: '', position: '', bio: '', image_url: '', linkedin_url: '', email: '', is_active: true, display_order: 0 });
+  const [teamForm, setTeamForm] = useState({ name: '', position: '', bio: '', image_url: '', linkedin_url: '', website_url: '', email: '', is_active: true, display_order: 0 });
   const [valueForm, setValueForm] = useState({ type: 'mission', title: '', description: '', icon: '', display_order: 0 });
 
   useEffect(() => { fetchData(); }, []);
@@ -39,7 +39,7 @@ const AboutUsManager = () => {
         await supabase.from('about_team').insert([teamForm]);
       }
       alert('Saved!');
-      setTeamForm({ name: '', position: '', bio: '', image_url: '', linkedin_url: '', email: '', is_active: true, display_order: 0 });
+      setTeamForm({ name: '', position: '', bio: '', image_url: '', linkedin_url: '', website_url: '', email: '', is_active: true, display_order: 0 });
       setEditingId(null);
       fetchData();
     } catch (error) {
@@ -97,9 +97,10 @@ const AboutUsManager = () => {
               <input type="text" placeholder="Name *" value={teamForm.name} onChange={(e) => setTeamForm({ ...teamForm, name: e.target.value })} className="px-4 py-2 border-2 rounded-lg" />
               <input type="text" placeholder="Position" value={teamForm.position} onChange={(e) => setTeamForm({ ...teamForm, position: e.target.value })} className="px-4 py-2 border-2 rounded-lg" />
               <input type="url" placeholder="Image URL" value={teamForm.image_url} onChange={(e) => setTeamForm({ ...teamForm, image_url: e.target.value })} className="col-span-2 px-4 py-2 border-2 rounded-lg" />
-              <input type="url" placeholder="LinkedIn" value={teamForm.linkedin_url} onChange={(e) => setTeamForm({ ...teamForm, linkedin_url: e.target.value })} className="px-4 py-2 border-2 rounded-lg" />
-              <input type="email" placeholder="Email" value={teamForm.email} onChange={(e) => setTeamForm({ ...teamForm, email: e.target.value })} className="px-4 py-2 border-2 rounded-lg" />
-              <textarea placeholder="Bio" value={teamForm.bio} onChange={(e) => setTeamForm({ ...teamForm, bio: e.target.value })} className="col-span-2 px-4 py-2 border-2 rounded-lg" rows={3} />
+              <input type="url" placeholder="LinkedIn" value={teamForm.linkedin_url || ''} onChange={(e) => setTeamForm({ ...teamForm, linkedin_url: e.target.value })} className="px-4 py-2 border-2 rounded-lg" />
+              <input type="url" placeholder="Website URL" value={teamForm.website_url || ''} onChange={(e) => setTeamForm({ ...teamForm, website_url: e.target.value })} className="px-4 py-2 border-2 rounded-lg" />
+              <input type="email" placeholder="Email" value={teamForm.email || ''} onChange={(e) => setTeamForm({ ...teamForm, email: e.target.value })} className="col-span-2 px-4 py-2 border-2 rounded-lg" />
+              <textarea placeholder="Bio" value={teamForm.bio || ''} onChange={(e) => setTeamForm({ ...teamForm, bio: e.target.value })} className="col-span-2 px-4 py-2 border-2 rounded-lg" rows={3} />
               <div className="flex items-center gap-2">
                 <input type="checkbox" checked={teamForm.is_active} onChange={(e) => setTeamForm({ ...teamForm, is_active: e.target.checked })} />
                 <label>Active</label>
@@ -109,7 +110,7 @@ const AboutUsManager = () => {
               <button onClick={saveTeam} disabled={saving} className="flex items-center gap-2 px-6 py-3 bg-green-600 text-white rounded-lg hover:bg-green-700 disabled:opacity-50">
                 <Save className="w-5 h-5" />{saving ? 'Saving...' : 'Save'}
               </button>
-              {editingId && <button onClick={() => { setEditingId(null); setTeamForm({ name: '', position: '', bio: '', image_url: '', linkedin_url: '', email: '', is_active: true, display_order: 0 }); }} className="px-6 py-3 bg-gray-200 rounded-lg"><X className="w-5 h-5" /></button>}
+              {editingId && <button onClick={() => { setEditingId(null); setTeamForm({ name: '', position: '', bio: '', image_url: '', linkedin_url: '', website_url: '', email: '', is_active: true, display_order: 0 }); }} className="px-6 py-3 bg-gray-200 rounded-lg"><X className="w-5 h-5" /></button>}
             </div>
           </div>
           <div className="bg-white rounded-xl border">
