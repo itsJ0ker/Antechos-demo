@@ -26,6 +26,7 @@ import FullStackTeams from "./components/sections/FullStackTeams";
 import CoursesNewV2 from "./pages/CoursesNewV2";
 import PremiumCourseDetail from "./pages/PremiumCourseDetail";
 import CoursesPremium from "./pages/CoursesPremium";
+import CoursesNewTry from "./pages/CoursesNewTry";
 import CoursePremiumDetail from "./pages/CoursePremiumDetail";
 import ScrollToTop from "./components/Layout/ScrollToTop";
 import EnquiryPopup from "./components/sections/PopupForm";
@@ -113,6 +114,7 @@ const AppContent = () => {
           <Route path="/Courses" element={<Courses />} />
           <Route path="/courses-new" element={<CoursesNewV2 />} />
           <Route path="/courses-new/:id" element={<PremiumCourseDetail />} />
+          <Route path="/courses-new-try" element={<CoursesNewTry />} />
           <Route path="/courses-premium" element={<CoursesPremium />} />{/*New*/}
           <Route path="/courses-premium/:slug" element={<CoursePremiumDetail />} />
           <Route path="/Universities-mainbutnotinusenow" element={<UniversityPage />} />{/*maim*/}
