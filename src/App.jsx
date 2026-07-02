@@ -15,6 +15,7 @@ import MarketplaceImarticus from "./pages/MarketplaceImarticus";
 import MarketplaceRedesign from "./pages/MarketplaceRedesign";
 import MarketplacePremium from "./pages/MarketplacePremium";
 import MarketplaceV2 from "./pages/MarketplaceV2";
+import MarketplaceFinal from "./pages/Marketplace-Final";
 import TrainerProfile from "./components/sections/Trainerprofile";
 import UniversityDetail from "./components/sections/UniversityDetails";
 import CourseDetail from "./pages/CourseDetail";
@@ -107,10 +108,11 @@ const AppContent = () => {
           <Route path="/" element={<Home />} />
           <Route path="/AuthPage" element={<AuthPage />} />
           <Route path="/About" element={<About />} />
-          <Route path="/Marketplace" element={<MarketplaceV2 />} />
+          {/*<Route path="/Marketplace" element={<MarketplaceV2 />} />*/}
           <Route path="/marketplace-new" element={<MarketplaceImarticus />} />
           <Route path="/marketplace-redesign" element={<MarketplaceRedesign />} />
           <Route path="/marketplace-premium" element={<MarketplacePremium />} />
+          <Route path="/marketplace" element={<MarketplaceFinal />} />
           <Route path="/Courses" element={<Courses />} />
           <Route path="/courses-new" element={<CoursesNewV2 />} />
           <Route path="/courses-new/:id" element={<PremiumCourseDetail />} />
