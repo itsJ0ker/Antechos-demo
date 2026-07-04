@@ -78,51 +78,69 @@ const MarketplaceFinal = () => {
           }
         `}
       </style>
-      <div className="marketplace-final-container">
-        <video
-          src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260514_135830_bb6491d1-9b66-4aec-9722-13b4dfe3fb46.mp4"
-          autoPlay
-          muted
-          loop
-          playsInline
-          style={{
-            position: 'fixed',
-            top: 0,
-            left: 0,
-            width: '100%',
-            height: '100vh',
-            objectFit: 'cover',
-            zIndex: 0
-          }}
-        />
-        <section className="marketplace-section">
-          <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', maxWidth: '720px' }}>
-            <h2 className="marketplace-heading">
+      <div className="marketplace-final-container relative w-full overflow-hidden">
+        {/* Background Video setup */}
+        <div className="absolute inset-0 w-full h-[100vh] z-0">
+          <video
+            src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260514_135830_bb6491d1-9b66-4aec-9722-13b4dfe3fb46.mp4"
+            autoPlay
+            muted
+            loop
+            playsInline
+            className="absolute top-0 left-0 w-full h-full object-cover"
+          />
+          {/* Gradient overlay for better text contrast and seamless blend to next section */}
+          <div className="absolute inset-0 bg-gradient-to-b from-black/80 via-black/40 to-[#fafafa]"></div>
+        </div>
+
+        <section className="relative z-10 flex flex-col justify-center items-center min-h-[100vh] px-6 text-center pb-20">
+          <div className="flex flex-col items-center max-w-5xl mx-auto pt-10">
+            {/* Premium Badge */}
+
+
+            {/* Main Centered Heading */}
+            <h2 className="flex flex-wrap justify-center gap-x-[0.3em] gap-y-2 text-4xl sm:text-6xl md:text-7xl lg:text-[5.5rem] font-black leading-[1.05] tracking-tighter text-white mb-8 uppercase drop-shadow-2xl font-display">
               {words.map((word, i) => (
                 <FadeUp
                   key={i}
                   as="span"
-                  delay={0.15 + i * 0.08}
-                  y={32}
+                  delay={0.2 + i * 0.1}
+                  y={40}
+                  className={(word === "AUTOMATION" || word === "SYSTEMS.") ? "text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-[#c77dff]" : ""}
                 >
                   {word}
                 </FadeUp>
               ))}
             </h2>
-            <FadeUp
-              as="p"
-              delay={0.9}
-              style={{
-                marginTop: '24px',
-                fontSize: '14px',
-                lineHeight: '1.65',
-                color: 'rgba(255,255,255,0.85)',
-                maxWidth: '260px'
-              }}
-            >
-              We provide all-in-one AI automation services in one place.
+
+            {/* Sophisticated Subtitle */}
+            <FadeUp delay={0.9} className="mt-4 mb-12">
+              <p className="text-lg md:text-2xl text-white/80 max-w-3xl mx-auto font-body font-medium leading-relaxed">
+                We design and deploy <strong className="text-white font-semibold">all-in-one intelligent systems</strong> that fundamentally transform the way your business scales and operates.
+              </p>
+            </FadeUp>
+
+            {/* Call to Action Buttons */}
+            <FadeUp delay={1.1}>
+              <div className="flex flex-col sm:flex-row gap-5 items-center justify-center">
+                <button className="px-10 py-5 rounded-full bg-white text-black font-extrabold text-lg tracking-wide hover:scale-105 transition-transform duration-300 shadow-[0_0_40px_rgba(255,255,255,0.25)] hover:shadow-[0_0_60px_rgba(255,255,255,0.4)]">
+                  Start Building
+                </button>
+                <button className="px-10 py-5 rounded-full bg-black/40 backdrop-blur-md border border-white/20 text-white font-bold text-lg tracking-wide hover:bg-white/10 transition-colors duration-300 flex items-center gap-3">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+                  Watch Showcase
+                </button>
+              </div>
             </FadeUp>
           </div>
+
+          {/* Minimalist Scroll Indicator */}
+          <FadeUp delay={1.5} className="absolute bottom-10 left-1/2 -translate-x-1/2">
+            <div className="flex flex-col items-center gap-4 opacity-70 hover:opacity-100 transition-opacity cursor-pointer">
+              <span className="text-[10px] text-white font-bold uppercase tracking-[0.25em]">Scroll to Explore</span>
+              <div className="w-[1px] h-12 bg-gradient-to-b from-white to-transparent animate-bounce"></div>
+            </div>
+          </FadeUp>
         </section>
 
         {/* New Grid Section */}
