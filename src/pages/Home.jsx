@@ -19,6 +19,8 @@ import CourseCard from "../components/Cards/CourseCard";
 import EnquiryPopup from "../components/sections/PopupForm";
 import BannerCarousel from "../components/sections/BannerCarousel";
 import DynamicHomeSection from "../components/sections/DynamicHomeSection";
+import WhatCreatorsDo from "../components/sections/WhatCreatorsDo";
+import OfficialProgramPortfolios from "../components/sections/OfficialProgramPortfolios";
 import allCourses from "../data/allCourses";
 import { getTrainers } from "../data/dataservice";
 import usp1 from "../assets/USP/usp1.png";
@@ -585,6 +587,11 @@ const Home = () => {
         </div>
       </section>
 
+      {/* What Creators Do Section */}
+      <WhatCreatorsDo />
+
+
+
       {/* TESTIMONIALS/COURSES SECTION */}
       <div className="py-8 sm:py-16 bg-blue-50 space-y-6 sm:space-y-10 px-4 max-w-full overflow-hidden">
         {/* Header */}
@@ -830,6 +837,10 @@ const Home = () => {
           </div>
         </div>
       </section>
+
+
+      {/* Official Program Portfolios */}
+      <OfficialProgramPortfolios />
 
 
 
