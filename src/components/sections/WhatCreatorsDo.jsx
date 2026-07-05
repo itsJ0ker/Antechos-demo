@@ -14,7 +14,7 @@ const WhatCreatorsDo = () => {
 
       <div className="max-w-7xl mx-auto relative z-10">
         <h2 className="text-3xl md:text-5xl font-extrabold text-center text-gray-900 mb-12 md:mb-16 tracking-tight">
-          What creators do on TagMango
+          What creators do on Antechos India
         </h2>
 
         {/* Top Row: 3 Cards */}
