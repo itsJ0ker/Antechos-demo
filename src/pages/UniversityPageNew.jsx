@@ -879,480 +879,193 @@ const UniversityPageNew = () => {
          </section>
 
          {/* ==================== NEW SECTION 1: ONE DEGREE. ZERO DISTINCTIONS ==================== */}
-         <section className="relative w-full overflow-hidden bg-white">
-            {/* Desktop Background Image */}
-            <div className="absolute inset-0 pointer-events-none hidden sm:block">
-               <img 
-                  alt="" 
-                  loading="lazy" 
-                  decoding="async" 
-                  className="object-fill w-full h-full absolute inset-0"
-                  src="https://fmc-contents.s3.ap-south-1.amazonaws.com/assets/onedegree.png" 
-               />
-            </div>
+         <section className="relative w-full overflow-hidden bg-gradient-to-b from-[#020813] via-[#051129] to-[#020813] py-20 text-white border-b border-slate-900">
+            {/* Spotlight Glow Effect */}
+            <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-blue-500/10 rounded-full blur-[120px] pointer-events-none"></div>
+            <div className="grid-pattern opacity-[0.02]" />
             
-            {/* Desktop Layout */}
-            <div className="relative z-10 hidden sm:flex flex-col gap-[3rem] items-center py-[5rem] mx-auto w-full max-w-7xl px-6">
-               <div className="flex flex-col gap-[0.75rem] items-center text-center w-full">
-                  <p className="font-bold text-[2.75rem] leading-[1.2]" style={{ fontFamily: 'var(--font-bricolage-grotesque, sans-serif)' }}>
-                     <span className="text-blue-600">One degree. </span>
-                     <span className="text-slate-900">Zero distinctions</span>
-                  </p>
-                  <p className="font-medium text-[1rem] leading-[1.5] text-[#5e5e5e]">
-                     The certificate is identical. The only difference is where you sat.
-                  </p>
-               </div>
-               
-               <div className="flex gap-[3.75rem] items-center justify-center w-full">
-                  {/* Left Visual: Certificates */}
-                  <div className="flex-1 min-w-0 overflow-hidden flex items-center justify-center">
-                     <div className="flex flex-col gap-[1.375rem] items-center shrink-0">
-                        <div className="relative h-[16.063rem] w-[40.59rem]">
-                           {/* ON CAMPUS */}
-                           <div className="-translate-y-1/2 absolute flex h-[13.699rem] items-center justify-center left-[1.403rem] top-1/2 w-[16.419rem]">
-                              <div className="flex-none rotate-[-5.73deg]">
-                                 <div className="bg-[rgba(255,255,255,0.7)] border-[0.989px] border-[rgba(37,99,235,0.2)] flex flex-col gap-[0.948rem] items-center justify-center overflow-hidden pb-[1.924rem] pl-[2.433rem] pr-[1.491rem] pt-[1.677rem] relative rounded-[1.072rem] shadow-[-5.814px_-5.814px_17.442px_0px_rgba(0,0,0,0.06)] w-[15.273rem]">
-                                    <p className="font-semibold text-[0.989rem] text-[rgba(1,18,74,0.6)] tracking-[0.099rem] whitespace-nowrap">ON CAMPUS</p>
-                                    <div className="flex gap-[0.550rem] items-center w-full">
-                                       <div className="relative shrink-0 w-[3.932rem] h-[3.932rem]">
-                                          <img alt="" className="w-full h-full object-contain" src="https://fmc-contents.s3.ap-south-1.amazonaws.com/assets/MEDAL_figma.svg" />
-                                       </div>
-                                       <div className="flex flex-1 flex-col gap-[0.722rem] items-start opacity-30">
-                                          <div className="bg-black h-[0.234rem] rounded-full w-full"></div>
-                                          <div className="flex items-center justify-between w-full">
-                                             <div className="bg-black h-[0.236rem] rounded-full w-[3.368rem]"></div>
-                                             <div className="bg-black h-[0.236rem] rounded-full w-[2.895rem]"></div>
-                                          </div>
-                                          <div className="bg-black h-[0.234rem] rounded-full w-full"></div>
-                                          <div className="bg-black h-[0.236rem] rounded-full w-[2.422rem]"></div>
-                                       </div>
-                                    </div>
-                                    <div className="flex gap-[0.429rem] items-center">
-                                       <div className="relative shrink-0 w-[1.430rem] h-[1.430rem]">
-                                          <img alt="" className="w-full h-full object-contain" src="https://fmc-contents.s3.ap-south-1.amazonaws.com/assets/VERIFIED_one_figma.svg" />
-                                       </div>
-                                       <p className="font-bold text-[1rem] text-[rgba(37,99,235,0.75)] whitespace-nowrap" style={{ fontFamily: 'var(--font-bricolage-grotesque, sans-serif)' }}>UGC APPROVED</p>
-                                    </div>
-                                    <div className="absolute h-[13.109rem] left-[-0.186rem] top-[-1.793rem] w-[1.793rem]">
-                                       <img alt="" className="w-full h-full object-contain" src="https://fmc-contents.s3.ap-south-1.amazonaws.com/assets/RIBBON_figma.svg" />
-                                    </div>
-                                 </div>
-                              </div>
-                           </div>
-                           
-                           {/* EQUALS */}
-                           <div className="absolute h-[1.425rem] left-[19.421rem] top-[7.32rem] w-[1.998rem]">
-                              <img alt="=" className="w-full h-full object-contain" src="https://fmc-contents.s3.ap-south-1.amazonaws.com/assets/EQUALS_figma.svg" />
-                           </div>
-                           
-                           {/* ONLINE */}
-                           <div className="-translate-y-1/2 absolute flex h-[13.698rem] items-center justify-center left-[22.597rem] top-1/2 w-[16.418rem]">
-                              <div className="flex-none rotate-[5.73deg]">
-                                 <div className="bg-[rgba(255,255,255,0.7)] border-[0.989px] border-[rgba(37,99,235,0.2)] flex flex-col gap-[0.948rem] items-center justify-center overflow-hidden pb-[1.924rem] pl-[2.433rem] pr-[1.491rem] pt-[1.677rem] relative rounded-[1.072rem] shadow-[-5.814px_-5.814px_17.442px_0px_rgba(0,0,0,0.06)] w-[15.273rem]">
-                                    <p className="font-semibold text-[0.989rem] text-[rgba(1,18,74,0.6)] tracking-[0.099rem] whitespace-nowrap">ONLINE</p>
-                                    <div className="flex gap-[0.550rem] items-center w-full">
-                                       <div className="relative shrink-0 w-[3.932rem] h-[3.932rem]">
-                                          <img alt="" className="w-full h-full object-contain" src="https://fmc-contents.s3.ap-south-1.amazonaws.com/assets/MEDAL2_figma.svg" />
-                                       </div>
-                                       <div className="flex flex-1 flex-col gap-[0.722rem] items-start opacity-30">
-                                          <div className="bg-black h-[0.234rem] rounded-full w-full"></div>
-                                          <div className="flex items-center justify-between w-full">
-                                             <div className="bg-black h-[0.236rem] rounded-full w-[3.368rem]"></div>
-                                             <div className="bg-black h-[0.236rem] rounded-full w-[2.895rem]"></div>
-                                          </div>
-                                          <div className="bg-black h-[0.234rem] rounded-full w-full"></div>
-                                          <div className="bg-black h-[0.236rem] rounded-full w-[2.422rem]"></div>
-                                       </div>
-                                    </div>
-                                    <div className="flex gap-[0.429rem] items-center">
-                                       <div className="relative shrink-0 w-[1.430rem] h-[1.430rem]">
-                                          <img alt="" className="w-full h-full object-contain" src="https://fmc-contents.s3.ap-south-1.amazonaws.com/assets/VERIFIED2_figma.svg" />
-                                       </div>
-                                       <p className="font-bold text-[1rem] text-[rgba(37,99,235,0.75)] whitespace-nowrap" style={{ fontFamily: 'var(--font-bricolage-grotesque, sans-serif)' }}>UGC APPROVED</p>
-                                    </div>
-                                    <div className="absolute h-[13.109rem] left-[-0.186rem] top-[-1.793rem] w-[1.793rem]">
-                                       <img alt="" className="w-full h-full object-contain" src="https://fmc-contents.s3.ap-south-1.amazonaws.com/assets/RIBBON_figma.svg" />
-                                    </div>
-                                 </div>
-                              </div>
-                           </div>
-                        </div>
-                        
-                        <div className="flex gap-[0.4375rem] items-center justify-center">
-                           <div className="relative shrink-0 w-[1.5rem] h-[1.5rem]">
-                              <img alt="" className="w-full h-full object-contain" src="https://fmc-contents.s3.ap-south-1.amazonaws.com/assets/GAVEL_figma.svg" />
-                           </div>
-                           <p className="font-medium text-[1rem] leading-[1.4] text-[#5e5e5e] text-center whitespace-nowrap">
-                              Guaranteed under UGC-DEB Act · Identical seal · Identical validity
-                           </p>
-                        </div>
-                     </div>
-                  </div>
-                  
-                  {/* Right Column: No Asterisks */}
-                  <div className="flex flex-col gap-[1.5rem] items-start w-[23.75rem] shrink-0 text-left">
-                     <div className="flex flex-col gap-[1rem] items-start w-full">
-                        <div className="font-bold text-[1.75rem] leading-[1.3] text-[#343434]" style={{ fontFamily: 'var(--font-bricolage-grotesque, sans-serif)' }}>
-                           <p className="leading-[1.3] mb-0">No asterisks on</p>
-                           <p className="leading-[1.3]">your certificate</p>
-                        </div>
-                        <div className="flex flex-col gap-[1rem] items-start w-full">
-                           <div className="backdrop-blur-[5px] bg-[rgba(255,255,255,0.4)] border border-[rgba(215,215,215,0.2)] flex gap-[0.75rem] items-center p-[0.75rem] rounded-[0.5rem] w-full">
-                              <div className="relative shrink-0 w-[1.25rem] h-[1.25rem]">
-                                 <img alt="" className="w-full h-full object-contain" src="https://fmc-contents.s3.ap-south-1.amazonaws.com/assets/VERIFIED_BLUE_figma.svg" />
-                              </div>
-                              <p className="font-medium text-[0.875rem] leading-none text-[#343434] flex-1 min-w-0">Apply for government jobs without restrictions</p>
-                           </div>
-                           <div className="backdrop-blur-[5px] bg-[rgba(255,255,255,0.4)] border border-[rgba(215,215,215,0.2)] flex gap-[0.75rem] items-center p-[0.75rem] rounded-[0.5rem] w-full">
-                              <div className="relative shrink-0 w-[1.25rem] h-[1.25rem]">
-                                 <img alt="" className="w-full h-full object-contain" src="https://fmc-contents.s3.ap-south-1.amazonaws.com/assets/VERIFIED_BLUE_figma.svg" />
-                              </div>
-                              <p className="font-medium text-[0.875rem] leading-none text-[#343434] flex-1 min-w-0">Pursue M.Tech, MBA, PhD - your degree qualifies</p>
-                           </div>
-                           <div className="backdrop-blur-[5px] bg-[rgba(255,255,255,0.4)] border border-[rgba(215,215,215,0.2)] flex gap-[0.75rem] items-center p-[0.75rem] rounded-[0.5rem] w-full">
-                              <div className="relative shrink-0 w-[1.25rem] h-[1.25rem]">
-                                 <img alt="" className="w-full h-full object-contain" src="https://fmc-contents.s3.ap-south-1.amazonaws.com/assets/VERIFIED_BLUE_figma.svg" />
-                              </div>
-                              <p className="font-medium text-[0.875rem] leading-none text-[#343434] flex-1 min-w-0">WES verified — valid for jobs &amp; study abroad</p>
-                           </div>
-                        </div>
-                     </div>
-                     <a 
-                        href="https://fmc-contents.s3.ap-south-1.amazonaws.com/assets/05-one-degree-zero-distinctions.pdf" 
-                        download 
-                        target="_blank" 
-                        rel="noopener noreferrer" 
-                        className="bg-blue-600 hover:bg-blue-700 flex gap-[0.5rem] items-center justify-center pl-[1.75rem] pr-[1.5rem] py-[1rem] rounded-[2.5rem] text-white font-semibold text-[1rem] leading-[1.4] transition-colors"
-                     >
-                        <span className="whitespace-nowrap">How do I verify a university?</span>
-                        <div className="relative shrink-0 w-[1.25rem] h-[1.25rem]">
-                           <img alt="" className="w-full h-full object-contain" src="https://fmc-contents.s3.ap-south-1.amazonaws.com/assets/icon-download-campus.svg" />
-                        </div>
-                     </a>
-                  </div>
-               </div>
-            </div>
-
-            {/* Mobile Layout */}
-            <div className="relative z-10 flex sm:hidden flex-col gap-[1.25rem] items-center py-[2rem] bg-[#f8f5f1] w-full px-4">
-               <div className="flex flex-col gap-[0.5rem] items-center w-full">
-                  <div className="font-bold text-[1.75rem] text-blue-600 w-full text-center" style={{ fontFamily: 'var(--font-bricolage-grotesque, sans-serif)' }}>
-                     <p className="leading-[1.2] mb-0">One degree,</p>
-                     <p className="leading-[1.2] text-slate-900">zero distinctions</p>
-                  </div>
-                  <div className="font-medium text-[0.875rem] text-[#5e5e5e] w-full text-center">
-                     <p className="leading-[1.5] mb-0">The certificate is identical.</p>
-                     <p className="leading-[1.5]">The only difference is where you sat.</p>
-                  </div>
-               </div>
-               
-               <div className="flex flex-col gap-[1.75rem] items-center w-full">
-                  <div className="relative h-[9.6875rem] w-[21.875rem] shrink-0">
-                     <div className="absolute h-[8.625rem] left-0 top-0 w-[21.875rem]">
-                        {/* ON CAMPUS */}
-                        <div className="-translate-y-1/2 absolute flex h-[7.391rem] items-center justify-center left-[0.756rem] top-1/2 w-[8.849rem]">
-                           <div className="flex-none rotate-[-5.73deg]">
-                              <div className="bg-[rgba(255,255,255,0.7)] border-[0.533px] border-[rgba(37,99,235,0.2)] flex flex-col gap-[0.511rem] items-center justify-center overflow-hidden pb-[1.037rem] pl-[1.311rem] pr-[0.804rem] pt-[0.904rem] relative rounded-[0.578rem] shadow-[-3.133px_-3.133px_9.4px_0px_rgba(0,0,0,0.06)] w-[8.231rem]">
-                                 <p className="font-semibold text-[0.533rem] text-[rgba(1,18,74,0.6)] tracking-[0.053rem] whitespace-nowrap">ON CAMPUS</p>
-                                 <div className="flex gap-[0.297rem] items-center w-full">
-                                    <div className="relative shrink-0 w-[2.119rem] h-[2.119rem]">
-                                       <img alt="" className="w-full h-full object-contain" src="https://fmc-contents.s3.ap-south-1.amazonaws.com/assets/MEDAL_figma.svg" />
-                                    </div>
-                                    <div className="flex flex-1 flex-col gap-[0.389rem] items-start opacity-30">
-                                       <div className="bg-black h-[0.234rem] rounded-full w-full"></div>
-                                       <div className="flex items-center justify-between w-full">
-                                          <div className="bg-black h-[0.236rem] rounded-full w-[1.815rem]"></div>
-                                          <div className="bg-black h-[0.236rem] rounded-full w-[1.560rem]"></div>
-                                       </div>
-                                       <div className="bg-black h-[0.234rem] rounded-full w-full"></div>
-                                       <div className="bg-black h-[0.236rem] rounded-full w-[1.305rem]"></div>
-                                    </div>
-                                 </div>
-                                 <div className="flex gap-[0.231rem] items-center">
-                                    <div className="relative shrink-0 w-[0.770rem] h-[0.770rem]">
-                                       <img alt="" className="w-full h-full object-contain" src="https://fmc-contents.s3.ap-south-1.amazonaws.com/assets/VERIFIED_one_figma.svg" />
-                                    </div>
-                                    <p className="font-bold text-[0.539rem] text-[rgba(37,99,235,0.75)] whitespace-nowrap" style={{ fontFamily: 'var(--font-bricolage-grotesque, sans-serif)' }}>UGC APPROVED</p>
-                                 </div>
-                                 <div className="absolute h-[7.065rem] left-[-0.1rem] top-[-0.966rem] w-[0.966rem]">
-                                    <img alt="" className="w-full h-full object-contain" src="https://fmc-contents.s3.ap-south-1.amazonaws.com/assets/RIBBON_figma.svg" />
-                                 </div>
-                              </div>
-                           </div>
-                        </div>
-                        
-                        {/* EQUALS */}
-                        <div className="absolute h-[0.768rem] left-[10.466rem] top-[3.944rem] w-[1.077rem]">
-                           <img alt="=" className="w-full h-full object-contain" src="https://fmc-contents.s3.ap-south-1.amazonaws.com/assets/EQUALS_figma.svg" />
-                        </div>
-                        
-                        {/* ONLINE */}
-                        <div className="-translate-y-1/2 absolute flex h-[7.391rem] items-center justify-center left-[12.178rem] top-1/2 w-[8.849rem]">
-                           <div className="flex-none rotate-[5.73deg]">
-                              <div className="bg-[rgba(255,255,255,0.7)] border-[0.533px] border-[rgba(37,99,235,0.2)] flex flex-col gap-[0.511rem] items-center justify-center overflow-hidden pb-[1.037rem] pl-[1.311rem] pr-[0.804rem] pt-[0.904rem] relative rounded-[0.578rem] shadow-[-3.133px_-3.133px_9.4px_0px_rgba(0,0,0,0.06)] w-[8.231rem]">
-                                 <p className="font-semibold text-[0.533rem] text-[rgba(1,18,74,0.6)] tracking-[0.053rem] whitespace-nowrap">ONLINE</p>
-                                 <div className="flex gap-[0.297rem] items-center w-full">
-                                    <div className="relative shrink-0 w-[2.119rem] h-[2.119rem]">
-                                       <img alt="" className="w-full h-full object-contain" src="https://fmc-contents.s3.ap-south-1.amazonaws.com/assets/MEDAL2_figma.svg" />
-                                    </div>
-                                    <div className="flex flex-1 flex-col gap-[0.389rem] items-start opacity-30">
-                                       <div className="bg-black h-[0.234rem] rounded-full w-full"></div>
-                                       <div className="flex items-center justify-between w-full">
-                                          <div className="bg-black h-[0.236rem] rounded-full w-[1.815rem]"></div>
-                                          <div className="bg-black h-[0.236rem] rounded-full w-[1.560rem]"></div>
-                                       </div>
-                                       <div className="bg-black h-[0.234rem] rounded-full w-full"></div>
-                                       <div className="bg-black h-[0.236rem] rounded-full w-[1.305rem]"></div>
-                                    </div>
-                                 </div>
-                                 <div className="flex gap-[0.231rem] items-center">
-                                    <div className="relative shrink-0 w-[0.770rem] h-[0.770rem]">
-                                       <img alt="" className="w-full h-full object-contain" src="https://fmc-contents.s3.ap-south-1.amazonaws.com/assets/VERIFIED2_figma.svg" />
-                                    </div>
-                                    <p className="font-bold text-[0.539rem] text-[rgba(37,99,235,0.75)] whitespace-nowrap" style={{ fontFamily: 'var(--font-bricolage-grotesque, sans-serif)' }}>UGC APPROVED</p>
-                                 </div>
-                                 <div className="absolute h-[7.065rem] left-[-0.1rem] top-[-0.966rem] w-[0.966rem]">
-                                    <img alt="" className="w-full h-full object-contain" src="https://fmc-contents.s3.ap-south-1.amazonaws.com/assets/RIBBON_figma.svg" />
-                                 </div>
-                              </div>
-                           </div>
-                        </div>
-                     </div>
-                     <div className="-translate-x-1/2 absolute flex gap-[0.236rem] items-center left-1/2 top-[8.625rem] w-[20.375rem]">
-                        <div className="relative shrink-0 w-[1rem] h-[1rem]">
-                           <img alt="" className="w-full h-full object-contain" src="https://fmc-contents.s3.ap-south-1.amazonaws.com/assets/GAVEL_figma.svg" />
-                        </div>
-                        <p className="flex-1 min-w-0 font-medium text-[0.75rem] leading-[1.4] text-[#5e5e5e] text-left">
-                           Guaranteed under UGC-DEB Act · Identical validity
-                        </p>
-                     </div>
-                  </div>
-                  
-                  <div className="flex flex-col gap-[1.5rem] items-start w-full text-left">
-                     <div className="flex flex-col gap-[0.75rem] items-start w-full">
-                        <div className="bg-[rgba(255,255,255,0.4)] border border-[rgba(215,215,215,0.4)] flex gap-[0.5rem] items-center p-[0.75rem] rounded-[0.5rem] w-full">
-                           <div className="relative shrink-0 w-[1.25rem] h-[1.25rem]">
-                              <img alt="" className="w-full h-full object-contain" src="https://fmc-contents.s3.ap-south-1.amazonaws.com/assets/VERIFIED_BLUE_figma.svg" />
-                           </div>
-                           <p className="flex-1 min-w-0 font-medium text-[0.875rem] leading-[1.2] text-[#343434]">Apply for govt. jobs without restrictions</p>
-                        </div>
-                        <div className="bg-[rgba(255,255,255,0.4)] border border-[rgba(215,215,215,0.4)] flex gap-[0.5rem] items-center p-[0.75rem] rounded-[0.5rem] w-full">
-                           <div className="relative shrink-0 w-[1.25rem] h-[1.25rem]">
-                              <img alt="" className="w-full h-full object-contain" src="https://fmc-contents.s3.ap-south-1.amazonaws.com/assets/VERIFIED_BLUE_figma.svg" />
-                           </div>
-                           <p className="flex-1 min-w-0 font-medium text-[0.875rem] leading-[1.2] text-[#343434]">Pursue M.Tech, MBA, PhD - your degree qualifies</p>
-                        </div>
-                        <div className="bg-[rgba(255,255,255,0.4)] border border-[rgba(215,215,215,0.4)] flex gap-[0.5rem] items-center p-[0.75rem] rounded-[0.5rem] w-full">
-                           <div className="relative shrink-0 w-[1.25rem] h-[1.25rem]">
-                              <img alt="" className="w-full h-full object-contain" src="https://fmc-contents.s3.ap-south-1.amazonaws.com/assets/VERIFIED_BLUE_figma.svg" />
-                           </div>
-                           <p className="flex-1 min-w-0 font-medium text-[0.875rem] leading-[1.2] text-[#343434]">WES verified — valid for jobs &amp; study abroad</p>
-                        </div>
-                     </div>
-                     <a 
-                        href="https://fmc-contents.s3.ap-south-1.amazonaws.com/assets/05-one-degree-zero-distinctions.pdf" 
-                        download 
-                        target="_blank" 
-                        rel="noopener noreferrer" 
-                        className="bg-blue-600 hover:bg-blue-700 flex gap-[0.5rem] items-center justify-center w-full pl-[1.25rem] pr-[1rem] py-[0.75rem] rounded-[2.5rem] text-white font-semibold text-[1rem] leading-[1.4] transition-colors"
-                     >
-                        <span className="whitespace-nowrap">How do I verify a university?</span>
-                        <div className="relative shrink-0 w-[1.25rem] h-[1.25rem]">
-                           <img alt="" className="w-full h-full object-contain" src="https://fmc-contents.s3.ap-south-1.amazonaws.com/assets/icon-download-campus.svg" />
-                        </div>
-                     </a>
-                  </div>
-               </div>
-            </div>
-         </section>
-         {/* 4. MORE THAN EDUCATION (Image 4) */}
-         <section className="py-24 bg-white">
-            <div className="container mx-auto px-6">
-               <div className="text-left mb-16">
-                  <div className="inline-flex items-center px-4 py-2 rounded-full bg-blue-50 text-blue-600 text-[10px] font-black uppercase tracking-widest mb-6 border border-blue-100">
-                     Why Antechos India
-                  </div>
-                  <h2 className="text-4xl md:text-5xl font-black text-slate-900 leading-tight font-display">
-                     More Than Education. <br />
-                     <span className="text-blue-600">A Complete Career Ecosystem.</span>
+            <div className="relative z-10 w-full max-w-7xl mx-auto px-6 flex flex-col items-center gap-16">
+               {/* Heading matching the image text colors and styles */}
+               <div className="flex flex-col items-center text-center w-full max-w-3xl">
+                  <h2 className="text-3xl sm:text-5xl md:text-6xl font-black font-display tracking-tight leading-none uppercase" style={{ fontFamily: "'Sora', sans-serif" }}>
+                     <span className="bg-gradient-to-r from-amber-200 via-yellow-400 to-amber-500 bg-clip-text text-transparent block">Online Degree</span>
+                     <span className="block text-white text-sm sm:text-base font-normal my-4 tracking-[0.3em] opacity-80">— IS EQUIVALENT TO —</span>
+                     <span className="text-sky-400 block">Regular Degree</span>
                   </h2>
                </div>
-
-               <div className="grid grid-cols-5 gap-3 md:gap-6 lg:gap-10">
-                  {CAREER_ECOSYSTEM_DATA.map((item, idx) => (
-                     <motion.div
-                        key={idx}
-                        initial={{ opacity: 0, y: 20 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        transition={{ delay: idx * 0.1 }}
-                        viewport={{ once: true }}
-                        className="bg-slate-900 rounded-xl md:rounded-3xl p-1.5 md:p-4 lg:p-8 border border-slate-800 shadow-sm hover:shadow-2xl hover:border-slate-700 transition-all duration-500 text-center flex flex-col items-center group min-h-max"
-                     >
-                        <div className="w-6 h-6 md:w-12 md:h-16 lg:w-20 lg:h-20 rounded-full bg-slate-800 flex items-center justify-center text-blue-400 mb-1.5 md:mb-6 border border-slate-700 group-hover:scale-110 transition-transform duration-500 relative">
-                           <div className="absolute inset-0 bg-blue-400/10 rounded-full blur-xl opacity-0 group-hover:opacity-100 transition-opacity"></div>
-                           {React.cloneElement(item.icon, { className: "w-3 h-3 md:w-6 md:h-8 lg:w-10 lg:h-10 relative z-10" })}
+               
+               {/* Visual: Certificates and Pedestals */}
+               <div className="flex flex-col md:flex-row items-center justify-center gap-12 md:gap-16 w-full max-w-4xl py-6">
+                  {/* Left Certificate: Online */}
+                  <div className="flex flex-col items-center">
+                     <div className="relative rotate-[-2.5deg] hover:rotate-0 transition-transform duration-500 z-10">
+                        {/* Certificate Card */}
+                        <div className="bg-[#FAF6F0] border-[8px] border-[#0a1c30] ring-1 ring-[#c5a880] rounded-[4px] p-5 w-[16rem] h-[22rem] shadow-[0_30px_60px_rgba(0,0,0,0.8)] flex flex-col items-center justify-between text-slate-800 relative">
+                           {/* Intricate Inner Border */}
+                           <div className="absolute inset-1 border border-[#c5a880]/30 rounded"></div>
+                           
+                           {/* Header Icon */}
+                           <div className="flex flex-col items-center mt-2 z-10">
+                              <GraduationCap className="w-8 h-8 text-[#bfa15f] mb-1" />
+                              <h4 className="font-extrabold text-[13px] text-[#0f223a] tracking-[0.1em] font-serif uppercase">ONLINE DEGREE</h4>
+                           </div>
+                           
+                           {/* Gold Graphic Separator */}
+                           <div className="flex items-center justify-center w-24 my-1 z-10">
+                              <div className="h-[1px] bg-[#bfa15f] flex-1"></div>
+                              <div className="w-1.5 h-1.5 rotate-45 border border-[#bfa15f] bg-[#FAF6F0] mx-1 shrink-0"></div>
+                              <div className="h-[1px] bg-[#bfa15f] flex-1"></div>
+                           </div>
+                           
+                           {/* Body */}
+                           <div className="w-full flex-1 flex flex-col items-center justify-center text-center mt-2 z-10">
+                              <p className="text-[11px] font-bold text-slate-700 font-serif italic">Bachelor of Science</p>
+                              <div className="w-16 h-[1px] bg-[#bfa15f]/40 my-1.5"></div>
+                              <p className="text-[9px] text-slate-500 leading-normal max-w-[12rem] font-serif font-medium">
+                                 This is to certify that the degree has been awarded after successful completion of the prescribed course of study.
+                              </p>
+                           </div>
+                           
+                           {/* Footer */}
+                           <div className="w-full flex items-end justify-between mt-2 z-10 px-2">
+                              <div className="flex flex-col items-start">
+                                 <span className="font-serif text-[8px] text-slate-400 italic">Registrar</span>
+                                 <div className="w-8 h-[1px] bg-slate-200"></div>
+                              </div>
+                              <div className="relative w-8 h-8 flex items-center justify-center">
+                                 <Award className="w-8 h-8 text-[#bfa15f]" />
+                              </div>
+                           </div>
                         </div>
-                        <h3 className="text-[6px] md:text-xs lg:text-lg font-black text-white mb-1 md:mb-3 leading-tight group-hover:text-blue-400 transition-colors">{item.title}</h3>
-                        <p className="hidden lg:block text-xs text-slate-400 font-medium leading-relaxed">{item.desc}</p>
-                     </motion.div>
-                  ))}
-               </div>
-            </div>
-         </section>
-
-
-
-
-
-         {/* 7. WHY CHOOSE: "Executive Feature Set" */}
-         <section className="py-24 bg-white relative overflow-hidden">
-            {/* Background Decor */}
-            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[min(800px,100vw)] h-[min(800px,100vw)] bg-blue-50/50 rounded-full blur-[120px] pointer-events-none opacity-60"></div>
-
-            <div className="container mx-auto px-6 relative z-10">
-               <div className="flex flex-col items-center mb-16 md:mb-24">
-                  <SectionLabel icon={Sparkles}>Strategic Advantage</SectionLabel>
-                  <motion.h2
-                     initial={{ opacity: 0, y: 20 }}
-                     whileInView={{ opacity: 1, y: 0 }}
-                     viewport={{ once: true }}
-                     className="text-3xl md:text-6xl font-black text-center font-display uppercase tracking-tighter leading-tight max-w-4xl"
-                  >
-                     Why Choose <span className="text-blue-600">Antechos</span> <br className="hidden md:block" /> for Online Learning?
-                  </motion.h2>
-               </div>
-
-               {/* Main Layout */}
-               <div className="grid grid-cols-1 md:grid-cols-3 gap-12 lg:gap-20 items-center">
-
-                  {/* LEFT SIDE */}
-                  <div className="flex flex-col gap-12 md:gap-16">
-                     {WHY_CHOOSE_DATA.slice(0, 2).map((item, idx) => (
-                        <motion.div
-                           key={idx}
-                           initial={{ opacity: 0, x: -50 }}
-                           whileInView={{ opacity: 1, x: 0 }}
-                           viewport={{ once: true }}
-                           transition={{ delay: idx * 0.2, duration: 0.8 }}
-                           className="group flex flex-col md:flex-row items-center md:items-start gap-6 text-center md:text-right"
-                        >
-                           <div className="order-2 md:order-1 flex-1">
-                              <h3 className="font-black text-xl md:text-2xl mb-3 text-slate-900 group-hover:text-blue-600 transition-colors uppercase tracking-tight">{item.title}</h3>
-                              <p className="text-sm md:text-base text-slate-500 font-medium leading-relaxed">{item.desc}</p>
-                           </div>
-                           <div className={`order-1 md:order-2 w-16 h-16 shrink-0 rounded-2xl ${item.color} flex items-center justify-center shadow-sm group-hover:scale-110 group-hover:rotate-6 transition-all duration-500 border border-blue-100/50`}>
-                              {item.icon}
-                           </div>
-                        </motion.div>
-                     ))}
-                  </div>
-
-                  {/* CENTER IMAGE - High Fidelity Visual */}
-                  <div className="flex justify-center items-center relative py-10">
-                     {/* Orbiting Decor */}
-                     <div className="absolute inset-0 flex items-center justify-center">
-                        <motion.div
-                           animate={{ rotate: 360 }}
-                           transition={{ duration: 25, repeat: Infinity, ease: "linear" }}
-                           className="w-[300px] h-[300px] md:w-[450px] md:h-[450px] border border-blue-100 rounded-full opacity-40"
-                        ></motion.div>
-                        <motion.div
-                           animate={{ rotate: -360 }}
-                           transition={{ duration: 40, repeat: Infinity, ease: "linear" }}
-                           className="absolute w-[350px] h-[350px] md:w-[520px] md:h-[520px] border border-dashed border-blue-200 rounded-full opacity-20"
-                        ></motion.div>
                      </div>
-
-                     <motion.div
-                        initial={{ scale: 0.8, opacity: 0 }}
-                        whileInView={{ scale: 1, opacity: 1 }}
-                        viewport={{ once: true }}
-                        transition={{ duration: 1, type: "spring", bounce: 0.4 }}
-                        className="relative w-80 h-80 md:w-[28rem] md:h-[28rem] lg:w-[32rem] lg:h-[32rem] z-10 flex items-center justify-center group"
-                     >
-                        <div className="absolute inset-0 bg-blue-600/10 opacity-0 group-hover:opacity-100 transition-opacity duration-700 rounded-full blur-[40px]"></div>
-                        <img
-                           src="https://i.ibb.co/dwGTHZ2f/unipageimage.png"
-                           alt="center visual"
-                           className="w-full h-full object-contain relative z-10 group-hover:scale-110 transition-transform duration-1000 mix-blend-multiply"
-                        />
-
-                        {/* Decorative floating elements */}
-                        <div className="absolute top-8 left-8 w-3 h-3 bg-blue-400 rounded-full animate-pulse"></div>
-                        <div className="absolute bottom-12 right-8 w-4 h-4 bg-orange-400/40 rounded-full blur-[2px]"></div>
-                     </motion.div>
-
-                     {/* Floating Badge */}
-                     <motion.div
-                        animate={{ y: [0, -10, 0] }}
-                        transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
-                        className="absolute -top-4 -right-4 md:right-0 bg-white shadow-xl rounded-2xl p-4 border border-blue-50 z-20 hidden md:block"
-                     >
-                        <div className="flex items-center gap-3">
-                           <div className="w-10 h-10 rounded-full bg-blue-600 flex items-center justify-center text-white">
-                              <Star className="w-5 h-5 fill-current" />
+                     {/* Glowing Ring Pedestal */}
+                     <div className="w-[18rem] h-6 bg-[#0a1931] border border-sky-400/50 rounded-full shadow-[0_15px_30px_rgba(0,0,0,0.9),_inset_0_1px_3px_rgba(255,255,255,0.2),_0_0_25px_rgba(56,189,248,0.7),_0_0_50px_rgba(37,99,235,0.5)] flex items-center justify-center -mt-3 z-0">
+                        <div className="w-[90%] h-[70%] rounded-full bg-sky-500/5 blur-[2px]"></div>
+                     </div>
+                  </div>
+                  
+                  {/* Gold 3D Equals Sign */}
+                  <div className="flex flex-col gap-2 items-center justify-center my-6 md:my-0">
+                     <div className="w-16 h-3 bg-gradient-to-b from-[#f9d976] via-[#e9b646] to-[#b37a1c] border border-[#f9d976]/30 rounded-[2px] shadow-[0_4px_10px_rgba(0,0,0,0.5),_inset_0_1px_1px_rgba(255,255,255,0.3)]"></div>
+                     <div className="w-16 h-3 bg-gradient-to-b from-[#f9d976] via-[#e9b646] to-[#b37a1c] border border-[#f9d976]/30 rounded-[2px] shadow-[0_4px_10px_rgba(0,0,0,0.5),_inset_0_1px_1px_rgba(255,255,255,0.3)]"></div>
+                  </div>
+                  
+                  {/* Right Certificate: Regular */}
+                  <div className="flex flex-col items-center">
+                     <div className="relative rotate-[2.5deg] hover:rotate-0 transition-transform duration-500 z-10">
+                        {/* Certificate Card */}
+                        <div className="bg-[#FAF6F0] border-[8px] border-[#0a1c30] ring-1 ring-[#c5a880] rounded-[4px] p-5 w-[16rem] h-[22rem] shadow-[0_30px_60px_rgba(0,0,0,0.8)] flex flex-col items-center justify-between text-slate-800 relative">
+                           {/* Intricate Inner Border */}
+                           <div className="absolute inset-1 border border-[#c5a880]/30 rounded"></div>
+                           
+                           {/* Header Icon */}
+                           <div className="flex flex-col items-center mt-2 z-10">
+                              <Building2 className="w-8 h-8 text-[#bfa15f] mb-1" />
+                              <h4 className="font-extrabold text-[13px] text-[#0f223a] tracking-[0.1em] font-serif uppercase">REGULAR DEGREE</h4>
                            </div>
-                           <div>
-                              <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Trust Rating</p>
-                              <p className="text-sm font-black text-slate-900">Top Rated 2026</p>
+                           
+                           {/* Gold Graphic Separator */}
+                           <div className="flex items-center justify-center w-24 my-1 z-10">
+                              <div className="h-[1px] bg-[#bfa15f] flex-1"></div>
+                              <div className="w-1.5 h-1.5 rotate-45 border border-[#bfa15f] bg-[#FAF6F0] mx-1 shrink-0"></div>
+                              <div className="h-[1px] bg-[#bfa15f] flex-1"></div>
+                           </div>
+                           
+                           {/* Body */}
+                           <div className="w-full flex-1 flex flex-col items-center justify-center text-center mt-2 z-10">
+                              <p className="text-[11px] font-bold text-slate-700 font-serif italic">Bachelor of Science</p>
+                              <div className="w-16 h-[1px] bg-[#bfa15f]/40 my-1.5"></div>
+                              <p className="text-[9px] text-slate-500 leading-normal max-w-[12rem] font-serif font-medium">
+                                 This is to certify that the degree has been awarded after successful completion of the prescribed course of study.
+                              </p>
+                           </div>
+                           
+                           {/* Footer */}
+                           <div className="w-full flex items-end justify-between mt-2 z-10 px-2">
+                              <div className="flex flex-col items-start">
+                                 <span className="font-serif text-[8px] text-slate-400 italic">Registrar</span>
+                                 <div className="w-8 h-[1px] bg-slate-200"></div>
+                              </div>
+                              <div className="relative w-8 h-8 flex items-center justify-center">
+                                 <Award className="w-8 h-8 text-[#bfa15f]" />
+                              </div>
                            </div>
                         </div>
-                     </motion.div>
+                     </div>
+                     {/* Glowing Ring Pedestal */}
+                     <div className="w-[18rem] h-6 bg-[#0a1931] border border-sky-400/50 rounded-full shadow-[0_15px_30px_rgba(0,0,0,0.9),_inset_0_1px_3px_rgba(255,255,255,0.2),_0_0_25px_rgba(56,189,248,0.7),_0_0_50px_rgba(37,99,235,0.5)] flex items-center justify-center -mt-3 z-0">
+                        <div className="w-[90%] h-[70%] rounded-full bg-sky-500/5 blur-[2px]"></div>
+                     </div>
                   </div>
-
-                  {/* RIGHT SIDE */}
-                  <div className="flex flex-col gap-12 md:gap-16">
-                     {WHY_CHOOSE_DATA.slice(2, 4).map((item, idx) => (
-                        <motion.div
-                           key={idx}
-                           initial={{ opacity: 0, x: 50 }}
-                           whileInView={{ opacity: 1, x: 0 }}
-                           viewport={{ once: true }}
-                           transition={{ delay: idx * 0.2, duration: 0.8 }}
-                           className="group flex flex-col md:flex-row items-center md:items-start gap-6 text-center md:text-left"
-                        >
-                           <div className={`w-16 h-16 shrink-0 rounded-2xl ${item.color} flex items-center justify-center shadow-sm group-hover:scale-110 group-hover:-rotate-6 transition-all duration-500 border border-blue-100/50`}>
-                              {item.icon}
-                           </div>
-                           <div className="flex-1">
-                              <h3 className="font-black text-xl md:text-2xl mb-3 text-slate-900 group-hover:text-blue-600 transition-colors uppercase tracking-tight">{item.title}</h3>
-                              <p className="text-sm md:text-base text-slate-500 font-medium leading-relaxed">{item.desc}</p>
-                           </div>
-                        </motion.div>
-                     ))}
+               </div>
+               
+               {/* 4 Feature Badges with dividers like the image */}
+               <div className="grid grid-cols-2 md:grid-cols-4 gap-y-8 w-full max-w-4xl mt-6 border-t border-slate-800/80 pt-12">
+                  {/* Badge 1 */}
+                  <div className="flex flex-col items-center text-center gap-3 px-4 border-r border-slate-800 last:border-r-0">
+                     <div className="w-12 h-12 rounded-xl bg-sky-500/10 border border-sky-500/20 flex items-center justify-center text-sky-400 shadow-[0_0_15px_rgba(56,189,248,0.1)]">
+                        <Award className="w-6 h-6" />
+                     </div>
+                     <div>
+                        <p className="font-bold text-xs uppercase tracking-wider text-white" style={{ fontFamily: "'Sora', sans-serif" }}>UGC ENTITLED</p>
+                        <p className="text-[10px] text-slate-400 mt-1 font-semibold">&amp; RECOGNIZED</p>
+                     </div>
                   </div>
-
+                  
+                  {/* Badge 2 */}
+                  <div className="flex flex-col items-center text-center gap-3 px-4 border-none md:border-r border-slate-800 last:border-r-0">
+                     <div className="w-12 h-12 rounded-xl bg-sky-500/10 border border-sky-500/20 flex items-center justify-center text-sky-400 shadow-[0_0_15px_rgba(56,189,248,0.1)]">
+                        <Briefcase className="w-6 h-6" />
+                     </div>
+                     <div>
+                        <p className="font-bold text-xs uppercase tracking-wider text-white" style={{ fontFamily: "'Sora', sans-serif" }}>EQUAL CAREER</p>
+                        <p className="text-[10px] text-slate-400 mt-1 font-semibold">OPPORTUNITIES</p>
+                     </div>
+                  </div>
+                  
+                  {/* Badge 3 */}
+                  <div className="flex flex-col items-center text-center gap-3 px-4 border-r border-slate-800 last:border-r-0">
+                     <div className="w-12 h-12 rounded-xl bg-sky-500/10 border border-sky-500/20 flex items-center justify-center text-sky-400 shadow-[0_0_15px_rgba(56,189,248,0.1)]">
+                        <GraduationCap className="w-6 h-6" />
+                     </div>
+                     <div>
+                        <p className="font-bold text-xs uppercase tracking-wider text-white" style={{ fontFamily: "'Sora', sans-serif" }}>SAME LEARNING</p>
+                        <p className="text-[10px] text-slate-400 mt-1 font-semibold">OUTCOMES</p>
+                     </div>
+                  </div>
+                  
+                  {/* Badge 4 */}
+                  <div className="flex flex-col items-center text-center gap-3 px-4 border-none last:border-none">
+                     <div className="w-12 h-12 rounded-xl bg-sky-500/10 border border-sky-500/20 flex items-center justify-center text-sky-400 shadow-[0_0_15px_rgba(56,189,248,0.1)]">
+                        <Star className="w-6 h-6" />
+                     </div>
+                     <div>
+                        <p className="font-bold text-xs uppercase tracking-wider text-white" style={{ fontFamily: "'Sora', sans-serif" }}>SAME VALUE</p>
+                        <p className="text-[10px] text-slate-400 mt-1 font-semibold">SAME FUTURE</p>
+                     </div>
+                  </div>
                </div>
             </div>
          </section>
-
-         {/* ==================== NEW SECTION 2: SAME DEGREE. 40-60% CHEAPER ==================== */}
-         <section className="relative w-full overflow-hidden bg-[#F8F5F1] sm:bg-transparent">
-            {/* Desktop Background Image */}
-            <div className="hidden sm:block absolute inset-0 pointer-events-none">
-               <img 
-                  alt="" 
-                  loading="lazy" 
-                  decoding="async" 
-                  className="object-fill w-full h-full absolute inset-0"
-                  src="https://fmc-contents.s3.ap-south-1.amazonaws.com/assets/samedegree.png" 
-               />
-            </div>
+\n\n         {/* ==================== NEW SECTION 2: SAME DEGREE. 40-60% CHEAPER ==================== */}
+         <section className="relative w-full overflow-hidden bg-slate-50 border-y border-slate-100 py-16 md:py-24">
+            {/* Tech Grid Pattern */}
+            <div className="grid-pattern opacity-60" />
             
             {/* Decorative bubbles */}
-            <div className="absolute right-0 top-0 pointer-events-none overflow-hidden w-[15.625rem]">
-               <div className="absolute bg-[#c67133] h-[1.6875rem] left-0 opacity-[0.07] rounded-[1.25rem] top-[2.75rem] w-[15.625rem]"></div>
-               <div className="absolute bg-[#c67133] h-[1.6875rem] left-[3.125rem] opacity-[0.07] rounded-[1.25rem] top-[5.6875rem] w-[12.5rem]"></div>
-               <div className="absolute bg-[#c67133] h-[1.6875rem] left-[6.5rem] opacity-[0.07] rounded-[1.25rem] top-[8.625rem] w-[12.5rem]"></div>
+            <div className="absolute right-0 top-0 pointer-events-none overflow-hidden w-[15.625rem] z-0">
+               <div className="absolute bg-[#c67133] h-[1.6875rem] left-0 opacity-[0.05] rounded-[1.25rem] top-[2.75rem] w-[15.625rem]"></div>
+               <div className="absolute bg-[#c67133] h-[1.6875rem] left-[3.125rem] opacity-[0.05] rounded-[1.25rem] top-[5.6875rem] w-[12.5rem]"></div>
+               <div className="absolute bg-[#c67133] h-[1.6875rem] left-[6.5rem] opacity-[0.05] rounded-[1.25rem] top-[8.625rem] w-[12.5rem]"></div>
             </div>
             
-            <div className="relative z-10 flex flex-col gap-8 sm:gap-11 items-center py-[2.5rem] sm:py-[3.75rem] w-full max-w-7xl mx-auto px-6">
-               <div className="flex flex-col gap-[0.5rem] sm:gap-3 items-center relative z-10 text-center w-full">
-                  <p className="font-bold text-[1.75rem] sm:text-[2.75rem] leading-[1.2]" style={{ fontFamily: 'var(--font-bricolage-grotesque, sans-serif)' }}>
-                     <span className="block sm:inline text-blue-600">Same degree.</span>
-                     <span className="block sm:inline text-slate-900"> 40–60% cheaper</span>
-                  </p>
-                  <p className="font-medium text-[0.875rem] sm:text-[1rem] leading-[1.5] text-[#5e5e5e]">
+            <div className="relative z-10 flex flex-col gap-8 sm:gap-11 items-center w-full max-w-7xl mx-auto px-6">
+               <div className="flex flex-col gap-2 items-center text-center w-full mb-12">
+                  <SectionLabel icon={CreditCard}>Cost Efficiency</SectionLabel>
+                  <h2 className="text-2xl sm:text-4xl md:text-5xl font-black text-slate-900 mb-4 font-display uppercase tracking-tighter" style={{ fontFamily: "'Sora', sans-serif" }}>
+                     Same degree. <span className="text-blue-600">40–60% cheaper</span>
+                  </h2>
+                  <p className="font-medium text-xs sm:text-sm md:text-base text-slate-500 max-w-2xl">
                      Pay for the degree, not the infrastructure.
                   </p>
                </div>
@@ -1362,37 +1075,37 @@ const UniversityPageNew = () => {
                   <div className="flex flex-col gap-[0.375rem] items-center justify-center relative shrink-0 w-full">
                      <div className="relative shrink-0 overflow-hidden" style={{ height: '240px', width: '350px' }}>
                         {/* ON CAMPUS */}
-                        <div className="absolute bg-[rgba(255,255,255,0.6)] border-[0.5px] border-[rgba(184,77,0,0.1)] h-[5.375rem] left-0 overflow-hidden rounded-[0.75rem] top-0 w-[21.875rem]">
+                        <div className="absolute bg-[rgba(255,255,255,0.8)] border-[0.5px] border-[rgba(184,77,0,0.1)] h-[5.375rem] left-0 overflow-hidden rounded-[0.75rem] top-0 w-[21.875rem]">
                            <div className="absolute flex flex-col gap-[0.75rem] items-start justify-center left-[11.5px] top-1/2 -translate-y-1/2 whitespace-nowrap text-left">
                               <p className="font-bold leading-[0.625rem] text-[0.75rem] text-[rgba(184,77,0,0.8)] tracking-[1.2px] uppercase">ON-CAMPUS — ANNUAL</p>
-                              <p className="font-bold leading-[1.0625rem] text-[1.125rem] text-[#343434]" style={{ fontFamily: 'var(--font-bricolage-grotesque, sans-serif)' }}>₹3,00,000+</p>
+                              <p className="font-bold leading-[1.0625rem] text-[1.125rem] text-[#343434]" style={{ fontFamily: "'Sora', sans-serif" }}>₹3,00,000+</p>
                            </div>
                            <div className="absolute h-[5.375rem] left-[6.84375rem] top-0 w-[15rem] overflow-visible">
                               <div className="absolute flex h-[2.375rem] items-center justify-center left-[4.4375rem] top-[0.875rem] w-[5.4375rem]">
                                  <div className="flex-none rotate-[9.28deg]">
                                     <div className="bg-white border-[0.732px] border-[rgba(255,106,0,0.2)] flex h-[1.5625rem] items-center justify-center px-[0.71875rem] py-[0.4375rem] rounded-[1.375rem] shadow-[0px_4.4px_17.6px_0px_rgba(255,106,0,0.1)]">
-                                       <p className="font-bold leading-none text-[9.7px] text-[rgba(184,77,0,0.8)] whitespace-nowrap" style={{ fontFamily: 'var(--font-bricolage-grotesque, sans-serif)' }}>Tuition ₹1.2L</p>
+                                       <p className="font-bold leading-none text-[9.7px] text-[rgba(184,77,0,0.8)] whitespace-nowrap" style={{ fontFamily: "'Sora', sans-serif" }}>Tuition ₹1.2L</p>
                                     </div>
                                  </div>
                               </div>
                               <div className="absolute flex h-[2.625rem] items-center justify-center left-[4.71875rem] top-[2.9375rem] w-[5.5rem]">
                                  <div className="flex-none rotate-[-11.57deg]">
                                     <div className="bg-white border-[0.732px] border-[rgba(255,106,0,0.2)] flex h-[1.5625rem] items-center justify-center px-[0.71875rem] py-[0.4375rem] rounded-[1.375rem] shadow-[0px_4.4px_17.6px_0px_rgba(255,106,0,0.1)]">
-                                       <p className="font-bold leading-none text-[9.7px] text-[rgba(184,77,0,0.8)] whitespace-nowrap" style={{ fontFamily: 'var(--font-bricolage-grotesque, sans-serif)' }}>Hostel ₹80K</p>
+                                       <p className="font-bold leading-none text-[9.7px] text-[rgba(184,77,0,0.8)] whitespace-nowrap" style={{ fontFamily: "'Sora', sans-serif" }}>Hostel ₹80K</p>
                                     </div>
                                  </div>
                               </div>
                               <div className="absolute flex h-[2.1875rem] items-center justify-center left-[9.625rem] top-[1.4375rem] w-[4.9375rem]">
                                  <div className="flex-none rotate-[7.17deg]">
                                     <div className="bg-white border-[0.732px] border-[rgba(255,106,0,0.2)] flex h-[1.5625rem] items-center justify-center px-[0.71875rem] py-[0.4375rem] rounded-[1.375rem] shadow-[0px_4.4px_17.6px_0px_rgba(255,106,0,0.1)]">
-                                       <p className="font-bold leading-none text-[9.7px] text-[rgba(184,77,0,0.8)] whitespace-nowrap" style={{ fontFamily: 'var(--font-bricolage-grotesque, sans-serif)' }}>Food ₹50K</p>
+                                       <p className="font-bold leading-none text-[9.7px] text-[rgba(184,77,0,0.8)] whitespace-nowrap" style={{ fontFamily: "'Sora', sans-serif" }}>Food ₹50K</p>
                                     </div>
                                  </div>
                               </div>
                               <div className="absolute flex h-[2.0625rem] items-center justify-center left-[9.875rem] top-[3.375rem] w-[5.25rem]">
                                  <div className="flex-none rotate-[-5.34deg]">
                                     <div className="bg-white border-[0.732px] border-[rgba(255,106,0,0.2)] flex h-[1.5625rem] items-center justify-center px-[0.71875rem] py-[0.4375rem] rounded-[1.375rem] shadow-[0px_4.4px_17.6px_0px_rgba(255,106,0,0.1)]">
-                                       <p className="font-bold leading-none text-[9.7px] text-[rgba(184,77,0,0.8)] whitespace-nowrap" style={{ fontFamily: 'var(--font-bricolage-grotesque, sans-serif)' }}>Travel ₹30K</p>
+                                       <p className="font-bold leading-none text-[9.7px] text-[rgba(184,77,0,0.8)] whitespace-nowrap" style={{ fontFamily: "'Sora', sans-serif" }}>Travel ₹30K</p>
                                     </div>
                                  </div>
                               </div>
@@ -1400,23 +1113,23 @@ const UniversityPageNew = () => {
                         </div>
                         
                         {/* ONLINE */}
-                        <div className="absolute bg-[rgba(255,255,255,0.6)] border-[0.559px] border-[rgba(37,99,235,0.1)] h-[8.125rem] left-0 overflow-hidden rounded-[0.75rem] top-[6.375rem] w-[11.4375rem]">
+                        <div className="absolute bg-[rgba(255,255,255,0.8)] border-[0.559px] border-[rgba(37,99,235,0.1)] h-[8.125rem] left-0 overflow-hidden rounded-[0.75rem] top-[6.375rem] w-[11.4375rem]">
                            <div className="absolute flex flex-col gap-[0.75rem] items-start justify-center left-[calc(50%-5.5px)] top-[calc(50%-27px)] -translate-x-1/2 -translate-y-1/2 text-left">
                               <p className="font-bold leading-[0.625rem] text-[0.75rem] text-[rgba(37,99,235,0.75)] tracking-[1.2px] uppercase w-[8.6875rem]">ONLINE — Annual</p>
-                              <p className="font-bold leading-[1.0625rem] text-[1.125rem] text-[#343434] whitespace-nowrap" style={{ fontFamily: 'var(--font-bricolage-grotesque, sans-serif)' }}>₹70,000-1,50,000</p>
+                              <p className="font-bold leading-[1.0625rem] text-[1.125rem] text-[#343434] whitespace-nowrap" style={{ fontFamily: "'Sora', sans-serif" }}>₹70,000-1,50,000</p>
                            </div>
                            <div className="absolute left-[calc(50%+1.14px)] top-[calc(50%+33px)] -translate-x-1/2 -translate-y-1/2 bg-white border-[0.668px] border-[rgba(37,99,235,0.15)] flex h-[1.6875rem] items-center justify-center px-[10.7px] py-[6.7px] rounded-[1.25rem] shadow-[0px_4px_16px_0px_rgba(37,99,235,0.08)]">
-                              <p className="font-bold leading-none text-[10.7px] text-[rgba(37,99,235,0.75)] whitespace-nowrap" style={{ fontFamily: 'var(--font-bricolage-grotesque, sans-serif)' }}>Tuition Fee only</p>
+                              <p className="font-bold leading-none text-[10.7px] text-[rgba(37,99,235,0.75)] whitespace-nowrap" style={{ fontFamily: "'Sora', sans-serif" }}>Tuition Fee only</p>
                            </div>
                         </div>
                         
                         {/* SAVINGS */}
-                        <div className="absolute border-[0.559px] border-emerald-100 h-[8.125rem] left-[12.4375rem] overflow-hidden rounded-[0.75rem] top-[6.375rem] w-[9.4375rem] bg-emerald-50/50">
+                        <div className="absolute border-[0.559px] border-emerald-100 h-[8.125rem] left-[12.4375rem] overflow-hidden rounded-[0.75rem] top-[6.375rem] w-[9.4375rem] bg-emerald-50/70">
                            <div className="absolute flex flex-col items-start justify-center left-[13.44px] top-[15.44px] text-left">
-                              <p className="font-bold leading-[1.0625rem] text-[1.25rem] text-emerald-700 whitespace-nowrap" style={{ fontFamily: 'var(--font-bricolage-grotesque, sans-serif)' }}>40–60%</p>
+                              <p className="font-bold leading-[1.0625rem] text-[1.25rem] text-emerald-700 whitespace-nowrap" style={{ fontFamily: "'Sora', sans-serif" }}>40–60%</p>
                            </div>
                            <div className="absolute flex flex-col gap-[7.5px] items-start left-[13.44px] right-[13.44px] top-[46.44px] text-left">
-                              <p className="font-bold leading-[1.2] text-[0.875rem] text-slate-900 w-full" style={{ fontFamily: 'var(--font-bricolage-grotesque, sans-serif)' }}>₹1.5–2L saved annually</p>
+                              <p className="font-bold leading-[1.2] text-[0.875rem] text-slate-900 w-full" style={{ fontFamily: "'Sora', sans-serif" }}>₹1.5–2L saved annually</p>
                               <p className="font-medium text-[0.75rem] text-emerald-600 w-full">EMI from ₹3,000/month</p>
                            </div>
                         </div>
@@ -1434,19 +1147,19 @@ const UniversityPageNew = () => {
                   
                   <div className="flex flex-col gap-[1.5rem] items-start w-full text-left">
                      <div className="flex flex-col gap-[0.75rem] items-start w-full">
-                        <div className="bg-[rgba(255,255,255,0.4)] border border-[rgba(215,215,215,0.4)] flex gap-[0.5rem] items-center p-[0.75rem] rounded-[0.5rem] w-full">
+                        <div className="bg-[rgba(255,255,255,0.6)] border border-slate-200 flex gap-[0.5rem] items-center p-[0.75rem] rounded-[0.5rem] w-full">
                            <div className="relative shrink-0 w-[1.25rem] h-[1.25rem]">
                               <img alt="" className="w-full h-full object-contain" src="https://fmc-contents.s3.ap-south-1.amazonaws.com/assets/VERIFIED_same_figma.svg" />
                            </div>
                            <p className="flex-1 font-medium text-[0.875rem] leading-[1.2] text-[#343434]">Add certifications from Google, AWS &amp; more</p>
                         </div>
-                        <div className="bg-[rgba(255,255,255,0.4)] border border-[rgba(215,215,215,0.4)] flex gap-[0.5rem] items-center p-[0.75rem] rounded-[0.5rem] w-full">
+                        <div className="bg-[rgba(255,255,255,0.6)] border border-slate-200 flex gap-[0.5rem] items-center p-[0.75rem] rounded-[0.5rem] w-full">
                            <div className="relative shrink-0 w-[1.25rem] h-[1.25rem]">
                               <img alt="" className="w-full h-full object-contain" src="https://fmc-contents.s3.ap-south-1.amazonaws.com/assets/VERIFIED_same_figma.svg" />
                            </div>
                            <p className="flex-1 font-medium text-[0.875rem] leading-[1.2] text-[#343434]">Build a cushion. Graduate debt-free.</p>
                         </div>
-                        <div className="bg-[rgba(255,255,255,0.4)] border border-[rgba(215,215,215,0.4)] flex gap-[0.5rem] items-center p-[0.75rem] rounded-[0.5rem] w-full">
+                        <div className="bg-[rgba(255,255,255,0.6)] border border-slate-200 flex gap-[0.5rem] items-center p-[0.75rem] rounded-[0.5rem] w-full">
                            <div className="relative shrink-0 w-[1.25rem] h-[1.25rem]">
                               <img alt="" className="w-full h-full object-contain" src="https://fmc-contents.s3.ap-south-1.amazonaws.com/assets/VERIFIED_same_figma.svg" />
                            </div>
@@ -1456,7 +1169,7 @@ const UniversityPageNew = () => {
                      <button 
                         type="button" 
                         onClick={() => setShowEnquiry(true)}
-                        className="bg-blue-600 hover:bg-blue-700 flex gap-[0.5rem] items-center justify-center w-full overflow-hidden pl-[1.25rem] pr-[1rem] py-[0.75rem] rounded-[2.5rem] text-white font-semibold text-[1rem] leading-[1.4] transition-colors"
+                        className="bg-slate-900 hover:bg-blue-600 flex gap-[0.5rem] items-center justify-center w-full overflow-hidden pl-[1.25rem] pr-[1rem] py-[0.75rem] rounded-[2.5rem] text-white font-black text-[10px] uppercase tracking-[0.2em] transition-all duration-500 active:scale-95"
                      >
                         <span className="whitespace-nowrap">Still waiting? Start today</span>
                         <div className="relative shrink-0 w-[0.4375rem] h-[0.8125rem]">
@@ -1467,41 +1180,41 @@ const UniversityPageNew = () => {
                </div>
                
                {/* Desktop Layout */}
-               <div className="hidden sm:flex gap-[3.75rem] items-center justify-between w-full relative">
+               <div className="hidden sm:flex gap-[3.75rem] items-center justify-between w-full relative z-10">
                   {/* Left Column visual box */}
                   <div className="relative h-[24rem] w-[38rem] shrink-0">
                      {/* ON CAMPUS */}
-                     <div className="absolute bg-[rgba(255,255,255,0.6)] border border-[rgba(184,77,0,0.1)] h-[7.5625rem] left-[1.25rem] overflow-hidden rounded-[0.75rem] top-[0.25rem] w-[36.625rem]">
+                     <div className="absolute bg-[rgba(255,255,255,0.8)] border border-slate-200/60 h-[7.5625rem] left-[1.25rem] overflow-hidden rounded-[0.75rem] top-[0.25rem] w-[36.625rem]">
                         <div className="absolute -translate-y-1/2 flex flex-col gap-5 items-start justify-center left-[1.5625rem] top-1/2 text-left">
                            <p className="font-bold text-[0.875rem] leading-[1.125rem] text-[rgba(184,77,0,0.8)] tracking-[1.4px] uppercase">ON-CAMPUS — ANNUAL</p>
-                           <p className="font-bold text-[1.625rem] leading-[1.875rem] text-[#343434]" style={{ fontFamily: 'var(--font-bricolage-grotesque, sans-serif)' }}>₹3,00,000+</p>
+                           <p className="font-bold text-[1.625rem] leading-[1.875rem] text-[#343434]" style={{ fontFamily: "'Sora', sans-serif" }}>₹3,00,000+</p>
                         </div>
                         <div className="absolute h-[7.5625rem] left-[15.3125rem] overflow-hidden top-[-1px] w-[21.25rem]">
                            <div className="absolute flex h-[3.8125rem] items-center justify-center left-[4.125rem] top-[0.4375rem] w-[8.5625rem]">
                               <div className="rotate-[9.28deg]">
                                  <div className="bg-white border border-[rgba(255,106,0,0.2)] flex items-center justify-center px-[18.5px] py-[11.6px] rounded-[2.1875rem] shadow-[0px_6.9px_27.8px_0px_rgba(255,106,0,0.1)]">
-                                    <p className="font-bold text-[15.3px] text-[rgba(184,77,0,0.8)] whitespace-nowrap" style={{ fontFamily: 'var(--font-bricolage-grotesque, sans-serif)' }}>Tuition ₹1.2L</p>
+                                    <p className="font-bold text-[15.3px] text-[rgba(184,77,0,0.8)] whitespace-nowrap" style={{ fontFamily: "'Sora', sans-serif" }}>Tuition ₹1.2L</p>
                                  </div>
                               </div>
                            </div>
                            <div className="absolute flex h-[4.125rem] items-center justify-center left-[4.5rem] top-[3.6875rem] w-[8.6875rem]">
                               <div className="rotate-[-11.57deg]">
                                  <div className="bg-white border border-[rgba(255,106,0,0.2)] flex items-center justify-center px-[18.5px] py-[11.6px] rounded-[2.1875rem] shadow-[0px_6.9px_27.8px_0px_rgba(255,106,0,0.1)]">
-                                    <p className="font-bold text-[15.3px] text-[rgba(184,77,0,0.8)] whitespace-nowrap" style={{ fontFamily: 'var(--font-bricolage-grotesque, sans-serif)' }}>Hostel ₹80K</p>
+                                    <p className="font-bold text-[15.3px] text-[rgba(184,77,0,0.8)] whitespace-nowrap" style={{ fontFamily: "'Sora', sans-serif" }}>Hostel ₹80K</p>
                                  </div>
                               </div>
                            </div>
                            <div className="absolute flex h-[3.4375rem] items-center justify-center left-[12.3125rem] top-[1.3125rem] w-[7.875rem]">
                               <div className="rotate-[7.17deg]">
                                  <div className="bg-white border border-[rgba(255,106,0,0.2)] flex items-center justify-center px-[18.5px] py-[11.6px] rounded-[2.1875rem] shadow-[0px_6.9px_27.8px_0px_rgba(255,106,0,0.1)]">
-                                    <p className="font-bold text-[15.3px] text-[rgba(184,77,0,0.8)] whitespace-nowrap" style={{ fontFamily: 'var(--font-bricolage-grotesque, sans-serif)' }}>Food ₹50K</p>
+                                    <p className="font-bold text-[15.3px] text-[rgba(184,77,0,0.8)] whitespace-nowrap" style={{ fontFamily: "'Sora', sans-serif" }}>Food ₹50K</p>
                                  </div>
                               </div>
                            </div>
                            <div className="absolute flex h-[3.25rem] items-center justify-center left-[12.6875rem] top-[4.375rem] w-[8.3125rem]">
                               <div className="rotate-[-5.34deg]">
                                  <div className="bg-white border border-[rgba(255,106,0,0.2)] flex items-center justify-center px-[18.5px] py-[11.6px] rounded-[2.1875rem] shadow-[0px_6.9px_27.8px_0px_rgba(255,106,0,0.1)]">
-                                    <p className="font-bold text-[15.3px] text-[rgba(184,77,0,0.8)] whitespace-nowrap" style={{ fontFamily: 'var(--font-bricolage-grotesque, sans-serif)' }}>Travel ₹30K</p>
+                                    <p className="font-bold text-[15.3px] text-[rgba(184,77,0,0.8)] whitespace-nowrap" style={{ fontFamily: "'Sora', sans-serif" }}>Travel ₹30K</p>
                                  </div>
                               </div>
                            </div>
@@ -1509,16 +1222,16 @@ const UniversityPageNew = () => {
                      </div>
                      
                      {/* ONLINE */}
-                     <div className="absolute bg-[rgba(255,255,255,0.6)] border border-blue-100 h-[7.5625rem] left-[1.25rem] overflow-hidden rounded-[0.75rem] top-[8.875rem] w-[26.5rem]">
+                     <div className="absolute bg-[rgba(255,255,255,0.8)] border border-blue-100 h-[7.5625rem] left-[1.25rem] overflow-hidden rounded-[0.75rem] top-[8.875rem] w-[26.5rem]">
                         <div className="absolute -translate-y-1/2 flex flex-col gap-5 items-start justify-center left-[1.5625rem] top-1/2 text-left">
-                           <p className="font-bold text-[0.875rem] leading-[1.125rem] text-blue-600 tracking-[1.4px] uppercase">ONLINE — Annual</p>
-                           <p className="font-bold text-[1.625rem] leading-[1.875rem] text-[#343434]" style={{ fontFamily: 'var(--font-bricolage-grotesque, sans-serif)' }}>₹70,000-1,50,000</p>
+                           <p className="font-bold text-[0.875rem] leading-[1.125rem] text-[#2563eb] tracking-[1.4px] uppercase">ONLINE — Annual</p>
+                           <p className="font-bold text-[1.625rem] leading-[1.875rem] text-[#343434]" style={{ fontFamily: "'Sora', sans-serif" }}>₹70,000-1,50,000</p>
                         </div>
                         <div className="absolute h-[7.5625rem] left-[15.4375rem] overflow-hidden top-[-1px] w-[11.3125rem]">
                            <div className="absolute left-1/2 -translate-x-1/2 top-1/2 -translate-y-1/2 flex h-[3.5625rem] items-center justify-center w-[8.875rem]">
                               <div className="rotate-[9.02deg]">
                                  <div className="bg-white border border-blue-100 flex items-center justify-center px-[14.2px] py-[8.9px] rounded-[1.6875rem] shadow-[0px_5.3px_21.3px_0px_rgba(37,99,235,0.08)]">
-                                    <p className="font-bold text-[14.2px] text-blue-600 whitespace-nowrap" style={{ fontFamily: 'var(--font-bricolage-grotesque, sans-serif)' }}>Tuition Fee only</p>
+                                    <p className="font-bold text-[14.2px] text-[#2563eb] whitespace-nowrap" style={{ fontFamily: "'Sora', sans-serif" }}>Tuition Fee only</p>
                                  </div>
                               </div>
                            </div>
@@ -1526,13 +1239,13 @@ const UniversityPageNew = () => {
                      </div>
                      
                      {/* SAVINGS */}
-                     <div className="absolute border border-emerald-100 h-[4.875rem] left-[1.25rem] rounded-[0.75rem] top-[18.5625rem] w-[26.5rem] bg-emerald-50/50">
-                        <p className="absolute font-bold left-[1.5625rem] top-1/2 -translate-y-1/2 text-emerald-700" style={{ fontFamily: 'var(--font-bricolage-grotesque, sans-serif)' }}>
+                     <div className="absolute border border-emerald-100 h-[4.875rem] left-[1.25rem] rounded-[0.75rem] top-[18.5625rem] w-[26.5rem] bg-emerald-50/70">
+                        <p className="absolute font-bold left-[1.5625rem] top-1/2 -translate-y-1/2 text-emerald-700" style={{ fontFamily: "'Sora', sans-serif" }}>
                            <span className="text-[1.5rem] leading-none">40–60</span>
                            <span className="text-[1.25rem] leading-none">%</span>
                         </p>
                         <div className="absolute -translate-y-1/2 flex flex-col gap-[0.625rem] items-start left-[8.8125rem] top-1/2 text-left">
-                           <p className="font-bold text-[1rem] text-[#181818] whitespace-nowrap" style={{ fontFamily: 'var(--font-bricolage-grotesque, sans-serif)' }}>₹1.5–2L saved annually</p>
+                           <p className="font-bold text-[1rem] text-[#181818] whitespace-nowrap" style={{ fontFamily: "'Sora', sans-serif" }}>₹1.5–2L saved annually</p>
                            <p className="font-medium text-[0.875rem] text-emerald-600">EMI from ₹3,000/month</p>
                         </div>
                      </div>
@@ -1550,11 +1263,9 @@ const UniversityPageNew = () => {
                   {/* Right Column text */}
                   <div className="flex flex-col gap-6 items-start w-[23.75rem] text-left">
                      <div className="flex flex-col gap-4 items-start w-full">
-                        <div className="relative flex gap-2 items-start">
-                           <p className="font-bold text-[1.75rem] leading-[1.3] text-[#343434] w-[12.1875rem]" style={{ fontFamily: 'var(--font-bricolage-grotesque, sans-serif)' }}>
-                              Reinvest the<br />difference
-                           </p>
-                        </div>
+                        <h3 className="font-black text-xl md:text-2xl text-slate-900 uppercase tracking-tight" style={{ fontFamily: "'Sora', sans-serif" }}>
+                           Reinvest the<br />difference
+                        </h3>
                         <p className="font-medium text-[0.875rem] leading-[1.5] text-[#5e5e5e] w-full">
                            The money you save on campus costs is yours to keep. Here's what you can actually do with it.
                         </p>
@@ -1583,7 +1294,7 @@ const UniversityPageNew = () => {
                      <button 
                         type="button" 
                         onClick={() => setShowEnquiry(true)}
-                        className="bg-blue-600 hover:bg-blue-700 flex gap-2 items-center justify-center overflow-hidden pl-7 pr-6 py-4 rounded-[2.5rem] text-white font-semibold text-[1rem] leading-[1.4] transition-colors"
+                        className="bg-slate-900 hover:bg-blue-600 flex gap-2 items-center justify-center overflow-hidden pl-7 pr-6 py-4 rounded-[2.5rem] text-white font-black text-[10px] uppercase tracking-[0.2em] transition-all duration-500 active:scale-95"
                      >
                         <span className="whitespace-nowrap">Still waiting? Start today</span>
                         <div className="relative shrink-0 w-[0.4375rem] h-[0.8125rem] mt-[0.5px] ml-2">
@@ -1594,7 +1305,7 @@ const UniversityPageNew = () => {
                </div>
             </div>
          </section>
-         {/* 5. WHY CHOOSE ANTECHOS STRIP (Image 3) */}
+\n\n         {/* 5. WHY CHOOSE ANTECHOS STRIP (Image 3) */}
          <section className="py-12 bg-white">
             <div className="container mx-auto px-6">
                <div className="bg-[#051129] rounded-[2rem] py-10 px-6 md:px-12 shadow-2xl relative overflow-hidden">
@@ -1804,29 +1515,21 @@ const UniversityPageNew = () => {
          </section>
 
          {/* ==================== NEW SECTION 3: STUDY WHEN YOUR BRAIN IS READY ==================== */}
-         <section className="relative w-full overflow-hidden py-12 sm:py-[3.75rem]">
-            {/* Desktop Background Image */}
-            <div className="absolute inset-0 pointer-events-none">
-               <img 
-                  alt="" 
-                  loading="lazy" 
-                  decoding="async" 
-                  className="object-fill w-full h-full absolute inset-0"
-                  src="https://fmc-contents.s3.ap-south-1.amazonaws.com/assets/studywhenyourbrainisreadybg.png" 
-               />
-            </div>
+         <section className="relative w-full overflow-hidden py-16 md:py-24 bg-slate-50 border-b border-slate-100">
+            {/* Tech Grid Pattern */}
+            <div className="grid-pattern opacity-60" />
             
             <div className="relative z-10 flex flex-col lg:flex-row items-center justify-between w-full max-w-7xl mx-auto px-6 gap-12">
                {/* Left Column: Text & Cards */}
                <div className="flex flex-col gap-6 items-start w-full lg:w-[29.9375rem] text-left">
-                  <div className="flex flex-col gap-3 items-center w-full">
-                     <p className="font-bold text-[2rem] sm:text-[2.75rem] leading-[1.2] w-full" style={{ fontFamily: 'var(--font-bricolage-grotesque, sans-serif)' }}>
-                        <span className="text-blue-600">Study when your </span>
-                        <span className="text-slate-900">brain is ready</span>
+                  <div className="flex flex-col gap-2 items-start text-center lg:text-left w-full">
+                     <SectionLabel icon={Zap}>Flexible Learning</SectionLabel>
+                     <h2 className="text-2xl sm:text-4xl md:text-5xl font-black text-slate-900 mb-4 font-display uppercase tracking-tighter" style={{ fontFamily: "'Sora', sans-serif" }}>
+                        Study when your <span className="text-blue-600">brain is ready</span>
+                     </h2>
+                     <p className="font-medium text-xs sm:text-sm md:text-base text-slate-500 max-w-2xl">
+                        Degree built around your life. Not a fixed timetable.
                      </p>
-                     <div className="font-medium text-[1rem] text-[#5e5e5e] w-full">
-                        <p className="leading-[1.5] mb-0">Degree built around your life. Not a fixed timetable.</p>
-                     </div>
                   </div>
                   
                   <div className="flex flex-col gap-3 items-start w-full">
@@ -1837,7 +1540,7 @@ const UniversityPageNew = () => {
                            </div>
                         </div>
                         <div className="flex flex-col gap-1 items-start flex-1">
-                           <p className="font-bold text-[1rem] text-[#181818] whitespace-nowrap" style={{ fontFamily: 'var(--font-bricolage-grotesque, sans-serif)' }}>Live at your hour</p>
+                           <p className="font-black text-base text-slate-900 uppercase tracking-tight" style={{ fontFamily: "'Sora', sans-serif" }}>Live at your hour</p>
                            <p className="font-normal text-[0.875rem] leading-[1.5] text-[#5e5e5e]">Morning or late-night batches available. Choose the time when you learn best.</p>
                         </div>
                      </div>
@@ -1848,7 +1551,7 @@ const UniversityPageNew = () => {
                            </div>
                         </div>
                         <div className="flex flex-col gap-1 items-start flex-1">
-                           <p className="font-bold text-[1rem] text-[#181818] whitespace-nowrap" style={{ fontFamily: 'var(--font-bricolage-grotesque, sans-serif)' }}>Recorded lectures</p>
+                           <p className="font-black text-base text-slate-900 uppercase tracking-tight" style={{ fontFamily: "'Sora', sans-serif" }}>Recorded lectures</p>
                            <p className="font-normal text-[0.875rem] leading-[1.5] text-[#5e5e5e]">Watch again, pause, rewind or learn at your own pace.</p>
                         </div>
                      </div>
@@ -1859,7 +1562,7 @@ const UniversityPageNew = () => {
                            </div>
                         </div>
                         <div className="flex flex-col gap-1 items-start flex-1">
-                           <p className="font-bold text-[1rem] text-[#181818] whitespace-nowrap" style={{ fontFamily: 'var(--font-bricolage-grotesque, sans-serif)' }}>Weekend exam windows</p>
+                           <p className="font-black text-base text-slate-900 uppercase tracking-tight" style={{ fontFamily: "'Sora', sans-serif" }}>Weekend exam windows</p>
                            <p className="font-normal text-[0.875rem] leading-[1.5] text-[#5e5e5e]">Take your exams during windows that fit your week.</p>
                         </div>
                      </div>
@@ -1870,7 +1573,7 @@ const UniversityPageNew = () => {
                            </div>
                         </div>
                         <div className="flex flex-col gap-1 items-start flex-1">
-                           <p className="font-bold text-[1rem] text-[#181818] whitespace-nowrap" style={{ fontFamily: 'var(--font-bricolage-grotesque, sans-serif)' }}>Zero commute</p>
+                           <p className="font-black text-base text-slate-900 uppercase tracking-tight" style={{ fontFamily: "'Sora', sans-serif" }}>Zero commute</p>
                            <p className="font-normal text-[0.875rem] leading-[1.5] text-[#5e5e5e]">Couch, café or commute. Your classroom goes where you go.</p>
                         </div>
                      </div>
@@ -1981,7 +1684,7 @@ const UniversityPageNew = () => {
                </div>
             </div>
          </section>
-         {/* CAROUSEL FEATURES SECTION */}
+\n\n         {/* CAROUSEL FEATURES SECTION */}
          <section className="py-16 md:py-24 bg-white border-y border-slate-100 relative overflow-hidden">
             <div className="container mx-auto px-4 md:px-6 relative z-10 w-full max-w-7xl mx-auto">
                {/* Heading */}
@@ -2654,12 +2357,12 @@ const UniversityPageNew = () => {
          {/* ==================== NEW SECTION 4: WHAT HAPPENS AFTER GRADUATION? ==================== */}
          <section className="relative w-full overflow-hidden bg-white py-12 sm:py-[3.75rem]">
             <div className="relative z-10 flex flex-col gap-12 items-center w-full max-w-7xl mx-auto px-6">
-               <div className="flex flex-col gap-[0.5rem] items-center text-center w-full">
-                  <p className="font-bold text-[2rem] sm:text-[2.75rem] leading-[1.2]" style={{ fontFamily: 'var(--font-bricolage-grotesque, sans-serif)' }}>
-                     <span className="text-blue-600">What happens </span>
-                     <span className="text-slate-900">after graduation?</span>
-                  </p>
-                  <p className="font-medium text-[1rem] leading-[1.5] text-[#5e5e5e]">
+               <div className="flex flex-col gap-2 items-center text-center w-full mb-12">
+                  <SectionLabel icon={GraduationCap}>Career Outcomes</SectionLabel>
+                  <h2 className="text-2xl sm:text-4xl md:text-5xl font-black text-slate-900 mb-4 font-display uppercase tracking-tighter" style={{ fontFamily: "'Sora', sans-serif" }}>
+                     What happens <span className="text-blue-600">after graduation?</span>
+                  </h2>
+                  <p className="font-medium text-xs sm:text-sm md:text-base text-slate-500 max-w-2xl">
                      Based on a survey of 5,000+ graduates.
                   </p>
                </div>
@@ -2667,19 +2370,19 @@ const UniversityPageNew = () => {
                {/* Grid Stats */}
                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 w-full">
                   <div className="bg-slate-50 border border-slate-100 rounded-2xl p-6 flex flex-col justify-between h-[10rem] text-left hover:shadow-md transition-shadow">
-                     <p className="font-bold text-[3rem] text-blue-600 leading-none" style={{ fontFamily: 'var(--font-bricolage-grotesque, sans-serif)' }}>87%</p>
+                     <p className="font-black text-[3rem] text-blue-600 leading-none" style={{ fontFamily: "'Sora', sans-serif" }}>87%</p>
                      <p className="font-semibold text-slate-700 text-[0.875rem] leading-snug">got a hike within a year of graduating</p>
                   </div>
                   <div className="bg-slate-50 border border-slate-100 rounded-2xl p-6 flex flex-col justify-between h-[10rem] text-left hover:shadow-md transition-shadow">
-                     <p className="font-bold text-[3rem] text-blue-600 leading-none" style={{ fontFamily: 'var(--font-bricolage-grotesque, sans-serif)' }}>9 in 10</p>
+                     <p className="font-black text-[3rem] text-blue-600 leading-none" style={{ fontFamily: "'Sora', sans-serif" }}>9 in 10</p>
                      <p className="font-semibold text-slate-700 text-[0.875rem] leading-snug">said their degree opened many doors</p>
                   </div>
                   <div className="bg-slate-50 border border-slate-100 rounded-2xl p-6 flex flex-col justify-between h-[10rem] text-left hover:shadow-md transition-shadow">
-                     <p className="font-bold text-[3rem] text-blue-600 leading-none" style={{ fontFamily: 'var(--font-bricolage-grotesque, sans-serif)' }}>3 in 4</p>
+                     <p className="font-black text-[3rem] text-blue-600 leading-none" style={{ fontFamily: "'Sora', sans-serif" }}>3 in 4</p>
                      <p className="font-semibold text-slate-700 text-[0.875rem] leading-snug">got an offer within a year of graduation</p>
                   </div>
                   <div className="bg-slate-50 border border-slate-100 rounded-2xl p-6 flex flex-col justify-between h-[10rem] text-left hover:shadow-md transition-shadow">
-                     <p className="font-bold text-[3rem] text-blue-600 leading-none" style={{ fontFamily: 'var(--font-bricolage-grotesque, sans-serif)' }}>92%</p>
+                     <p className="font-black text-[3rem] text-blue-600 leading-none" style={{ fontFamily: "'Sora', sans-serif" }}>92%</p>
                      <p className="font-semibold text-slate-700 text-[0.875rem] leading-snug">referred a friend or family member</p>
                   </div>
                </div>
@@ -2738,14 +2441,14 @@ const UniversityPageNew = () => {
                <button 
                   type="button" 
                   onClick={() => setShowEnquiry(true)}
-                  className="bg-blue-600 hover:bg-blue-700 transition-all active:scale-95 flex gap-2 items-center justify-center overflow-hidden px-8 py-4 rounded-[2.5rem] text-white font-semibold text-[1rem] leading-[1.4] mt-6 shadow-lg shadow-blue-600/10"
+                  className="bg-slate-900 hover:bg-blue-600 flex gap-2 items-center justify-center overflow-hidden px-8 py-5 rounded-[2.5rem] text-white font-black text-[10px] uppercase tracking-[0.2em] transition-all duration-500 active:scale-95"
                >
                   <span className="whitespace-nowrap">Be one of them. Book a free session</span>
                   <ChevronRight className="w-5 h-5" />
                </button>
             </div>
          </section>
-         {/* 2026 TRENDING SPECIALIZATIONS */}
+\n\n         {/* 2026 TRENDING SPECIALIZATIONS */}
          <section className="py-12 md:py-24 bg-slate-50 relative overflow-hidden">
             <div className="container mx-auto px-6">
                <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-12 mb-16 md:mb-20">
