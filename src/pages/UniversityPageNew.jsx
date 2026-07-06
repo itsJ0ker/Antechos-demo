@@ -43,7 +43,7 @@ import consultantImg from '../assets/career_consultant_dark.png';
 
 /* ─── Inline CSS ─────────────────────────────────────────────────────────── */
 const styles = `
-  @import url('https://fonts.googleapis.com/css2?family=Sora:wght@300;400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,400&display=swap');
+  @import url('https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,200..800&family=Sora:wght@300;400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,400&display=swap');
 
   :root {
     --accent: #38BDF8;
@@ -53,6 +53,7 @@ const styles = `
     --dark-3: #161C24;
     --card-bg: #FFFFFF;
     --border: rgba(56,189,248,0.1);
+    --font-bricolage-grotesque: 'Bricolage Grotesque', sans-serif;
   }
 
   .uni-page-new { 
@@ -66,6 +67,12 @@ const styles = `
     position: relative;
   }
   .uni-page-new h1, .uni-page-new h2, .uni-page-new h3, .uni-page-new h4 { font-family: 'Sora', sans-serif; }
+  
+  /* Custom clock wheel segments styling */
+  .clock-segment-morning { fill: #fca5a5; }
+  .clock-segment-afternoon { fill: #93c5fd; }
+  .clock-segment-evening { fill: #3b82f6; }
+  .clock-segment-night { fill: #475569; }
   
   .section-label {
     display: inline-flex; alignItems: center; gap: 8px;
@@ -871,6 +878,293 @@ const UniversityPageNew = () => {
             </div>
          </section>
 
+         {/* ==================== NEW SECTION 1: ONE DEGREE. ZERO DISTINCTIONS ==================== */}
+         <section className="relative w-full overflow-hidden bg-white">
+            {/* Desktop Background Image */}
+            <div className="absolute inset-0 pointer-events-none hidden sm:block">
+               <img 
+                  alt="" 
+                  loading="lazy" 
+                  decoding="async" 
+                  className="object-fill w-full h-full absolute inset-0"
+                  src="https://fmc-contents.s3.ap-south-1.amazonaws.com/assets/onedegree.png" 
+               />
+            </div>
+            
+            {/* Desktop Layout */}
+            <div className="relative z-10 hidden sm:flex flex-col gap-[3rem] items-center py-[5rem] mx-auto w-full max-w-7xl px-6">
+               <div className="flex flex-col gap-[0.75rem] items-center text-center w-full">
+                  <p className="font-bold text-[2.75rem] leading-[1.2]" style={{ fontFamily: 'var(--font-bricolage-grotesque, sans-serif)' }}>
+                     <span className="text-blue-600">One degree. </span>
+                     <span className="text-slate-900">Zero distinctions</span>
+                  </p>
+                  <p className="font-medium text-[1rem] leading-[1.5] text-[#5e5e5e]">
+                     The certificate is identical. The only difference is where you sat.
+                  </p>
+               </div>
+               
+               <div className="flex gap-[3.75rem] items-center justify-center w-full">
+                  {/* Left Visual: Certificates */}
+                  <div className="flex-1 min-w-0 overflow-hidden flex items-center justify-center">
+                     <div className="flex flex-col gap-[1.375rem] items-center shrink-0">
+                        <div className="relative h-[16.063rem] w-[40.59rem]">
+                           {/* ON CAMPUS */}
+                           <div className="-translate-y-1/2 absolute flex h-[13.699rem] items-center justify-center left-[1.403rem] top-1/2 w-[16.419rem]">
+                              <div className="flex-none rotate-[-5.73deg]">
+                                 <div className="bg-[rgba(255,255,255,0.7)] border-[0.989px] border-[rgba(37,99,235,0.2)] flex flex-col gap-[0.948rem] items-center justify-center overflow-hidden pb-[1.924rem] pl-[2.433rem] pr-[1.491rem] pt-[1.677rem] relative rounded-[1.072rem] shadow-[-5.814px_-5.814px_17.442px_0px_rgba(0,0,0,0.06)] w-[15.273rem]">
+                                    <p className="font-semibold text-[0.989rem] text-[rgba(1,18,74,0.6)] tracking-[0.099rem] whitespace-nowrap">ON CAMPUS</p>
+                                    <div className="flex gap-[0.550rem] items-center w-full">
+                                       <div className="relative shrink-0 w-[3.932rem] h-[3.932rem]">
+                                          <img alt="" className="w-full h-full object-contain" src="https://fmc-contents.s3.ap-south-1.amazonaws.com/assets/MEDAL_figma.svg" />
+                                       </div>
+                                       <div className="flex flex-1 flex-col gap-[0.722rem] items-start opacity-30">
+                                          <div className="bg-black h-[0.234rem] rounded-full w-full"></div>
+                                          <div className="flex items-center justify-between w-full">
+                                             <div className="bg-black h-[0.236rem] rounded-full w-[3.368rem]"></div>
+                                             <div className="bg-black h-[0.236rem] rounded-full w-[2.895rem]"></div>
+                                          </div>
+                                          <div className="bg-black h-[0.234rem] rounded-full w-full"></div>
+                                          <div className="bg-black h-[0.236rem] rounded-full w-[2.422rem]"></div>
+                                       </div>
+                                    </div>
+                                    <div className="flex gap-[0.429rem] items-center">
+                                       <div className="relative shrink-0 w-[1.430rem] h-[1.430rem]">
+                                          <img alt="" className="w-full h-full object-contain" src="https://fmc-contents.s3.ap-south-1.amazonaws.com/assets/VERIFIED_one_figma.svg" />
+                                       </div>
+                                       <p className="font-bold text-[1rem] text-[rgba(37,99,235,0.75)] whitespace-nowrap" style={{ fontFamily: 'var(--font-bricolage-grotesque, sans-serif)' }}>UGC APPROVED</p>
+                                    </div>
+                                    <div className="absolute h-[13.109rem] left-[-0.186rem] top-[-1.793rem] w-[1.793rem]">
+                                       <img alt="" className="w-full h-full object-contain" src="https://fmc-contents.s3.ap-south-1.amazonaws.com/assets/RIBBON_figma.svg" />
+                                    </div>
+                                 </div>
+                              </div>
+                           </div>
+                           
+                           {/* EQUALS */}
+                           <div className="absolute h-[1.425rem] left-[19.421rem] top-[7.32rem] w-[1.998rem]">
+                              <img alt="=" className="w-full h-full object-contain" src="https://fmc-contents.s3.ap-south-1.amazonaws.com/assets/EQUALS_figma.svg" />
+                           </div>
+                           
+                           {/* ONLINE */}
+                           <div className="-translate-y-1/2 absolute flex h-[13.698rem] items-center justify-center left-[22.597rem] top-1/2 w-[16.418rem]">
+                              <div className="flex-none rotate-[5.73deg]">
+                                 <div className="bg-[rgba(255,255,255,0.7)] border-[0.989px] border-[rgba(37,99,235,0.2)] flex flex-col gap-[0.948rem] items-center justify-center overflow-hidden pb-[1.924rem] pl-[2.433rem] pr-[1.491rem] pt-[1.677rem] relative rounded-[1.072rem] shadow-[-5.814px_-5.814px_17.442px_0px_rgba(0,0,0,0.06)] w-[15.273rem]">
+                                    <p className="font-semibold text-[0.989rem] text-[rgba(1,18,74,0.6)] tracking-[0.099rem] whitespace-nowrap">ONLINE</p>
+                                    <div className="flex gap-[0.550rem] items-center w-full">
+                                       <div className="relative shrink-0 w-[3.932rem] h-[3.932rem]">
+                                          <img alt="" className="w-full h-full object-contain" src="https://fmc-contents.s3.ap-south-1.amazonaws.com/assets/MEDAL2_figma.svg" />
+                                       </div>
+                                       <div className="flex flex-1 flex-col gap-[0.722rem] items-start opacity-30">
+                                          <div className="bg-black h-[0.234rem] rounded-full w-full"></div>
+                                          <div className="flex items-center justify-between w-full">
+                                             <div className="bg-black h-[0.236rem] rounded-full w-[3.368rem]"></div>
+                                             <div className="bg-black h-[0.236rem] rounded-full w-[2.895rem]"></div>
+                                          </div>
+                                          <div className="bg-black h-[0.234rem] rounded-full w-full"></div>
+                                          <div className="bg-black h-[0.236rem] rounded-full w-[2.422rem]"></div>
+                                       </div>
+                                    </div>
+                                    <div className="flex gap-[0.429rem] items-center">
+                                       <div className="relative shrink-0 w-[1.430rem] h-[1.430rem]">
+                                          <img alt="" className="w-full h-full object-contain" src="https://fmc-contents.s3.ap-south-1.amazonaws.com/assets/VERIFIED2_figma.svg" />
+                                       </div>
+                                       <p className="font-bold text-[1rem] text-[rgba(37,99,235,0.75)] whitespace-nowrap" style={{ fontFamily: 'var(--font-bricolage-grotesque, sans-serif)' }}>UGC APPROVED</p>
+                                    </div>
+                                    <div className="absolute h-[13.109rem] left-[-0.186rem] top-[-1.793rem] w-[1.793rem]">
+                                       <img alt="" className="w-full h-full object-contain" src="https://fmc-contents.s3.ap-south-1.amazonaws.com/assets/RIBBON_figma.svg" />
+                                    </div>
+                                 </div>
+                              </div>
+                           </div>
+                        </div>
+                        
+                        <div className="flex gap-[0.4375rem] items-center justify-center">
+                           <div className="relative shrink-0 w-[1.5rem] h-[1.5rem]">
+                              <img alt="" className="w-full h-full object-contain" src="https://fmc-contents.s3.ap-south-1.amazonaws.com/assets/GAVEL_figma.svg" />
+                           </div>
+                           <p className="font-medium text-[1rem] leading-[1.4] text-[#5e5e5e] text-center whitespace-nowrap">
+                              Guaranteed under UGC-DEB Act · Identical seal · Identical validity
+                           </p>
+                        </div>
+                     </div>
+                  </div>
+                  
+                  {/* Right Column: No Asterisks */}
+                  <div className="flex flex-col gap-[1.5rem] items-start w-[23.75rem] shrink-0 text-left">
+                     <div className="flex flex-col gap-[1rem] items-start w-full">
+                        <div className="font-bold text-[1.75rem] leading-[1.3] text-[#343434]" style={{ fontFamily: 'var(--font-bricolage-grotesque, sans-serif)' }}>
+                           <p className="leading-[1.3] mb-0">No asterisks on</p>
+                           <p className="leading-[1.3]">your certificate</p>
+                        </div>
+                        <div className="flex flex-col gap-[1rem] items-start w-full">
+                           <div className="backdrop-blur-[5px] bg-[rgba(255,255,255,0.4)] border border-[rgba(215,215,215,0.2)] flex gap-[0.75rem] items-center p-[0.75rem] rounded-[0.5rem] w-full">
+                              <div className="relative shrink-0 w-[1.25rem] h-[1.25rem]">
+                                 <img alt="" className="w-full h-full object-contain" src="https://fmc-contents.s3.ap-south-1.amazonaws.com/assets/VERIFIED_BLUE_figma.svg" />
+                              </div>
+                              <p className="font-medium text-[0.875rem] leading-none text-[#343434] flex-1 min-w-0">Apply for government jobs without restrictions</p>
+                           </div>
+                           <div className="backdrop-blur-[5px] bg-[rgba(255,255,255,0.4)] border border-[rgba(215,215,215,0.2)] flex gap-[0.75rem] items-center p-[0.75rem] rounded-[0.5rem] w-full">
+                              <div className="relative shrink-0 w-[1.25rem] h-[1.25rem]">
+                                 <img alt="" className="w-full h-full object-contain" src="https://fmc-contents.s3.ap-south-1.amazonaws.com/assets/VERIFIED_BLUE_figma.svg" />
+                              </div>
+                              <p className="font-medium text-[0.875rem] leading-none text-[#343434] flex-1 min-w-0">Pursue M.Tech, MBA, PhD - your degree qualifies</p>
+                           </div>
+                           <div className="backdrop-blur-[5px] bg-[rgba(255,255,255,0.4)] border border-[rgba(215,215,215,0.2)] flex gap-[0.75rem] items-center p-[0.75rem] rounded-[0.5rem] w-full">
+                              <div className="relative shrink-0 w-[1.25rem] h-[1.25rem]">
+                                 <img alt="" className="w-full h-full object-contain" src="https://fmc-contents.s3.ap-south-1.amazonaws.com/assets/VERIFIED_BLUE_figma.svg" />
+                              </div>
+                              <p className="font-medium text-[0.875rem] leading-none text-[#343434] flex-1 min-w-0">WES verified — valid for jobs &amp; study abroad</p>
+                           </div>
+                        </div>
+                     </div>
+                     <a 
+                        href="https://fmc-contents.s3.ap-south-1.amazonaws.com/assets/05-one-degree-zero-distinctions.pdf" 
+                        download 
+                        target="_blank" 
+                        rel="noopener noreferrer" 
+                        className="bg-blue-600 hover:bg-blue-700 flex gap-[0.5rem] items-center justify-center pl-[1.75rem] pr-[1.5rem] py-[1rem] rounded-[2.5rem] text-white font-semibold text-[1rem] leading-[1.4] transition-colors"
+                     >
+                        <span className="whitespace-nowrap">How do I verify a university?</span>
+                        <div className="relative shrink-0 w-[1.25rem] h-[1.25rem]">
+                           <img alt="" className="w-full h-full object-contain" src="https://fmc-contents.s3.ap-south-1.amazonaws.com/assets/icon-download-campus.svg" />
+                        </div>
+                     </a>
+                  </div>
+               </div>
+            </div>
+
+            {/* Mobile Layout */}
+            <div className="relative z-10 flex sm:hidden flex-col gap-[1.25rem] items-center py-[2rem] bg-[#f8f5f1] w-full px-4">
+               <div className="flex flex-col gap-[0.5rem] items-center w-full">
+                  <div className="font-bold text-[1.75rem] text-blue-600 w-full text-center" style={{ fontFamily: 'var(--font-bricolage-grotesque, sans-serif)' }}>
+                     <p className="leading-[1.2] mb-0">One degree,</p>
+                     <p className="leading-[1.2] text-slate-900">zero distinctions</p>
+                  </div>
+                  <div className="font-medium text-[0.875rem] text-[#5e5e5e] w-full text-center">
+                     <p className="leading-[1.5] mb-0">The certificate is identical.</p>
+                     <p className="leading-[1.5]">The only difference is where you sat.</p>
+                  </div>
+               </div>
+               
+               <div className="flex flex-col gap-[1.75rem] items-center w-full">
+                  <div className="relative h-[9.6875rem] w-[21.875rem] shrink-0">
+                     <div className="absolute h-[8.625rem] left-0 top-0 w-[21.875rem]">
+                        {/* ON CAMPUS */}
+                        <div className="-translate-y-1/2 absolute flex h-[7.391rem] items-center justify-center left-[0.756rem] top-1/2 w-[8.849rem]">
+                           <div className="flex-none rotate-[-5.73deg]">
+                              <div className="bg-[rgba(255,255,255,0.7)] border-[0.533px] border-[rgba(37,99,235,0.2)] flex flex-col gap-[0.511rem] items-center justify-center overflow-hidden pb-[1.037rem] pl-[1.311rem] pr-[0.804rem] pt-[0.904rem] relative rounded-[0.578rem] shadow-[-3.133px_-3.133px_9.4px_0px_rgba(0,0,0,0.06)] w-[8.231rem]">
+                                 <p className="font-semibold text-[0.533rem] text-[rgba(1,18,74,0.6)] tracking-[0.053rem] whitespace-nowrap">ON CAMPUS</p>
+                                 <div className="flex gap-[0.297rem] items-center w-full">
+                                    <div className="relative shrink-0 w-[2.119rem] h-[2.119rem]">
+                                       <img alt="" className="w-full h-full object-contain" src="https://fmc-contents.s3.ap-south-1.amazonaws.com/assets/MEDAL_figma.svg" />
+                                    </div>
+                                    <div className="flex flex-1 flex-col gap-[0.389rem] items-start opacity-30">
+                                       <div className="bg-black h-[0.234rem] rounded-full w-full"></div>
+                                       <div className="flex items-center justify-between w-full">
+                                          <div className="bg-black h-[0.236rem] rounded-full w-[1.815rem]"></div>
+                                          <div className="bg-black h-[0.236rem] rounded-full w-[1.560rem]"></div>
+                                       </div>
+                                       <div className="bg-black h-[0.234rem] rounded-full w-full"></div>
+                                       <div className="bg-black h-[0.236rem] rounded-full w-[1.305rem]"></div>
+                                    </div>
+                                 </div>
+                                 <div className="flex gap-[0.231rem] items-center">
+                                    <div className="relative shrink-0 w-[0.770rem] h-[0.770rem]">
+                                       <img alt="" className="w-full h-full object-contain" src="https://fmc-contents.s3.ap-south-1.amazonaws.com/assets/VERIFIED_one_figma.svg" />
+                                    </div>
+                                    <p className="font-bold text-[0.539rem] text-[rgba(37,99,235,0.75)] whitespace-nowrap" style={{ fontFamily: 'var(--font-bricolage-grotesque, sans-serif)' }}>UGC APPROVED</p>
+                                 </div>
+                                 <div className="absolute h-[7.065rem] left-[-0.1rem] top-[-0.966rem] w-[0.966rem]">
+                                    <img alt="" className="w-full h-full object-contain" src="https://fmc-contents.s3.ap-south-1.amazonaws.com/assets/RIBBON_figma.svg" />
+                                 </div>
+                              </div>
+                           </div>
+                        </div>
+                        
+                        {/* EQUALS */}
+                        <div className="absolute h-[0.768rem] left-[10.466rem] top-[3.944rem] w-[1.077rem]">
+                           <img alt="=" className="w-full h-full object-contain" src="https://fmc-contents.s3.ap-south-1.amazonaws.com/assets/EQUALS_figma.svg" />
+                        </div>
+                        
+                        {/* ONLINE */}
+                        <div className="-translate-y-1/2 absolute flex h-[7.391rem] items-center justify-center left-[12.178rem] top-1/2 w-[8.849rem]">
+                           <div className="flex-none rotate-[5.73deg]">
+                              <div className="bg-[rgba(255,255,255,0.7)] border-[0.533px] border-[rgba(37,99,235,0.2)] flex flex-col gap-[0.511rem] items-center justify-center overflow-hidden pb-[1.037rem] pl-[1.311rem] pr-[0.804rem] pt-[0.904rem] relative rounded-[0.578rem] shadow-[-3.133px_-3.133px_9.4px_0px_rgba(0,0,0,0.06)] w-[8.231rem]">
+                                 <p className="font-semibold text-[0.533rem] text-[rgba(1,18,74,0.6)] tracking-[0.053rem] whitespace-nowrap">ONLINE</p>
+                                 <div className="flex gap-[0.297rem] items-center w-full">
+                                    <div className="relative shrink-0 w-[2.119rem] h-[2.119rem]">
+                                       <img alt="" className="w-full h-full object-contain" src="https://fmc-contents.s3.ap-south-1.amazonaws.com/assets/MEDAL2_figma.svg" />
+                                    </div>
+                                    <div className="flex flex-1 flex-col gap-[0.389rem] items-start opacity-30">
+                                       <div className="bg-black h-[0.234rem] rounded-full w-full"></div>
+                                       <div className="flex items-center justify-between w-full">
+                                          <div className="bg-black h-[0.236rem] rounded-full w-[1.815rem]"></div>
+                                          <div className="bg-black h-[0.236rem] rounded-full w-[1.560rem]"></div>
+                                       </div>
+                                       <div className="bg-black h-[0.234rem] rounded-full w-full"></div>
+                                       <div className="bg-black h-[0.236rem] rounded-full w-[1.305rem]"></div>
+                                    </div>
+                                 </div>
+                                 <div className="flex gap-[0.231rem] items-center">
+                                    <div className="relative shrink-0 w-[0.770rem] h-[0.770rem]">
+                                       <img alt="" className="w-full h-full object-contain" src="https://fmc-contents.s3.ap-south-1.amazonaws.com/assets/VERIFIED2_figma.svg" />
+                                    </div>
+                                    <p className="font-bold text-[0.539rem] text-[rgba(37,99,235,0.75)] whitespace-nowrap" style={{ fontFamily: 'var(--font-bricolage-grotesque, sans-serif)' }}>UGC APPROVED</p>
+                                 </div>
+                                 <div className="absolute h-[7.065rem] left-[-0.1rem] top-[-0.966rem] w-[0.966rem]">
+                                    <img alt="" className="w-full h-full object-contain" src="https://fmc-contents.s3.ap-south-1.amazonaws.com/assets/RIBBON_figma.svg" />
+                                 </div>
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+                     <div className="-translate-x-1/2 absolute flex gap-[0.236rem] items-center left-1/2 top-[8.625rem] w-[20.375rem]">
+                        <div className="relative shrink-0 w-[1rem] h-[1rem]">
+                           <img alt="" className="w-full h-full object-contain" src="https://fmc-contents.s3.ap-south-1.amazonaws.com/assets/GAVEL_figma.svg" />
+                        </div>
+                        <p className="flex-1 min-w-0 font-medium text-[0.75rem] leading-[1.4] text-[#5e5e5e] text-left">
+                           Guaranteed under UGC-DEB Act · Identical validity
+                        </p>
+                     </div>
+                  </div>
+                  
+                  <div className="flex flex-col gap-[1.5rem] items-start w-full text-left">
+                     <div className="flex flex-col gap-[0.75rem] items-start w-full">
+                        <div className="bg-[rgba(255,255,255,0.4)] border border-[rgba(215,215,215,0.4)] flex gap-[0.5rem] items-center p-[0.75rem] rounded-[0.5rem] w-full">
+                           <div className="relative shrink-0 w-[1.25rem] h-[1.25rem]">
+                              <img alt="" className="w-full h-full object-contain" src="https://fmc-contents.s3.ap-south-1.amazonaws.com/assets/VERIFIED_BLUE_figma.svg" />
+                           </div>
+                           <p className="flex-1 min-w-0 font-medium text-[0.875rem] leading-[1.2] text-[#343434]">Apply for govt. jobs without restrictions</p>
+                        </div>
+                        <div className="bg-[rgba(255,255,255,0.4)] border border-[rgba(215,215,215,0.4)] flex gap-[0.5rem] items-center p-[0.75rem] rounded-[0.5rem] w-full">
+                           <div className="relative shrink-0 w-[1.25rem] h-[1.25rem]">
+                              <img alt="" className="w-full h-full object-contain" src="https://fmc-contents.s3.ap-south-1.amazonaws.com/assets/VERIFIED_BLUE_figma.svg" />
+                           </div>
+                           <p className="flex-1 min-w-0 font-medium text-[0.875rem] leading-[1.2] text-[#343434]">Pursue M.Tech, MBA, PhD - your degree qualifies</p>
+                        </div>
+                        <div className="bg-[rgba(255,255,255,0.4)] border border-[rgba(215,215,215,0.4)] flex gap-[0.5rem] items-center p-[0.75rem] rounded-[0.5rem] w-full">
+                           <div className="relative shrink-0 w-[1.25rem] h-[1.25rem]">
+                              <img alt="" className="w-full h-full object-contain" src="https://fmc-contents.s3.ap-south-1.amazonaws.com/assets/VERIFIED_BLUE_figma.svg" />
+                           </div>
+                           <p className="flex-1 min-w-0 font-medium text-[0.875rem] leading-[1.2] text-[#343434]">WES verified — valid for jobs &amp; study abroad</p>
+                        </div>
+                     </div>
+                     <a 
+                        href="https://fmc-contents.s3.ap-south-1.amazonaws.com/assets/05-one-degree-zero-distinctions.pdf" 
+                        download 
+                        target="_blank" 
+                        rel="noopener noreferrer" 
+                        className="bg-blue-600 hover:bg-blue-700 flex gap-[0.5rem] items-center justify-center w-full pl-[1.25rem] pr-[1rem] py-[0.75rem] rounded-[2.5rem] text-white font-semibold text-[1rem] leading-[1.4] transition-colors"
+                     >
+                        <span className="whitespace-nowrap">How do I verify a university?</span>
+                        <div className="relative shrink-0 w-[1.25rem] h-[1.25rem]">
+                           <img alt="" className="w-full h-full object-contain" src="https://fmc-contents.s3.ap-south-1.amazonaws.com/assets/icon-download-campus.svg" />
+                        </div>
+                     </a>
+                  </div>
+               </div>
+            </div>
+         </section>
          {/* 4. MORE THAN EDUCATION (Image 4) */}
          <section className="py-24 bg-white">
             <div className="container mx-auto px-6">
@@ -1032,6 +1326,274 @@ const UniversityPageNew = () => {
             </div>
          </section>
 
+         {/* ==================== NEW SECTION 2: SAME DEGREE. 40-60% CHEAPER ==================== */}
+         <section className="relative w-full overflow-hidden bg-[#F8F5F1] sm:bg-transparent">
+            {/* Desktop Background Image */}
+            <div className="hidden sm:block absolute inset-0 pointer-events-none">
+               <img 
+                  alt="" 
+                  loading="lazy" 
+                  decoding="async" 
+                  className="object-fill w-full h-full absolute inset-0"
+                  src="https://fmc-contents.s3.ap-south-1.amazonaws.com/assets/samedegree.png" 
+               />
+            </div>
+            
+            {/* Decorative bubbles */}
+            <div className="absolute right-0 top-0 pointer-events-none overflow-hidden w-[15.625rem]">
+               <div className="absolute bg-[#c67133] h-[1.6875rem] left-0 opacity-[0.07] rounded-[1.25rem] top-[2.75rem] w-[15.625rem]"></div>
+               <div className="absolute bg-[#c67133] h-[1.6875rem] left-[3.125rem] opacity-[0.07] rounded-[1.25rem] top-[5.6875rem] w-[12.5rem]"></div>
+               <div className="absolute bg-[#c67133] h-[1.6875rem] left-[6.5rem] opacity-[0.07] rounded-[1.25rem] top-[8.625rem] w-[12.5rem]"></div>
+            </div>
+            
+            <div className="relative z-10 flex flex-col gap-8 sm:gap-11 items-center py-[2.5rem] sm:py-[3.75rem] w-full max-w-7xl mx-auto px-6">
+               <div className="flex flex-col gap-[0.5rem] sm:gap-3 items-center relative z-10 text-center w-full">
+                  <p className="font-bold text-[1.75rem] sm:text-[2.75rem] leading-[1.2]" style={{ fontFamily: 'var(--font-bricolage-grotesque, sans-serif)' }}>
+                     <span className="block sm:inline text-blue-600">Same degree.</span>
+                     <span className="block sm:inline text-slate-900"> 40–60% cheaper</span>
+                  </p>
+                  <p className="font-medium text-[0.875rem] sm:text-[1rem] leading-[1.5] text-[#5e5e5e]">
+                     Pay for the degree, not the infrastructure.
+                  </p>
+               </div>
+               
+               {/* Mobile Layout */}
+               <div className="flex sm:hidden flex-col gap-[0.375rem] relative z-10 w-full">
+                  <div className="flex flex-col gap-[0.375rem] items-center justify-center relative shrink-0 w-full">
+                     <div className="relative shrink-0 overflow-hidden" style={{ height: '240px', width: '350px' }}>
+                        {/* ON CAMPUS */}
+                        <div className="absolute bg-[rgba(255,255,255,0.6)] border-[0.5px] border-[rgba(184,77,0,0.1)] h-[5.375rem] left-0 overflow-hidden rounded-[0.75rem] top-0 w-[21.875rem]">
+                           <div className="absolute flex flex-col gap-[0.75rem] items-start justify-center left-[11.5px] top-1/2 -translate-y-1/2 whitespace-nowrap text-left">
+                              <p className="font-bold leading-[0.625rem] text-[0.75rem] text-[rgba(184,77,0,0.8)] tracking-[1.2px] uppercase">ON-CAMPUS — ANNUAL</p>
+                              <p className="font-bold leading-[1.0625rem] text-[1.125rem] text-[#343434]" style={{ fontFamily: 'var(--font-bricolage-grotesque, sans-serif)' }}>₹3,00,000+</p>
+                           </div>
+                           <div className="absolute h-[5.375rem] left-[6.84375rem] top-0 w-[15rem] overflow-visible">
+                              <div className="absolute flex h-[2.375rem] items-center justify-center left-[4.4375rem] top-[0.875rem] w-[5.4375rem]">
+                                 <div className="flex-none rotate-[9.28deg]">
+                                    <div className="bg-white border-[0.732px] border-[rgba(255,106,0,0.2)] flex h-[1.5625rem] items-center justify-center px-[0.71875rem] py-[0.4375rem] rounded-[1.375rem] shadow-[0px_4.4px_17.6px_0px_rgba(255,106,0,0.1)]">
+                                       <p className="font-bold leading-none text-[9.7px] text-[rgba(184,77,0,0.8)] whitespace-nowrap" style={{ fontFamily: 'var(--font-bricolage-grotesque, sans-serif)' }}>Tuition ₹1.2L</p>
+                                    </div>
+                                 </div>
+                              </div>
+                              <div className="absolute flex h-[2.625rem] items-center justify-center left-[4.71875rem] top-[2.9375rem] w-[5.5rem]">
+                                 <div className="flex-none rotate-[-11.57deg]">
+                                    <div className="bg-white border-[0.732px] border-[rgba(255,106,0,0.2)] flex h-[1.5625rem] items-center justify-center px-[0.71875rem] py-[0.4375rem] rounded-[1.375rem] shadow-[0px_4.4px_17.6px_0px_rgba(255,106,0,0.1)]">
+                                       <p className="font-bold leading-none text-[9.7px] text-[rgba(184,77,0,0.8)] whitespace-nowrap" style={{ fontFamily: 'var(--font-bricolage-grotesque, sans-serif)' }}>Hostel ₹80K</p>
+                                    </div>
+                                 </div>
+                              </div>
+                              <div className="absolute flex h-[2.1875rem] items-center justify-center left-[9.625rem] top-[1.4375rem] w-[4.9375rem]">
+                                 <div className="flex-none rotate-[7.17deg]">
+                                    <div className="bg-white border-[0.732px] border-[rgba(255,106,0,0.2)] flex h-[1.5625rem] items-center justify-center px-[0.71875rem] py-[0.4375rem] rounded-[1.375rem] shadow-[0px_4.4px_17.6px_0px_rgba(255,106,0,0.1)]">
+                                       <p className="font-bold leading-none text-[9.7px] text-[rgba(184,77,0,0.8)] whitespace-nowrap" style={{ fontFamily: 'var(--font-bricolage-grotesque, sans-serif)' }}>Food ₹50K</p>
+                                    </div>
+                                 </div>
+                              </div>
+                              <div className="absolute flex h-[2.0625rem] items-center justify-center left-[9.875rem] top-[3.375rem] w-[5.25rem]">
+                                 <div className="flex-none rotate-[-5.34deg]">
+                                    <div className="bg-white border-[0.732px] border-[rgba(255,106,0,0.2)] flex h-[1.5625rem] items-center justify-center px-[0.71875rem] py-[0.4375rem] rounded-[1.375rem] shadow-[0px_4.4px_17.6px_0px_rgba(255,106,0,0.1)]">
+                                       <p className="font-bold leading-none text-[9.7px] text-[rgba(184,77,0,0.8)] whitespace-nowrap" style={{ fontFamily: 'var(--font-bricolage-grotesque, sans-serif)' }}>Travel ₹30K</p>
+                                    </div>
+                                 </div>
+                              </div>
+                           </div>
+                        </div>
+                        
+                        {/* ONLINE */}
+                        <div className="absolute bg-[rgba(255,255,255,0.6)] border-[0.559px] border-[rgba(37,99,235,0.1)] h-[8.125rem] left-0 overflow-hidden rounded-[0.75rem] top-[6.375rem] w-[11.4375rem]">
+                           <div className="absolute flex flex-col gap-[0.75rem] items-start justify-center left-[calc(50%-5.5px)] top-[calc(50%-27px)] -translate-x-1/2 -translate-y-1/2 text-left">
+                              <p className="font-bold leading-[0.625rem] text-[0.75rem] text-[rgba(37,99,235,0.75)] tracking-[1.2px] uppercase w-[8.6875rem]">ONLINE — Annual</p>
+                              <p className="font-bold leading-[1.0625rem] text-[1.125rem] text-[#343434] whitespace-nowrap" style={{ fontFamily: 'var(--font-bricolage-grotesque, sans-serif)' }}>₹70,000-1,50,000</p>
+                           </div>
+                           <div className="absolute left-[calc(50%+1.14px)] top-[calc(50%+33px)] -translate-x-1/2 -translate-y-1/2 bg-white border-[0.668px] border-[rgba(37,99,235,0.15)] flex h-[1.6875rem] items-center justify-center px-[10.7px] py-[6.7px] rounded-[1.25rem] shadow-[0px_4px_16px_0px_rgba(37,99,235,0.08)]">
+                              <p className="font-bold leading-none text-[10.7px] text-[rgba(37,99,235,0.75)] whitespace-nowrap" style={{ fontFamily: 'var(--font-bricolage-grotesque, sans-serif)' }}>Tuition Fee only</p>
+                           </div>
+                        </div>
+                        
+                        {/* SAVINGS */}
+                        <div className="absolute border-[0.559px] border-emerald-100 h-[8.125rem] left-[12.4375rem] overflow-hidden rounded-[0.75rem] top-[6.375rem] w-[9.4375rem] bg-emerald-50/50">
+                           <div className="absolute flex flex-col items-start justify-center left-[13.44px] top-[15.44px] text-left">
+                              <p className="font-bold leading-[1.0625rem] text-[1.25rem] text-emerald-700 whitespace-nowrap" style={{ fontFamily: 'var(--font-bricolage-grotesque, sans-serif)' }}>40–60%</p>
+                           </div>
+                           <div className="absolute flex flex-col gap-[7.5px] items-start left-[13.44px] right-[13.44px] top-[46.44px] text-left">
+                              <p className="font-bold leading-[1.2] text-[0.875rem] text-slate-900 w-full" style={{ fontFamily: 'var(--font-bricolage-grotesque, sans-serif)' }}>₹1.5–2L saved annually</p>
+                              <p className="font-medium text-[0.75rem] text-emerald-600 w-full">EMI from ₹3,000/month</p>
+                           </div>
+                        </div>
+                        
+                        {/* ARROW */}
+                        <div className="absolute flex h-[2.875rem] items-center justify-center left-[9.625rem] top-[5.75rem] w-[3.625rem]">
+                           <div className="-scale-y-100 flex-none rotate-[-24.81deg]">
+                              <div className="relative h-[1.625rem] w-[3.25rem]">
+                                 <img alt="" className="w-full h-full object-contain" src="https://fmc-contents.s3.ap-south-1.amazonaws.com/assets/ARROW_ICON_same_figma.svg" />
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+                  
+                  <div className="flex flex-col gap-[1.5rem] items-start w-full text-left">
+                     <div className="flex flex-col gap-[0.75rem] items-start w-full">
+                        <div className="bg-[rgba(255,255,255,0.4)] border border-[rgba(215,215,215,0.4)] flex gap-[0.5rem] items-center p-[0.75rem] rounded-[0.5rem] w-full">
+                           <div className="relative shrink-0 w-[1.25rem] h-[1.25rem]">
+                              <img alt="" className="w-full h-full object-contain" src="https://fmc-contents.s3.ap-south-1.amazonaws.com/assets/VERIFIED_same_figma.svg" />
+                           </div>
+                           <p className="flex-1 font-medium text-[0.875rem] leading-[1.2] text-[#343434]">Add certifications from Google, AWS &amp; more</p>
+                        </div>
+                        <div className="bg-[rgba(255,255,255,0.4)] border border-[rgba(215,215,215,0.4)] flex gap-[0.5rem] items-center p-[0.75rem] rounded-[0.5rem] w-full">
+                           <div className="relative shrink-0 w-[1.25rem] h-[1.25rem]">
+                              <img alt="" className="w-full h-full object-contain" src="https://fmc-contents.s3.ap-south-1.amazonaws.com/assets/VERIFIED_same_figma.svg" />
+                           </div>
+                           <p className="flex-1 font-medium text-[0.875rem] leading-[1.2] text-[#343434]">Build a cushion. Graduate debt-free.</p>
+                        </div>
+                        <div className="bg-[rgba(255,255,255,0.4)] border border-[rgba(215,215,215,0.4)] flex gap-[0.5rem] items-center p-[0.75rem] rounded-[0.5rem] w-full">
+                           <div className="relative shrink-0 w-[1.25rem] h-[1.25rem]">
+                              <img alt="" className="w-full h-full object-contain" src="https://fmc-contents.s3.ap-south-1.amazonaws.com/assets/VERIFIED_same_figma.svg" />
+                           </div>
+                           <p className="flex-1 font-medium text-[0.875rem] leading-[1.2] text-[#343434]">Travel. Explore. Learn. Live your 20s fully.</p>
+                        </div>
+                     </div>
+                     <button 
+                        type="button" 
+                        onClick={() => setShowEnquiry(true)}
+                        className="bg-blue-600 hover:bg-blue-700 flex gap-[0.5rem] items-center justify-center w-full overflow-hidden pl-[1.25rem] pr-[1rem] py-[0.75rem] rounded-[2.5rem] text-white font-semibold text-[1rem] leading-[1.4] transition-colors"
+                     >
+                        <span className="whitespace-nowrap">Still waiting? Start today</span>
+                        <div className="relative shrink-0 w-[0.4375rem] h-[0.8125rem]">
+                           <img alt="" className="w-full h-full object-contain" src="https://fmc-contents.s3.ap-south-1.amazonaws.com/assets/ARROW_FWD_same_figma.svg" />
+                        </div>
+                     </button>
+                  </div>
+               </div>
+               
+               {/* Desktop Layout */}
+               <div className="hidden sm:flex gap-[3.75rem] items-center justify-between w-full relative">
+                  {/* Left Column visual box */}
+                  <div className="relative h-[24rem] w-[38rem] shrink-0">
+                     {/* ON CAMPUS */}
+                     <div className="absolute bg-[rgba(255,255,255,0.6)] border border-[rgba(184,77,0,0.1)] h-[7.5625rem] left-[1.25rem] overflow-hidden rounded-[0.75rem] top-[0.25rem] w-[36.625rem]">
+                        <div className="absolute -translate-y-1/2 flex flex-col gap-5 items-start justify-center left-[1.5625rem] top-1/2 text-left">
+                           <p className="font-bold text-[0.875rem] leading-[1.125rem] text-[rgba(184,77,0,0.8)] tracking-[1.4px] uppercase">ON-CAMPUS — ANNUAL</p>
+                           <p className="font-bold text-[1.625rem] leading-[1.875rem] text-[#343434]" style={{ fontFamily: 'var(--font-bricolage-grotesque, sans-serif)' }}>₹3,00,000+</p>
+                        </div>
+                        <div className="absolute h-[7.5625rem] left-[15.3125rem] overflow-hidden top-[-1px] w-[21.25rem]">
+                           <div className="absolute flex h-[3.8125rem] items-center justify-center left-[4.125rem] top-[0.4375rem] w-[8.5625rem]">
+                              <div className="rotate-[9.28deg]">
+                                 <div className="bg-white border border-[rgba(255,106,0,0.2)] flex items-center justify-center px-[18.5px] py-[11.6px] rounded-[2.1875rem] shadow-[0px_6.9px_27.8px_0px_rgba(255,106,0,0.1)]">
+                                    <p className="font-bold text-[15.3px] text-[rgba(184,77,0,0.8)] whitespace-nowrap" style={{ fontFamily: 'var(--font-bricolage-grotesque, sans-serif)' }}>Tuition ₹1.2L</p>
+                                 </div>
+                              </div>
+                           </div>
+                           <div className="absolute flex h-[4.125rem] items-center justify-center left-[4.5rem] top-[3.6875rem] w-[8.6875rem]">
+                              <div className="rotate-[-11.57deg]">
+                                 <div className="bg-white border border-[rgba(255,106,0,0.2)] flex items-center justify-center px-[18.5px] py-[11.6px] rounded-[2.1875rem] shadow-[0px_6.9px_27.8px_0px_rgba(255,106,0,0.1)]">
+                                    <p className="font-bold text-[15.3px] text-[rgba(184,77,0,0.8)] whitespace-nowrap" style={{ fontFamily: 'var(--font-bricolage-grotesque, sans-serif)' }}>Hostel ₹80K</p>
+                                 </div>
+                              </div>
+                           </div>
+                           <div className="absolute flex h-[3.4375rem] items-center justify-center left-[12.3125rem] top-[1.3125rem] w-[7.875rem]">
+                              <div className="rotate-[7.17deg]">
+                                 <div className="bg-white border border-[rgba(255,106,0,0.2)] flex items-center justify-center px-[18.5px] py-[11.6px] rounded-[2.1875rem] shadow-[0px_6.9px_27.8px_0px_rgba(255,106,0,0.1)]">
+                                    <p className="font-bold text-[15.3px] text-[rgba(184,77,0,0.8)] whitespace-nowrap" style={{ fontFamily: 'var(--font-bricolage-grotesque, sans-serif)' }}>Food ₹50K</p>
+                                 </div>
+                              </div>
+                           </div>
+                           <div className="absolute flex h-[3.25rem] items-center justify-center left-[12.6875rem] top-[4.375rem] w-[8.3125rem]">
+                              <div className="rotate-[-5.34deg]">
+                                 <div className="bg-white border border-[rgba(255,106,0,0.2)] flex items-center justify-center px-[18.5px] py-[11.6px] rounded-[2.1875rem] shadow-[0px_6.9px_27.8px_0px_rgba(255,106,0,0.1)]">
+                                    <p className="font-bold text-[15.3px] text-[rgba(184,77,0,0.8)] whitespace-nowrap" style={{ fontFamily: 'var(--font-bricolage-grotesque, sans-serif)' }}>Travel ₹30K</p>
+                                 </div>
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+                     
+                     {/* ONLINE */}
+                     <div className="absolute bg-[rgba(255,255,255,0.6)] border border-blue-100 h-[7.5625rem] left-[1.25rem] overflow-hidden rounded-[0.75rem] top-[8.875rem] w-[26.5rem]">
+                        <div className="absolute -translate-y-1/2 flex flex-col gap-5 items-start justify-center left-[1.5625rem] top-1/2 text-left">
+                           <p className="font-bold text-[0.875rem] leading-[1.125rem] text-blue-600 tracking-[1.4px] uppercase">ONLINE — Annual</p>
+                           <p className="font-bold text-[1.625rem] leading-[1.875rem] text-[#343434]" style={{ fontFamily: 'var(--font-bricolage-grotesque, sans-serif)' }}>₹70,000-1,50,000</p>
+                        </div>
+                        <div className="absolute h-[7.5625rem] left-[15.4375rem] overflow-hidden top-[-1px] w-[11.3125rem]">
+                           <div className="absolute left-1/2 -translate-x-1/2 top-1/2 -translate-y-1/2 flex h-[3.5625rem] items-center justify-center w-[8.875rem]">
+                              <div className="rotate-[9.02deg]">
+                                 <div className="bg-white border border-blue-100 flex items-center justify-center px-[14.2px] py-[8.9px] rounded-[1.6875rem] shadow-[0px_5.3px_21.3px_0px_rgba(37,99,235,0.08)]">
+                                    <p className="font-bold text-[14.2px] text-blue-600 whitespace-nowrap" style={{ fontFamily: 'var(--font-bricolage-grotesque, sans-serif)' }}>Tuition Fee only</p>
+                                 </div>
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+                     
+                     {/* SAVINGS */}
+                     <div className="absolute border border-emerald-100 h-[4.875rem] left-[1.25rem] rounded-[0.75rem] top-[18.5625rem] w-[26.5rem] bg-emerald-50/50">
+                        <p className="absolute font-bold left-[1.5625rem] top-1/2 -translate-y-1/2 text-emerald-700" style={{ fontFamily: 'var(--font-bricolage-grotesque, sans-serif)' }}>
+                           <span className="text-[1.5rem] leading-none">40–60</span>
+                           <span className="text-[1.25rem] leading-none">%</span>
+                        </p>
+                        <div className="absolute -translate-y-1/2 flex flex-col gap-[0.625rem] items-start left-[8.8125rem] top-1/2 text-left">
+                           <p className="font-bold text-[1rem] text-[#181818] whitespace-nowrap" style={{ fontFamily: 'var(--font-bricolage-grotesque, sans-serif)' }}>₹1.5–2L saved annually</p>
+                           <p className="font-medium text-[0.875rem] text-emerald-600">EMI from ₹3,000/month</p>
+                        </div>
+                     </div>
+                     
+                     {/* ARROW */}
+                     <div className="absolute flex h-[4.1875rem] items-center justify-center left-[1.25rem] top-[15.6875rem] w-[2.75rem]">
+                        <div className="rotate-[101.96deg]">
+                           <div className="relative h-[1.9375rem] w-[3.875rem]">
+                              <img alt="" className="w-full h-full object-contain" src="https://fmc-contents.s3.ap-south-1.amazonaws.com/assets/ARROW_ICON_same_figma.svg" />
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+                  
+                  {/* Right Column text */}
+                  <div className="flex flex-col gap-6 items-start w-[23.75rem] text-left">
+                     <div className="flex flex-col gap-4 items-start w-full">
+                        <div className="relative flex gap-2 items-start">
+                           <p className="font-bold text-[1.75rem] leading-[1.3] text-[#343434] w-[12.1875rem]" style={{ fontFamily: 'var(--font-bricolage-grotesque, sans-serif)' }}>
+                              Reinvest the<br />difference
+                           </p>
+                        </div>
+                        <p className="font-medium text-[0.875rem] leading-[1.5] text-[#5e5e5e] w-full">
+                           The money you save on campus costs is yours to keep. Here's what you can actually do with it.
+                        </p>
+                        <div className="flex flex-col gap-4 items-start w-full">
+                           <div className="backdrop-blur-[5px] bg-[rgba(255,255,255,0.4)] border border-[rgba(215,215,215,0.2)] flex gap-3 items-center p-3 rounded-lg w-full">
+                              <div className="relative shrink-0 w-[1.25rem] h-[1.25rem]">
+                                 <img alt="" className="w-full h-full object-contain" src="https://fmc-contents.s3.ap-south-1.amazonaws.com/assets/VERIFIED_same_figma.svg" />
+                              </div>
+                              <p className="font-medium text-[0.875rem] leading-none text-[#343434] whitespace-nowrap">Add certifications from Google, AWS &amp; more</p>
+                           </div>
+                           <div className="backdrop-blur-[5px] bg-[rgba(255,255,255,0.4)] border border-[rgba(215,215,215,0.2)] flex gap-3 items-center p-3 rounded-lg w-full">
+                              <div className="relative shrink-0 w-[1.25rem] h-[1.25rem]">
+                                 <img alt="" className="w-full h-full object-contain" src="https://fmc-contents.s3.ap-south-1.amazonaws.com/assets/VERIFIED_same_figma.svg" />
+                              </div>
+                              <p className="font-medium text-[0.875rem] leading-none text-[#343434] whitespace-nowrap">Build a cushion. Graduate debt-free.</p>
+                           </div>
+                           <div className="backdrop-blur-[5px] bg-[rgba(255,255,255,0.4)] border border-[rgba(215,215,215,0.2)] flex gap-3 items-center p-3 rounded-lg w-full">
+                              <div className="relative shrink-0 w-[1.25rem] h-[1.25rem]">
+                                 <img alt="" className="w-full h-full object-contain" src="https://fmc-contents.s3.ap-south-1.amazonaws.com/assets/VERIFIED_same_figma.svg" />
+                              </div>
+                              <p className="font-medium text-[0.875rem] leading-none text-[#343434] whitespace-nowrap">Travel. Explore. Learn. Live your 20s fully.</p>
+                           </div>
+                        </div>
+                     </div>
+                     
+                     <button 
+                        type="button" 
+                        onClick={() => setShowEnquiry(true)}
+                        className="bg-blue-600 hover:bg-blue-700 flex gap-2 items-center justify-center overflow-hidden pl-7 pr-6 py-4 rounded-[2.5rem] text-white font-semibold text-[1rem] leading-[1.4] transition-colors"
+                     >
+                        <span className="whitespace-nowrap">Still waiting? Start today</span>
+                        <div className="relative shrink-0 w-[0.4375rem] h-[0.8125rem] mt-[0.5px] ml-2">
+                           <img alt="" className="w-full h-full object-contain" src="https://fmc-contents.s3.ap-south-1.amazonaws.com/assets/ARROW_FWD_same_figma.svg" />
+                        </div>
+                     </button>
+                  </div>
+               </div>
+            </div>
+         </section>
          {/* 5. WHY CHOOSE ANTECHOS STRIP (Image 3) */}
          <section className="py-12 bg-white">
             <div className="container mx-auto px-6">
@@ -1241,6 +1803,184 @@ const UniversityPageNew = () => {
             </div>
          </section>
 
+         {/* ==================== NEW SECTION 3: STUDY WHEN YOUR BRAIN IS READY ==================== */}
+         <section className="relative w-full overflow-hidden py-12 sm:py-[3.75rem]">
+            {/* Desktop Background Image */}
+            <div className="absolute inset-0 pointer-events-none">
+               <img 
+                  alt="" 
+                  loading="lazy" 
+                  decoding="async" 
+                  className="object-fill w-full h-full absolute inset-0"
+                  src="https://fmc-contents.s3.ap-south-1.amazonaws.com/assets/studywhenyourbrainisreadybg.png" 
+               />
+            </div>
+            
+            <div className="relative z-10 flex flex-col lg:flex-row items-center justify-between w-full max-w-7xl mx-auto px-6 gap-12">
+               {/* Left Column: Text & Cards */}
+               <div className="flex flex-col gap-6 items-start w-full lg:w-[29.9375rem] text-left">
+                  <div className="flex flex-col gap-3 items-center w-full">
+                     <p className="font-bold text-[2rem] sm:text-[2.75rem] leading-[1.2] w-full" style={{ fontFamily: 'var(--font-bricolage-grotesque, sans-serif)' }}>
+                        <span className="text-blue-600">Study when your </span>
+                        <span className="text-slate-900">brain is ready</span>
+                     </p>
+                     <div className="font-medium text-[1rem] text-[#5e5e5e] w-full">
+                        <p className="leading-[1.5] mb-0">Degree built around your life. Not a fixed timetable.</p>
+                     </div>
+                  </div>
+                  
+                  <div className="flex flex-col gap-3 items-start w-full">
+                     <div className="bg-white border border-slate-100 flex gap-4 items-center overflow-hidden p-[0.8125rem] rounded-[0.75rem] w-full">
+                        <div className="bg-blue-50/50 flex items-center justify-center rounded-[0.5rem] shrink-0 w-[3.75rem] h-[3.75rem] overflow-hidden">
+                           <div className="relative w-[2.25rem] h-[2.25rem]">
+                              <img alt="" className="w-full h-full object-contain" src="https://fmc-contents.s3.ap-south-1.amazonaws.com/assets/liveatyourhour.png" />
+                           </div>
+                        </div>
+                        <div className="flex flex-col gap-1 items-start flex-1">
+                           <p className="font-bold text-[1rem] text-[#181818] whitespace-nowrap" style={{ fontFamily: 'var(--font-bricolage-grotesque, sans-serif)' }}>Live at your hour</p>
+                           <p className="font-normal text-[0.875rem] leading-[1.5] text-[#5e5e5e]">Morning or late-night batches available. Choose the time when you learn best.</p>
+                        </div>
+                     </div>
+                     <div className="bg-white border border-slate-100 flex gap-4 items-center overflow-hidden p-[0.8125rem] rounded-[0.75rem] w-full">
+                        <div className="bg-blue-50/50 flex items-center justify-center rounded-[0.5rem] shrink-0 w-[3.75rem] h-[3.75rem] overflow-hidden">
+                           <div className="relative w-[2.25rem] h-[2.25rem]">
+                              <img alt="" className="w-full h-full object-contain" src="https://fmc-contents.s3.ap-south-1.amazonaws.com/assets/recordedsessions.png" />
+                           </div>
+                        </div>
+                        <div className="flex flex-col gap-1 items-start flex-1">
+                           <p className="font-bold text-[1rem] text-[#181818] whitespace-nowrap" style={{ fontFamily: 'var(--font-bricolage-grotesque, sans-serif)' }}>Recorded lectures</p>
+                           <p className="font-normal text-[0.875rem] leading-[1.5] text-[#5e5e5e]">Watch again, pause, rewind or learn at your own pace.</p>
+                        </div>
+                     </div>
+                     <div className="bg-white border border-slate-100 flex gap-4 items-center overflow-hidden p-[0.8125rem] rounded-[0.75rem] w-full">
+                        <div className="bg-blue-50/50 flex items-center justify-center rounded-[0.5rem] shrink-0 w-[3.75rem] h-[3.75rem] overflow-hidden">
+                           <div className="relative w-[2.25rem] h-[2.25rem]">
+                              <img alt="" className="w-full h-full object-contain" src="https://fmc-contents.s3.ap-south-1.amazonaws.com/assets/weekendexamwindow.png" />
+                           </div>
+                        </div>
+                        <div className="flex flex-col gap-1 items-start flex-1">
+                           <p className="font-bold text-[1rem] text-[#181818] whitespace-nowrap" style={{ fontFamily: 'var(--font-bricolage-grotesque, sans-serif)' }}>Weekend exam windows</p>
+                           <p className="font-normal text-[0.875rem] leading-[1.5] text-[#5e5e5e]">Take your exams during windows that fit your week.</p>
+                        </div>
+                     </div>
+                     <div className="bg-white border border-slate-100 flex gap-4 items-center overflow-hidden p-[0.8125rem] rounded-[0.75rem] w-full">
+                        <div className="bg-blue-50/50 flex items-center justify-center rounded-[0.5rem] shrink-0 w-[3.75rem] h-[3.75rem] overflow-hidden">
+                           <div className="relative w-[2.25rem] h-[2.25rem]">
+                              <img alt="" className="w-full h-full object-contain" src="https://fmc-contents.s3.ap-south-1.amazonaws.com/assets/zerocommute.png" />
+                           </div>
+                        </div>
+                        <div className="flex flex-col gap-1 items-start flex-1">
+                           <p className="font-bold text-[1rem] text-[#181818] whitespace-nowrap" style={{ fontFamily: 'var(--font-bricolage-grotesque, sans-serif)' }}>Zero commute</p>
+                           <p className="font-normal text-[0.875rem] leading-[1.5] text-[#5e5e5e]">Couch, café or commute. Your classroom goes where you go.</p>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+               
+               {/* Right Column: Donut Clock Wheel */}
+               <div className="flex-1 w-full flex flex-col items-center justify-center max-w-[28rem] relative py-12">
+                  <div className="relative w-[18rem] h-[18rem] sm:w-[22rem] sm:h-[22rem] flex items-center justify-center">
+                     
+                     {/* SVG Segmented Donut Chart */}
+                     <svg className="w-full h-full" viewBox="0 0 240 240">
+                        {/* Center Ring Border */}
+                        <circle cx="120" cy="120" r="92" fill="none" stroke="#f1f5f9" strokeWidth="1" />
+                        <circle cx="120" cy="120" r="68" fill="none" stroke="#f1f5f9" strokeWidth="1" />
+                        
+                        {/* Quadrant Segments (Rotated by -90deg so 12 o'clock is start) */}
+                        <g transform="rotate(-90 120 120)">
+                           {/* 12 AM to 6 AM (Night/Midnight Replay) - Quadrant 1 */}
+                           <circle 
+                              cx="120" cy="120" r="80" 
+                              fill="none" 
+                              stroke="#cbd5e1" 
+                              strokeWidth="22" 
+                              strokeDasharray="125.66 502.65" 
+                              strokeDashoffset="0"
+                              className="transition-all duration-500 hover:stroke-slate-400 cursor-pointer"
+                           />
+                           
+                           {/* 6 AM to 12 PM (Morning Batch) - Quadrant 2 */}
+                           <circle 
+                              cx="120" cy="120" r="80" 
+                              fill="none" 
+                              stroke="#60a5fa" 
+                              strokeWidth="22" 
+                              strokeDasharray="125.66 502.65" 
+                              strokeDashoffset="-125.66"
+                              className="transition-all duration-500 hover:stroke-blue-300 cursor-pointer"
+                           />
+                           
+                           {/* 12 PM to 6 PM (Afternoon Batch) - Quadrant 3 */}
+                           <circle 
+                              cx="120" cy="120" r="80" 
+                              fill="none" 
+                              stroke="#bfdbfe" 
+                              strokeWidth="22" 
+                              strokeDasharray="125.66 502.65" 
+                              strokeDashoffset="-251.32"
+                              className="transition-all duration-500 hover:stroke-blue-200 cursor-pointer"
+                           />
+                           
+                           {/* 6 PM to 12 AM (Evening Batch) - Quadrant 4 */}
+                           <circle 
+                              cx="120" cy="120" r="80" 
+                              fill="none" 
+                              stroke="#2563eb" 
+                              strokeWidth="22" 
+                              strokeDasharray="125.66 502.65" 
+                              strokeDashoffset="-376.99"
+                              className="transition-all duration-500 hover:stroke-blue-700 cursor-pointer"
+                           />
+                        </g>
+                     </svg>
+                     
+                     {/* 24/7 Center White Circle */}
+                     <div className="absolute w-[8.5rem] h-[8.5rem] sm:w-[10.5rem] sm:h-[10.5rem] bg-white rounded-full shadow-lg flex flex-col items-center justify-center border border-slate-100/50">
+                        <p className="font-extrabold text-2xl sm:text-3xl text-blue-600 tracking-tight leading-none mb-1">24/7</p>
+                        <p className="text-[8px] sm:text-[10px] font-black text-slate-400 tracking-widest leading-none">ALWAYS</p>
+                        <p className="text-[8px] sm:text-[10px] font-black text-slate-400 tracking-widest leading-none">ON</p>
+                     </div>
+                     
+                     {/* Static Text Clock Labels around the wheel */}
+                     <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1 text-[10px] font-bold text-slate-400">12 AM</div>
+                     <div className="absolute bottom-0 left-1/2 -translate-x-1/2 translate-y-1 text-[10px] font-bold text-slate-400">12 PM</div>
+                     <div className="absolute left-0 top-1/2 -translate-x-2 -translate-y-1/2 text-[10px] font-bold text-slate-400">6 PM</div>
+                     
+                     {/* Custom Badges matching the Screenshot 3 layout */}
+                     <div className="absolute -right-4 top-[18%] bg-white border border-slate-100 rounded-full px-3 py-1 shadow-[0_4px_12px_rgba(0,0,0,0.05)] text-[9px] sm:text-[10px] font-black text-slate-500 whitespace-nowrap">
+                        Midnight replay
+                     </div>
+                     <div className="absolute -right-8 top-[48%] bg-white border border-blue-100 rounded-full px-3 py-1 shadow-[0_4px_12px_rgba(37,99,235,0.06)] text-[9px] sm:text-[10px] font-black text-blue-600 whitespace-nowrap">
+                        6 AM live batch
+                     </div>
+                     <div className="absolute -left-6 bottom-[22%] bg-white border border-slate-100 rounded-full px-3 py-1 shadow-[0_4px_12px_rgba(0,0,0,0.05)] text-[9px] sm:text-[10px] font-black text-slate-500 whitespace-nowrap">
+                        9 PM batch
+                     </div>
+                  </div>
+                  
+                  {/* Legend below the clock */}
+                  <div className="flex flex-wrap items-center justify-center gap-4 mt-8">
+                     <div className="flex items-center gap-2">
+                        <span className="w-3 h-3 rounded bg-[#60a5fa]"></span>
+                        <span className="text-xs font-bold text-slate-600">Morning</span>
+                     </div>
+                     <div className="flex items-center gap-2">
+                        <span className="w-3 h-3 rounded bg-[#bfdbfe]"></span>
+                        <span className="text-xs font-bold text-slate-600">Afternoon</span>
+                     </div>
+                     <div className="flex items-center gap-2">
+                        <span className="w-3 h-3 rounded bg-[#2563eb]"></span>
+                        <span className="text-xs font-bold text-slate-600">Evening</span>
+                     </div>
+                     <div className="flex items-center gap-2">
+                        <span className="w-3 h-3 rounded bg-[#cbd5e1]"></span>
+                        <span className="text-xs font-bold text-slate-600">Night</span>
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </section>
          {/* CAROUSEL FEATURES SECTION */}
          <section className="py-16 md:py-24 bg-white border-y border-slate-100 relative overflow-hidden">
             <div className="container mx-auto px-4 md:px-6 relative z-10 w-full max-w-7xl mx-auto">
@@ -1911,6 +2651,100 @@ const UniversityPageNew = () => {
             </div>
          </section>
 
+         {/* ==================== NEW SECTION 4: WHAT HAPPENS AFTER GRADUATION? ==================== */}
+         <section className="relative w-full overflow-hidden bg-white py-12 sm:py-[3.75rem]">
+            <div className="relative z-10 flex flex-col gap-12 items-center w-full max-w-7xl mx-auto px-6">
+               <div className="flex flex-col gap-[0.5rem] items-center text-center w-full">
+                  <p className="font-bold text-[2rem] sm:text-[2.75rem] leading-[1.2]" style={{ fontFamily: 'var(--font-bricolage-grotesque, sans-serif)' }}>
+                     <span className="text-blue-600">What happens </span>
+                     <span className="text-slate-900">after graduation?</span>
+                  </p>
+                  <p className="font-medium text-[1rem] leading-[1.5] text-[#5e5e5e]">
+                     Based on a survey of 5,000+ graduates.
+                  </p>
+               </div>
+               
+               {/* Grid Stats */}
+               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 w-full">
+                  <div className="bg-slate-50 border border-slate-100 rounded-2xl p-6 flex flex-col justify-between h-[10rem] text-left hover:shadow-md transition-shadow">
+                     <p className="font-bold text-[3rem] text-blue-600 leading-none" style={{ fontFamily: 'var(--font-bricolage-grotesque, sans-serif)' }}>87%</p>
+                     <p className="font-semibold text-slate-700 text-[0.875rem] leading-snug">got a hike within a year of graduating</p>
+                  </div>
+                  <div className="bg-slate-50 border border-slate-100 rounded-2xl p-6 flex flex-col justify-between h-[10rem] text-left hover:shadow-md transition-shadow">
+                     <p className="font-bold text-[3rem] text-blue-600 leading-none" style={{ fontFamily: 'var(--font-bricolage-grotesque, sans-serif)' }}>9 in 10</p>
+                     <p className="font-semibold text-slate-700 text-[0.875rem] leading-snug">said their degree opened many doors</p>
+                  </div>
+                  <div className="bg-slate-50 border border-slate-100 rounded-2xl p-6 flex flex-col justify-between h-[10rem] text-left hover:shadow-md transition-shadow">
+                     <p className="font-bold text-[3rem] text-blue-600 leading-none" style={{ fontFamily: 'var(--font-bricolage-grotesque, sans-serif)' }}>3 in 4</p>
+                     <p className="font-semibold text-slate-700 text-[0.875rem] leading-snug">got an offer within a year of graduation</p>
+                  </div>
+                  <div className="bg-slate-50 border border-slate-100 rounded-2xl p-6 flex flex-col justify-between h-[10rem] text-left hover:shadow-md transition-shadow">
+                     <p className="font-bold text-[3rem] text-blue-600 leading-none" style={{ fontFamily: 'var(--font-bricolage-grotesque, sans-serif)' }}>92%</p>
+                     <p className="font-semibold text-slate-700 text-[0.875rem] leading-snug">referred a friend or family member</p>
+                  </div>
+               </div>
+               
+               {/* Hiring Strip */}
+               <div className="w-full text-center mt-6">
+                  <p className="font-extrabold text-[0.8rem] text-slate-400 tracking-[0.15em] mb-8 uppercase">TOP COMPANIES HIRING FROM OUR PARTNER UNIVERSITIES</p>
+                  <div className="flex flex-wrap items-center justify-center gap-x-12 gap-y-6 opacity-75">
+                     <div className="text-xl font-black text-blue-600 tracking-tight">ix<span className="text-slate-900">Hero</span></div>
+                     <div className="text-xl font-black text-slate-800 tracking-tighter">HEXAWARE</div>
+                     <div className="text-xl font-extrabold text-slate-700 tracking-tight">Kellton</div>
+                     <div className="text-sm font-black text-slate-800 tracking-[0.2em]">MASTECH DIGITAL</div>
+                     <div className="text-xl font-extrabold text-blue-900 tracking-tighter">NIIT</div>
+                     <div className="text-xl font-extrabold text-slate-700">Persistent</div>
+                     <div className="text-xl font-black text-slate-800 tracking-tight">QUESS</div>
+                     <div className="text-lg font-bold text-sky-600 tracking-tight">randstad</div>
+                  </div>
+               </div>
+               
+               {/* Testimonials */}
+               <div className="grid grid-cols-1 md:grid-cols-2 gap-8 w-full mt-6">
+                  <div className="bg-slate-50/50 border border-slate-100/70 rounded-3xl p-8 flex flex-col gap-6 relative shadow-[0_10px_35px_rgba(0,0,0,0.01)] text-left">
+                     <div className="text-blue-200/40 text-[5rem] font-serif leading-none absolute top-2 left-6 pointer-events-none">“</div>
+                     <p className="text-slate-700 font-medium text-[0.95rem] relative z-10 leading-relaxed pt-4">
+                        Got placed at Deloitte within 3 months of graduating while still working my previous job. The Manipal MBA opened more doors than I expected.
+                     </p>
+                     <div className="flex items-center gap-3 mt-auto">
+                        <div className="w-10 h-10 rounded-full bg-blue-600 flex items-center justify-center text-white font-bold text-sm">
+                           RP
+                        </div>
+                        <div className="flex flex-col">
+                           <p className="font-extrabold text-sm text-slate-900 leading-none">Rahul P.</p>
+                           <p className="text-[11px] text-slate-500 font-semibold mt-1">MBA, Manipal Jaipur · Deloitte</p>
+                        </div>
+                     </div>
+                  </div>
+                  
+                  <div className="bg-slate-50/50 border border-slate-100/70 rounded-3xl p-8 flex flex-col gap-6 relative shadow-[0_10px_35px_rgba(0,0,0,0.01)] text-left">
+                     <div className="text-blue-200/40 text-[5rem] font-serif leading-none absolute top-2 left-6 pointer-events-none">“</div>
+                     <p className="text-slate-700 font-medium text-[0.95rem] relative z-10 leading-relaxed pt-4">
+                        Finished my BCA while freelancing and saved my family almost 4 lakhs. My parents went from skeptical to proud within a year.
+                     </p>
+                     <div className="flex items-center gap-3 mt-auto">
+                        <div className="w-10 h-10 rounded-full bg-blue-600 flex items-center justify-center text-white font-bold text-sm">
+                           AS
+                        </div>
+                        <div className="flex flex-col">
+                           <p className="font-extrabold text-sm text-slate-900 leading-none">Ananya S.</p>
+                           <p className="text-[11px] text-slate-500 font-semibold mt-1">BCA, Amity Online · TCS</p>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+               
+               {/* Call to Action */}
+               <button 
+                  type="button" 
+                  onClick={() => setShowEnquiry(true)}
+                  className="bg-blue-600 hover:bg-blue-700 transition-all active:scale-95 flex gap-2 items-center justify-center overflow-hidden px-8 py-4 rounded-[2.5rem] text-white font-semibold text-[1rem] leading-[1.4] mt-6 shadow-lg shadow-blue-600/10"
+               >
+                  <span className="whitespace-nowrap">Be one of them. Book a free session</span>
+                  <ChevronRight className="w-5 h-5" />
+               </button>
+            </div>
+         </section>
          {/* 2026 TRENDING SPECIALIZATIONS */}
          <section className="py-12 md:py-24 bg-slate-50 relative overflow-hidden">
             <div className="container mx-auto px-6">
