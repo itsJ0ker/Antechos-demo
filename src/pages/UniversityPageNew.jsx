@@ -1047,7 +1047,7 @@ const UniversityPageNew = () => {
                </div>
             </div>
          </section>
-\n\n         {/* ==================== NEW SECTION 2: SAME DEGREE. 40-60% CHEAPER ==================== */}
+         {/* ==================== NEW SECTION 2: SAME DEGREE. 40-60% CHEAPER ==================== */}
          <section className="relative w-full overflow-hidden bg-slate-50 border-y border-slate-100 py-16 md:py-24">
             {/* Tech Grid Pattern */}
             <div className="grid-pattern opacity-60" />
@@ -1305,7 +1305,7 @@ const UniversityPageNew = () => {
                </div>
             </div>
          </section>
-\n\n         {/* 5. WHY CHOOSE ANTECHOS STRIP (Image 3) */}
+         {/* 5. WHY CHOOSE ANTECHOS STRIP (Image 3) */}
          <section className="py-12 bg-white">
             <div className="container mx-auto px-6">
                <div className="bg-[#051129] rounded-[2rem] py-10 px-6 md:px-12 shadow-2xl relative overflow-hidden">
@@ -1684,7 +1684,7 @@ const UniversityPageNew = () => {
                </div>
             </div>
          </section>
-\n\n         {/* CAROUSEL FEATURES SECTION */}
+         {/* CAROUSEL FEATURES SECTION */}
          <section className="py-16 md:py-24 bg-white border-y border-slate-100 relative overflow-hidden">
             <div className="container mx-auto px-4 md:px-6 relative z-10 w-full max-w-7xl mx-auto">
                {/* Heading */}
@@ -2448,7 +2448,7 @@ const UniversityPageNew = () => {
                </button>
             </div>
          </section>
-\n\n         {/* 2026 TRENDING SPECIALIZATIONS */}
+         {/* 2026 TRENDING SPECIALIZATIONS */}
          <section className="py-12 md:py-24 bg-slate-50 relative overflow-hidden">
             <div className="container mx-auto px-6">
                <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-12 mb-16 md:mb-20">
