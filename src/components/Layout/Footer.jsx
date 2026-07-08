@@ -118,7 +118,7 @@ const Footer = () => {
 
           {/* Footer Sections */}
           <div className="lg:col-span-2"><FooterSection title="Quick Links" links={[{ label: "About Us", path: "/about" },{ label: "Courses", path: "/courses" },{ label: "Marketplace", path: "/marketplace" },{ label: "Universities", path: "/universities" },{ label: "Contact Us", path: "/contact" }]} /></div>
-          <div className="lg:col-span-2"><FooterSection title="Resources" links={[{ label: "Blog", path: "/blog" },{ label: "Events", path: "/events" },{ label: "Success Stories", path: "/testimonials" },{ label: "FAQs", path: "/faq" },{ label: "Careers", path: "/career" }]} /></div>
+          <div className="lg:col-span-2"><FooterSection title="Resources" links={[{ label: "Blog", path: "/blogs" },{ label: "Events", path: "/events" },{ label: "Success Stories", path: "/testimonials" },{ label: "FAQs", path: "/faq" },{ label: "Careers", path: "/career" }]} /></div>
           <div className="lg:col-span-2"><FooterSection title="Legal" links={[{ label: "Privacy Policy", path: "/privacy" },{ label: "Terms of Service", path: "/terms" },{ label: "Refund Policy", path: "/refund" },{ label: "Sitemap", path: "/sitemap" },{ label: "Accessibility", path: "/accessibility" }]} /></div>
 
           {/* Contact Info */}

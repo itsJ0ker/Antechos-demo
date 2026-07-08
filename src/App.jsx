@@ -11,6 +11,8 @@ import Courses from "./pages/CoursesNew";
 import Universities from "./pages/Universities";
 import UniversityPage from "./pages/UniversityPage";
 import UniversityPageNew from "./pages/UniversityPageNew";
+import Blogs from "./pages/Blogs";
+import PostBlog from "./pages/PostBlog";
 import MarketplaceImarticus from "./pages/MarketplaceImarticus";
 import MarketplaceRedesign from "./pages/MarketplaceRedesign";
 import MarketplacePremium from "./pages/MarketplacePremium";
@@ -121,6 +123,8 @@ const AppContent = () => {
           <Route path="/courses-premium/:slug" element={<CoursePremiumDetail />} />
           <Route path="/Universities-mainbutnotinusenow" element={<UniversityPage />} />{/*maim*/}
           <Route path="/universities" element={<UniversityPageNew />} />
+          <Route path="/blogs" element={<Blogs />} />
+          <Route path="/blogs/post" element={<PostBlog />} />
           <Route path="/trainer/:id" element={<TrainerProfile />} />
           <Route path="/university/:id" element={<UniversityDetail />} />
           <Route path="/university/:universityId/course/:courseId" element={<EnhancedCourseDetail />} />

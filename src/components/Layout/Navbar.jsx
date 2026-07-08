@@ -69,6 +69,7 @@ const Navbar = () => {
     { name: "Courses", path: "/courses-premium", hasDropdown: true },
     { name: "Universities", path: "/universities", hasDropdown: true },
     { name: "Marketplace", path: "/Marketplace" },
+    { name: "Blogs", path: "/blogs" },
   ];
 
   const handleNavigate = (path) => {
