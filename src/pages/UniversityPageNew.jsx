@@ -511,6 +511,7 @@ const UniversityPageNew = () => {
    const [showAll, setShowAll] = useState(false);
    const [showEnquiry, setShowEnquiry] = useState(false);
    const [testimonialIndex, setTestimonialIndex] = useState(0);
+   const [activeSegment, setActiveSegment] = useState(null);
    const [currentIndex, setCurrentIndex] = useState(0);
    const [programIndex, setProgramIndex] = useState(0);
    const [showAllPrograms, setShowAllPrograms] = useState(false);
@@ -530,6 +531,8 @@ const UniversityPageNew = () => {
    const strategicIntelligenceRef = useRef(null);
    const uniScrollRef = useRef(null);
    const [isUniHovered, setIsUniHovered] = useState(false);
+   const programsScrollRef = useRef(null);
+   const [isProgramsHovered, setIsProgramsHovered] = useState(false);
 
    const [selectedShort, setSelectedShort] = useState(null);
    const [isShortsHovered, setIsShortsHovered] = useState(false);
@@ -559,29 +562,6 @@ const UniversityPageNew = () => {
       }
       return () => clearInterval(interval);
    }, [isShortsHovered, selectedShort, windowWidth]);
-
-   // Auto-scroll for university carousel New
-   useEffect(() => {
-      if (isUniHovered || showAll) return;
-      const interval = setInterval(() => {
-         if (uniScrollRef.current) {
-            const el = uniScrollRef.current;
-            const halfWidth = el.scrollWidth / 2;
-            if (el.scrollLeft >= halfWidth) {
-               el.scrollLeft = el.scrollLeft - halfWidth;
-            }
-            el.scrollBy({ left: 1, behavior: 'auto' });
-         }
-      }, 20);
-      return () => clearInterval(interval);
-   }, [isUniHovered, showAll]);
-
-   const scrollUni = (direction) => {
-      if (uniScrollRef.current) {
-         const scrollAmount = windowWidth < 768 ? 302 : 372;
-         uniScrollRef.current.scrollBy({ left: direction === 'left' ? -scrollAmount : scrollAmount, behavior: 'smooth' });
-      }
-   };
 
    const getVisibleFeatures = () => {
       if (typeof window === 'undefined') return 4;
@@ -654,30 +634,123 @@ const UniversityPageNew = () => {
       ? filteredUniversities
       : filteredUniversities.slice(0, itemsPerPage);
 
+   // Auto-scroll for university carousel New (card-by-card with snap support & infinite loop)
+   useEffect(() => {
+      let interval;
+      if (!isUniHovered && !showAll) {
+         interval = setInterval(() => {
+            if (uniScrollRef.current) {
+               const el = uniScrollRef.current;
+               const cardWidth = el.querySelector('.flex-shrink-0')?.clientWidth || 340;
+               const gap = 32; // gap-8 is 32px
+               const scrollAmount = cardWidth + gap;
+               const loopWidth = filteredUniversities.length * (cardWidth + gap);
+
+               if (loopWidth > 0 && el.scrollLeft >= loopWidth * 1.5) {
+                  el.scrollLeft = el.scrollLeft - loopWidth;
+               }
+
+               el.scrollBy({ left: scrollAmount, behavior: 'smooth' });
+            }
+         }, 3500);
+      }
+      return () => clearInterval(interval);
+   }, [isUniHovered, showAll, windowWidth, filteredUniversities.length]);
+
+   const handleUniScroll = (e) => {
+      const el = e.currentTarget;
+      const cardWidth = el.querySelector('.flex-shrink-0')?.clientWidth || 340;
+      const gap = 32;
+      const loopWidth = filteredUniversities.length * (cardWidth + gap);
+
+      if (!loopWidth || loopWidth <= 0) return;
+
+      // Seamless infinite wrapping threshold
+      if (el.scrollLeft >= loopWidth * 1.5) {
+         el.scrollLeft = el.scrollLeft - loopWidth;
+      } else if (el.scrollLeft < 10) {
+         el.scrollLeft = el.scrollLeft + loopWidth;
+      }
+   };
+
+   const scrollUni = (direction) => {
+      if (uniScrollRef.current) {
+         const el = uniScrollRef.current;
+         const cardWidth = el.querySelector('.flex-shrink-0')?.clientWidth || 340;
+         const gap = 32; // gap-8 is 32px
+         const scrollAmount = cardWidth + gap;
+         const loopWidth = filteredUniversities.length * (cardWidth + gap);
+
+         if (direction === 'left' && el.scrollLeft < scrollAmount + 10) {
+            el.scrollLeft = el.scrollLeft + loopWidth;
+         }
+         el.scrollBy({ left: direction === 'left' ? -scrollAmount : scrollAmount, behavior: 'smooth' });
+      }
+   };
+
    const filteredCourses = useMemo(() => {
       return courseType === 'All'
          ? OFFICIAL_COURSES
          : OFFICIAL_COURSES.filter(c => c.category === courseType);
    }, [courseType]);
 
-   const [programAutoplayPaused, setProgramAutoplayPaused] = useState(false);
-   const programAutoplayTimeout = useRef(null);
-
    useEffect(() => {
       setCurrentIndex(0);
-      setProgramIndex(0);
    }, [filterCategory, filterStream, searchTerm, finderStream, courseType, filteredCourses.length]);
 
-   // Auto-play for Program Portfolio
+   // Auto-scroll for programs carousel (card-by-card with snap support & infinite loop)
    useEffect(() => {
-      if (showAllPrograms || programAutoplayPaused || filteredCourses.length === 0) return;
-      const interval = setInterval(() => {
-         setProgramIndex((prev) => {
-            return prev >= filteredCourses.length - 1 ? 0 : prev + 1;
-         });
-      }, 4000);
+      let interval;
+      if (!isProgramsHovered && !showAllPrograms) {
+         interval = setInterval(() => {
+            if (programsScrollRef.current) {
+               const el = programsScrollRef.current;
+               const cardWidth = el.querySelector('.flex-shrink-0')?.clientWidth || 300;
+               const gap = 32; // gap-8 is 32px
+               const scrollAmount = cardWidth + gap;
+               const loopWidth = filteredCourses.length * (cardWidth + gap);
+
+               if (loopWidth > 0 && el.scrollLeft >= loopWidth * 1.5) {
+                  el.scrollLeft = el.scrollLeft - loopWidth;
+               }
+
+               el.scrollBy({ left: scrollAmount, behavior: 'smooth' });
+            }
+         }, 4000);
+      }
       return () => clearInterval(interval);
-   }, [showAllPrograms, filteredCourses.length, programAutoplayPaused]);
+   }, [isProgramsHovered, showAllPrograms, windowWidth, filteredCourses.length]);
+
+   const handleProgramsScroll = (e) => {
+      const el = e.currentTarget;
+      const cardWidth = el.querySelector('.flex-shrink-0')?.clientWidth || 300;
+      const gap = 32;
+      const loopWidth = filteredCourses.length * (cardWidth + gap);
+
+      if (!loopWidth || loopWidth <= 0) return;
+
+      // Seamless infinite wrapping threshold
+      if (el.scrollLeft >= loopWidth * 1.5) {
+         el.scrollLeft = el.scrollLeft - loopWidth;
+      } else if (el.scrollLeft < 10) {
+         el.scrollLeft = el.scrollLeft + loopWidth;
+      }
+   };
+
+   const scrollPrograms = (direction) => {
+      if (programsScrollRef.current) {
+         const el = programsScrollRef.current;
+         const cardWidth = el.querySelector('.flex-shrink-0')?.clientWidth || 300;
+         const gap = 32; // gap-8 is 32px
+         const scrollAmount = cardWidth + gap;
+         const loopWidth = filteredCourses.length * (cardWidth + gap);
+
+         if (direction === 'left' && el.scrollLeft < scrollAmount + 10) {
+            el.scrollLeft = el.scrollLeft + loopWidth;
+         }
+         el.scrollBy({ left: direction === 'left' ? -scrollAmount : scrollAmount, behavior: 'smooth' });
+      }
+   };
 
    // Auto-play for Hero
    useEffect(() => {
@@ -688,23 +761,6 @@ const UniversityPageNew = () => {
    }, []);
 
    const handleUniversityClick = (link) => window.open(link, '_blank', 'noopener,noreferrer');
-
-   // Pause auto-play briefly after manual interaction to avoid fighting the user
-   const pauseAutoplay = () => {
-      setProgramAutoplayPaused(true);
-      if (programAutoplayTimeout.current) clearTimeout(programAutoplayTimeout.current);
-      programAutoplayTimeout.current = setTimeout(() => setProgramAutoplayPaused(false), 8000);
-   };
-
-   const handlePrevProgram = () => {
-      pauseAutoplay();
-      setProgramIndex(prev => prev <= 0 ? filteredCourses.length - 1 : prev - 1);
-   };
-
-   const handleNextProgram = () => {
-      pauseAutoplay();
-      setProgramIndex(prev => prev >= filteredCourses.length - 1 ? 0 : prev + 1);
-   };
 
    return (
       <div className="uni-page-new min-h-screen overflow-x-clip max-w-[100vw] relative">
@@ -883,7 +939,7 @@ const UniversityPageNew = () => {
             {/* Spotlight Glow Effect */}
             <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-blue-500/10 rounded-full blur-[120px] pointer-events-none"></div>
             <div className="grid-pattern opacity-[0.02]" />
-            
+
             <div className="relative z-10 w-full max-w-7xl mx-auto px-6 flex flex-col items-center gap-16">
                {/* Heading matching the image text colors and styles */}
                <div className="flex flex-col items-center text-center w-full max-w-3xl">
@@ -893,7 +949,7 @@ const UniversityPageNew = () => {
                      <span className="text-sky-400 block">Regular Degree</span>
                   </h2>
                </div>
-               
+
                {/* Visual: Certificates and Pedestals */}
                <div className="flex flex-col md:flex-row items-center justify-center gap-12 md:gap-16 w-full max-w-4xl py-6">
                   {/* Left Certificate: Online */}
@@ -903,20 +959,20 @@ const UniversityPageNew = () => {
                         <div className="bg-[#FAF6F0] border-[8px] border-[#0a1c30] ring-1 ring-[#c5a880] rounded-[4px] p-5 w-[16rem] h-[22rem] shadow-[0_30px_60px_rgba(0,0,0,0.8)] flex flex-col items-center justify-between text-slate-800 relative">
                            {/* Intricate Inner Border */}
                            <div className="absolute inset-1 border border-[#c5a880]/30 rounded"></div>
-                           
+
                            {/* Header Icon */}
                            <div className="flex flex-col items-center mt-2 z-10">
                               <GraduationCap className="w-8 h-8 text-[#bfa15f] mb-1" />
                               <h4 className="font-extrabold text-[13px] text-[#0f223a] tracking-[0.1em] font-serif uppercase">ONLINE DEGREE</h4>
                            </div>
-                           
+
                            {/* Gold Graphic Separator */}
                            <div className="flex items-center justify-center w-24 my-1 z-10">
                               <div className="h-[1px] bg-[#bfa15f] flex-1"></div>
                               <div className="w-1.5 h-1.5 rotate-45 border border-[#bfa15f] bg-[#FAF6F0] mx-1 shrink-0"></div>
                               <div className="h-[1px] bg-[#bfa15f] flex-1"></div>
                            </div>
-                           
+
                            {/* Body */}
                            <div className="w-full flex-1 flex flex-col items-center justify-center text-center mt-2 z-10">
                               <p className="text-[11px] font-bold text-slate-700 font-serif italic">Bachelor of Science</p>
@@ -925,7 +981,7 @@ const UniversityPageNew = () => {
                                  This is to certify that the degree has been awarded after successful completion of the prescribed course of study.
                               </p>
                            </div>
-                           
+
                            {/* Footer */}
                            <div className="w-full flex items-end justify-between mt-2 z-10 px-2">
                               <div className="flex flex-col items-start">
@@ -943,13 +999,13 @@ const UniversityPageNew = () => {
                         <div className="w-[90%] h-[70%] rounded-full bg-sky-500/5 blur-[2px]"></div>
                      </div>
                   </div>
-                  
+
                   {/* Gold 3D Equals Sign */}
                   <div className="flex flex-col gap-2 items-center justify-center my-6 md:my-0">
                      <div className="w-16 h-3 bg-gradient-to-b from-[#f9d976] via-[#e9b646] to-[#b37a1c] border border-[#f9d976]/30 rounded-[2px] shadow-[0_4px_10px_rgba(0,0,0,0.5),_inset_0_1px_1px_rgba(255,255,255,0.3)]"></div>
                      <div className="w-16 h-3 bg-gradient-to-b from-[#f9d976] via-[#e9b646] to-[#b37a1c] border border-[#f9d976]/30 rounded-[2px] shadow-[0_4px_10px_rgba(0,0,0,0.5),_inset_0_1px_1px_rgba(255,255,255,0.3)]"></div>
                   </div>
-                  
+
                   {/* Right Certificate: Regular */}
                   <div className="flex flex-col items-center">
                      <div className="relative rotate-[2.5deg] hover:rotate-0 transition-transform duration-500 z-10">
@@ -957,20 +1013,20 @@ const UniversityPageNew = () => {
                         <div className="bg-[#FAF6F0] border-[8px] border-[#0a1c30] ring-1 ring-[#c5a880] rounded-[4px] p-5 w-[16rem] h-[22rem] shadow-[0_30px_60px_rgba(0,0,0,0.8)] flex flex-col items-center justify-between text-slate-800 relative">
                            {/* Intricate Inner Border */}
                            <div className="absolute inset-1 border border-[#c5a880]/30 rounded"></div>
-                           
+
                            {/* Header Icon */}
                            <div className="flex flex-col items-center mt-2 z-10">
                               <Building2 className="w-8 h-8 text-[#bfa15f] mb-1" />
                               <h4 className="font-extrabold text-[13px] text-[#0f223a] tracking-[0.1em] font-serif uppercase">REGULAR DEGREE</h4>
                            </div>
-                           
+
                            {/* Gold Graphic Separator */}
                            <div className="flex items-center justify-center w-24 my-1 z-10">
                               <div className="h-[1px] bg-[#bfa15f] flex-1"></div>
                               <div className="w-1.5 h-1.5 rotate-45 border border-[#bfa15f] bg-[#FAF6F0] mx-1 shrink-0"></div>
                               <div className="h-[1px] bg-[#bfa15f] flex-1"></div>
                            </div>
-                           
+
                            {/* Body */}
                            <div className="w-full flex-1 flex flex-col items-center justify-center text-center mt-2 z-10">
                               <p className="text-[11px] font-bold text-slate-700 font-serif italic">Bachelor of Science</p>
@@ -979,7 +1035,7 @@ const UniversityPageNew = () => {
                                  This is to certify that the degree has been awarded after successful completion of the prescribed course of study.
                               </p>
                            </div>
-                           
+
                            {/* Footer */}
                            <div className="w-full flex items-end justify-between mt-2 z-10 px-2">
                               <div className="flex flex-col items-start">
@@ -998,7 +1054,7 @@ const UniversityPageNew = () => {
                      </div>
                   </div>
                </div>
-               
+
                {/* 4 Feature Badges with dividers like the image */}
                <div className="grid grid-cols-2 md:grid-cols-4 gap-y-8 w-full max-w-4xl mt-6 border-t border-slate-800/80 pt-12">
                   {/* Badge 1 */}
@@ -1011,7 +1067,7 @@ const UniversityPageNew = () => {
                         <p className="text-[10px] text-slate-400 mt-1 font-semibold">&amp; RECOGNIZED</p>
                      </div>
                   </div>
-                  
+
                   {/* Badge 2 */}
                   <div className="flex flex-col items-center text-center gap-3 px-4 border-none md:border-r border-slate-800 last:border-r-0">
                      <div className="w-12 h-12 rounded-xl bg-sky-500/10 border border-sky-500/20 flex items-center justify-center text-sky-400 shadow-[0_0_15px_rgba(56,189,248,0.1)]">
@@ -1022,7 +1078,7 @@ const UniversityPageNew = () => {
                         <p className="text-[10px] text-slate-400 mt-1 font-semibold">OPPORTUNITIES</p>
                      </div>
                   </div>
-                  
+
                   {/* Badge 3 */}
                   <div className="flex flex-col items-center text-center gap-3 px-4 border-r border-slate-800 last:border-r-0">
                      <div className="w-12 h-12 rounded-xl bg-sky-500/10 border border-sky-500/20 flex items-center justify-center text-sky-400 shadow-[0_0_15px_rgba(56,189,248,0.1)]">
@@ -1033,7 +1089,7 @@ const UniversityPageNew = () => {
                         <p className="text-[10px] text-slate-400 mt-1 font-semibold">OUTCOMES</p>
                      </div>
                   </div>
-                  
+
                   {/* Badge 4 */}
                   <div className="flex flex-col items-center text-center gap-3 px-4 border-none last:border-none">
                      <div className="w-12 h-12 rounded-xl bg-sky-500/10 border border-sky-500/20 flex items-center justify-center text-sky-400 shadow-[0_0_15px_rgba(56,189,248,0.1)]">
@@ -1051,14 +1107,14 @@ const UniversityPageNew = () => {
          <section className="relative w-full overflow-hidden bg-slate-50 border-y border-slate-100 py-16 md:py-24">
             {/* Tech Grid Pattern */}
             <div className="grid-pattern opacity-60" />
-            
+
             {/* Decorative bubbles */}
             <div className="absolute right-0 top-0 pointer-events-none overflow-hidden w-[15.625rem] z-0">
                <div className="absolute bg-[#c67133] h-[1.6875rem] left-0 opacity-[0.05] rounded-[1.25rem] top-[2.75rem] w-[15.625rem]"></div>
                <div className="absolute bg-[#c67133] h-[1.6875rem] left-[3.125rem] opacity-[0.05] rounded-[1.25rem] top-[5.6875rem] w-[12.5rem]"></div>
                <div className="absolute bg-[#c67133] h-[1.6875rem] left-[6.5rem] opacity-[0.05] rounded-[1.25rem] top-[8.625rem] w-[12.5rem]"></div>
             </div>
-            
+
             <div className="relative z-10 flex flex-col gap-8 sm:gap-11 items-center w-full max-w-7xl mx-auto px-6">
                <div className="flex flex-col gap-2 items-center text-center w-full mb-12">
                   <SectionLabel icon={CreditCard}>Cost Efficiency</SectionLabel>
@@ -1069,7 +1125,7 @@ const UniversityPageNew = () => {
                      Pay for the degree, not the infrastructure.
                   </p>
                </div>
-               
+
                {/* Mobile Layout */}
                <div className="flex sm:hidden flex-col gap-[0.375rem] relative z-10 w-full">
                   <div className="flex flex-col gap-[0.375rem] items-center justify-center relative shrink-0 w-full">
@@ -1078,7 +1134,7 @@ const UniversityPageNew = () => {
                         <div className="absolute bg-[rgba(255,255,255,0.8)] border-[0.5px] border-[rgba(184,77,0,0.1)] h-[5.375rem] left-0 overflow-hidden rounded-[0.75rem] top-0 w-[21.875rem]">
                            <div className="absolute flex flex-col gap-[0.75rem] items-start justify-center left-[11.5px] top-1/2 -translate-y-1/2 whitespace-nowrap text-left">
                               <p className="font-bold leading-[0.625rem] text-[0.75rem] text-[rgba(184,77,0,0.8)] tracking-[1.2px] uppercase">ON-CAMPUS — ANNUAL</p>
-                              <p className="font-bold leading-[1.0625rem] text-[1.125rem] text-[#343434]" style={{ fontFamily: "'Sora', sans-serif" }}>₹3,00,000+</p>
+                              <p className="font-bold leading-[1.0625rem] text-[1.125rem] text-[#343434]" style={{ fontFamily: "'Sora', sans-serif" }}>₹4,00,000 - 1500000+</p>
                            </div>
                            <div className="absolute h-[5.375rem] left-[6.84375rem] top-0 w-[15rem] overflow-visible">
                               <div className="absolute flex h-[2.375rem] items-center justify-center left-[4.4375rem] top-[0.875rem] w-[5.4375rem]">
@@ -1111,7 +1167,7 @@ const UniversityPageNew = () => {
                               </div>
                            </div>
                         </div>
-                        
+
                         {/* ONLINE */}
                         <div className="absolute bg-[rgba(255,255,255,0.8)] border-[0.559px] border-[rgba(37,99,235,0.1)] h-[8.125rem] left-0 overflow-hidden rounded-[0.75rem] top-[6.375rem] w-[11.4375rem]">
                            <div className="absolute flex flex-col gap-[0.75rem] items-start justify-center left-[calc(50%-5.5px)] top-[calc(50%-27px)] -translate-x-1/2 -translate-y-1/2 text-left">
@@ -1122,7 +1178,7 @@ const UniversityPageNew = () => {
                               <p className="font-bold leading-none text-[10.7px] text-[rgba(37,99,235,0.75)] whitespace-nowrap" style={{ fontFamily: "'Sora', sans-serif" }}>Tuition Fee only</p>
                            </div>
                         </div>
-                        
+
                         {/* SAVINGS */}
                         <div className="absolute border-[0.559px] border-emerald-100 h-[8.125rem] left-[12.4375rem] overflow-hidden rounded-[0.75rem] top-[6.375rem] w-[9.4375rem] bg-emerald-50/70">
                            <div className="absolute flex flex-col items-start justify-center left-[13.44px] top-[15.44px] text-left">
@@ -1133,7 +1189,7 @@ const UniversityPageNew = () => {
                               <p className="font-medium text-[0.75rem] text-emerald-600 w-full">EMI from ₹3,000/month</p>
                            </div>
                         </div>
-                        
+
                         {/* ARROW */}
                         <div className="absolute flex h-[2.875rem] items-center justify-center left-[9.625rem] top-[5.75rem] w-[3.625rem]">
                            <div className="-scale-y-100 flex-none rotate-[-24.81deg]">
@@ -1144,7 +1200,7 @@ const UniversityPageNew = () => {
                         </div>
                      </div>
                   </div>
-                  
+
                   <div className="flex flex-col gap-[1.5rem] items-start w-full text-left">
                      <div className="flex flex-col gap-[0.75rem] items-start w-full">
                         <div className="bg-[rgba(255,255,255,0.6)] border border-slate-200 flex gap-[0.5rem] items-center p-[0.75rem] rounded-[0.5rem] w-full">
@@ -1166,8 +1222,8 @@ const UniversityPageNew = () => {
                            <p className="flex-1 font-medium text-[0.875rem] leading-[1.2] text-[#343434]">Travel. Explore. Learn. Live your 20s fully.</p>
                         </div>
                      </div>
-                     <button 
-                        type="button" 
+                     <button
+                        type="button"
                         onClick={() => setShowEnquiry(true)}
                         className="bg-slate-900 hover:bg-blue-600 flex gap-[0.5rem] items-center justify-center w-full overflow-hidden pl-[1.25rem] pr-[1rem] py-[0.75rem] rounded-[2.5rem] text-white font-black text-[10px] uppercase tracking-[0.2em] transition-all duration-500 active:scale-95"
                      >
@@ -1178,7 +1234,7 @@ const UniversityPageNew = () => {
                      </button>
                   </div>
                </div>
-               
+
                {/* Desktop Layout */}
                <div className="hidden sm:flex gap-[3.75rem] items-center justify-between w-full relative z-10">
                   {/* Left Column visual box */}
@@ -1187,45 +1243,45 @@ const UniversityPageNew = () => {
                      <div className="absolute bg-[rgba(255,255,255,0.8)] border border-slate-200/60 h-[7.5625rem] left-[1.25rem] overflow-hidden rounded-[0.75rem] top-[0.25rem] w-[36.625rem]">
                         <div className="absolute -translate-y-1/2 flex flex-col gap-5 items-start justify-center left-[1.5625rem] top-1/2 text-left">
                            <p className="font-bold text-[0.875rem] leading-[1.125rem] text-[rgba(184,77,0,0.8)] tracking-[1.4px] uppercase">ON-CAMPUS — ANNUAL</p>
-                           <p className="font-bold text-[1.625rem] leading-[1.875rem] text-[#343434]" style={{ fontFamily: "'Sora', sans-serif" }}>₹3,00,000+</p>
+                           <p className="font-bold text-[1.625rem] leading-[1.875rem] text-[#343434]" style={{ fontFamily: "'Sora', sans-serif" }}>₹4,00,000 - ₹15,00,000+</p>
                         </div>
                         <div className="absolute h-[7.5625rem] left-[15.3125rem] overflow-hidden top-[-1px] w-[21.25rem]">
                            <div className="absolute flex h-[3.8125rem] items-center justify-center left-[4.125rem] top-[0.4375rem] w-[8.5625rem]">
                               <div className="rotate-[9.28deg]">
                                  <div className="bg-white border border-[rgba(255,106,0,0.2)] flex items-center justify-center px-[18.5px] py-[11.6px] rounded-[2.1875rem] shadow-[0px_6.9px_27.8px_0px_rgba(255,106,0,0.1)]">
-                                    <p className="font-bold text-[15.3px] text-[rgba(184,77,0,0.8)] whitespace-nowrap" style={{ fontFamily: "'Sora', sans-serif" }}>Tuition ₹1.2L</p>
+                                    <p className="font-bold text-[15.3px] text-[rgba(184,77,0,0.8)] whitespace-nowrap" style={{ fontFamily: "'Sora', sans-serif" }}>Tuition ₹5L</p>
                                  </div>
                               </div>
                            </div>
                            <div className="absolute flex h-[4.125rem] items-center justify-center left-[4.5rem] top-[3.6875rem] w-[8.6875rem]">
                               <div className="rotate-[-11.57deg]">
                                  <div className="bg-white border border-[rgba(255,106,0,0.2)] flex items-center justify-center px-[18.5px] py-[11.6px] rounded-[2.1875rem] shadow-[0px_6.9px_27.8px_0px_rgba(255,106,0,0.1)]">
-                                    <p className="font-bold text-[15.3px] text-[rgba(184,77,0,0.8)] whitespace-nowrap" style={{ fontFamily: "'Sora', sans-serif" }}>Hostel ₹80K</p>
+                                    <p className="font-bold text-[15.3px] text-[rgba(184,77,0,0.8)] whitespace-nowrap" style={{ fontFamily: "'Sora', sans-serif" }}>Hostel ₹2L</p>
                                  </div>
                               </div>
                            </div>
                            <div className="absolute flex h-[3.4375rem] items-center justify-center left-[12.3125rem] top-[1.3125rem] w-[7.875rem]">
                               <div className="rotate-[7.17deg]">
                                  <div className="bg-white border border-[rgba(255,106,0,0.2)] flex items-center justify-center px-[18.5px] py-[11.6px] rounded-[2.1875rem] shadow-[0px_6.9px_27.8px_0px_rgba(255,106,0,0.1)]">
-                                    <p className="font-bold text-[15.3px] text-[rgba(184,77,0,0.8)] whitespace-nowrap" style={{ fontFamily: "'Sora', sans-serif" }}>Food ₹50K</p>
+                                    <p className="font-bold text-[15.3px] text-[rgba(184,77,0,0.8)] whitespace-nowrap" style={{ fontFamily: "'Sora', sans-serif" }}>Food ₹60K</p>
                                  </div>
                               </div>
                            </div>
                            <div className="absolute flex h-[3.25rem] items-center justify-center left-[12.6875rem] top-[4.375rem] w-[8.3125rem]">
                               <div className="rotate-[-5.34deg]">
                                  <div className="bg-white border border-[rgba(255,106,0,0.2)] flex items-center justify-center px-[18.5px] py-[11.6px] rounded-[2.1875rem] shadow-[0px_6.9px_27.8px_0px_rgba(255,106,0,0.1)]">
-                                    <p className="font-bold text-[15.3px] text-[rgba(184,77,0,0.8)] whitespace-nowrap" style={{ fontFamily: "'Sora', sans-serif" }}>Travel ₹30K</p>
+                                    <p className="font-bold text-[15.3px] text-[rgba(184,77,0,0.8)] whitespace-nowrap" style={{ fontFamily: "'Sora', sans-serif" }}>Travel ₹50K</p>
                                  </div>
                               </div>
                            </div>
                         </div>
                      </div>
-                     
+
                      {/* ONLINE */}
                      <div className="absolute bg-[rgba(255,255,255,0.8)] border border-blue-100 h-[7.5625rem] left-[1.25rem] overflow-hidden rounded-[0.75rem] top-[8.875rem] w-[26.5rem]">
                         <div className="absolute -translate-y-1/2 flex flex-col gap-5 items-start justify-center left-[1.5625rem] top-1/2 text-left">
                            <p className="font-bold text-[0.875rem] leading-[1.125rem] text-[#2563eb] tracking-[1.4px] uppercase">ONLINE — Annual</p>
-                           <p className="font-bold text-[1.625rem] leading-[1.875rem] text-[#343434]" style={{ fontFamily: "'Sora', sans-serif" }}>₹70,000-1,50,000</p>
+                           <p className="font-bold text-[1.625rem] leading-[1.875rem] text-[#343434]" style={{ fontFamily: "'Sora', sans-serif" }}>₹70,000-2,50,000</p>
                         </div>
                         <div className="absolute h-[7.5625rem] left-[15.4375rem] overflow-hidden top-[-1px] w-[11.3125rem]">
                            <div className="absolute left-1/2 -translate-x-1/2 top-1/2 -translate-y-1/2 flex h-[3.5625rem] items-center justify-center w-[8.875rem]">
@@ -1237,11 +1293,11 @@ const UniversityPageNew = () => {
                            </div>
                         </div>
                      </div>
-                     
+
                      {/* SAVINGS */}
                      <div className="absolute border border-emerald-100 h-[4.875rem] left-[1.25rem] rounded-[0.75rem] top-[18.5625rem] w-[26.5rem] bg-emerald-50/70">
                         <p className="absolute font-bold left-[1.5625rem] top-1/2 -translate-y-1/2 text-emerald-700" style={{ fontFamily: "'Sora', sans-serif" }}>
-                           <span className="text-[1.5rem] leading-none">40–60</span>
+                           <span className="text-[1.5rem] leading-none">70–80</span>
                            <span className="text-[1.25rem] leading-none">%</span>
                         </p>
                         <div className="absolute -translate-y-1/2 flex flex-col gap-[0.625rem] items-start left-[8.8125rem] top-1/2 text-left">
@@ -1249,7 +1305,7 @@ const UniversityPageNew = () => {
                            <p className="font-medium text-[0.875rem] text-emerald-600">EMI from ₹3,000/month</p>
                         </div>
                      </div>
-                     
+
                      {/* ARROW */}
                      <div className="absolute flex h-[4.1875rem] items-center justify-center left-[1.25rem] top-[15.6875rem] w-[2.75rem]">
                         <div className="rotate-[101.96deg]">
@@ -1259,7 +1315,7 @@ const UniversityPageNew = () => {
                         </div>
                      </div>
                   </div>
-                  
+
                   {/* Right Column text */}
                   <div className="flex flex-col gap-6 items-start w-[23.75rem] text-left">
                      <div className="flex flex-col gap-4 items-start w-full">
@@ -1290,9 +1346,9 @@ const UniversityPageNew = () => {
                            </div>
                         </div>
                      </div>
-                     
-                     <button 
-                        type="button" 
+
+                     <button
+                        type="button"
                         onClick={() => setShowEnquiry(true)}
                         className="bg-slate-900 hover:bg-blue-600 flex gap-2 items-center justify-center overflow-hidden pl-7 pr-6 py-4 rounded-[2.5rem] text-white font-black text-[10px] uppercase tracking-[0.2em] transition-all duration-500 active:scale-95"
                      >
@@ -1369,134 +1425,139 @@ const UniversityPageNew = () => {
                      ))}
                   </div>
                </div>
+            </div>
 
-               <div className="relative">
-                  {!showAll ? (
+            {!showAll ? (
+               <div className="w-full relative overflow-hidden">
+                  <div
+                     className="relative group/carousel w-full"
+                     onMouseEnter={() => setIsUniHovered(true)}
+                     onMouseLeave={() => setIsUniHovered(false)}
+                  >
                      <div
-                        className="relative group/carousel"
-                        onMouseEnter={() => setIsUniHovered(true)}
-                        onMouseLeave={() => setIsUniHovered(false)}
+                        ref={uniScrollRef}
+                        onScroll={handleUniScroll}
+                        className="flex gap-8 overflow-x-auto pb-4 items-stretch hide-scrollbar snap-x snap-mandatory scroll-smooth px-6 md:px-12 lg:px-16 xl:px-[calc((100vw-1280px)/2+24px)] 2xl:px-[calc((100vw-1536px)/2+24px)] scroll-pl-6 md:scroll-pl-12 lg:scroll-pl-16 xl:scroll-pl-[calc((100vw-1280px)/2+24px)] 2xl:scroll-pl-[calc((100vw-1536px)/2+24px)]"
+                        style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
                      >
-                        <div
-                           ref={uniScrollRef}
-                           className="flex gap-8 overflow-x-auto pb-4 items-stretch hide-scrollbar"
-                           style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
-                        >
-                           {[...filteredUniversities, ...filteredUniversities].map((uni, idx) => (
-                              <div
-                                 key={`${uni.id}-${idx}`}
-                                 className="flex-shrink-0 w-[270px] md:w-[340px] h-auto min-h-[520px] group flex flex-col bg-white rounded-[2rem] md:rounded-[2.5rem] overflow-hidden border border-slate-100 hover:border-blue-100 transition-all duration-700 hover:shadow-[0_40px_80px_-15px_rgba(0,0,0,0.08)]"
-                              >
-                                 <div className="relative w-full aspect-square overflow-hidden bg-slate-100 flex-shrink-0">
-                                    <img src={uni.image} alt={uni.name} className="absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition-transform duration-1000" />
-                                    <div className="absolute inset-0 bg-gradient-to-t from-slate-900/80 via-slate-900/10 to-transparent pointer-events-none z-10"></div>
-                                    <div className="absolute bottom-4 left-4 flex gap-1.5 z-20">
-                                       <span className="bg-white/90 backdrop-blur-md text-slate-900 py-1.5 px-3 rounded-lg text-[8px] md:text-[9px] font-black uppercase tracking-widest shadow-xl border border-white/20">{uni.category}</span>
-                                       <span className="bg-blue-600 text-white py-1.5 px-3 rounded-lg text-[8px] md:text-[9px] font-black uppercase tracking-widest shadow-xl">Top Rated</span>
-                                    </div>
-                                    <div className="absolute bottom-4 right-4 bg-slate-900/80 backdrop-blur-md text-white p-1.5 px-3 rounded-xl flex items-center gap-1.5 font-black text-[9px] md:text-xs border border-white/10 z-20">
-                                       <Star className="w-3.5 h-3.5 text-orange-400 fill-current" />
-                                       {uni.rating}
-                                    </div>
-                                 </div>
-
-                                 <div className="p-5 md:p-6 flex flex-col flex-grow text-left">
-                                    <div className="flex items-center gap-2 mb-4">
-                                       <MapPin className="w-3.5 h-3.5 text-blue-600" />
-                                       <span className="text-[9px] font-black text-slate-400 uppercase tracking-widest">{uni.location}</span>
-                                    </div>
-                                    <h3 className="text-lg md:text-xl font-black text-slate-900 mb-4 font-display group-hover:text-blue-600 transition-colors uppercase leading-tight">{uni.name}</h3>
-                                    <p className="text-slate-500 font-medium text-[11px] md:text-xs leading-relaxed mb-6 line-clamp-3">{uni.description}</p>
-
-                                    <div className="flex flex-wrap gap-1.5 mb-8">
-                                       {uni.programs.map((p, i) => (
-                                          <span key={i} className="text-[7px] md:text-[8px] font-black text-slate-400 border border-slate-100 p-1.5 px-3 rounded-lg uppercase tracking-[0.1em]">{p}</span>
-                                       ))}
-                                    </div>
-
-                                    <div className="mt-auto">
-                                       <button
-                                          onClick={() => handleUniversityClick(uni.link)}
-                                          className="w-full flex items-center justify-between group/btn bg-slate-900 hover:bg-blue-600 text-white p-4 md:p-5 rounded-[1.2rem] md:rounded-[1.5rem] transition-all duration-500"
-                                       >
-                                          <span className="text-[8px] md:text-[9px] font-black uppercase tracking-[0.3em]">Full Intel</span>
-                                          <ArrowRight className="w-4 h-4 group-hover/btn:translate-x-2 transition-transform" />
-                                       </button>
-                                    </div>
-                                 </div>
-                              </div>
-                           ))}
-                        </div>
-
-                        {/* Navigation Arrows */}
-                        <div className="absolute top-1/2 -translate-y-1/2 left-0 right-0 flex justify-between pointer-events-none z-20 px-1 md:px-2">
-                           <button
-                              onClick={() => scrollUni('left')}
-                              className="w-10 h-10 md:w-14 md:h-14 bg-white rounded-full shadow-2xl border border-slate-100 flex items-center justify-center text-slate-400 hover:text-blue-600 transition-all active:scale-90 pointer-events-auto opacity-0 group-hover/carousel:opacity-100 translate-x-4 group-hover/carousel:translate-x-0 cursor-pointer"
-                           >
-                              <ChevronLeft className="w-5 h-5 md:w-6 md:h-6" />
-                           </button>
-                           <button
-                              onClick={() => scrollUni('right')}
-                              className="w-10 h-10 md:w-14 md:h-14 bg-white rounded-full shadow-2xl border border-slate-100 flex items-center justify-center text-slate-400 hover:text-blue-600 transition-all active:scale-90 pointer-events-auto opacity-0 group-hover/carousel:opacity-100 -translate-x-4 group-hover/carousel:translate-x-0 cursor-pointer"
-                           >
-                              <ChevronRight className="w-5 h-5 md:w-6 md:h-6" />
-                           </button>
-                        </div>
-                     </div>
-                  ) : (
-                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 md:gap-10">
-                        {filteredUniversities.map((uni) => (
-                           <motion.div
-                              key={uni.id}
-                              initial={{ opacity: 0, y: 30 }}
-                              whileInView={{ opacity: 1, y: 0 }}
-                              viewport={{ once: true }}
-                              className="group flex flex-col bg-white rounded-[2rem] md:rounded-[2.5rem] overflow-hidden border border-slate-100 hover:border-blue-100 transition-all duration-700 hover:shadow-[0_40px_80px_-15px_rgba(0,0,0,0.08)] h-auto min-h-[580px]"
+                        {[...filteredUniversities, ...filteredUniversities].map((uni, idx) => (
+                           <div
+                              key={`${uni.id}-${idx}`}
+                              className="flex-shrink-0 snap-start w-full md:w-[calc((100%-32px)/2)] lg:w-[calc((100%-64px)/3)] xl:w-[calc((100%-96px)/4)] h-auto min-h-[520px] group flex flex-col bg-white rounded-[2rem] md:rounded-[2.5rem] overflow-hidden border border-slate-100 hover:border-blue-100 transition-all duration-700 hover:shadow-[0_40px_80px_-15px_rgba(0,0,0,0.08)]"
                            >
                               <div className="relative w-full aspect-square overflow-hidden bg-slate-100 flex-shrink-0">
                                  <img src={uni.image} alt={uni.name} className="absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition-transform duration-1000" />
                                  <div className="absolute inset-0 bg-gradient-to-t from-slate-900/80 via-slate-900/10 to-transparent pointer-events-none z-10"></div>
-                                 <div className="absolute bottom-6 left-6 flex gap-2 z-20">
-                                    <span className="bg-white/90 backdrop-blur-md text-slate-900 py-2 px-4 rounded-xl text-[9px] md:text-[10px] font-black uppercase tracking-widest shadow-xl border border-white/20">{uni.category}</span>
-                                    <span className="bg-blue-600 text-white py-2 px-4 rounded-xl text-[9px] md:text-[10px] font-black uppercase tracking-widest shadow-xl">Top Rated</span>
+                                 <div className="absolute bottom-4 left-4 flex gap-1.5 z-20">
+                                    <span className="bg-white/90 backdrop-blur-md text-slate-900 py-1.5 px-3 rounded-lg text-[8px] md:text-[9px] font-black uppercase tracking-widest shadow-xl border border-white/20">{uni.category}</span>
+                                    <span className="bg-blue-600 text-white py-1.5 px-3 rounded-lg text-[8px] md:text-[9px] font-black uppercase tracking-widest shadow-xl">Top Rated</span>
                                  </div>
-                                 <div className="absolute bottom-6 right-6 bg-slate-900/80 backdrop-blur-md text-white p-2 px-4 rounded-2xl flex items-center gap-2 font-black text-[10px] md:text-xs border border-white/10 z-20">
-                                    <Star className="w-4 h-4 text-orange-400 fill-current" />
+                                 <div className="absolute bottom-4 right-4 bg-slate-900/80 backdrop-blur-md text-white p-1.5 px-3 rounded-xl flex items-center gap-1.5 font-black text-[9px] md:text-xs border border-white/10 z-20">
+                                    <Star className="w-3.5 h-3.5 text-orange-400 fill-current" />
                                     {uni.rating}
                                  </div>
                               </div>
 
-                              <div className="p-6 md:p-8 flex flex-col flex-grow text-left">
-                                 <div className="flex items-center gap-3 mb-6">
-                                    <MapPin className="w-4 h-4 text-blue-600" />
-                                    <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest">{uni.location}</span>
+                              <div className="p-5 md:p-6 flex flex-col flex-grow text-left">
+                                 <div className="flex items-center gap-2 mb-4">
+                                    <MapPin className="w-3.5 h-3.5 text-blue-600" />
+                                    <span className="text-[9px] font-black text-slate-400 uppercase tracking-widest">{uni.location}</span>
                                  </div>
-                                 <h3 className="text-xl md:text-2xl font-black text-slate-900 mb-6 font-display group-hover:text-blue-600 transition-colors uppercase leading-[1.1]">{uni.name}</h3>
-                                 <p className="text-slate-500 font-medium text-xs md:text-sm leading-relaxed mb-8 line-clamp-3">{uni.description}</p>
+                                 <h3 className="text-lg md:text-xl font-black text-slate-900 mb-4 font-display group-hover:text-blue-600 transition-colors uppercase leading-tight">{uni.name}</h3>
+                                 <p className="text-slate-500 font-medium text-[11px] md:text-xs leading-relaxed mb-6 line-clamp-3">{uni.description}</p>
 
-                                 <div className="flex flex-wrap gap-2 mb-10">
+                                 <div className="flex flex-wrap gap-1.5 mb-8">
                                     {uni.programs.map((p, i) => (
-                                       <span key={i} className="text-[8px] md:text-[9px] font-black text-slate-400 border border-slate-100 p-2 px-4 rounded-xl uppercase tracking-[0.1em]">{p}</span>
+                                       <span key={i} className="text-[7px] md:text-[8px] font-black text-slate-400 border border-slate-100 p-1.5 px-3 rounded-lg uppercase tracking-[0.1em]">{p}</span>
                                     ))}
                                  </div>
 
                                  <div className="mt-auto">
                                     <button
                                        onClick={() => handleUniversityClick(uni.link)}
-                                       className="w-full flex items-center justify-between group/btn bg-slate-900 hover:bg-blue-600 text-white p-5 md:p-6 rounded-[1.5rem] md:rounded-[2rem] transition-all duration-500"
+                                       className="w-full flex items-center justify-between group/btn bg-slate-900 hover:bg-blue-600 text-white p-4 md:p-5 rounded-[1.2rem] md:rounded-[1.5rem] transition-all duration-500"
                                     >
-                                       <span className="text-[9px] md:text-[10px] font-black uppercase tracking-[0.3em]">Full Institution Intel</span>
-                                       <ArrowRight className="w-5 h-5 group-hover/btn:translate-x-2 transition-transform" />
+                                       <span className="text-[8px] md:text-[9px] font-black uppercase tracking-[0.3em]">Full Intel</span>
+                                       <ArrowRight className="w-4 h-4 group-hover/btn:translate-x-2 transition-transform" />
                                     </button>
                                  </div>
                               </div>
-                           </motion.div>
+                           </div>
                         ))}
                      </div>
-                  )}
-               </div>
 
+                     {/* Navigation Arrows */}
+                     <div className="absolute top-1/2 -translate-y-1/2 left-0 right-0 flex justify-between pointer-events-none z-20 px-4 md:px-8">
+                        <button
+                           onClick={() => scrollUni('left')}
+                           className="w-10 h-10 md:w-14 md:h-14 bg-white rounded-full shadow-2xl border border-slate-100 flex items-center justify-center text-slate-400 hover:text-blue-600 transition-all active:scale-90 pointer-events-auto opacity-0 group-hover/carousel:opacity-100 translate-x-4 group-hover/carousel:translate-x-0 cursor-pointer"
+                        >
+                           <ChevronLeft className="w-5 h-5 md:w-6 md:h-6" />
+                        </button>
+                        <button
+                           onClick={() => scrollUni('right')}
+                           className="w-10 h-10 md:w-14 md:h-14 bg-white rounded-full shadow-2xl border border-slate-100 flex items-center justify-center text-slate-400 hover:text-blue-600 transition-all active:scale-90 pointer-events-auto opacity-0 group-hover/carousel:opacity-100 -translate-x-4 group-hover/carousel:translate-x-0 cursor-pointer"
+                        >
+                           <ChevronRight className="w-5 h-5 md:w-6 md:h-6" />
+                        </button>
+                     </div>
+                  </div>
+               </div>
+            ) : (
+               <div className="container mx-auto px-6">
+                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 md:gap-10">
+                     {filteredUniversities.map((uni) => (
+                        <motion.div
+                           key={uni.id}
+                           initial={{ opacity: 0, y: 30 }}
+                           whileInView={{ opacity: 1, y: 0 }}
+                           viewport={{ once: true }}
+                           className="group flex flex-col bg-white rounded-[2rem] md:rounded-[2.5rem] overflow-hidden border border-slate-100 hover:border-blue-100 transition-all duration-700 hover:shadow-[0_40px_80px_-15px_rgba(0,0,0,0.08)] h-auto min-h-[580px]"
+                        >
+                           <div className="relative w-full aspect-square overflow-hidden bg-slate-100 flex-shrink-0">
+                              <img src={uni.image} alt={uni.name} className="absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition-transform duration-1000" />
+                              <div className="absolute inset-0 bg-gradient-to-t from-slate-900/80 via-slate-900/10 to-transparent pointer-events-none z-10"></div>
+                              <div className="absolute bottom-6 left-6 flex gap-2 z-20">
+                                 <span className="bg-white/90 backdrop-blur-md text-slate-900 py-2 px-4 rounded-xl text-[9px] md:text-[10px] font-black uppercase tracking-widest shadow-xl border border-white/20">{uni.category}</span>
+                                 <span className="bg-blue-600 text-white py-2 px-4 rounded-xl text-[9px] md:text-[10px] font-black uppercase tracking-widest shadow-xl">Top Rated</span>
+                              </div>
+                              <div className="absolute bottom-6 right-6 bg-slate-900/80 backdrop-blur-md text-white p-2 px-4 rounded-2xl flex items-center gap-2 font-black text-[10px] md:text-xs border border-white/10 z-20">
+                                 <Star className="w-4 h-4 text-orange-400 fill-current" />
+                                 {uni.rating}
+                              </div>
+                           </div>
+
+                           <div className="p-6 md:p-8 flex flex-col flex-grow text-left">
+                              <div className="flex items-center gap-3 mb-6">
+                                 <MapPin className="w-4 h-4 text-blue-600" />
+                                 <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest">{uni.location}</span>
+                              </div>
+                              <h3 className="text-xl md:text-2xl font-black text-slate-900 mb-6 font-display group-hover:text-blue-600 transition-colors uppercase leading-[1.1]">{uni.name}</h3>
+                              <p className="text-slate-500 font-medium text-xs md:text-sm leading-relaxed mb-8 line-clamp-3">{uni.description}</p>
+
+                              <div className="flex flex-wrap gap-2 mb-10">
+                                 {uni.programs.map((p, i) => (
+                                    <span key={i} className="text-[8px] md:text-[9px] font-black text-slate-400 border border-slate-100 p-2 px-4 rounded-xl uppercase tracking-[0.1em]">{p}</span>
+                                 ))}
+                              </div>
+
+                              <div className="mt-auto">
+                                 <button
+                                    onClick={() => handleUniversityClick(uni.link)}
+                                    className="w-full flex items-center justify-between group/btn bg-slate-900 hover:bg-blue-600 text-white p-5 md:p-6 rounded-[1.5rem] md:rounded-[2rem] transition-all duration-500"
+                                 >
+                                    <span className="text-[9px] md:text-[10px] font-black uppercase tracking-[0.3em]">Full Institution Intel</span>
+                                    <ArrowRight className="w-5 h-5 group-hover/btn:translate-x-2 transition-transform" />
+                                 </button>
+                              </div>
+                           </div>
+                        </motion.div>
+                     ))}
+                  </div>
+               </div>
+            )}
+
+            <div className="container mx-auto px-6">
                <div className="mt-16 md:mt-24 flex flex-col items-center gap-6 md:gap-8">
                   <p className="text-slate-400 text-[10px] font-black uppercase tracking-[0.3em]">
                      Viewing {showAll ? filteredUniversities.length : Math.min(itemsPerPage, filteredUniversities.length)} of {filteredUniversities.length} Accredited Units
@@ -1518,7 +1579,7 @@ const UniversityPageNew = () => {
          <section className="relative w-full overflow-hidden py-16 md:py-24 bg-slate-50 border-b border-slate-100">
             {/* Tech Grid Pattern */}
             <div className="grid-pattern opacity-60" />
-            
+
             <div className="relative z-10 flex flex-col lg:flex-row items-center justify-between w-full max-w-7xl mx-auto px-6 gap-12">
                {/* Left Column: Text & Cards */}
                <div className="flex flex-col gap-6 items-start w-full lg:w-[29.9375rem] text-left">
@@ -1531,7 +1592,7 @@ const UniversityPageNew = () => {
                         Degree built around your life. Not a fixed timetable.
                      </p>
                   </div>
-                  
+
                   <div className="flex flex-col gap-3 items-start w-full">
                      <div className="bg-white border border-slate-100 flex gap-4 items-center overflow-hidden p-[0.8125rem] rounded-[0.75rem] w-full">
                         <div className="bg-blue-50/50 flex items-center justify-center rounded-[0.5rem] shrink-0 w-[3.75rem] h-[3.75rem] overflow-hidden">
@@ -1579,105 +1640,201 @@ const UniversityPageNew = () => {
                      </div>
                   </div>
                </div>
-               
+
                {/* Right Column: Donut Clock Wheel */}
                <div className="flex-1 w-full flex flex-col items-center justify-center max-w-[28rem] relative py-12">
                   <div className="relative w-[18rem] h-[18rem] sm:w-[22rem] sm:h-[22rem] flex items-center justify-center">
-                     
+
                      {/* SVG Segmented Donut Chart */}
                      <svg className="w-full h-full" viewBox="0 0 240 240">
+                        <defs>
+                           <linearGradient id="nightGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                              <stop offset="0%" stopColor="#1e293b" />
+                              <stop offset="100%" stopColor="#475569" />
+                           </linearGradient>
+                           <linearGradient id="morningGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                              <stop offset="0%" stopColor="#38bdf8" />
+                              <stop offset="100%" stopColor="#60a5fa" />
+                           </linearGradient>
+                           <linearGradient id="afternoonGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                              <stop offset="0%" stopColor="#60a5fa" />
+                              <stop offset="100%" stopColor="#2563eb" />
+                           </linearGradient>
+                           <linearGradient id="eveningGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                              <stop offset="0%" stopColor="#2563eb" />
+                              <stop offset="100%" stopColor="#1d4ed8" />
+                           </linearGradient>
+                        </defs>
+
                         {/* Center Ring Border */}
                         <circle cx="120" cy="120" r="92" fill="none" stroke="#f1f5f9" strokeWidth="1" />
                         <circle cx="120" cy="120" r="68" fill="none" stroke="#f1f5f9" strokeWidth="1" />
-                        
+
                         {/* Quadrant Segments (Rotated by -90deg so 12 o'clock is start) */}
                         <g transform="rotate(-90 120 120)">
                            {/* 12 AM to 6 AM (Night/Midnight Replay) - Quadrant 1 */}
-                           <circle 
-                              cx="120" cy="120" r="80" 
-                              fill="none" 
-                              stroke="#cbd5e1" 
-                              strokeWidth="22" 
-                              strokeDasharray="125.66 502.65" 
+                           <circle
+                              cx="120" cy="120" r="80"
+                              fill="none"
+                              stroke="url(#nightGrad)"
+                              strokeWidth={activeSegment === 'night' ? '28' : '22'}
+                              strokeDasharray="125.66 502.65"
                               strokeDashoffset="0"
-                              className="transition-all duration-500 hover:stroke-slate-400 cursor-pointer"
+                              onMouseEnter={() => setActiveSegment('night')}
+                              onMouseLeave={() => setActiveSegment(null)}
+                              className="transition-all duration-300 cursor-pointer"
                            />
-                           
+
                            {/* 6 AM to 12 PM (Morning Batch) - Quadrant 2 */}
-                           <circle 
-                              cx="120" cy="120" r="80" 
-                              fill="none" 
-                              stroke="#60a5fa" 
-                              strokeWidth="22" 
-                              strokeDasharray="125.66 502.65" 
+                           <circle
+                              cx="120" cy="120" r="80"
+                              fill="none"
+                              stroke="url(#morningGrad)"
+                              strokeWidth={activeSegment === 'morning' ? '28' : '22'}
+                              strokeDasharray="125.66 502.65"
                               strokeDashoffset="-125.66"
-                              className="transition-all duration-500 hover:stroke-blue-300 cursor-pointer"
+                              onMouseEnter={() => setActiveSegment('morning')}
+                              onMouseLeave={() => setActiveSegment(null)}
+                              className="transition-all duration-300 cursor-pointer"
                            />
-                           
+
                            {/* 12 PM to 6 PM (Afternoon Batch) - Quadrant 3 */}
-                           <circle 
-                              cx="120" cy="120" r="80" 
-                              fill="none" 
-                              stroke="#bfdbfe" 
-                              strokeWidth="22" 
-                              strokeDasharray="125.66 502.65" 
+                           <circle
+                              cx="120" cy="120" r="80"
+                              fill="none"
+                              stroke="url(#afternoonGrad)"
+                              strokeWidth={activeSegment === 'afternoon' ? '28' : '22'}
+                              strokeDasharray="125.66 502.65"
                               strokeDashoffset="-251.32"
-                              className="transition-all duration-500 hover:stroke-blue-200 cursor-pointer"
+                              onMouseEnter={() => setActiveSegment('afternoon')}
+                              onMouseLeave={() => setActiveSegment(null)}
+                              className="transition-all duration-300 cursor-pointer"
                            />
-                           
+
                            {/* 6 PM to 12 AM (Evening Batch) - Quadrant 4 */}
-                           <circle 
-                              cx="120" cy="120" r="80" 
-                              fill="none" 
-                              stroke="#2563eb" 
-                              strokeWidth="22" 
-                              strokeDasharray="125.66 502.65" 
+                           <circle
+                              cx="120" cy="120" r="80"
+                              fill="none"
+                              stroke="url(#eveningGrad)"
+                              strokeWidth={activeSegment === 'evening' ? '28' : '22'}
+                              strokeDasharray="125.66 502.65"
                               strokeDashoffset="-376.99"
-                              className="transition-all duration-500 hover:stroke-blue-700 cursor-pointer"
+                              onMouseEnter={() => setActiveSegment('evening')}
+                              onMouseLeave={() => setActiveSegment(null)}
+                              className="transition-all duration-300 cursor-pointer"
                            />
                         </g>
                      </svg>
-                     
-                     {/* 24/7 Center White Circle */}
-                     <div className="absolute w-[8.5rem] h-[8.5rem] sm:w-[10.5rem] sm:h-[10.5rem] bg-white rounded-full shadow-lg flex flex-col items-center justify-center border border-slate-100/50">
-                        <p className="font-extrabold text-2xl sm:text-3xl text-blue-600 tracking-tight leading-none mb-1">24/7</p>
-                        <p className="text-[8px] sm:text-[10px] font-black text-slate-400 tracking-widest leading-none">ALWAYS</p>
-                        <p className="text-[8px] sm:text-[10px] font-black text-slate-400 tracking-widest leading-none">ON</p>
+
+                     {/* 24/7 Center White Circle with animated text transitions */}
+                     <div className="absolute w-[8.5rem] h-[8.5rem] sm:w-[10.5rem] sm:h-[10.5rem] bg-white rounded-full shadow-lg flex flex-col items-center justify-center border border-slate-100/50 overflow-hidden">
+                        <AnimatePresence mode="wait">
+                           {activeSegment === null && (
+                              <motion.div
+                                 key="default"
+                                 initial={{ opacity: 0, scale: 0.9 }}
+                                 animate={{ opacity: 1, scale: 1 }}
+                                 exit={{ opacity: 0, scale: 0.9 }}
+                                 transition={{ duration: 0.2 }}
+                                 className="flex flex-col items-center justify-center text-center"
+                              >
+                                 <p className="font-extrabold text-2xl sm:text-3xl text-blue-600 tracking-tight leading-none mb-1">24/7</p>
+                                 <p className="text-[8px] sm:text-[10px] font-black text-slate-400 tracking-widest leading-none">ALWAYS</p>
+                                 <p className="text-[8px] sm:text-[10px] font-black text-slate-400 tracking-widest leading-none mt-0.5">ON</p>
+                              </motion.div>
+                           )}
+                           {activeSegment === 'night' && (
+                              <motion.div
+                                 key="night"
+                                 initial={{ opacity: 0, scale: 0.9 }}
+                                 animate={{ opacity: 1, scale: 1 }}
+                                 exit={{ opacity: 0, scale: 0.9 }}
+                                 transition={{ duration: 0.2 }}
+                                 className="flex flex-col items-center justify-center text-center p-2"
+                              >
+                                 <p className="font-extrabold text-xs sm:text-[13px] text-slate-900 tracking-tight leading-none mb-2">12 AM - 6 AM</p>
+                                 <p className="text-[8px] sm:text-[9px] font-black text-blue-600 tracking-widest leading-none uppercase">MIDNIGHT</p>
+                                 <p className="text-[8px] sm:text-[9px] font-black text-blue-600 tracking-widest leading-none uppercase mt-1">REPLAY</p>
+                              </motion.div>
+                           )}
+                           {activeSegment === 'morning' && (
+                              <motion.div
+                                 key="morning"
+                                 initial={{ opacity: 0, scale: 0.9 }}
+                                 animate={{ opacity: 1, scale: 1 }}
+                                 exit={{ opacity: 0, scale: 0.9 }}
+                                 transition={{ duration: 0.2 }}
+                                 className="flex flex-col items-center justify-center text-center p-2"
+                              >
+                                 <p className="font-extrabold text-xs sm:text-[13px] text-slate-900 tracking-tight leading-none mb-2">6 AM - 12 PM</p>
+                                 <p className="text-[8px] sm:text-[9px] font-black text-blue-600 tracking-widest leading-none uppercase">MORNING</p>
+                                 <p className="text-[8px] sm:text-[9px] font-black text-blue-600 tracking-widest leading-none uppercase mt-1">BATCH</p>
+                              </motion.div>
+                           )}
+                           {activeSegment === 'afternoon' && (
+                              <motion.div
+                                 key="afternoon"
+                                 initial={{ opacity: 0, scale: 0.9 }}
+                                 animate={{ opacity: 1, scale: 1 }}
+                                 exit={{ opacity: 0, scale: 0.9 }}
+                                 transition={{ duration: 0.2 }}
+                                 className="flex flex-col items-center justify-center text-center p-2"
+                              >
+                                 <p className="font-extrabold text-xs sm:text-[13px] text-slate-900 tracking-tight leading-none mb-2">12 PM - 6 PM</p>
+                                 <p className="text-[8px] sm:text-[9px] font-black text-blue-600 tracking-widest leading-none uppercase">AFTERNOON</p>
+                                 <p className="text-[8px] sm:text-[9px] font-black text-blue-600 tracking-widest leading-none uppercase mt-1">BATCH</p>
+                              </motion.div>
+                           )}
+                           {activeSegment === 'evening' && (
+                              <motion.div
+                                 key="evening"
+                                 initial={{ opacity: 0, scale: 0.9 }}
+                                 animate={{ opacity: 1, scale: 1 }}
+                                 exit={{ opacity: 0, scale: 0.9 }}
+                                 transition={{ duration: 0.2 }}
+                                 className="flex flex-col items-center justify-center text-center p-2"
+                              >
+                                 <p className="font-extrabold text-xs sm:text-[13px] text-slate-900 tracking-tight leading-none mb-2">6 PM - 12 AM</p>
+                                 <p className="text-[8px] sm:text-[9px] font-black text-blue-600 tracking-widest leading-none uppercase">EVENING</p>
+                                 <p className="text-[8px] sm:text-[9px] font-black text-blue-600 tracking-widest leading-none uppercase mt-1">BATCH</p>
+                              </motion.div>
+                           )}
+                        </AnimatePresence>
                      </div>
-                     
+
                      {/* Static Text Clock Labels around the wheel */}
                      <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1 text-[10px] font-bold text-slate-400">12 AM</div>
                      <div className="absolute bottom-0 left-1/2 -translate-x-1/2 translate-y-1 text-[10px] font-bold text-slate-400">12 PM</div>
                      <div className="absolute left-0 top-1/2 -translate-x-2 -translate-y-1/2 text-[10px] font-bold text-slate-400">6 PM</div>
-                     
-                     {/* Custom Badges matching the Screenshot 3 layout */}
-                     <div className="absolute -right-4 top-[18%] bg-white border border-slate-100 rounded-full px-3 py-1 shadow-[0_4px_12px_rgba(0,0,0,0.05)] text-[9px] sm:text-[10px] font-black text-slate-500 whitespace-nowrap">
+
+                     {/* Custom Badges with dynamic highlight styles */}
+                     <div className={`absolute -right-4 top-[18%] bg-white border rounded-full px-3 py-1 shadow-[0_4px_12px_rgba(0,0,0,0.05)] text-[9px] sm:text-[10px] font-black whitespace-nowrap transition-all duration-300 ${activeSegment === 'night' ? 'scale-110 border-slate-400 text-slate-700 bg-slate-50 shadow-md' : 'border-slate-100 text-slate-500'}`}>
                         Midnight replay
                      </div>
-                     <div className="absolute -right-8 top-[48%] bg-white border border-blue-100 rounded-full px-3 py-1 shadow-[0_4px_12px_rgba(37,99,235,0.06)] text-[9px] sm:text-[10px] font-black text-blue-600 whitespace-nowrap">
+                     <div className={`absolute -right-8 top-[48%] bg-white border rounded-full px-3 py-1 shadow-[0_4px_12px_rgba(37,99,235,0.06)] text-[9px] sm:text-[10px] font-black whitespace-nowrap transition-all duration-300 ${activeSegment === 'morning' ? 'scale-110 border-blue-400 text-blue-700 bg-blue-50 shadow-md' : 'border-blue-100 text-blue-600'}`}>
                         6 AM live batch
                      </div>
-                     <div className="absolute -left-6 bottom-[22%] bg-white border border-slate-100 rounded-full px-3 py-1 shadow-[0_4px_12px_rgba(0,0,0,0.05)] text-[9px] sm:text-[10px] font-black text-slate-500 whitespace-nowrap">
+                     <div className={`absolute -left-6 bottom-[22%] bg-white border rounded-full px-3 py-1 shadow-[0_4px_12px_rgba(0,0,0,0.05)] text-[9px] sm:text-[10px] font-black whitespace-nowrap transition-all duration-300 ${activeSegment === 'evening' ? 'scale-110 border-blue-500 text-blue-800 bg-blue-50 shadow-md' : 'border-slate-100 text-slate-500'}`}>
                         9 PM batch
                      </div>
                   </div>
-                  
+
                   {/* Legend below the clock */}
                   <div className="flex flex-wrap items-center justify-center gap-4 mt-8">
                      <div className="flex items-center gap-2">
-                        <span className="w-3 h-3 rounded bg-[#60a5fa]"></span>
+                        <span className="w-3 h-3 rounded bg-gradient-to-r from-sky-400 to-blue-400"></span>
                         <span className="text-xs font-bold text-slate-600">Morning</span>
                      </div>
                      <div className="flex items-center gap-2">
-                        <span className="w-3 h-3 rounded bg-[#bfdbfe]"></span>
+                        <span className="w-3 h-3 rounded bg-gradient-to-r from-blue-400 to-blue-600"></span>
                         <span className="text-xs font-bold text-slate-600">Afternoon</span>
                      </div>
                      <div className="flex items-center gap-2">
-                        <span className="w-3 h-3 rounded bg-[#2563eb]"></span>
+                        <span className="w-3 h-3 rounded bg-gradient-to-r from-blue-600 to-blue-800"></span>
                         <span className="text-xs font-bold text-slate-600">Evening</span>
                      </div>
                      <div className="flex items-center gap-2">
-                        <span className="w-3 h-3 rounded bg-[#cbd5e1]"></span>
+                        <span className="w-3 h-3 rounded bg-gradient-to-r from-slate-700 to-slate-500"></span>
                         <span className="text-xs font-bold text-slate-600">Night</span>
                      </div>
                   </div>
@@ -1800,93 +1957,29 @@ const UniversityPageNew = () => {
                      ))}
                   </div>
                </div>
+            </div>
 
-               <div className="relative">
-                  {!showAllPrograms ? (
-                     <div className="relative group/programs-carousel">
-                        <div className="overflow-hidden py-4 m-auto">
-                           <motion.div
-                              className="flex w-max gap-6 md:gap-8 pb-12 cursor-grab active:cursor-grabbing touch-pan-x items-stretch"
-                              animate={{ x: -(programIndex * (windowWidth < 768 ? 260 + 24 : 300 + 32)) }}
-                              transition={{ type: "spring", damping: 25, stiffness: 120 }}
-                              drag="x"
-                              dragConstraints={{
-                                 right: 0,
-                                 left: -((filteredCourses.length - 1) * (windowWidth < 768 ? 260 + 24 : 300 + 32))
-                              }}
-                              onDragEnd={(e, { offset }) => {
-                                 pauseAutoplay();
-                                 const swipeThreshold = 50;
-                                 if (offset.x < -swipeThreshold) setProgramIndex(prev => Math.min(prev + 1, filteredCourses.length - 1));
-                                 if (offset.x > swipeThreshold) setProgramIndex(prev => Math.max(prev - 1, 0));
-                              }}
-                           >
-                              {filteredCourses.map((course, idx) => {
-                                 const isImageLink = course.link && typeof course.link === 'string' && course.link.match(/\.(jpg|jpeg|png|webp|gif)$/i);
-                                 const showPoster = isImageLink || course.image;
-                                 return (
-                                    <div
-                                       key={idx}
-                                       onClick={() => handleUniversityClick(course.link)}
-                                       className="flex-shrink-0 w-[260px] md:w-[300px] h-auto min-h-[320px] md:min-h-[360px] rounded-xl overflow-hidden shadow-sm hover:shadow-2xl transition-all duration-300 cursor-pointer flex flex-col group border border-slate-200"
-                                    >
-                                       <div className={`relative flex-1 bg-slate-900 flex flex-col items-center justify-center ${showPoster ? 'p-0' : 'p-6'} overflow-hidden`}>
-                                          <img src={isImageLink ? course.link : (course.image || "https://images.unsplash.com/photo-1552664730-d307ca884978?w=800&q=80")} alt="Background" className={`absolute inset-0 w-full h-full object-cover transition-all duration-700 ${showPoster ? 'opacity-100 group-hover:scale-105' : 'opacity-30 group-hover:scale-110 group-hover:opacity-40'}`} />
-
-                                          {!showPoster && (
-                                             <>
-                                                <div className="absolute inset-0 bg-gradient-to-t from-[#0b132b]/80 via-transparent to-transparent"></div>
-                                                <div className="relative z-10 text-center flex flex-col items-center">
-                                                   <div className="text-white/80 mb-3 scale-150 group-hover:text-blue-400 group-hover:scale-[1.8] transition-all duration-500">
-                                                      {course.icon}
-                                                   </div>
-                                                   <h3 className="text-3xl md:text-4xl font-black text-white uppercase tracking-wider drop-shadow-xl leading-none text-center">
-                                                      {course.name.replace(/Online\s?/i, '')}
-                                                   </h3>
-                                                </div>
-                                             </>
-                                          )}
-                                       </div>
-                                       <div className="bg-[#1a36a8] group-hover:bg-[#152a85] transition-colors h-[64px] md:h-[72px] shrink-0 px-4 flex items-center justify-center">
-                                          <span className="text-white font-black text-[13px] md:text-[14px] uppercase tracking-widest text-center line-clamp-2">
-                                             {course.name.toUpperCase().includes('ONLINE') ? course.name.toUpperCase() : `${course.name.toUpperCase()} ONLINE`}
-                                          </span>
-                                       </div>
-                                    </div>
-                                 );
-                              })}
-                           </motion.div>
-                        </div>
-
-                        {/* Navigation Arrows */}
-                        <div className="absolute top-1/2 -translate-y-1/2 left-0 md:left-0 right-0 md:right-0 flex justify-between pointer-events-none z-20 px-1 md:px-2">
-                           <button
-                              onClick={handlePrevProgram}
-                              className={`w-10 h-10 md:w-14 md:h-14 bg-white rounded-full shadow-2xl border border-slate-100 flex items-center justify-center text-slate-400 hover:text-blue-600 transition-all active:scale-90 pointer-events-auto opacity-0 group-hover/programs-carousel:opacity-100 translate-x-4 group-hover/programs-carousel:translate-x-0 cursor-pointer`}
-                           >
-                              <ChevronLeft className="w-5 h-5 md:w-6 md:h-6" />
-                           </button>
-                           <button
-                              onClick={handleNextProgram}
-                              className={`w-10 h-10 md:w-14 md:h-14 bg-white rounded-full shadow-2xl border border-slate-100 flex items-center justify-center text-slate-400 hover:text-blue-600 transition-all active:scale-90 pointer-events-auto opacity-0 group-hover/programs-carousel:opacity-100 -translate-x-4 group-hover/programs-carousel:translate-x-0 cursor-pointer`}
-                           >
-                              <ChevronRight className="w-5 h-5 md:w-6 md:h-6" />
-                           </button>
-                        </div>
-                     </div>
-                  ) : (
-                     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 md:gap-8 items-stretch">
-                        {filteredCourses.map((course, idx) => {
+            {!showAllPrograms ? (
+               <div className="w-full relative overflow-hidden">
+                  <div
+                     className="relative group/programs-carousel w-full"
+                     onMouseEnter={() => setIsProgramsHovered(true)}
+                     onMouseLeave={() => setIsProgramsHovered(false)}
+                  >
+                     <div
+                        ref={programsScrollRef}
+                        onScroll={handleProgramsScroll}
+                        className="flex gap-8 overflow-x-auto pb-12 items-stretch hide-scrollbar snap-x snap-mandatory scroll-smooth px-6 md:px-12 lg:px-16 xl:px-[calc((100vw-1280px)/2+24px)] 2xl:px-[calc((100vw-1536px)/2+24px)] scroll-pl-6 md:scroll-pl-12 lg:scroll-pl-16 xl:scroll-pl-[calc((100vw-1280px)/2+24px)] 2xl:scroll-pl-[calc((100vw-1536px)/2+24px)]"
+                        style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
+                     >
+                        {[...filteredCourses, ...filteredCourses].map((course, idx) => {
                            const isImageLink = course.link && typeof course.link === 'string' && course.link.match(/\.(jpg|jpeg|png|webp|gif)$/i);
                            const showPoster = isImageLink || course.image;
                            return (
-                              <motion.div
-                                 key={idx}
-                                 initial={{ opacity: 0, y: 30 }}
-                                 animate={{ opacity: 1, y: 0 }}
-                                 transition={{ delay: idx * 0.05 }}
+                              <div
+                                 key={`${course.id || idx}-${idx}`}
                                  onClick={() => handleUniversityClick(course.link)}
-                                 className="rounded-xl overflow-hidden shadow-sm hover:shadow-2xl transition-all duration-300 cursor-pointer flex flex-col group border border-slate-200 h-full min-h-[320px] md:min-h-[360px]"
+                                 className="flex-shrink-0 snap-start w-full md:w-[calc((100%-32px)/2)] lg:w-[calc((100%-64px)/3)] xl:w-[calc((100%-96px)/4)] h-auto min-h-[320px] md:min-h-[360px] rounded-xl overflow-hidden shadow-sm hover:shadow-2xl transition-all duration-300 cursor-pointer flex flex-col group border border-slate-200"
                               >
                                  <div className={`relative flex-1 bg-slate-900 flex flex-col items-center justify-center ${showPoster ? 'p-0' : 'p-6'} overflow-hidden`}>
                                     <img src={isImageLink ? course.link : (course.image || "https://images.unsplash.com/photo-1552664730-d307ca884978?w=800&q=80")} alt="Background" className={`absolute inset-0 w-full h-full object-cover transition-all duration-700 ${showPoster ? 'opacity-100 group-hover:scale-105' : 'opacity-30 group-hover:scale-110 group-hover:opacity-40'}`} />
@@ -1910,17 +2003,73 @@ const UniversityPageNew = () => {
                                        {course.name.toUpperCase().includes('ONLINE') ? course.name.toUpperCase() : `${course.name.toUpperCase()} ONLINE`}
                                     </span>
                                  </div>
-                              </motion.div>
+                              </div>
                            );
                         })}
                      </div>
-                  )}
 
-                  {!showAllPrograms && (
-                     <div className="absolute bottom-0 left-0 w-full h-32 bg-gradient-to-t from-white via-transparent to-transparent pointer-events-none"></div>
-                  )}
+                     {/* Navigation Arrows */}
+                     <div className="absolute top-1/2 -translate-y-1/2 left-0 right-0 flex justify-between pointer-events-none z-20 px-4 md:px-8">
+                        <button
+                           onClick={() => scrollPrograms('left')}
+                           className="w-10 h-10 md:w-14 md:h-14 bg-white rounded-full shadow-2xl border border-slate-100 flex items-center justify-center text-slate-400 hover:text-blue-600 transition-all active:scale-90 pointer-events-auto opacity-0 group-hover/programs-carousel:opacity-100 translate-x-4 group-hover/programs-carousel:translate-x-0 cursor-pointer"
+                        >
+                           <ChevronLeft className="w-5 h-5 md:w-6 md:h-6" />
+                        </button>
+                        <button
+                           onClick={() => scrollPrograms('right')}
+                           className="w-10 h-10 md:w-14 md:h-14 bg-white rounded-full shadow-2xl border border-slate-100 flex items-center justify-center text-slate-400 hover:text-blue-600 transition-all active:scale-90 pointer-events-auto opacity-0 group-hover/programs-carousel:opacity-100 -translate-x-4 group-hover/programs-carousel:translate-x-0 cursor-pointer"
+                        >
+                           <ChevronRight className="w-5 h-5 md:w-6 md:h-6" />
+                        </button>
+                     </div>
+                  </div>
                </div>
+            ) : (
+               <div className="container mx-auto px-6">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 md:gap-8 items-stretch">
+                     {filteredCourses.map((course, idx) => {
+                        const isImageLink = course.link && typeof course.link === 'string' && course.link.match(/\.(jpg|jpeg|png|webp|gif)$/i);
+                        const showPoster = isImageLink || course.image;
+                        return (
+                           <motion.div
+                              key={idx}
+                              initial={{ opacity: 0, y: 30 }}
+                              animate={{ opacity: 1, y: 0 }}
+                              transition={{ delay: idx * 0.05 }}
+                              onClick={() => handleUniversityClick(course.link)}
+                              className="rounded-xl overflow-hidden shadow-sm hover:shadow-2xl transition-all duration-300 cursor-pointer flex flex-col group border border-slate-200 h-full min-h-[320px] md:min-h-[360px]"
+                           >
+                              <div className={`relative flex-1 bg-slate-900 flex flex-col items-center justify-center ${showPoster ? 'p-0' : 'p-6'} overflow-hidden`}>
+                                 <img src={isImageLink ? course.link : (course.image || "https://images.unsplash.com/photo-1552664730-d307ca884978?w=800&q=80")} alt="Background" className={`absolute inset-0 w-full h-full object-cover transition-all duration-700 ${showPoster ? 'opacity-100 group-hover:scale-105' : 'opacity-30 group-hover:scale-110 group-hover:opacity-40'}`} />
 
+                                 {!showPoster && (
+                                    <>
+                                       <div className="absolute inset-0 bg-gradient-to-t from-[#0b132b]/80 via-transparent to-transparent"></div>
+                                       <div className="relative z-10 text-center flex flex-col items-center">
+                                          <div className="text-white/80 mb-3 scale-150 group-hover:text-blue-400 group-hover:scale-[1.8] transition-all duration-500">
+                                             {course.icon}
+                                          </div>
+                                          <h3 className="text-3xl md:text-4xl font-black text-white uppercase tracking-wider drop-shadow-xl leading-none text-center">
+                                             {course.name.replace(/Online\s?/i, '')}
+                                          </h3>
+                                       </div>
+                                    </>
+                                 )}
+                              </div>
+                              <div className="bg-[#1a36a8] group-hover:bg-[#152a85] transition-colors h-[64px] md:h-[72px] shrink-0 px-4 flex items-center justify-center">
+                                 <span className="text-white font-black text-[13px] md:text-[14px] uppercase tracking-widest text-center line-clamp-2">
+                                    {course.name.toUpperCase().includes('ONLINE') ? course.name.toUpperCase() : `${course.name.toUpperCase()} ONLINE`}
+                                 </span>
+                              </div>
+                           </motion.div>
+                        );
+                     })}
+                  </div>
+               </div>
+            )}
+
+            <div className="container mx-auto px-6">
                <div className="mt-12 md:mt-16 flex justify-center">
                   <button
                      onClick={() => setShowAllPrograms(!showAllPrograms)}
@@ -2366,7 +2515,7 @@ const UniversityPageNew = () => {
                      Based on a survey of 5,000+ graduates.
                   </p>
                </div>
-               
+
                {/* Grid Stats */}
                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 w-full">
                   <div className="bg-slate-50 border border-slate-100 rounded-2xl p-6 flex flex-col justify-between h-[10rem] text-left hover:shadow-md transition-shadow">
@@ -2386,7 +2535,7 @@ const UniversityPageNew = () => {
                      <p className="font-semibold text-slate-700 text-[0.875rem] leading-snug">referred a friend or family member</p>
                   </div>
                </div>
-               
+
                {/* Hiring Strip */}
                <div className="w-full text-center mt-6">
                   <p className="font-extrabold text-[0.8rem] text-slate-400 tracking-[0.15em] mb-8 uppercase">TOP COMPANIES HIRING FROM OUR PARTNER UNIVERSITIES</p>
@@ -2401,7 +2550,7 @@ const UniversityPageNew = () => {
                      <div className="text-lg font-bold text-sky-600 tracking-tight">randstad</div>
                   </div>
                </div>
-               
+
                {/* Testimonials */}
                <div className="grid grid-cols-1 md:grid-cols-2 gap-8 w-full mt-6">
                   <div className="bg-slate-50/50 border border-slate-100/70 rounded-3xl p-8 flex flex-col gap-6 relative shadow-[0_10px_35px_rgba(0,0,0,0.01)] text-left">
@@ -2419,7 +2568,7 @@ const UniversityPageNew = () => {
                         </div>
                      </div>
                   </div>
-                  
+
                   <div className="bg-slate-50/50 border border-slate-100/70 rounded-3xl p-8 flex flex-col gap-6 relative shadow-[0_10px_35px_rgba(0,0,0,0.01)] text-left">
                      <div className="text-blue-200/40 text-[5rem] font-serif leading-none absolute top-2 left-6 pointer-events-none">“</div>
                      <p className="text-slate-700 font-medium text-[0.95rem] relative z-10 leading-relaxed pt-4">
@@ -2436,10 +2585,10 @@ const UniversityPageNew = () => {
                      </div>
                   </div>
                </div>
-               
+
                {/* Call to Action */}
-               <button 
-                  type="button" 
+               <button
+                  type="button"
                   onClick={() => setShowEnquiry(true)}
                   className="bg-slate-900 hover:bg-blue-600 flex gap-2 items-center justify-center overflow-hidden px-8 py-5 rounded-[2.5rem] text-white font-black text-[10px] uppercase tracking-[0.2em] transition-all duration-500 active:scale-95"
                >
@@ -2448,6 +2597,7 @@ const UniversityPageNew = () => {
                </button>
             </div>
          </section>
+
          {/* 2026 TRENDING SPECIALIZATIONS */}
          <section className="py-12 md:py-24 bg-slate-50 relative overflow-hidden">
             <div className="container mx-auto px-6">
@@ -2467,120 +2617,120 @@ const UniversityPageNew = () => {
                      </div>
                   </div>
                </div>
+            </div>
 
-               <div className="relative group/marquee marquee-container py-4">
-                  <div
-                     className="flex w-max gap-6 md:gap-8 animate-marquee hover:[animation-play-state:paused] pb-4"
-                     style={{ animationDuration: '40s' }}
-                  >
-                     {[...Array(2)].flatMap(() => [
-                        {
-                           title: "MBA in Project Management",
-                           img: "https://images.unsplash.com/photo-1552664730-d307ca884978?w=800",
-                           salary: "9-14 LPA",
-                           desc: "A 2-year strategic program that helps students and working professionals excel in organizational logistics and leadership."
-                        },
-                        {
-                           title: "Data Science & AI Intelligence",
-                           img: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800",
-                           salary: "12-22 LPA",
-                           desc: "Deep-dive into predictive algorithms, neural networks, and automated intelligence pipelines."
-                        },
-                        {
-                           title: "Artificial Intelligence & ML",
-                           img: "https://i.ibb.co/C4Jv9pT/Chat-GPT-Image-Apr-28-2026-06-10-25-PM.png",
-                           salary: "15-28 LPA",
-                           desc: "Master deep learning, neural networks, and computer vision to build the next generation of intelligent systems."
-                        },
-                        {
-                           title: "FinTech & Digital Finance",
-                           img: "https://i.ibb.co/HDbbvTDt/Chat-GPT-Image-Apr-28-2026-06-10-38-PM-2.png",
-                           salary: "11-20 LPA",
-                           desc: "Explore blockchain, algorithmic trading, and digital payment systems at the intersection of finance and tech."
-                        },
-                        {
-                           title: "Information Technology",
-                           img: "https://i.ibb.co/jv6yRPFq/Chat-GPT-Image-Apr-28-2026-06-16-35-PM.png",
-                           salary: "10-18 LPA",
-                           desc: "Lead digital transformation initiatives and manage complex enterprise infrastructures for the modern cloud era."
-                        },
-                        {
-                           title: "Business Analytics",
-                           img: "https://i.ibb.co/VYQMCBZr/Chat-GPT-Image-Apr-28-2026-06-10-54-PM.png",
-                           salary: "12-24 LPA",
-                           desc: "Translate data into actionable business strategies using advanced statistical modeling and predictive analytics."
-                        },
-                        {
-                           title: "Healthcare & Hospital Mgt.",
-                           img: "https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?w=800",
-                           salary: "8-15 LPA",
-                           desc: "Optimize clinical operations and patient care systems within modern healthcare organizations and global medical hubs."
-                        },
-                        {
-                           title: "Operations Management",
-                           img: "https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?w=800",
-                           salary: "10-16 LPA",
-                           desc: "Streamline organizational efficiency through Lean Six Sigma, quality control, and strategic resource planning."
-                        },
-                        {
-                           title: "Intl. Finance & Account Mgt.",
-                           img: "https://i.ibb.co/nqxy8sNC/Chat-GPT-Image-Apr-28-2026-06-11-09-PM.png",
-                           salary: "12-22 LPA",
-                           desc: "Navigate global markets and cross-border regulatory frameworks with advanced financial reporting and auditing."
-                        },
-                        {
-                           title: "Digital Marketing & Growth",
-                           img: "https://i.ibb.co/xqJGVg4R/Chat-GPT-Image-Apr-28-2026-06-11-05-PM.png",
-                           salary: "8-16 LPA",
-                           desc: "Master SEO, social engineering, and data-driven advertising to scale brands in the hyper-competitive digital space."
-                        },
-                        {
-                           title: "Logistics & Supply Chain",
-                           img: "https://i.ibb.co/N6V14nkj/Chat-GPT-Image-Apr-28-2026-06-11-07-PM.png",
-                           salary: "9-15 LPA",
-                           desc: "Revolutionize global trade routes and inventory systems using automated warehousing and last-mile delivery tech."
-                        },
-                        {
-                           title: "Marketing Management",
-                           img: "https://images.unsplash.com/photo-1542744173-8e7e53415bb0?w=800",
-                           salary: "10-18 LPA",
-                           desc: "Drive revenue growth and market penetration through consumer psychology and strategic brand positioning."
-                        },
-                        {
-                           title: "Cyber Security & Defense",
-                           img: "https://i.ibb.co/pB46p1qY/Chat-GPT-Image-Apr-28-2026-06-11-01-PM.png",
-                           salary: "10-18 LPA",
-                           desc: "Master the art of digital perimeter defense, ethical hacking, and real-time threat neutralization."
-                        }
-                     ]).map((spec, i) => (
-                        <div
-                           key={i}
-                           className="w-[320px] md:w-[400px] flex-shrink-0 bg-white rounded-[3rem] overflow-hidden border border-slate-100 shadow-sm hover:shadow-2xl hover:-translate-y-2 transition-all duration-700 flex flex-col group h-[580px] md:h-[620px]"
-                        >
-                           <div className="h-60 flex-shrink-0 overflow-hidden relative">
-                              <img src={spec.img} alt={spec.title} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-1000" />
-                              <div className="absolute top-6 left-6 bg-white/90 backdrop-blur-md px-4 py-1.5 rounded-full text-[9px] font-black uppercase tracking-widest text-slate-900">Specialization</div>
-                           </div>
-                           <div className="p-10 flex flex-col flex-grow">
-                              <h3 className="text-2xl font-black text-slate-900 mb-4 font-display group-hover:text-blue-600 transition-colors uppercase leading-tight text-left">{spec.title}</h3>
-                              <p className="text-slate-500 text-sm font-medium leading-relaxed mb-8 line-clamp-3 text-left">{spec.desc}</p>
-
-                              <div className="bg-blue-50/50 p-6 rounded-2xl border border-blue-50 mb-8 text-left mt-auto">
-                                 <p className="text-slate-400 text-[9px] font-black uppercase tracking-widest mb-1">Avg. Salary</p>
-                                 <p className="text-blue-600 font-black text-xl">₹ {spec.salary}</p>
-                              </div>
-
-                              <button
-                                 onClick={() => setShowEnquiry(true)}
-                                 className="flex items-center gap-2 group/link text-[10px] font-black uppercase tracking-widest text-slate-400 hover:text-blue-600 transition-all text-left"
-                              >
-                                 <div className="w-1.5 h-1.5 rounded-full bg-blue-600 group-hover/link:animate-ping"></div>
-                                 Explore Intel
-                              </button>
-                           </div>
+            <div className="w-full relative group/marquee marquee-container py-4 overflow-hidden">
+               <div
+                  className="flex w-max gap-6 md:gap-8 animate-marquee hover:[animation-play-state:paused] pb-4"
+                  style={{ animationDuration: '40s' }}
+               >
+                  {[...Array(2)].flatMap(() => [
+                     {
+                        title: "MBA in Project Management",
+                        img: "https://images.unsplash.com/photo-1552664730-d307ca884978?w=800",
+                        salary: "9-14 LPA",
+                        desc: "A 2-year strategic program that helps students and working professionals excel in organizational logistics and leadership."
+                     },
+                     {
+                        title: "Data Science & AI Intelligence",
+                        img: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800",
+                        salary: "12-22 LPA",
+                        desc: "Deep-dive into predictive algorithms, neural networks, and automated intelligence pipelines."
+                     },
+                     {
+                        title: "Artificial Intelligence & ML",
+                        img: "https://i.ibb.co/C4Jv9pT/Chat-GPT-Image-Apr-28-2026-06-10-25-PM.png",
+                        salary: "15-28 LPA",
+                        desc: "Master deep learning, neural networks, and computer vision to build the next generation of intelligent systems."
+                     },
+                     {
+                        title: "FinTech & Digital Finance",
+                        img: "https://i.ibb.co/HDbbvTDt/Chat-GPT-Image-Apr-28-2026-06-10-38-PM-2.png",
+                        salary: "11-20 LPA",
+                        desc: "Explore blockchain, algorithmic trading, and digital payment systems at the intersection of finance and tech."
+                     },
+                     {
+                        title: "Information Technology",
+                        img: "https://i.ibb.co/jv6yRPFq/Chat-GPT-Image-Apr-28-2026-06-16-35-PM.png",
+                        salary: "10-18 LPA",
+                        desc: "Lead digital transformation initiatives and manage complex enterprise infrastructures for the modern cloud era."
+                     },
+                     {
+                        title: "Business Analytics",
+                        img: "https://i.ibb.co/VYQMCBZr/Chat-GPT-Image-Apr-28-2026-06-10-54-PM.png",
+                        salary: "12-24 LPA",
+                        desc: "Translate data into actionable business strategies using advanced statistical modeling and predictive analytics."
+                     },
+                     {
+                        title: "Healthcare & Hospital Mgt.",
+                        img: "https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?w=800",
+                        salary: "8-15 LPA",
+                        desc: "Optimize clinical operations and patient care systems within modern healthcare organizations and global medical hubs."
+                     },
+                     {
+                        title: "Operations Management",
+                        img: "https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?w=800",
+                        salary: "10-16 LPA",
+                        desc: "Streamline organizational efficiency through Lean Six Sigma, quality control, and strategic resource planning."
+                     },
+                     {
+                        title: "Intl. Finance & Account Mgt.",
+                        img: "https://i.ibb.co/nqxy8sNC/Chat-GPT-Image-Apr-28-2026-06-11-09-PM.png",
+                        salary: "12-22 LPA",
+                        desc: "Navigate global markets and cross-border regulatory frameworks with advanced financial reporting and auditing."
+                     },
+                     {
+                        title: "Digital Marketing & Growth",
+                        img: "https://i.ibb.co/xqJGVg4R/Chat-GPT-Image-Apr-28-2026-06-11-05-PM.png",
+                        salary: "8-16 LPA",
+                        desc: "Master SEO, social engineering, and data-driven advertising to scale brands in the hyper-competitive digital space."
+                     },
+                     {
+                        title: "Logistics & Supply Chain",
+                        img: "https://i.ibb.co/N6V14nkj/Chat-GPT-Image-Apr-28-2026-06-11-07-PM.png",
+                        salary: "9-15 LPA",
+                        desc: "Revolutionize global trade routes and inventory systems using automated warehousing and last-mile delivery tech."
+                     },
+                     {
+                        title: "Marketing Management",
+                        img: "https://images.unsplash.com/photo-1542744173-8e7e53415bb0?w=800",
+                        salary: "10-18 LPA",
+                        desc: "Drive revenue growth and market penetration through consumer psychology and strategic brand positioning."
+                     },
+                     {
+                        title: "Cyber Security & Defense",
+                        img: "https://i.ibb.co/pB46p1qY/Chat-GPT-Image-Apr-28-2026-06-11-01-PM.png",
+                        salary: "10-18 LPA",
+                        desc: "Master the art of digital perimeter defense, ethical hacking, and real-time threat neutralization."
+                     }
+                  ]).map((spec, i) => (
+                     <div
+                        key={i}
+                        className="w-[320px] md:w-[400px] flex-shrink-0 bg-white rounded-[3rem] overflow-hidden border border-slate-100 shadow-sm hover:shadow-2xl hover:-translate-y-2 transition-all duration-700 flex flex-col group h-[580px] md:h-[620px]"
+                     >
+                        <div className="h-60 flex-shrink-0 overflow-hidden relative">
+                           <img src={spec.img} alt={spec.title} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-1000" />
+                           <div className="absolute top-6 left-6 bg-white/90 backdrop-blur-md px-4 py-1.5 rounded-full text-[9px] font-black uppercase tracking-widest text-slate-900">Specialization</div>
                         </div>
-                     ))}
-                  </div>
+                        <div className="p-10 flex flex-col flex-grow">
+                           <h3 className="text-2xl font-black text-slate-900 mb-4 font-display group-hover:text-blue-600 transition-colors uppercase leading-tight text-left">{spec.title}</h3>
+                           <p className="text-slate-500 text-sm font-medium leading-relaxed mb-8 line-clamp-3 text-left">{spec.desc}</p>
+
+                           <div className="bg-blue-50/50 p-6 rounded-2xl border border-blue-50 mb-8 text-left mt-auto">
+                              <p className="text-slate-400 text-[9px] font-black uppercase tracking-widest mb-1">Avg. Salary</p>
+                              <p className="text-blue-600 font-black text-xl">₹ {spec.salary}</p>
+                           </div>
+
+                           <button
+                              onClick={() => setShowEnquiry(true)}
+                              className="flex items-center gap-2 group/link text-[10px] font-black uppercase tracking-widest text-slate-400 hover:text-blue-600 transition-all text-left"
+                           >
+                              <div className="w-1.5 h-1.5 rounded-full bg-blue-600 group-hover/link:animate-ping"></div>
+                              Explore Intel
+                           </button>
+                        </div>
+                     </div>
+                  ))}
                </div>
             </div>
          </section>

@@ -227,86 +227,48 @@ const MarketplaceFinal = () => {
             </div>
 
             {/* Grid */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-x-8 gap-y-16">
+            <div className="flex flex-wrap justify-center gap-x-12 gap-y-16 max-w-5xl mx-auto px-4">
               {[
                 {
                   name: "Dr. Sunita Kaul",
                   title: "Environmental Expert",
-                  img: "https://i.ibb.co/99wgwWjv/image.png",
+                  img: "/sunitakaul.jpg",
                   url: "https://demo-web-ev.vercel.app/"
                 },
                 {
                   name: "Vishwajeet Shinde",
                   title: "Founder & CEO of Antechos-India",
-                  img: "https://i.ibb.co/Hf4CP5XC/vishwajeet-B4kv-CASy.jpg",
+                  img: "/vishwajeet.jpg",
                   url: "https://vishwajeet.antechosindia.com/"
-                },
-                {
-                  name: "Dr. Thomas George K.",
-                  title: "President, LEAD Group of Institutions",
-                  img: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?q=80&w=400&auto=format&fit=crop"
-                },
-                {
-                  name: "Rizwan Ramzan Ahamed",
-                  title: "Cofounder & CEO, HACA",
-                  img: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?q=80&w=400&auto=format&fit=crop"
                 }
               ].map((speaker, idx) => (
-                <div key={idx} onClick={() => speaker.url && setSelectedSpeaker(speaker)} className="flex flex-col items-center group cursor-pointer w-full">
-                  {/* Stacked Card Wrapper */}
-                  <div className="relative aspect-[4/5] w-full max-w-[280px] mb-6 mx-auto perspective-1000">
+                <div key={idx} onClick={() => speaker.url && setSelectedSpeaker(speaker)} className="flex flex-col items-center group cursor-pointer w-full max-w-[320px]">
+                  {/* Stacked Card Wrapper with custom aspect ratio for 2:3 images */}
+                  <div className="relative w-full aspect-[2/3] mb-6 mx-auto perspective-1000">
 
-                    {/* Deep Stack Layers (Acrylic style) */}
-                    <div className="absolute inset-0 bg-[#f1f5f9] rounded-3xl translate-y-4 -translate-x-4 shadow-[inset_0_0_0_1px_rgba(255,255,255,1)] border border-slate-200 transition-transform duration-500 group-hover:-translate-x-5 group-hover:translate-y-5"></div>
-                    <div className="absolute inset-0 bg-[#f5f3ff] rounded-3xl translate-y-2 -translate-x-2 shadow-[inset_0_0_0_1px_rgba(255,255,255,1)] border border-violet-200 z-10 transition-transform duration-500 group-hover:-translate-x-3 group-hover:translate-y-3"></div>
+                    {/* Premium Ambient Glow Background (Fades in/scales on hover) */}
+                    <div className="absolute -inset-3 bg-gradient-to-tr from-violet-600 via-indigo-500 to-fuchsia-500 rounded-[2.5rem] blur-xl opacity-0 group-hover:opacity-30 transition-all duration-700 scale-95 group-hover:scale-105 pointer-events-none"></div>
 
-                    {/* Main Card */}
-                    <div className="absolute inset-0 rounded-3xl shadow-xl overflow-hidden border border-white/60 z-20 transition-all duration-500 group-hover:shadow-purple-500/20 group-hover:-translate-y-1 bg-white">
+                    {/* Stacked Shadow Effect layers behind the card */}
+                    <div className="absolute inset-0 bg-[#f1f5f9] rounded-[2rem] translate-y-4 -translate-x-4 shadow-[inset_0_0_0_1px_rgba(255,255,255,0.8)] border border-slate-200/60 transition-transform duration-500 group-hover:-translate-x-5 group-hover:translate-y-5"></div>
+                    <div className="absolute inset-0 bg-[#f5f3ff] rounded-[2rem] translate-y-2 -translate-x-2 shadow-[inset_0_0_0_1px_rgba(255,255,255,0.8)] border border-violet-200/60 z-10 transition-transform duration-500 group-hover:-translate-x-3 group-hover:translate-y-3"></div>
 
-                      {/* Image (Desaturated default, full color on hover) */}
-                      <img src={speaker.img} alt={speaker.name} className="absolute inset-0 w-full h-full object-cover object-center grayscale-[0.4] contrast-[1.1] transition-all duration-700 group-hover:scale-110 group-hover:grayscale-0" />
+                    {/* Main Image Card Container */}
+                    <div className="absolute inset-0 rounded-[2rem] shadow-xl overflow-hidden border border-white z-20 transition-all duration-500 group-hover:shadow-2xl group-hover:shadow-purple-500/10 group-hover:-translate-y-1.5 bg-white flex items-center justify-center">
 
-                      {/* Rich Gradient Overlay (Bottom dark for legibility, top slightly tinted) */}
-                      <div className="absolute inset-0 bg-gradient-to-t from-[#0f0c29] via-[#302b63]/60 to-transparent opacity-90 transition-opacity duration-500 group-hover:opacity-75 pointer-events-none"></div>
-                      <div className="absolute inset-0 bg-gradient-to-br from-violet-500/20 to-fuchsia-500/20 mix-blend-overlay pointer-events-none"></div>
+                      {/* The edit image card itself (full color, clean, no overlays) */}
+                      <img 
+                        src={speaker.img} 
+                        alt={speaker.name} 
+                        className="w-full h-full object-cover object-center transition-all duration-700 group-hover:scale-[1.02]" 
+                      />
 
-                      {/* Universal / Non-Branded UI Elements */}
-                      <div className="absolute inset-0 p-5 flex flex-col justify-between z-30 pointer-events-none">
-                        {/* Top Row: Generic Badge */}
-                        <div className="flex justify-end w-full">
-                          <div className="bg-white/10 backdrop-blur-md px-3 py-1 rounded-full border border-white/20 shadow-sm flex items-center gap-2 transform transition-transform duration-500 group-hover:-translate-y-1">
-                            <div className="w-1.5 h-1.5 rounded-full bg-[#c77dff] animate-pulse"></div>
-                            <span className="text-white/90 text-[9px] font-bold tracking-[0.2em] uppercase">Featured</span>
-                          </div>
-                        </div>
-
-                        {/* Bottom Row: Decor & Interaction */}
-                        <div className="mt-auto flex justify-between items-end w-full">
-                          {/* Decorative accent */}
-                          <div className="flex gap-1.5 opacity-50 mb-1">
-                            <div className="w-1 h-1 rounded-full bg-white"></div>
-                            <div className="w-1 h-1 rounded-full bg-white"></div>
-                            <div className="w-1 h-1 rounded-full bg-white/40"></div>
-                          </div>
-
-                          {/* Hover action icon (Arrow) */}
-                          <div className="w-10 h-10 rounded-full bg-white/10 backdrop-blur-md border border-white/20 flex items-center justify-center text-white transform transition-all duration-500 opacity-0 group-hover:opacity-100 group-hover:-translate-x-1 translate-x-2 shadow-lg">
-                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                              <path d="M5 12h14M12 5l7 7-7 7" />
-                            </svg>
-                          </div>
-                        </div>
-                      </div>
-
-                      {/* Glare effect on hover */}
-                      <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-white/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none z-40"></div>
+                      {/* Glare sweep effect on hover */}
+                      <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-white/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none z-30"></div>
+                      
+                      {/* Premium border wrapper */}
+                      <div className="absolute inset-0 border-2 border-white/40 rounded-[2rem] pointer-events-none z-40"></div>
                     </div>
-                  </div>
-
-                  {/* Details */}
-                  <div className="text-center px-4 mt-2">
-                    <h4 className="font-bold text-xl text-gray-900 mb-1.5 group-hover:text-[#8c52ff] transition-colors duration-300">{speaker.name}</h4>
-                    <p className="text-[11px] leading-relaxed font-bold text-gray-500 uppercase tracking-[0.15em]">{speaker.title}</p>
                   </div>
                 </div>
               ))}
