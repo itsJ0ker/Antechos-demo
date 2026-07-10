@@ -940,7 +940,7 @@ const Home = () => {
               <div className="w-full max-w-sm mt-4 md:mt-8 relative hidden md:block">
                 <div className="absolute inset-0 bg-blue-200 rounded-[3rem] blur-[80px] opacity-40"></div>
                 <img
-                  src="https://static.vecteezy.com/system/resources/thumbnails/010/869/741/small/faq-concept-illustration-people-looking-through-magnifying-glass-at-interrogation-point-searching-solutions-useful-information-customer-support-solving-problem-free-png.png"
+                  src="https://i.ibb.co/Zz3XNSQt/projects-XBJZo-W-N.png"
                   alt="Free Counselling Support"
                   className="w-full h-auto relative z-10 mix-blend-multiply drop-shadow-xl scale-110 -translate-y-4"
                 />
