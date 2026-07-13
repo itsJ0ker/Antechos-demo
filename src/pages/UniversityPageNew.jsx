@@ -762,6 +762,9 @@ const UniversityPageNew = () => {
 
    const handleUniversityClick = (link) => window.open(link, '_blank', 'noopener,noreferrer');
 
+   const handlePrevProgram = () => setProgramIndex(prev => Math.max(prev - 1, 0));
+   const handleNextProgram = () => setProgramIndex(prev => Math.min(prev + 1, filteredCourses.length - 1));
+
    return (
       <div className="uni-page-new min-h-screen overflow-x-clip max-w-[100vw] relative">
          <style>{styles}</style>
@@ -1402,9 +1405,9 @@ const UniversityPageNew = () => {
 
          {/* 8. UNIVERSITY GRID */}
          <section className="py-12 md:py-24 bg-white" id="directory">
-            <div className="container mx-auto px-6">
+            <div className="w-full px-4 md:px-8">
                {/* SECTION HEADER */}
-               <div className="flex flex-col justify-start items-start gap-8 mb-16 md:mb-24">
+               <div className="flex flex-col justify-start items-start gap-8 mb-16 md:mb-24 max-w-[1400px] mx-auto">
                   <div className="text-left w-full">
                      <SectionLabel icon={Building2}>Institution Archive 2026</SectionLabel>
                      <h2 className="text-2xl sm:text-4xl md:text-5xl font-black text-slate-900 mb-0 font-display uppercase tracking-tighter w-full max-w-4xl">India's <span className="text-blue-600">Trusted & Prestigious</span> Online University.</h2>
@@ -1425,139 +1428,134 @@ const UniversityPageNew = () => {
                      ))}
                   </div>
                </div>
-            </div>
 
-            {!showAll ? (
-               <div className="w-full relative overflow-hidden">
-                  <div
-                     className="relative group/carousel w-full"
-                     onMouseEnter={() => setIsUniHovered(true)}
-                     onMouseLeave={() => setIsUniHovered(false)}
-                  >
+               <div className="relative">
+                  {!showAll ? (
                      <div
-                        ref={uniScrollRef}
-                        onScroll={handleUniScroll}
-                        className="flex gap-8 overflow-x-auto pb-4 items-stretch hide-scrollbar snap-x snap-mandatory scroll-smooth px-6 md:px-12 lg:px-16 xl:px-[calc((100vw-1280px)/2+24px)] 2xl:px-[calc((100vw-1536px)/2+24px)] scroll-pl-6 md:scroll-pl-12 lg:scroll-pl-16 xl:scroll-pl-[calc((100vw-1280px)/2+24px)] 2xl:scroll-pl-[calc((100vw-1536px)/2+24px)]"
-                        style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
+                        className="relative group/carousel"
+                        onMouseEnter={() => setIsUniHovered(true)}
+                        onMouseLeave={() => setIsUniHovered(false)}
                      >
-                        {[...filteredUniversities, ...filteredUniversities].map((uni, idx) => (
-                           <div
-                              key={`${uni.id}-${idx}`}
-                              className="flex-shrink-0 snap-start w-full md:w-[calc((100%-32px)/2)] lg:w-[calc((100%-64px)/3)] xl:w-[calc((100%-96px)/4)] h-auto min-h-[520px] group flex flex-col bg-white rounded-[2rem] md:rounded-[2.5rem] overflow-hidden border border-slate-100 hover:border-blue-100 transition-all duration-700 hover:shadow-[0_40px_80px_-15px_rgba(0,0,0,0.08)]"
+                        <div
+                           ref={uniScrollRef}
+                           className="flex gap-8 overflow-x-auto pb-4 items-stretch hide-scrollbar"
+                           style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
+                        >
+                           {[...filteredUniversities, ...filteredUniversities].map((uni, idx) => (
+                              <div
+                                 key={`${uni.id}-${idx}`}
+                                 className="flex-shrink-0 w-[270px] md:w-[340px] h-auto min-h-[520px] group flex flex-col bg-white rounded-[2rem] md:rounded-[2.5rem] overflow-hidden border border-slate-100 hover:border-blue-100 transition-all duration-700 hover:shadow-[0_40px_80px_-15px_rgba(0,0,0,0.08)]"
+                              >
+                                 <div className="relative w-full aspect-square overflow-hidden bg-slate-100 flex-shrink-0">
+                                    <img src={uni.image} alt={uni.name} className="absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition-transform duration-1000" />
+                                    <div className="absolute inset-0 bg-gradient-to-t from-slate-900/80 via-slate-900/10 to-transparent pointer-events-none z-10"></div>
+                                    <div className="absolute bottom-4 left-4 flex gap-1.5 z-20">
+                                       <span className="bg-white/90 backdrop-blur-md text-slate-900 py-1.5 px-3 rounded-lg text-[8px] md:text-[9px] font-black uppercase tracking-widest shadow-xl border border-white/20">{uni.category}</span>
+                                       <span className="bg-blue-600 text-white py-1.5 px-3 rounded-lg text-[8px] md:text-[9px] font-black uppercase tracking-widest shadow-xl">Top Rated</span>
+                                    </div>
+                                    <div className="absolute bottom-4 right-4 bg-slate-900/80 backdrop-blur-md text-white p-1.5 px-3 rounded-xl flex items-center gap-1.5 font-black text-[9px] md:text-xs border border-white/10 z-20">
+                                       <Star className="w-3.5 h-3.5 text-orange-400 fill-current" />
+                                       {uni.rating}
+                                    </div>
+                                 </div>
+
+                                 <div className="p-5 md:p-6 flex flex-col flex-grow text-left">
+                                    <div className="flex items-center gap-2 mb-4">
+                                       <MapPin className="w-3.5 h-3.5 text-blue-600" />
+                                       <span className="text-[9px] font-black text-slate-400 uppercase tracking-widest">{uni.location}</span>
+                                    </div>
+                                    <h3 className="text-lg md:text-xl font-black text-slate-900 mb-4 font-display group-hover:text-blue-600 transition-colors uppercase leading-tight">{uni.name}</h3>
+                                    <p className="text-slate-500 font-medium text-[11px] md:text-xs leading-relaxed mb-6 line-clamp-3">{uni.description}</p>
+
+                                    <div className="flex flex-wrap gap-1.5 mb-8">
+                                       {uni.programs.map((p, i) => (
+                                          <span key={i} className="text-[7px] md:text-[8px] font-black text-slate-400 border border-slate-100 p-1.5 px-3 rounded-lg uppercase tracking-[0.1em]">{p}</span>
+                                       ))}
+                                    </div>
+
+                                    <div className="mt-auto">
+                                       <button
+                                          onClick={() => handleUniversityClick(uni.link)}
+                                          className="w-full flex items-center justify-between group/btn bg-slate-900 hover:bg-blue-600 text-white p-4 md:p-5 rounded-[1.2rem] md:rounded-[1.5rem] transition-all duration-500"
+                                       >
+                                          <span className="text-[8px] md:text-[9px] font-black uppercase tracking-[0.3em]">Full Intel</span>
+                                          <ArrowRight className="w-4 h-4 group-hover/btn:translate-x-2 transition-transform" />
+                                       </button>
+                                    </div>
+                                 </div>
+                              </div>
+                           ))}
+                        </div>
+
+                        {/* Navigation Arrows */}
+                        <div className="absolute top-1/2 -translate-y-1/2 left-0 right-0 flex justify-between pointer-events-none z-20 px-1 md:px-2">
+                           <button
+                              onClick={() => scrollUni('left')}
+                              className="w-10 h-10 md:w-14 md:h-14 bg-white rounded-full shadow-2xl border border-slate-100 flex items-center justify-center text-slate-400 hover:text-blue-600 transition-all active:scale-90 pointer-events-auto opacity-0 group-hover/carousel:opacity-100 translate-x-4 group-hover/carousel:translate-x-0 cursor-pointer"
+                           >
+                              <ChevronLeft className="w-5 h-5 md:w-6 md:h-6" />
+                           </button>
+                           <button
+                              onClick={() => scrollUni('right')}
+                              className="w-10 h-10 md:w-14 md:h-14 bg-white rounded-full shadow-2xl border border-slate-100 flex items-center justify-center text-slate-400 hover:text-blue-600 transition-all active:scale-90 pointer-events-auto opacity-0 group-hover/carousel:opacity-100 -translate-x-4 group-hover/carousel:translate-x-0 cursor-pointer"
+                           >
+                              <ChevronRight className="w-5 h-5 md:w-6 md:h-6" />
+                           </button>
+                        </div>
+                     </div>
+                  ) : (
+                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 md:gap-10 max-w-[1600px] mx-auto">
+                        {filteredUniversities.map((uni) => (
+                           <motion.div
+                              key={uni.id}
+                              initial={{ opacity: 0, y: 30 }}
+                              whileInView={{ opacity: 1, y: 0 }}
+                              viewport={{ once: true }}
+                              className="group flex flex-col bg-white rounded-[2rem] md:rounded-[2.5rem] overflow-hidden border border-slate-100 hover:border-blue-100 transition-all duration-700 hover:shadow-[0_40px_80px_-15px_rgba(0,0,0,0.08)] h-auto min-h-[580px]"
                            >
                               <div className="relative w-full aspect-square overflow-hidden bg-slate-100 flex-shrink-0">
                                  <img src={uni.image} alt={uni.name} className="absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition-transform duration-1000" />
                                  <div className="absolute inset-0 bg-gradient-to-t from-slate-900/80 via-slate-900/10 to-transparent pointer-events-none z-10"></div>
-                                 <div className="absolute bottom-4 left-4 flex gap-1.5 z-20">
-                                    <span className="bg-white/90 backdrop-blur-md text-slate-900 py-1.5 px-3 rounded-lg text-[8px] md:text-[9px] font-black uppercase tracking-widest shadow-xl border border-white/20">{uni.category}</span>
-                                    <span className="bg-blue-600 text-white py-1.5 px-3 rounded-lg text-[8px] md:text-[9px] font-black uppercase tracking-widest shadow-xl">Top Rated</span>
+                                 <div className="absolute bottom-6 left-6 flex gap-2 z-20">
+                                    <span className="bg-white/90 backdrop-blur-md text-slate-900 py-2 px-4 rounded-xl text-[9px] md:text-[10px] font-black uppercase tracking-widest shadow-xl border border-white/20">{uni.category}</span>
+                                    <span className="bg-blue-600 text-white py-2 px-4 rounded-xl text-[9px] md:text-[10px] font-black uppercase tracking-widest shadow-xl">Top Rated</span>
                                  </div>
-                                 <div className="absolute bottom-4 right-4 bg-slate-900/80 backdrop-blur-md text-white p-1.5 px-3 rounded-xl flex items-center gap-1.5 font-black text-[9px] md:text-xs border border-white/10 z-20">
-                                    <Star className="w-3.5 h-3.5 text-orange-400 fill-current" />
+                                 <div className="absolute bottom-6 right-6 bg-slate-900/80 backdrop-blur-md text-white p-2 px-4 rounded-2xl flex items-center gap-2 font-black text-[10px] md:text-xs border border-white/10 z-20">
+                                    <Star className="w-4 h-4 text-orange-400 fill-current" />
                                     {uni.rating}
                                  </div>
                               </div>
 
-                              <div className="p-5 md:p-6 flex flex-col flex-grow text-left">
-                                 <div className="flex items-center gap-2 mb-4">
-                                    <MapPin className="w-3.5 h-3.5 text-blue-600" />
-                                    <span className="text-[9px] font-black text-slate-400 uppercase tracking-widest">{uni.location}</span>
+                              <div className="p-6 md:p-8 flex flex-col flex-grow text-left">
+                                 <div className="flex items-center gap-3 mb-6">
+                                    <MapPin className="w-4 h-4 text-blue-600" />
+                                    <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest">{uni.location}</span>
                                  </div>
-                                 <h3 className="text-lg md:text-xl font-black text-slate-900 mb-4 font-display group-hover:text-blue-600 transition-colors uppercase leading-tight">{uni.name}</h3>
-                                 <p className="text-slate-500 font-medium text-[11px] md:text-xs leading-relaxed mb-6 line-clamp-3">{uni.description}</p>
+                                 <h3 className="text-xl md:text-2xl font-black text-slate-900 mb-6 font-display group-hover:text-blue-600 transition-colors uppercase leading-[1.1]">{uni.name}</h3>
+                                 <p className="text-slate-500 font-medium text-xs md:text-sm leading-relaxed mb-8 line-clamp-3">{uni.description}</p>
 
-                                 <div className="flex flex-wrap gap-1.5 mb-8">
+                                 <div className="flex flex-wrap gap-2 mb-10">
                                     {uni.programs.map((p, i) => (
-                                       <span key={i} className="text-[7px] md:text-[8px] font-black text-slate-400 border border-slate-100 p-1.5 px-3 rounded-lg uppercase tracking-[0.1em]">{p}</span>
+                                       <span key={i} className="text-[8px] md:text-[9px] font-black text-slate-400 border border-slate-100 p-2 px-4 rounded-xl uppercase tracking-[0.1em]">{p}</span>
                                     ))}
                                  </div>
 
                                  <div className="mt-auto">
                                     <button
                                        onClick={() => handleUniversityClick(uni.link)}
-                                       className="w-full flex items-center justify-between group/btn bg-slate-900 hover:bg-blue-600 text-white p-4 md:p-5 rounded-[1.2rem] md:rounded-[1.5rem] transition-all duration-500"
+                                       className="w-full flex items-center justify-between group/btn bg-slate-900 hover:bg-blue-600 text-white p-5 md:p-6 rounded-[1.5rem] md:rounded-[2rem] transition-all duration-500"
                                     >
-                                       <span className="text-[8px] md:text-[9px] font-black uppercase tracking-[0.3em]">Full Intel</span>
-                                       <ArrowRight className="w-4 h-4 group-hover/btn:translate-x-2 transition-transform" />
+                                       <span className="text-[9px] md:text-[10px] font-black uppercase tracking-[0.3em]">Full Institution Intel</span>
+                                       <ArrowRight className="w-5 h-5 group-hover/btn:translate-x-2 transition-transform" />
                                     </button>
                                  </div>
                               </div>
-                           </div>
+                           </motion.div>
                         ))}
                      </div>
-
-                     {/* Navigation Arrows */}
-                     <div className="absolute top-1/2 -translate-y-1/2 left-0 right-0 flex justify-between pointer-events-none z-20 px-4 md:px-8">
-                        <button
-                           onClick={() => scrollUni('left')}
-                           className="w-10 h-10 md:w-14 md:h-14 bg-white rounded-full shadow-2xl border border-slate-100 flex items-center justify-center text-slate-400 hover:text-blue-600 transition-all active:scale-90 pointer-events-auto opacity-0 group-hover/carousel:opacity-100 translate-x-4 group-hover/carousel:translate-x-0 cursor-pointer"
-                        >
-                           <ChevronLeft className="w-5 h-5 md:w-6 md:h-6" />
-                        </button>
-                        <button
-                           onClick={() => scrollUni('right')}
-                           className="w-10 h-10 md:w-14 md:h-14 bg-white rounded-full shadow-2xl border border-slate-100 flex items-center justify-center text-slate-400 hover:text-blue-600 transition-all active:scale-90 pointer-events-auto opacity-0 group-hover/carousel:opacity-100 -translate-x-4 group-hover/carousel:translate-x-0 cursor-pointer"
-                        >
-                           <ChevronRight className="w-5 h-5 md:w-6 md:h-6" />
-                        </button>
-                     </div>
-                  </div>
+                  )}
                </div>
-            ) : (
-               <div className="container mx-auto px-6">
-                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 md:gap-10">
-                     {filteredUniversities.map((uni) => (
-                        <motion.div
-                           key={uni.id}
-                           initial={{ opacity: 0, y: 30 }}
-                           whileInView={{ opacity: 1, y: 0 }}
-                           viewport={{ once: true }}
-                           className="group flex flex-col bg-white rounded-[2rem] md:rounded-[2.5rem] overflow-hidden border border-slate-100 hover:border-blue-100 transition-all duration-700 hover:shadow-[0_40px_80px_-15px_rgba(0,0,0,0.08)] h-auto min-h-[580px]"
-                        >
-                           <div className="relative w-full aspect-square overflow-hidden bg-slate-100 flex-shrink-0">
-                              <img src={uni.image} alt={uni.name} className="absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition-transform duration-1000" />
-                              <div className="absolute inset-0 bg-gradient-to-t from-slate-900/80 via-slate-900/10 to-transparent pointer-events-none z-10"></div>
-                              <div className="absolute bottom-6 left-6 flex gap-2 z-20">
-                                 <span className="bg-white/90 backdrop-blur-md text-slate-900 py-2 px-4 rounded-xl text-[9px] md:text-[10px] font-black uppercase tracking-widest shadow-xl border border-white/20">{uni.category}</span>
-                                 <span className="bg-blue-600 text-white py-2 px-4 rounded-xl text-[9px] md:text-[10px] font-black uppercase tracking-widest shadow-xl">Top Rated</span>
-                              </div>
-                              <div className="absolute bottom-6 right-6 bg-slate-900/80 backdrop-blur-md text-white p-2 px-4 rounded-2xl flex items-center gap-2 font-black text-[10px] md:text-xs border border-white/10 z-20">
-                                 <Star className="w-4 h-4 text-orange-400 fill-current" />
-                                 {uni.rating}
-                              </div>
-                           </div>
 
-                           <div className="p-6 md:p-8 flex flex-col flex-grow text-left">
-                              <div className="flex items-center gap-3 mb-6">
-                                 <MapPin className="w-4 h-4 text-blue-600" />
-                                 <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest">{uni.location}</span>
-                              </div>
-                              <h3 className="text-xl md:text-2xl font-black text-slate-900 mb-6 font-display group-hover:text-blue-600 transition-colors uppercase leading-[1.1]">{uni.name}</h3>
-                              <p className="text-slate-500 font-medium text-xs md:text-sm leading-relaxed mb-8 line-clamp-3">{uni.description}</p>
-
-                              <div className="flex flex-wrap gap-2 mb-10">
-                                 {uni.programs.map((p, i) => (
-                                    <span key={i} className="text-[8px] md:text-[9px] font-black text-slate-400 border border-slate-100 p-2 px-4 rounded-xl uppercase tracking-[0.1em]">{p}</span>
-                                 ))}
-                              </div>
-
-                              <div className="mt-auto">
-                                 <button
-                                    onClick={() => handleUniversityClick(uni.link)}
-                                    className="w-full flex items-center justify-between group/btn bg-slate-900 hover:bg-blue-600 text-white p-5 md:p-6 rounded-[1.5rem] md:rounded-[2rem] transition-all duration-500"
-                                 >
-                                    <span className="text-[9px] md:text-[10px] font-black uppercase tracking-[0.3em]">Full Institution Intel</span>
-                                    <ArrowRight className="w-5 h-5 group-hover/btn:translate-x-2 transition-transform" />
-                                 </button>
-                              </div>
-                           </div>
-                        </motion.div>
-                     ))}
-                  </div>
-               </div>
-            )}
-
-            <div className="container mx-auto px-6">
                <div className="mt-16 md:mt-24 flex flex-col items-center gap-6 md:gap-8">
                   <p className="text-slate-400 text-[10px] font-black uppercase tracking-[0.3em]">
                      Viewing {showAll ? filteredUniversities.length : Math.min(itemsPerPage, filteredUniversities.length)} of {filteredUniversities.length} Accredited Units
@@ -1932,14 +1930,10 @@ const UniversityPageNew = () => {
             </div>
          </section>
 
-
-
-
-
          {/* 6. OFFICIAL PROGRAM PORTFOLIOS */}
          <section ref={strategicIntelligenceRef} className="py-12 md:py-24 bg-white relative overflow-hidden" id="strategic-intelligence">
-            <div className="container mx-auto px-6">
-               <div className="flex flex-col justify-start items-start gap-8 mb-16 md:mb-20">
+            <div className="w-full px-4 md:px-8">
+               <div className="flex flex-col justify-start items-start gap-8 mb-16 md:mb-20 max-w-[1400px] mx-auto">
                   <div className="text-left w-full">
                      <SectionLabel icon={Award}>Curriculum Standards 2026</SectionLabel>
                      <h2 className="text-2xl sm:text-4xl md:text-5xl font-black text-slate-900 mb-0 font-display uppercase tracking-tighter w-full max-w-4xl">Explore Programs From <span className="text-blue-600">Top Ranked Universities</span></h2>
@@ -1957,29 +1951,93 @@ const UniversityPageNew = () => {
                      ))}
                   </div>
                </div>
-            </div>
 
-            {!showAllPrograms ? (
-               <div className="w-full relative overflow-hidden">
-                  <div
-                     className="relative group/programs-carousel w-full"
-                     onMouseEnter={() => setIsProgramsHovered(true)}
-                     onMouseLeave={() => setIsProgramsHovered(false)}
-                  >
-                     <div
-                        ref={programsScrollRef}
-                        onScroll={handleProgramsScroll}
-                        className="flex gap-8 overflow-x-auto pb-12 items-stretch hide-scrollbar snap-x snap-mandatory scroll-smooth px-6 md:px-12 lg:px-16 xl:px-[calc((100vw-1280px)/2+24px)] 2xl:px-[calc((100vw-1536px)/2+24px)] scroll-pl-6 md:scroll-pl-12 lg:scroll-pl-16 xl:scroll-pl-[calc((100vw-1280px)/2+24px)] 2xl:scroll-pl-[calc((100vw-1536px)/2+24px)]"
-                        style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
-                     >
-                        {[...filteredCourses, ...filteredCourses].map((course, idx) => {
+               <div className="relative">
+                  {!showAllPrograms ? (
+                     <div className="relative group/programs-carousel">
+                        <div className="overflow-hidden py-4 m-auto">
+                           <motion.div
+                              className="flex w-max gap-6 md:gap-8 pb-12 cursor-grab active:cursor-grabbing touch-pan-x items-stretch"
+                              animate={{ x: -(programIndex * (windowWidth < 768 ? 260 + 24 : 300 + 32)) }}
+                              transition={{ type: "spring", damping: 25, stiffness: 120 }}
+                              drag="x"
+                              dragConstraints={{
+                                 right: 0,
+                                 left: -((filteredCourses.length - 1) * (windowWidth < 768 ? 260 + 24 : 300 + 32))
+                              }}
+                              onDragEnd={(e, { offset }) => {
+                                 pauseAutoplay();
+                                 const swipeThreshold = 50;
+                                 if (offset.x < -swipeThreshold) setProgramIndex(prev => Math.min(prev + 1, filteredCourses.length - 1));
+                                 if (offset.x > swipeThreshold) setProgramIndex(prev => Math.max(prev - 1, 0));
+                              }}
+                           >
+                              {filteredCourses.map((course, idx) => {
+                                 const isImageLink = course.link && typeof course.link === 'string' && course.link.match(/\.(jpg|jpeg|png|webp|gif)$/i);
+                                 const showPoster = isImageLink || course.image;
+                                 return (
+                                    <div
+                                       key={idx}
+                                       onClick={() => handleUniversityClick(course.link)}
+                                       className="flex-shrink-0 w-[260px] md:w-[300px] h-auto min-h-[320px] md:min-h-[360px] rounded-xl overflow-hidden shadow-sm hover:shadow-2xl transition-all duration-300 cursor-pointer flex flex-col group border border-slate-200"
+                                    >
+                                       <div className={`relative flex-1 bg-slate-900 flex flex-col items-center justify-center ${showPoster ? 'p-0' : 'p-6'} overflow-hidden`}>
+                                          <img src={isImageLink ? course.link : (course.image || "https://images.unsplash.com/photo-1552664730-d307ca884978?w=800&q=80")} alt="Background" className={`absolute inset-0 w-full h-full object-cover transition-all duration-700 ${showPoster ? 'opacity-100 group-hover:scale-105' : 'opacity-30 group-hover:scale-110 group-hover:opacity-40'}`} />
+
+                                          {!showPoster && (
+                                             <>
+                                                <div className="absolute inset-0 bg-gradient-to-t from-[#0b132b]/80 via-transparent to-transparent"></div>
+                                                <div className="relative z-10 text-center flex flex-col items-center">
+                                                   <div className="text-white/80 mb-3 scale-150 group-hover:text-blue-400 group-hover:scale-[1.8] transition-all duration-500">
+                                                      {course.icon}
+                                                   </div>
+                                                   <h3 className="text-3xl md:text-4xl font-black text-white uppercase tracking-wider drop-shadow-xl leading-none text-center">
+                                                      {course.name.replace(/Online\s?/i, '')}
+                                                   </h3>
+                                                </div>
+                                             </>
+                                          )}
+                                       </div>
+                                       <div className="bg-[#1a36a8] group-hover:bg-[#152a85] transition-colors h-[64px] md:h-[72px] shrink-0 px-4 flex items-center justify-center">
+                                          <span className="text-white font-black text-[13px] md:text-[14px] uppercase tracking-widest text-center line-clamp-2">
+                                             {course.name.toUpperCase().includes('ONLINE') ? course.name.toUpperCase() : `${course.name.toUpperCase()} ONLINE`}
+                                          </span>
+                                       </div>
+                                    </div>
+                                 );
+                              })}
+                           </motion.div>
+                        </div>
+
+                        {/* Navigation Arrows */}
+                        <div className="absolute top-1/2 -translate-y-1/2 left-0 md:left-0 right-0 md:right-0 flex justify-between pointer-events-none z-20 px-1 md:px-2">
+                           <button
+                              onClick={handlePrevProgram}
+                              className={`w-10 h-10 md:w-14 md:h-14 bg-white rounded-full shadow-2xl border border-slate-100 flex items-center justify-center text-slate-400 hover:text-blue-600 transition-all active:scale-90 pointer-events-auto opacity-0 group-hover/programs-carousel:opacity-100 translate-x-4 group-hover/programs-carousel:translate-x-0 cursor-pointer`}
+                           >
+                              <ChevronLeft className="w-5 h-5 md:w-6 md:h-6" />
+                           </button>
+                           <button
+                              onClick={handleNextProgram}
+                              className={`w-10 h-10 md:w-14 md:h-14 bg-white rounded-full shadow-2xl border border-slate-100 flex items-center justify-center text-slate-400 hover:text-blue-600 transition-all active:scale-90 pointer-events-auto opacity-0 group-hover/programs-carousel:opacity-100 -translate-x-4 group-hover/programs-carousel:translate-x-0 cursor-pointer`}
+                           >
+                              <ChevronRight className="w-5 h-5 md:w-6 md:h-6" />
+                           </button>
+                        </div>
+                     </div>
+                  ) : (
+                     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 md:gap-8 items-stretch">
+                        {filteredCourses.map((course, idx) => {
                            const isImageLink = course.link && typeof course.link === 'string' && course.link.match(/\.(jpg|jpeg|png|webp|gif)$/i);
                            const showPoster = isImageLink || course.image;
                            return (
-                              <div
-                                 key={`${course.id || idx}-${idx}`}
+                              <motion.div
+                                 key={idx}
+                                 initial={{ opacity: 0, y: 30 }}
+                                 animate={{ opacity: 1, y: 0 }}
+                                 transition={{ delay: idx * 0.05 }}
                                  onClick={() => handleUniversityClick(course.link)}
-                                 className="flex-shrink-0 snap-start w-full md:w-[calc((100%-32px)/2)] lg:w-[calc((100%-64px)/3)] xl:w-[calc((100%-96px)/4)] h-auto min-h-[320px] md:min-h-[360px] rounded-xl overflow-hidden shadow-sm hover:shadow-2xl transition-all duration-300 cursor-pointer flex flex-col group border border-slate-200"
+                                 className="rounded-xl overflow-hidden shadow-sm hover:shadow-2xl transition-all duration-300 cursor-pointer flex flex-col group border border-slate-200 h-full min-h-[320px] md:min-h-[360px]"
                               >
                                  <div className={`relative flex-1 bg-slate-900 flex flex-col items-center justify-center ${showPoster ? 'p-0' : 'p-6'} overflow-hidden`}>
                                     <img src={isImageLink ? course.link : (course.image || "https://images.unsplash.com/photo-1552664730-d307ca884978?w=800&q=80")} alt="Background" className={`absolute inset-0 w-full h-full object-cover transition-all duration-700 ${showPoster ? 'opacity-100 group-hover:scale-105' : 'opacity-30 group-hover:scale-110 group-hover:opacity-40'}`} />
@@ -2003,73 +2061,17 @@ const UniversityPageNew = () => {
                                        {course.name.toUpperCase().includes('ONLINE') ? course.name.toUpperCase() : `${course.name.toUpperCase()} ONLINE`}
                                     </span>
                                  </div>
-                              </div>
+                              </motion.div>
                            );
                         })}
                      </div>
+                  )}
 
-                     {/* Navigation Arrows */}
-                     <div className="absolute top-1/2 -translate-y-1/2 left-0 right-0 flex justify-between pointer-events-none z-20 px-4 md:px-8">
-                        <button
-                           onClick={() => scrollPrograms('left')}
-                           className="w-10 h-10 md:w-14 md:h-14 bg-white rounded-full shadow-2xl border border-slate-100 flex items-center justify-center text-slate-400 hover:text-blue-600 transition-all active:scale-90 pointer-events-auto opacity-0 group-hover/programs-carousel:opacity-100 translate-x-4 group-hover/programs-carousel:translate-x-0 cursor-pointer"
-                        >
-                           <ChevronLeft className="w-5 h-5 md:w-6 md:h-6" />
-                        </button>
-                        <button
-                           onClick={() => scrollPrograms('right')}
-                           className="w-10 h-10 md:w-14 md:h-14 bg-white rounded-full shadow-2xl border border-slate-100 flex items-center justify-center text-slate-400 hover:text-blue-600 transition-all active:scale-90 pointer-events-auto opacity-0 group-hover/programs-carousel:opacity-100 -translate-x-4 group-hover/programs-carousel:translate-x-0 cursor-pointer"
-                        >
-                           <ChevronRight className="w-5 h-5 md:w-6 md:h-6" />
-                        </button>
-                     </div>
-                  </div>
+                  {!showAllPrograms && (
+                     <div className="absolute bottom-0 left-0 w-full h-32 bg-gradient-to-t from-white via-transparent to-transparent pointer-events-none"></div>
+                  )}
                </div>
-            ) : (
-               <div className="container mx-auto px-6">
-                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 md:gap-8 items-stretch">
-                     {filteredCourses.map((course, idx) => {
-                        const isImageLink = course.link && typeof course.link === 'string' && course.link.match(/\.(jpg|jpeg|png|webp|gif)$/i);
-                        const showPoster = isImageLink || course.image;
-                        return (
-                           <motion.div
-                              key={idx}
-                              initial={{ opacity: 0, y: 30 }}
-                              animate={{ opacity: 1, y: 0 }}
-                              transition={{ delay: idx * 0.05 }}
-                              onClick={() => handleUniversityClick(course.link)}
-                              className="rounded-xl overflow-hidden shadow-sm hover:shadow-2xl transition-all duration-300 cursor-pointer flex flex-col group border border-slate-200 h-full min-h-[320px] md:min-h-[360px]"
-                           >
-                              <div className={`relative flex-1 bg-slate-900 flex flex-col items-center justify-center ${showPoster ? 'p-0' : 'p-6'} overflow-hidden`}>
-                                 <img src={isImageLink ? course.link : (course.image || "https://images.unsplash.com/photo-1552664730-d307ca884978?w=800&q=80")} alt="Background" className={`absolute inset-0 w-full h-full object-cover transition-all duration-700 ${showPoster ? 'opacity-100 group-hover:scale-105' : 'opacity-30 group-hover:scale-110 group-hover:opacity-40'}`} />
 
-                                 {!showPoster && (
-                                    <>
-                                       <div className="absolute inset-0 bg-gradient-to-t from-[#0b132b]/80 via-transparent to-transparent"></div>
-                                       <div className="relative z-10 text-center flex flex-col items-center">
-                                          <div className="text-white/80 mb-3 scale-150 group-hover:text-blue-400 group-hover:scale-[1.8] transition-all duration-500">
-                                             {course.icon}
-                                          </div>
-                                          <h3 className="text-3xl md:text-4xl font-black text-white uppercase tracking-wider drop-shadow-xl leading-none text-center">
-                                             {course.name.replace(/Online\s?/i, '')}
-                                          </h3>
-                                       </div>
-                                    </>
-                                 )}
-                              </div>
-                              <div className="bg-[#1a36a8] group-hover:bg-[#152a85] transition-colors h-[64px] md:h-[72px] shrink-0 px-4 flex items-center justify-center">
-                                 <span className="text-white font-black text-[13px] md:text-[14px] uppercase tracking-widest text-center line-clamp-2">
-                                    {course.name.toUpperCase().includes('ONLINE') ? course.name.toUpperCase() : `${course.name.toUpperCase()} ONLINE`}
-                                 </span>
-                              </div>
-                           </motion.div>
-                        );
-                     })}
-                  </div>
-               </div>
-            )}
-
-            <div className="container mx-auto px-6">
                <div className="mt-12 md:mt-16 flex justify-center">
                   <button
                      onClick={() => setShowAllPrograms(!showAllPrograms)}
@@ -2091,7 +2093,7 @@ const UniversityPageNew = () => {
 
 
          {/* TRUSTED VOICES / SHORTS SECTION */}
-         <section
+         < section
             className="py-12 md:py-20 bg-slate-50 border-t border-slate-100"
             onMouseEnter={() => setIsShortsHovered(true)}
             onMouseLeave={() => setIsShortsHovered(false)}
@@ -2156,62 +2158,64 @@ const UniversityPageNew = () => {
             </div>
 
             {/* Modal Overlay via Portal */}
-            {typeof document !== 'undefined' ? createPortal(
-               <AnimatePresence>
-                  {selectedShort && (
-                     <motion.div
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: 1 }}
-                        exit={{ opacity: 0 }}
-                        className="fixed inset-0 z-[99999] bg-black/90 backdrop-blur-sm flex items-center justify-center p-4 md:p-6"
-                        onClick={() => setSelectedShort(null)}
-                     >
+            {
+               typeof document !== 'undefined' ? createPortal(
+                  <AnimatePresence>
+                     {selectedShort && (
                         <motion.div
-                           initial={{ scale: 0.9, y: 20 }}
-                           animate={{ scale: 1, y: 0 }}
-                           exit={{ scale: 0.9, y: 20 }}
-                           transition={{ type: 'spring', damping: 25, stiffness: 300 }}
-                           className="bg-white w-full max-w-sm rounded-2xl overflow-hidden shadow-2xl relative flex flex-col"
-                           onClick={(e) => e.stopPropagation()}
+                           initial={{ opacity: 0 }}
+                           animate={{ opacity: 1 }}
+                           exit={{ opacity: 0 }}
+                           className="fixed inset-0 z-[99999] bg-black/90 backdrop-blur-sm flex items-center justify-center p-4 md:p-6"
+                           onClick={() => setSelectedShort(null)}
                         >
-                           {/* Header */}
-                           <div className="flex items-center justify-between p-4 border-b border-slate-100">
-                              <h3 className="font-bold text-slate-800 line-clamp-1">{selectedShort.title}</h3>
-                              <button
-                                 onClick={() => setSelectedShort(null)}
-                                 className="w-8 h-8 rounded-full bg-slate-100 flex items-center justify-center text-slate-500 hover:bg-slate-200 hover:text-slate-800 transition-colors shrink-0"
-                              >
-                                 <X className="w-5 h-5" />
-                              </button>
-                           </div>
+                           <motion.div
+                              initial={{ scale: 0.9, y: 20 }}
+                              animate={{ scale: 1, y: 0 }}
+                              exit={{ scale: 0.9, y: 20 }}
+                              transition={{ type: 'spring', damping: 25, stiffness: 300 }}
+                              className="bg-white w-full max-w-sm rounded-2xl overflow-hidden shadow-2xl relative flex flex-col"
+                              onClick={(e) => e.stopPropagation()}
+                           >
+                              {/* Header */}
+                              <div className="flex items-center justify-between p-4 border-b border-slate-100">
+                                 <h3 className="font-bold text-slate-800 line-clamp-1">{selectedShort.title}</h3>
+                                 <button
+                                    onClick={() => setSelectedShort(null)}
+                                    className="w-8 h-8 rounded-full bg-slate-100 flex items-center justify-center text-slate-500 hover:bg-slate-200 hover:text-slate-800 transition-colors shrink-0"
+                                 >
+                                    <X className="w-5 h-5" />
+                                 </button>
+                              </div>
 
-                           {/* Video Player */}
-                           <div className="relative w-full aspect-[9/16] bg-black">
-                              <iframe
-                                 src={`https://www.youtube.com/embed/${selectedShort.videoId}?autoplay=1&mute=0&controls=1&loop=1&playlist=${selectedShort.videoId}`}
-                                 title="YouTube Shorts player"
-                                 className="absolute top-0 left-0 w-full h-full border-0"
-                                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                                 allowFullScreen
-                              ></iframe>
-                           </div>
+                              {/* Video Player */}
+                              <div className="relative w-full aspect-[9/16] bg-black">
+                                 <iframe
+                                    src={`https://www.youtube.com/embed/${selectedShort.videoId}?autoplay=1&mute=0&controls=1&loop=1&playlist=${selectedShort.videoId}`}
+                                    title="YouTube Shorts player"
+                                    className="absolute top-0 left-0 w-full h-full border-0"
+                                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                    allowFullScreen
+                                 ></iframe>
+                              </div>
+                           </motion.div>
                         </motion.div>
-                     </motion.div>
-                  )}
-               </AnimatePresence>,
-               document.body
-            ) : null}
-         </section>
+                     )}
+                  </AnimatePresence>,
+                  document.body
+               ) : null
+            }
+         </section >
 
 
 
          {/* 9. SUCCESS STORIES - Redesigned */}
-         <section className="py-16 md:py-24 bg-gradient-to-b from-slate-50 to-white relative overflow-hidden">
+         < section className="py-16 md:py-24 bg-gradient-to-b from-slate-50 to-white relative overflow-hidden" >
             {/* Background decoration */}
-            <div className="absolute inset-0 overflow-hidden pointer-events-none">
+            < div className="absolute inset-0 overflow-hidden pointer-events-none" >
                <div className="absolute -top-40 -right-40 w-80 h-80 bg-blue-100 rounded-full opacity-50 blur-3xl"></div>
                <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-orange-100 rounded-full opacity-50 blur-3xl"></div>
-            </div>
+            </div >
 
             <div className="container mx-auto px-4 md:px-6 relative z-10">
                {/* Section Header */}
@@ -2327,14 +2331,14 @@ const UniversityPageNew = () => {
                   </div>
                </div>
             </div>
-         </section>
+         </section >
 
 
 
          {/* INSTITUTIONAL PARTNERS / BRANDING SECTION */}
-         <section className="py-12 md:py-16 bg-slate-950 relative overflow-hidden border-t border-slate-800">
+         < section className="py-12 md:py-16 bg-slate-950 relative overflow-hidden border-t border-slate-800" >
             {/* Fade overlays */}
-            <div className="absolute top-0 bottom-0 left-0 w-24 md:w-40 bg-gradient-to-r from-slate-950 to-transparent z-10 pointer-events-none"></div>
+            < div className="absolute top-0 bottom-0 left-0 w-24 md:w-40 bg-gradient-to-r from-slate-950 to-transparent z-10 pointer-events-none" ></div >
             <div className="absolute top-0 bottom-0 right-0 w-24 md:w-40 bg-gradient-to-l from-slate-950 to-transparent z-10 pointer-events-none"></div>
 
             <div style={{ transform: 'rotate(-6deg) scale(1.15)', display: 'flex', flexDirection: 'column', gap: 16, position: 'relative' }}>
@@ -2501,10 +2505,10 @@ const UniversityPageNew = () => {
                   </div>
                </div>
             </div>
-         </section>
+         </section >
 
          {/* ==================== NEW SECTION 4: WHAT HAPPENS AFTER GRADUATION? ==================== */}
-         <section className="relative w-full overflow-hidden bg-white py-12 sm:py-[3.75rem]">
+         < section className="relative w-full overflow-hidden bg-white py-12 sm:py-[3.75rem]" >
             <div className="relative z-10 flex flex-col gap-12 items-center w-full max-w-7xl mx-auto px-6">
                <div className="flex flex-col gap-2 items-center text-center w-full mb-12">
                   <SectionLabel icon={GraduationCap}>Career Outcomes</SectionLabel>
@@ -2596,10 +2600,10 @@ const UniversityPageNew = () => {
                   <ChevronRight className="w-5 h-5" />
                </button>
             </div>
-         </section>
+         </section >
 
          {/* 2026 TRENDING SPECIALIZATIONS */}
-         <section className="py-12 md:py-24 bg-slate-50 relative overflow-hidden">
+         < section className="py-12 md:py-24 bg-slate-50 relative overflow-hidden" >
             <div className="container mx-auto px-6">
                <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-12 mb-16 md:mb-20">
                   <div className="max-w-2xl text-left">
@@ -2733,20 +2737,20 @@ const UniversityPageNew = () => {
                   ))}
                </div>
             </div>
-         </section>
+         </section >
 
          {/* Promotional Banner Section */}
-         <div className="w-full overflow-hidden">
+         < div className="w-full overflow-hidden" >
             <img
                src="/imgggg23.jpeg"
                alt="Promotional Banner"
                className="w-full h-auto object-cover"
                loading="lazy"
             />
-         </div>
+         </div >
 
          {/* 7. CAREER SYSTEM SECTION (Image 2) */}
-         <section className="py-24 bg-slate-900">
+         < section className="py-24 bg-slate-900" >
             <div className="container mx-auto px-6">
                <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center mb-16">
                   <div className="lg:col-span-4 text-left">
@@ -2837,7 +2841,7 @@ const UniversityPageNew = () => {
                   </div>
                </div>
             </div>
-         </section>
+         </section >
 
 
 
@@ -2919,7 +2923,7 @@ const UniversityPageNew = () => {
 
          {/* 8. CLARITY CONSULTATION (Image 5) */}
          <EnquirySection />
-      </div>
+      </div >
    );
 };
 

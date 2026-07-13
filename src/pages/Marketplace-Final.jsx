@@ -249,9 +249,15 @@ const MarketplaceFinal = () => {
                     {/* Premium Ambient Glow Background (Fades in/scales on hover) */}
                     <div className="absolute -inset-3 bg-gradient-to-tr from-violet-600 via-indigo-500 to-fuchsia-500 rounded-[2.5rem] blur-xl opacity-0 group-hover:opacity-30 transition-all duration-700 scale-95 group-hover:scale-105 pointer-events-none"></div>
 
-                    {/* Stacked Shadow Effect layers behind the card */}
-                    <div className="absolute inset-0 bg-[#f1f5f9] rounded-[2rem] translate-y-4 -translate-x-4 shadow-[inset_0_0_0_1px_rgba(255,255,255,0.8)] border border-slate-200/60 transition-transform duration-500 group-hover:-translate-x-5 group-hover:translate-y-5"></div>
-                    <div className="absolute inset-0 bg-[#f5f3ff] rounded-[2rem] translate-y-2 -translate-x-2 shadow-[inset_0_0_0_1px_rgba(255,255,255,0.8)] border border-violet-200/60 z-10 transition-transform duration-500 group-hover:-translate-x-3 group-hover:translate-y-3"></div>
+                    {/* Stacked Effect layers behind the card (Stack of identical cards) */}
+                    <div className="absolute inset-0 rounded-[2rem] translate-y-6 -translate-x-6 border border-slate-200 overflow-hidden transition-transform duration-500 group-hover:-translate-x-8 group-hover:translate-y-8 shadow-xl">
+                      <img src={speaker.img} alt="" className="absolute inset-0 w-full h-full object-cover blur-md scale-105" />
+                      <div className="absolute inset-0 bg-black/20"></div>
+                    </div>
+                    <div className="absolute inset-0 rounded-[2rem] translate-y-3 -translate-x-3 border border-slate-200 z-10 overflow-hidden transition-transform duration-500 group-hover:-translate-x-4 group-hover:translate-y-4 shadow-xl">
+                      <img src={speaker.img} alt="" className="absolute inset-0 w-full h-full object-cover blur-sm scale-[1.02]" />
+                      <div className="absolute inset-0 bg-black/10"></div>
+                    </div>
 
                     {/* Main Image Card Container */}
                     <div className="absolute inset-0 rounded-[2rem] shadow-xl overflow-hidden border border-white z-20 transition-all duration-500 group-hover:shadow-2xl group-hover:shadow-purple-500/10 group-hover:-translate-y-1.5 bg-white flex items-center justify-center">
