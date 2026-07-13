@@ -1966,7 +1966,6 @@ const UniversityPageNew = () => {
                                  left: -((filteredCourses.length - 1) * (windowWidth < 768 ? 260 + 24 : 300 + 32))
                               }}
                               onDragEnd={(e, { offset }) => {
-                                 pauseAutoplay();
                                  const swipeThreshold = 50;
                                  if (offset.x < -swipeThreshold) setProgramIndex(prev => Math.min(prev + 1, filteredCourses.length - 1));
                                  if (offset.x > swipeThreshold) setProgramIndex(prev => Math.max(prev - 1, 0));
@@ -2792,7 +2791,7 @@ const UniversityPageNew = () => {
                                     <h3 className="text-[6px] md:text-sm lg:text-xl font-black text-slate-900 leading-tight lg:mb-3">{step.title}</h3>
                                     <p className="hidden lg:block text-xs text-slate-500 font-medium mb-6">{step.desc}</p>
                                  </div>
-                                 <div className="h-8 sm:h-20 md:h-32 lg:h-48 overflow-hidden mt-auto">
+                                 <div className="h-24 sm:h-28 md:h-40 lg:h-48 overflow-hidden mt-auto w-full">
                                     <img src={step.image} alt={step.title} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" />
                                  </div>
                               </motion.div>
