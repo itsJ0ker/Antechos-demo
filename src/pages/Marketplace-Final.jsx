@@ -250,17 +250,17 @@ const MarketplaceFinal = () => {
                     <div className="absolute -inset-3 bg-gradient-to-tr from-violet-600 via-indigo-500 to-fuchsia-500 rounded-[2.5rem] blur-xl opacity-0 group-hover:opacity-30 transition-all duration-700 scale-95 group-hover:scale-105 pointer-events-none"></div>
 
                     {/* Stacked Effect layers behind the card (Stack of identical cards) */}
-                    <div className="absolute inset-0 rounded-[2rem] translate-y-6 -translate-x-6 -rotate-[1.5deg] border border-slate-200 overflow-hidden transition-transform duration-500 group-hover:-translate-x-8 group-hover:translate-y-8 group-hover:-rotate-[2.5deg] shadow-xl origin-bottom-left">
-                      <img src={speaker.img} alt="" className="absolute inset-0 w-full h-full object-cover blur-md scale-105" />
+                    <div className="absolute inset-0 rounded-[2rem] translate-y-6 -translate-x-6 -rotate-[2.25deg] overflow-hidden transition-transform duration-500 group-hover:-translate-x-8 group-hover:translate-y-8 group-hover:-rotate-[3.75deg] shadow-xl origin-bottom-left">
+                      <img src={speaker.img} alt="" className="absolute inset-0 w-full h-full object-cover blur-xl scale-110" />
                       <div className="absolute inset-0 bg-black/20"></div>
                     </div>
-                    <div className="absolute inset-0 rounded-[2rem] translate-y-3 -translate-x-3 -rotate-[0.75deg] border border-slate-200 z-10 overflow-hidden transition-transform duration-500 group-hover:-translate-x-4 group-hover:translate-y-4 group-hover:-rotate-[1.5deg] shadow-xl origin-bottom-left">
-                      <img src={speaker.img} alt="" className="absolute inset-0 w-full h-full object-cover blur-sm scale-[1.02]" />
+                    <div className="absolute inset-0 rounded-[2rem] translate-y-3 -translate-x-3 -rotate-[1.15deg] z-10 overflow-hidden transition-transform duration-500 group-hover:-translate-x-4 group-hover:translate-y-4 group-hover:-rotate-[2.25deg] shadow-xl origin-bottom-left">
+                      <img src={speaker.img} alt="" className="absolute inset-0 w-full h-full object-cover blur-md scale-105" />
                       <div className="absolute inset-0 bg-black/10"></div>
                     </div>
 
                     {/* Main Image Card Container */}
-                    <div className="absolute inset-0 rounded-[2rem] shadow-xl overflow-hidden border border-white z-20 transition-all duration-500 group-hover:shadow-2xl group-hover:shadow-purple-500/10 group-hover:-translate-y-1.5 bg-white flex items-center justify-center">
+                    <div className="absolute inset-0 rounded-[2rem] shadow-xl overflow-hidden z-20 transition-all duration-500 group-hover:shadow-2xl group-hover:shadow-purple-500/10 group-hover:-translate-y-1.5 bg-white flex items-center justify-center">
 
                       {/* The edit image card itself (full color, clean, no overlays) */}
                       <img 
@@ -271,9 +271,6 @@ const MarketplaceFinal = () => {
 
                       {/* Glare sweep effect on hover */}
                       <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-white/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none z-30"></div>
-                      
-                      {/* Premium border wrapper */}
-                      <div className="absolute inset-0 border-2 border-white/40 rounded-[2rem] pointer-events-none z-40"></div>
                     </div>
                   </div>
                 </div>
