@@ -31,6 +31,11 @@ const MarketplaceFinal = () => {
         {`
           @import url('https://db.onlinewebfonts.com/c/e66905e07608167a84e6ad52f638c3c6?family=Helvetica+Now+Var');
           
+          .marketplace-final-container {
+            --ksc-navy: #0d1f4a;
+            --ksc-gray: #4b5563;
+          }
+
           .marketplace-final-container * {
             font-family: 'Helvetica Now Var', 'Helvetica Neue', Helvetica, Arial, sans-serif;
           }
@@ -242,37 +247,44 @@ const MarketplaceFinal = () => {
                   url: "https://vishwajeet.antechosindia.com/"
                 }
               ].map((speaker, idx) => (
-                <div key={idx} onClick={() => speaker.url && setSelectedSpeaker(speaker)} className="flex flex-col items-center group cursor-pointer w-full max-w-[320px]">
+                <div key={idx} onClick={() => speaker.url && setSelectedSpeaker(speaker)} className={`flex flex-col items-center group w-full max-w-[320px] ${speaker.url ? 'cursor-pointer' : ''}`}>
                   {/* Stacked Card Wrapper with custom aspect ratio for 2:3 images */}
                   <div className="relative w-full aspect-[2/3] mb-6 mx-auto perspective-1000">
 
-                    {/* Premium Ambient Glow Background (Fades in/scales on hover) */}
-                    <div className="absolute -inset-3 bg-gradient-to-tr from-violet-600 via-indigo-500 to-fuchsia-500 rounded-[2.5rem] blur-xl opacity-0 group-hover:opacity-30 transition-all duration-700 scale-95 group-hover:scale-105 pointer-events-none"></div>
-
-                    {/* Stacked Effect layers behind the card (Stack of identical cards) */}
-                    <div className="absolute inset-0 rounded-[2rem] translate-y-6 -translate-x-6 -rotate-[2.25deg] overflow-hidden transition-transform duration-500 group-hover:-translate-x-8 group-hover:translate-y-8 group-hover:-rotate-[3.75deg] shadow-xl origin-bottom-left">
-                      <img src={speaker.img} alt="" className="absolute inset-0 w-full h-full object-cover blur-xl scale-110" />
+                    {/* Behind Layer 1 */}
+                    <div className="absolute inset-0 rounded-xl lg:rounded-2xl overflow-hidden shadow-xl rotate-[-6deg] scale-[0.96] brightness-75 transition-transform duration-500 origin-bottom-right group-hover:rotate-[-8deg] will-change-transform" style={{ transform: 'translateZ(0)' }}>
+                      <img 
+                        src={speaker.img} 
+                        alt="" 
+                        className="absolute inset-0 w-full h-full object-cover" 
+                      />
                       <div className="absolute inset-0 bg-black/20"></div>
                     </div>
-                    <div className="absolute inset-0 rounded-[2rem] translate-y-3 -translate-x-3 -rotate-[1.15deg] z-10 overflow-hidden transition-transform duration-500 group-hover:-translate-x-4 group-hover:translate-y-4 group-hover:-rotate-[2.25deg] shadow-xl origin-bottom-left">
-                      <img src={speaker.img} alt="" className="absolute inset-0 w-full h-full object-cover blur-md scale-105" />
+
+                    {/* Behind Layer 2 */}
+                    <div className="absolute inset-0 rounded-xl lg:rounded-2xl overflow-hidden shadow-xl rotate-[-3deg] scale-[0.98] brightness-90 transition-transform duration-500 origin-bottom-right group-hover:rotate-[-5deg] will-change-transform" style={{ transform: 'translateZ(0)' }}>
+                      <img 
+                        src={speaker.img} 
+                        alt="" 
+                        className="absolute inset-0 w-full h-full object-cover" 
+                      />
                       <div className="absolute inset-0 bg-black/10"></div>
                     </div>
 
                     {/* Main Image Card Container */}
-                    <div className="absolute inset-0 rounded-[2rem] shadow-xl overflow-hidden z-20 transition-all duration-500 group-hover:shadow-2xl group-hover:shadow-purple-500/10 group-hover:-translate-y-1.5 bg-white flex items-center justify-center">
-
-                      {/* The edit image card itself (full color, clean, no overlays) */}
+                    <div className="absolute inset-0 rounded-xl lg:rounded-2xl overflow-hidden shadow-[0_15px_35px_rgba(13,31,74,0.15)] group-hover:shadow-[0_30px_60px_rgba(13,31,74,0.25)] transition-[transform,shadow] duration-500 group-hover:-translate-y-2 will-change-transform bg-white flex items-center justify-center" style={{ transform: 'translateZ(0)' }}>
                       <img 
                         src={speaker.img} 
                         alt={speaker.name} 
-                        className="w-full h-full object-cover object-center transition-all duration-700 group-hover:scale-[1.02]" 
+                        className="w-full h-full object-cover object-center transition-all duration-700 group-hover:scale-[1.05]" 
                       />
-
-                      {/* Glare sweep effect on hover */}
                       <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-white/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none z-30"></div>
                     </div>
                   </div>
+                  
+                  {/* Speaker Details */}
+                  <h3 className="font-display font-bold text-sm md:text-xl text-[var(--ksc-navy)] text-center mt-2 lg:mt-4">{speaker.name}</h3>
+                  <p className="font-body text-[var(--ksc-gray)] font-medium text-[9px] md:text-xs uppercase tracking-widest text-center mt-0">{speaker.title}</p>
                 </div>
               ))}
             </div>
